@@ -53,6 +53,9 @@ const PI = 3.14;
 var count = 10;
 ```
 
+> let, const, var의 차이점에 대해 자세하게 알고 싶으시면, [자바스크립트에서 let, const, var의 특징과 차이점](/posts/features-and-differences-of-let-const-and-var-in-javascript/) 글을 참고해주세요. 
+{: .prompt-info }
+
 ### 2. 조건문과 반복문
 
 조건문과 반복문을 통해 프로그램의 흐름을 제어할 수 있습니다. `if`, `else`, `for`, `while` 등 다양한 제어 구조가 있습니다.

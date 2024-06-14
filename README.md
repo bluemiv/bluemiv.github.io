@@ -1,3 +1,9 @@
+dev server
+
+```shell
+bundle exec jekyll s
+```
+
 <!-- markdownlint-disable-next-line -->
 <div align="center">
 

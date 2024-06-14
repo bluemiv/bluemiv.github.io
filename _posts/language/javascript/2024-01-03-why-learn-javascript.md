@@ -3,8 +3,8 @@ title: Javascript를 배워야하는 이유
 description: 자바스크립트(JavaScript)는 현대 웹 개발의 필수적인 도구입니다. 이 글에서는 자바스크립트의 기본 개념과 이를 배워야 하는 이유에 대해 살펴봅니다.
 date: 2024-01-03 17:47:09 +0900
 last_modified_at: 2024-01-03 17:47:09 +0900
-categories: [Language, Javascript]
-tags: [javascript, programming, web]
+categories: [ Language, Javascript ]
+tags: [ javascript, programming, web ]
 pin: false
 math: false
 mermaid: false
@@ -36,10 +36,11 @@ image:
 
 ### 2.4. **풍부한 학습 자료와 커뮤니티**
 
-자바스크립트는 전 세계적으로 많이 사용되는 언어로, **풍부한 학습 자료**와 **활발한 커뮤니티**를 자랑합니다. 따라서 학습 중에 발생하는 문제를 해결하거나, 새로운 정보를 얻는 데 있어 많은 도움을 받을 수 있습니다.
+자바스크립트는 전 세계적으로 많이 사용되는 언어로, **풍부한 학습 자료**와 **활발한 커뮤니티**를 자랑합니다. 따라서 학습 중에 발생하는 문제를 해결하거나, 새로운 정보를 얻는 데 있어 많은 도움을 받을 수
+있습니다.
 
-> [MDN](https://developer.mozilla.org/ko/)에서 다양한 javascript 함수 혹은 `WEB API`의 사용 방법에 대한 가이드 문서를 참고 할 수 있습니다. 
-{: .prompt-tip }
+> [MDN](https://developer.mozilla.org/ko/)에서 다양한 javascript 함수 혹은 `WEB API`의 사용 방법에 대한 가이드 문서를 참고 할 수 있습니다.
+> {: .prompt-tip }
 
 ## 3. 자바스크립트의 특징
 
@@ -53,8 +54,10 @@ const PI = 3.14;
 var count = 10;
 ```
 
-> let, const, var의 차이점에 대해 자세하게 알고 싶으시면, [자바스크립트에서 let, const, var의 특징과 차이점](/posts/features-and-differences-of-let-const-and-var-in-javascript/) 글을 참고해주세요. 
-{: .prompt-info }
+> let, const, var의 차이점에 대해 자세하게 알고
+> 싶으시면, [자바스크립트에서 let, const, var의 특징과 차이점](/posts/features-and-differences-of-let-const-and-var-in-javascript/) 글을
+> 참고해주세요.
+> {: .prompt-info }
 
 ### 2. 조건문과 반복문
 
@@ -89,10 +92,11 @@ console.log(greet("아이유"));
 자바스크립트를 사용하면 웹 페이지에서 발생하는 다양한 이벤트를 처리할 수 있습니다. 예를 들어, 버튼 클릭 시 특정 작업을 수행하게 할 수 있습니다.
 
 ```html
+
 <button id="myButton">Click me</button>
 
 <script>
-  document.getElementById("myButton").addEventListener("click", function() {
+  document.getElementById("myButton").addEventListener("click", function () {
     alert("버튼을 클릭하였습니다!");
   });
 </script>

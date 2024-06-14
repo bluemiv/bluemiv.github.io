@@ -3,8 +3,8 @@ title: Python에서 사칙연산 다루기
 description: Python은 강력한 프로그래밍 언어로, 수학적 계산을 포함한 다양한 작업을 간단하게 수행할 수 있습니다. 이번 글에서는 Python에서 사칙연산을 다루는 방법에 대해 설명하겠습니다.
 date: 2024-01-02 12:32:16 +0900
 last_modified_at: 2024-01-02 12:32:16 +0900
-categories: [Language, Python]
-tags: [python, programming]
+categories: [ Language, Python ]
+tags: [ python, programming ]
 pin: false
 math: false
 mermaid: false
@@ -139,4 +139,5 @@ print(f"복합 대입 연산자 /= 결과: {a}")  # 출력: 복합 대입 연산
 
 ## 2. 결론
 
-Python에서 사칙연산을 수행하는 방법과 각 연산자의 사용법을 살펴보았습니다. 이러한 기본 연산을 이해하면 복잡한 수학적 계산이나 알고리즘을 구현하는 데 도움이 됩니다. 또한, 복합 대입 연산자를 사용하면 코드를 보다 간결하고 가독성 높게 작성할 수 있습니다.
+Python에서 사칙연산을 수행하는 방법과 각 연산자의 사용법을 살펴보았습니다. 이러한 기본 연산을 이해하면 복잡한 수학적 계산이나 알고리즘을 구현하는 데 도움이 됩니다. 또한, 복합 대입 연산자를 사용하면 코드를
+보다 간결하고 가독성 높게 작성할 수 있습니다.

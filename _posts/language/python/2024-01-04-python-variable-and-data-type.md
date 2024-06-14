@@ -3,8 +3,8 @@ title: Python의 변수와 데이터 타입
 description: Python에서 변수와 데이터 타입의 기본 개념을 이해하는 것은 프로그래밍의 기초입니다. 이 글에서는 Python의 변수 선언과 주요 데이터 타입에 대해 상세히 설명합니다.
 date: 2024-01-04 12:18:45 +0900
 last_modified_at: 2024-01-04 12:18:45 +0900
-categories: [Language, Python]
-tags: [python, programming]
+categories: [ Language, Python ]
+tags: [ python, programming ]
 pin: false
 math: false
 mermaid: false

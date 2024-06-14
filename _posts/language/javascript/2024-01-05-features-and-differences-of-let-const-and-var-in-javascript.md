@@ -62,8 +62,6 @@ letExample();
 
 위 예시에서 `message` 변수는 선언되기 전에 `console.log`로 접근하려 하면 오류가 발생합니다. 이는 `let` 변수의 호이스팅과 `TDZ` 때문입니다.
 
-> TDZ(Temporal Dead Zone)는 해석하면 "일시적 사각지대"로 해석할 수 있습니다. TDZ는 변수 선언 및 초기화 하기 전의 영역을 뜻합니다.
-{: .prompt-tip }
 
 ## 3. const
 

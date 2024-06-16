@@ -177,6 +177,10 @@ for (let number of numbers) {
 5
 ```
 
+for...in과 for...of에 대한 정리된 youtube 영상도 있어서 가져와봤습니다.
+
+{% include embed/youtube.html id='c5a4sNshBA4' %}
+
 ## 2. 반복문 제어
 
 반복문 실행을 제어하기 위해 `break`와 `continue` 문을 사용할 수 있습니다.

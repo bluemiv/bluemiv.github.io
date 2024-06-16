@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-15-javascript-comments/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-15-javascript-comments/thumbnail.webp
   alt: JavaScript 주석, 협업을 위해 반드시 필요한 기능
 ---
 

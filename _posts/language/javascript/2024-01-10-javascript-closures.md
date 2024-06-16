@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-10-javascript-closures/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-10-javascript-closures/thumbnail.webp
   alt: JavaScript의 클로저 개념 및 특징
 ---
 

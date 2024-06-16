@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/python/2024-01-01-why-learn-python/thumbnail.jpg
+  path: /assets/img/posts/language/python/2024-01-01-why-learn-python/thumbnail.webp
   alt: 파이썬(Python)을 배워야 하는 이유
 ---
 

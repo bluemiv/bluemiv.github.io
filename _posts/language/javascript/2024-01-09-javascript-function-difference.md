@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-09-javascript-function-difference/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-09-javascript-function-difference/thumbnail.webp
   alt: JavaScript의 일반 함수와 화살표 함수의 차이점
 ---
 

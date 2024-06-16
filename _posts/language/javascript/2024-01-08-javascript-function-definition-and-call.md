@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-08-javascript-function-definition-and-call/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-08-javascript-function-definition-and-call/thumbnail.webp
   alt: JavaScript 함수 정의 및 호출 방법
 ---
 

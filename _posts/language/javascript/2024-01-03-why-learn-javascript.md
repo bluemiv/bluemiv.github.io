@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-03-why-learn-javascript/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-03-why-learn-javascript/thumbnail.webp
   alt: JavaScript를 배워야하는 이유
 ---
 

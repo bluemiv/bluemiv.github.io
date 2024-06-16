@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-12-javascript-objects/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-12-javascript-objects/thumbnail.webp
   alt: JavaScript 객체(object)의 개념과 사용법
 ---
 

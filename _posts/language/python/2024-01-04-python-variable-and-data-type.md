@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/python/2024-01-04-python-variable-and-data-type/thumbnail.jpg
+  path: /assets/img/posts/language/python/2024-01-04-python-variable-and-data-type/thumbnail.webp
   alt: Python의 변수와 데이터 타입
 ---
 

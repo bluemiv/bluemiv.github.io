@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-17-javascript-async/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-17-javascript-async/thumbnail.webp
   alt: JavaScript 주석, 협업을 위해 반드시 필요한 기능
 ---
 
@@ -66,7 +66,7 @@ fetchUserData(handleData);
 
 이와 같은 코드 구조는 가독성이 떨어져서, 유지보수와 디버깅이 어렵습니다.
 
-![Callback Hell](/assets/img/posts/language/javascript/2024-01-17-javascript-async/callback-hell.png)
+![Callback Hell](/assets/img/posts/language/javascript/2024-01-17-javascript-async/callback-hell.webp)
 _Callback Hell_
 
 ## 2. 프로미스 (Promise)

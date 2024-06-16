@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/python/2024-01-02-python-arithmetic-operations-example/thumbnail.jpg
+  path: /assets/img/posts/language/python/2024-01-02-python-arithmetic-operations-example/thumbnail.webp
   alt: Python에서 사칙연산 다루기
 ---
 

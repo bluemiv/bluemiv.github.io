@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-13-javascript-arrays/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-13-javascript-arrays/thumbnail.webp
   alt: JavaScript 배열의 개념과 사용법
 ---
 

@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-06-javascript-if-else-switch-statements-guide/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-06-javascript-if-else-switch-statements-guide/thumbnail.webp
   alt: JavaScript의 조건문 (if, else if, else, switch)
 ---
 

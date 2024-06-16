@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-07-javascript-loops-guide/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-07-javascript-loops-guide/thumbnail.webp
   alt: JavaScript의 반복문(for, while, do while, for in, for of)
 ---
 

@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/language/javascript/2024-01-05-features-and-differences-of-let-const-and-var-in-javascript/thumbnail.jpg
+  path: /assets/img/posts/language/javascript/2024-01-05-features-and-differences-of-let-const-and-var-in-javascript/thumbnail.webp
   alt: 자바스크립트에서 let, const, var의 특징과 차이점
 ---
 

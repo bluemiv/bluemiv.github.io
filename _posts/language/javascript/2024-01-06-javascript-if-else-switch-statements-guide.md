@@ -1,6 +1,6 @@
 ---
-title: JavaScript의 조건문 (if, else if, else, switch)
-description: JavaScript에서 조건문은 프로그램의 흐름을 제어하는 데 중요한 역할을 합니다. 다양한 상황에 맞추어 다른 코드를 실행하기 위해 if, else if, else, switch 문을 사용합니다.
+title: Javascript의 조건문 (if, else if, else, switch)
+description: Javascript에서 조건문은 프로그램의 흐름을 제어하는 데 중요한 역할을 합니다. 다양한 상황에 맞추어 다른 코드를 실행하기 위해 if, else if, else, switch 문을 사용합니다.
 date: 2024-01-06 11:23:08 +0900
 last_modified_at: 2024-01-06 11:23:08 +0900
 categories: [ Language, Javascript ]
@@ -10,7 +10,7 @@ math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-06-javascript-if-else-switch-statements-guide/thumbnail.jpg
-  alt: JavaScript의 조건문 (if, else if, else, switch)
+  alt: Javascript의 조건문 (if, else if, else, switch)
 ---
 
 ## 1. if, else 조건문
@@ -187,4 +187,4 @@ if (!isLoggedIn) {
 
 ## 5. 결론
 
-JavaScript의 조건문은 프로그램의 흐름을 제어하는 강력한 도구입니다. `if`, `else if`, `else`, `switch` 문을 적절히 사용하여 다양한 조건에 따라 코드를 실행할 수 있습니다. 각 조건문을 이해하고 적절히 사용하는 것이 중요하며, 조건문을 최적화하여 효율적인 코드를 작성하는 것이 좋습니다.
+Javascript의 조건문은 프로그램의 흐름을 제어하는 강력한 도구입니다. `if`, `else if`, `else`, `switch` 문을 적절히 사용하여 다양한 조건에 따라 코드를 실행할 수 있습니다. 각 조건문을 이해하고 적절히 사용하는 것이 중요하며, 조건문을 최적화하여 효율적인 코드를 작성하는 것이 좋습니다.

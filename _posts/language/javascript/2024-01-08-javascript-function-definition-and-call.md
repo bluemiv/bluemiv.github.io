@@ -1,6 +1,6 @@
 ---
-title: JavaScript 함수 정의 및 호출 방법
-description: 이 글에서는 JavaScript에서 함수를 정의하고 호출하는 방법에 대해 살펴봅니다.
+title: Javascript 함수 정의 및 호출 방법
+description: 이 글에서는 Javascript에서 함수를 정의하고 호출하는 방법에 대해 살펴봅니다.
 date: 2024-01-08 15:10:51 +0900
 last_modified_at: 2024-01-08 15:10:51 +0900
 categories: [ Language, Javascript ]
@@ -10,7 +10,7 @@ math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-08-javascript-function-definition-and-call/thumbnail.jpg
-  alt: JavaScript 함수 정의 및 호출 방법
+  alt: Javascript 함수 정의 및 호출 방법
 ---
 
 ## 1. Javascript의 함수란?
@@ -19,7 +19,7 @@ image:
 
 ## 2. 함수 정의 방법
 
-JavaScript에서 함수를 정의하는 방법은 대표적으로 함수 선언문과 함수 표현식이 있습니다.
+Javascript에서 함수를 정의하는 방법은 대표적으로 함수 선언문과 함수 표현식이 있습니다.
 
 ### 2.1. 함수 선언문
 
@@ -56,7 +56,7 @@ greet('닝닝');       // Output: 안녕, 닝닝!
 
 ## 4. 고급 함수 기능
 
-JavaScript 함수는 단순한 호출 외에도 다양한 고급 기능을 제공합니다.
+Javascript 함수는 단순한 호출 외에도 다양한 고급 기능을 제공합니다.
 
 ### 4.1. 매개변수 기본값
 
@@ -160,7 +160,7 @@ console.log(factorial(5));  // Output: 120
 
 ### 4.7. 매개변수로 함수를 전달
 
-함수는 JavaScript에서 일급 객체이므로, 다른 함수의 매개변수로 전달할 수 있습니다. 이런 특징은 함수형 프로그래밍에서 중요한 역할을 합니다.
+함수는 Javascript에서 일급 객체이므로, 다른 함수의 매개변수로 전달할 수 있습니다. 이런 특징은 함수형 프로그래밍에서 중요한 역할을 합니다.
 
 ```javascript
 function executeFunction(func, value) {
@@ -194,4 +194,4 @@ console.log(triple(5));  // Output: 15
 
 ## 5. 결론
 
-JavaScript 함수는 다양한 정의와 호출 방식을 통해 코드의 재사용성을 높이고, 유지 보수를 용이하게 하며, 더 효율적인 프로그래밍을 할 수 있게 도와줍니다.
+Javascript 함수는 다양한 정의와 호출 방식을 통해 코드의 재사용성을 높이고, 유지 보수를 용이하게 하며, 더 효율적인 프로그래밍을 할 수 있게 도와줍니다.

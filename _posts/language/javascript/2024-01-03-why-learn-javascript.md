@@ -1,6 +1,6 @@
 ---
 title: Javascript를 배워야하는 이유
-description: 자바스크립트(JavaScript)는 현대 웹 개발의 필수적인 도구입니다. 이 글에서는 자바스크립트의 기본 개념과 이를 배워야 하는 이유에 대해 살펴봅니다.
+description: 자바스크립트(Javascript)는 현대 웹 개발의 필수적인 도구입니다. 이 글에서는 자바스크립트의 기본 개념과 이를 배워야 하는 이유에 대해 살펴봅니다.
 date: 2024-01-03 17:47:09 +0900
 last_modified_at: 2024-01-03 17:47:09 +0900
 categories: [ Language, Javascript ]
@@ -40,7 +40,7 @@ image:
 있습니다.
 
 > [MDN](https://developer.mozilla.org/ko/)에서 다양한 javascript 함수 혹은 `WEB API`의 사용 방법에 대한 가이드 문서를 참고 할 수 있습니다.
-> {: .prompt-tip }
+{: .prompt-tip }
 
 ## 3. 자바스크립트의 특징
 
@@ -57,7 +57,7 @@ var count = 10;
 > let, const, var의 차이점에 대해 자세하게 알고
 > 싶으시면, [자바스크립트에서 let, const, var의 특징과 차이점](/posts/features-and-differences-of-let-const-and-var-in-javascript/) 글을
 > 참고해주세요.
-> {: .prompt-info }
+{: .prompt-info }
 
 ### 2. 조건문과 반복문
 

@@ -78,7 +78,7 @@ letExample();
 ```javascript
 function constExample() {
   const message = "Hello, World!";
-  // message = "Hello, JavaScript!"; // TypeError: Assignment to constant variable.
+  // message = "Hello, Javascript!"; // TypeError: Assignment to constant variable.
   console.log(message); // Hello, World!
 }
 

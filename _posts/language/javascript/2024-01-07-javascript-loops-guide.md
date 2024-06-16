@@ -1,6 +1,6 @@
 ---
-title: JavaScript의 반복문(for, while, do while, for in, for of)
-description: JavaScript에서 반복문은 특정 코드 블록을 여러 번 실행할 때 사용됩니다. 반복문은 다양한 형태가 있습니다. 이 글에서는 for, while, do while, for...in, for...of 반복문에 대해 살펴봅니다.
+title: Javascript의 반복문(for, while, do while, for in, for of)
+description: Javascript에서 반복문은 특정 코드 블록을 여러 번 실행할 때 사용됩니다. 반복문은 다양한 형태가 있습니다. 이 글에서는 for, while, do while, for...in, for...of 반복문에 대해 살펴봅니다.
 date: 2024-01-07 03:44:12 +0900
 last_modified_at: 2024-01-07 03:44:12 +0900
 categories: [ Language, Javascript ]
@@ -10,7 +10,7 @@ math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-07-javascript-loops-guide/thumbnail.jpg
-  alt: JavaScript의 반복문(for, while, do while, for in, for of)
+  alt: Javascript의 반복문(for, while, do while, for in, for of)
 ---
 
 ## 1. 반복문의 기본 개념
@@ -280,4 +280,4 @@ for (let row = 0; row < matrix.length; row++) {
 
 ## 4. 결론
 
-JavaScript의 반복문은 반복 작업을 수행할 수 있게 해줍니다. `for`, `while`, `do while`, `for...in`, `for...of` 문을 사용하여, 다양한 상황에 맞는 반복 작업을 구현할 수 있습니다.
+Javascript의 반복문은 반복 작업을 수행할 수 있게 해줍니다. `for`, `while`, `do while`, `for...in`, `for...of` 문을 사용하여, 다양한 상황에 맞는 반복 작업을 구현할 수 있습니다.

@@ -1,8 +1,8 @@
 ---
 title: JavaScript 배열의 개념과 사용법
 description: JavaScript에서 배열(Array)은 여러 개의 값을 하나의 변수에 저장할 수 있는 데이터 구조입니다. 배열은 객체(Object)의 일종으로, 인덱스(index)를 사용하여 요소(element)에 접근할 수 있습니다. 이 글에서는 JavaScript 배열의 개념, 배열 생성 방법 등 배열의 기본적인 조작에 대해 살펴봅니다.
-date: 2024-01-12 16:15:21 +0900
-last_modified_at: 2024-01-12 16:15:21 +0900
+date: 2024-01-13 20:59:01 +0900
+last_modified_at: 2024-01-13 20:59:01 +0900
 categories: [ Language, JavaScript ]
 tags: [ javascript, js, programming, web, 객체, array, 배열, map, forEach, filter, reduce, sort, find, splice, slice ]
 pin: false

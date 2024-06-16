@@ -200,3 +200,6 @@ try {
 
 JavaScript에서 예외 처리는 코드의 안정성과 신뢰성을 유지하는 데 중요한 역할을 합니다. `try`, `catch`, `finally` 구문을 사용하여 예외를 적절히 처리하고, 사용자 정의 커스텀 예외를 활용하여 특정 상황에 맞는 예외 처리를 구현할 수 있습니다.
 예외 처리를 통해 코드를 보다 견고하게 만들고, 예기치 않은 오류에 대비할 수 있습니다.
+
+![Exception Handling](/assets/img/posts/language/javascript/2024-01-18-javascript-exception-handling/exception-handling.jpeg)
+_Exception Handling_

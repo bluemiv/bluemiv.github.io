@@ -1,16 +1,16 @@
 ---
-title: Javascript의 클로저 개념 및 특징
-description: Javascript의 클로저(Closure)는 강력한 기능을 제공하는 개념 중 하나로, 함수와 그 함수가 선언된 렉시컬 환경(Lexical Environment)의 조합을 의미합니다. 클로저는 함수 내부에서 선언된 변수를 함수 외부에서도 접근할 수 있게 해주며, 다양한 프로그래밍 패턴을 구현할 수 있게 도와줍니다.
+title: JavaScript의 클로저 개념 및 특징
+description: JavaScript의 클로저(Closure)는 강력한 기능을 제공하는 개념 중 하나로, 함수와 그 함수가 선언된 렉시컬 환경(Lexical Environment)의 조합을 의미합니다. 클로저는 함수 내부에서 선언된 변수를 함수 외부에서도 접근할 수 있게 해주며, 다양한 프로그래밍 패턴을 구현할 수 있게 도와줍니다.
 date: 2024-01-10 14:36:05 +0900
 last_modified_at: 2024-01-10 14:36:05 +0900
-categories: [ Language, Javascript ]
-tags: [ javascript, programming, web, closure, 클로저, 함수, function, method ]
+categories: [ Language, JavaScript ]
+tags: [ javascript, js, programming, web, closure, 클로저, 함수, function, method ]
 pin: false
 math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-10-javascript-closures/thumbnail.jpg
-  alt: Javascript의 클로저 개념 및 특징
+  alt: JavaScript의 클로저 개념 및 특징
 ---
 
 ## 1. 클로저란?
@@ -26,7 +26,7 @@ image:
 {: .prompt-tip }
 
 클로저는 함수가 생성될 때의 스코프를 기억하고, 그 스코프 밖에서 호출되더라도 그 스코프에 접근할 수 있는 기능을 제공합니다.
-이는 Javascript의 함수가 일급 객체(`First-class citizen`)라는 특성에 기인합니다.
+이는 JavaScript의 함수가 일급 객체(`First-class citizen`)라는 특성에 기인합니다.
 
 ```javascript
 function outerFunction() {
@@ -120,7 +120,7 @@ delayedGreeting('카리나'); // 1초 후 'Hello, 카리나!' 출력
 
 ### 3.1 모듈 패턴
 
-클로저는 Javascript에서 모듈 패턴을 구현하는 데 사용됩니다. 모듈 패턴은 특정 기능을 캡슐화하고, 공개된 인터페이스만을 외부에 노출하는 방법입니다.
+클로저는 JavaScript에서 모듈 패턴을 구현하는 데 사용됩니다. 모듈 패턴은 특정 기능을 캡슐화하고, 공개된 인터페이스만을 외부에 노출하는 방법입니다.
 
 ```javascript
 const counterModule = (function () {
@@ -205,7 +205,7 @@ console.log(closures[999999]()); // 999999
 
 ## 5. 결론
 
-클로저는 Javascript의 강력한 기능 중 하나로, 함수와 그 함수가 선언된 렉시컬 환경의 조합입니다. 클로저는 데이터 은닉, 함수 팩토리, 비동기 처리 등 다양한 용도로 사용될 수 있으며,
+클로저는 JavaScript의 강력한 기능 중 하나로, 함수와 그 함수가 선언된 렉시컬 환경의 조합입니다. 클로저는 데이터 은닉, 함수 팩토리, 비동기 처리 등 다양한 용도로 사용될 수 있으며,
 코드의 가독성과 유지보수성을 크게 향상시킬 수 있습니다. 하지만, 메모리 관리와 성능 이슈에 주의해서 사용해야합니다.
 
 Youtube에 '생활코딩'님의 클로저 개념 설명도 있어서 공유합니다.

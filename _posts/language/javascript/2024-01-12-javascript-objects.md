@@ -1,21 +1,21 @@
 ---
-title: Javascript 객체(object)의 개념과 사용법
-description: Javascript에서 객체(Object)는 중요한 데이터 구조 중 하나로, 속성(properties)과 메서드(methods)를 가집니다. 객체는 다양한 데이터를 하나의 단위로 묶어서 관리할 수 있게 해주며, 이를 통해 코드의 가독성과 유지보수성을 높일 수 있습니다.
+title: JavaScript 객체(object)의 개념과 사용법
+description: JavaScript에서 객체(Object)는 중요한 데이터 구조 중 하나로, 속성(properties)과 메서드(methods)를 가집니다. 객체는 다양한 데이터를 하나의 단위로 묶어서 관리할 수 있게 해주며, 이를 통해 코드의 가독성과 유지보수성을 높일 수 있습니다.
 date: 2024-01-12 16:15:21 +0900
 last_modified_at: 2024-01-12 16:15:21 +0900
-categories: [ Language, Javascript ]
-tags: [ javascript, programming, web, 객체, object ]
+categories: [ Language, JavaScript ]
+tags: [ javascript, js, programming, web, 객체, object ]
 pin: false
 math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-12-javascript-objects/thumbnail.jpg
-  alt: Javascript 객체(object)의 개념과 사용법
+  alt: JavaScript 객체(object)의 개념과 사용법
 ---
 
 ## 1. 객체(object)란?
 
-Javascript 객체는 키(key)와 값(value)으로 이루어진 컬렉션입니다. 객체의 값은 원시 값(숫자, 문자열, 불리언 등)일 수도 있고, 다른 객체나 함수일 수도 있습니다.
+JavaScript 객체는 키(key)와 값(value)으로 이루어진 컬렉션입니다. 객체의 값은 원시 값(숫자, 문자열, 불리언 등)일 수도 있고, 다른 객체나 함수일 수도 있습니다.
 객체는 실세계의 엔티티(entity)를 모델링하는 데 유용하며, 데이터를 구조화하고 조직화하는 데 사용됩니다.
 
 ### 1.1 객체 생성
@@ -114,7 +114,7 @@ console.log(person.greet()); // '안녕하세요! 제 이름은 Kim 입니다.'
 
 ## 4. 객체의 프로토타입 (prototype)
 
-Javascript 객체는 프로토타입(prototype)을 통해 다른 객체의 속성과 메서드를 상속할 수 있습니다.
+JavaScript 객체는 프로토타입(prototype)을 통해 다른 객체의 속성과 메서드를 상속할 수 있습니다.
 모든 객체는 프로토타입 객체에 연결되며, 이 프로토타입 객체는 또 다른 객체를 프로토타입으로 가질 수 있습니다.
 
 ### 4.1 프로토타입 체인
@@ -231,4 +231,4 @@ console.log(userPosition); // {x: 0, y: 10, name: 'Kim', age: 30}
 
 ## 6. 결론
 
-Javascript 객체(object)는 키와 값의 컬렉션으로, 속성과 메서드를 포함할 수 있습니다. 객체는 점 표기법과 대괄호 표기법을 통해 속성에 접근하고 값을 변경할 수 있으며, 메서드를 정의하여 객체와 관련된 동작을 구현할 수 있습니다. 또한, 객체는 프로토타입을 통해 상속을 지원합니다.
+JavaScript 객체(object)는 키와 값의 컬렉션으로, 속성과 메서드를 포함할 수 있습니다. 객체는 점 표기법과 대괄호 표기법을 통해 속성에 접근하고 값을 변경할 수 있으며, 메서드를 정의하여 객체와 관련된 동작을 구현할 수 있습니다. 또한, 객체는 프로토타입을 통해 상속을 지원합니다.

@@ -1,21 +1,21 @@
 ---
-title: Javascript의 일반 함수와 화살표 함수(Arrow Function)의 차이점
+title: JavaScript의 일반 함수와 화살표 함수(Arrow Function)의 차이점
 description: 일반 함수(function 키워드로 정의된 함수)와 화살표 함수(arrow function)는 가장 많이 사용되는 두 가지 방식입니다. 이 글에서는 두 함수의 문법적, 기능적 차이점과 사용 예시를 살펴보겠습니다.
 date: 2024-01-09 12:18:11 +0900
 last_modified_at: 2024-01-09 12:18:11 +0900
-categories: [ Language, Javascript ]
-tags: [ javascript, programming, web, function, 함수, method, arrow function ]
+categories: [ Language, JavaScript ]
+tags: [ javascript, js, programming, web, function, 함수, method, arrow function ]
 pin: false
 math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-09-javascript-function-difference/thumbnail.jpg
-  alt: Javascript의 일반 함수와 화살표 함수의 차이점
+  alt: JavaScript의 일반 함수와 화살표 함수의 차이점
 ---
 
 ## 1. 함수 정의 방식
 
-Javascript에서 일반 함수는 `function` 키워드를 사용하여 정의합니다. 반면, 화살표 함수는 `=>` 기호를 사용하여 정의합니다.
+JavaScript에서 일반 함수는 `function` 키워드를 사용하여 정의합니다. 반면, 화살표 함수는 `=>` 기호를 사용하여 정의합니다.
 
 ### 1.1 일반 함수 (Function)
 

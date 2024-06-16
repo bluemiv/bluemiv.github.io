@@ -1,22 +1,22 @@
 ---
-title: Javascript 배열의 개념과 사용법
-description: Javascript에서 배열(Array)은 여러 개의 값을 하나의 변수에 저장할 수 있는 데이터 구조입니다. 배열은 객체(Object)의 일종으로, 인덱스(index)를 사용하여 요소(element)에 접근할 수 있습니다. 이 글에서는 Javascript 배열의 개념, 배열 생성 방법 등 배열의 기본적인 조작에 대해 살펴봅니다.
+title: JavaScript 배열의 개념과 사용법
+description: JavaScript에서 배열(Array)은 여러 개의 값을 하나의 변수에 저장할 수 있는 데이터 구조입니다. 배열은 객체(Object)의 일종으로, 인덱스(index)를 사용하여 요소(element)에 접근할 수 있습니다. 이 글에서는 JavaScript 배열의 개념, 배열 생성 방법 등 배열의 기본적인 조작에 대해 살펴봅니다.
 date: 2024-01-12 16:15:21 +0900
 last_modified_at: 2024-01-12 16:15:21 +0900
-categories: [ Language, Javascript ]
-tags: [ javascript, programming, web, 객체, array, 배열, map, forEach, filter, reduce, sort, find, splice, slice ]
+categories: [ Language, JavaScript ]
+tags: [ javascript, js, programming, web, 객체, array, 배열, map, forEach, filter, reduce, sort, find, splice, slice ]
 pin: false
 math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-13-javascript-arrays/thumbnail.jpg
-  alt: Javascript 배열의 개념과 사용법
+  alt: JavaScript 배열의 개념과 사용법
 ---
 
 ## 1. 배열이란 무엇인가?
 
-Javascript 배열은 다양한 데이터를 순서대로 저장할 수 있는 리스트입니다. 배열의 각 요소는 0부터 시작하는 인덱스(index)를 통해 접근할 수 있습니다.
-배열은 일반적으로 같은 종류의 데이터를 그룹화하여 관리하는 데 사용되지만, Javascript 배열은 다양한 데이터 타입을 함께 저장할 수 있습니다.
+JavaScript 배열은 다양한 데이터를 순서대로 저장할 수 있는 리스트입니다. 배열의 각 요소는 0부터 시작하는 인덱스(index)를 통해 접근할 수 있습니다.
+배열은 일반적으로 같은 종류의 데이터를 그룹화하여 관리하는 데 사용되지만, JavaScript 배열은 다양한 데이터 타입을 함께 저장할 수 있습니다.
 
 ### 1.1 배열 생성
 
@@ -112,7 +112,7 @@ console.log(fruits); // ['apple', 'cherry']
 
 ## 3. 배열의 다양한 메서드
 
-Javascript 배열은 다양한 메서드를 제공하여 배열을 쉽게 조작할 수 있습니다.
+JavaScript 배열은 다양한 메서드를 제공하여 배열을 쉽게 조작할 수 있습니다.
 
 ### 3.1 forEach
 
@@ -212,7 +212,7 @@ for (const fruit of fruits) {
 
 ### 5.1 다차원 배열
 
-Javascript에서는 배열 안에 배열을 포함하여 다차원 배열을 만들 수 있습니다.
+JavaScript에서는 배열 안에 배열을 포함하여 다차원 배열을 만들 수 있습니다.
 
 ```javascript
 const matrix = [
@@ -250,4 +250,4 @@ console.log(moreFruits); // ['apple', 'banana', 'cherry', 'date', 'elderberry']
 
 ## 6. 결론
 
-Javascript 배열은 데이터를 순서대로 저장하고 관리할 수 있는 데이터 구조입니다. 배열의 요소를 추가, 삭제, 수정할 수 있으며, 기본으로 제공하는 메서드를 통해 배열을 쉽게 조작할 수 있습니다.
+JavaScript 배열은 데이터를 순서대로 저장하고 관리할 수 있는 데이터 구조입니다. 배열의 요소를 추가, 삭제, 수정할 수 있으며, 기본으로 제공하는 메서드를 통해 배열을 쉽게 조작할 수 있습니다.

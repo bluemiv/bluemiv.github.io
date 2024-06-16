@@ -3,8 +3,8 @@ title: 자바스크립트에서 let, const, var의 특징과 차이점
 description: 자바스크립트에서는 변수를 선언할 때 var, let, const 세 가지 키워드를 사용할 수 있습니다. 각각의 키워드는 변수를 선언할 때 특정한 특성과 사용 방법을 가지고 있습니다. 이 글에서는 let, const, var의 특징과 차이점을 설명합니다.
 date: 2024-01-05 20:30:56 +0900
 last_modified_at: 2024-01-05 20:30:56 +0900
-categories: [ Language, Javascript ]
-tags: [ javascript, programming, web, var, let, const, scope, TDZ ]
+categories: [ Language, JavaScript ]
+tags: [ javascript, js, programming, web, var, let, const, scope, TDZ ]
 pin: false
 math: false
 mermaid: false
@@ -78,7 +78,7 @@ letExample();
 ```javascript
 function constExample() {
   const message = "Hello, World!";
-  // message = "Hello, Javascript!"; // TypeError: Assignment to constant variable.
+  // message = "Hello, JavaScript!"; // TypeError: Assignment to constant variable.
   console.log(message); // Hello, World!
 }
 

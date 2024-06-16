@@ -1,16 +1,16 @@
 ---
-title: Javascript를 배워야하는 이유
-description: 자바스크립트(Javascript)는 현대 웹 개발의 필수적인 도구입니다. 이 글에서는 자바스크립트의 기본 개념과 이를 배워야 하는 이유에 대해 살펴봅니다.
+title: JavaScript를 배워야하는 이유
+description: 자바스크립트(JavaScript)는 현대 웹 개발의 필수적인 도구입니다. 이 글에서는 자바스크립트의 기본 개념과 이를 배워야 하는 이유에 대해 살펴봅니다.
 date: 2024-01-03 17:47:09 +0900
 last_modified_at: 2024-01-03 17:47:09 +0900
-categories: [ Language, Javascript ]
-tags: [ javascript, programming, web ]
+categories: [ Language, JavaScript ]
+tags: [ javascript, js, programming, web ]
 pin: false
 math: false
 mermaid: false
 image:
   path: /assets/img/posts/language/javascript/2024-01-03-why-learn-javascript/thumbnail.jpg
-  alt: Javascript를 배워야하는 이유
+  alt: JavaScript를 배워야하는 이유
 ---
 
 ## 1. 자바스크립트란 무엇인가?

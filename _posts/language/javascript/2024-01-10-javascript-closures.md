@@ -1,8 +1,8 @@
 ---
 title: Javascript의 클로저 개념 및 특징
 description: Javascript의 클로저(Closure)는 강력한 기능을 제공하는 개념 중 하나로, 함수와 그 함수가 선언된 렉시컬 환경(Lexical Environment)의 조합을 의미합니다. 클로저는 함수 내부에서 선언된 변수를 함수 외부에서도 접근할 수 있게 해주며, 다양한 프로그래밍 패턴을 구현할 수 있게 도와줍니다.
-date: 2024-01-09 12:18:11 +0900
-last_modified_at: 2024-01-09 12:18:11 +0900
+date: 2024-01-10 14:36:05 +0900
+last_modified_at: 2024-01-10 14:36:05 +0900
 categories: [ Language, Javascript ]
 tags: [ javascript, programming, web, function, 함수, method, arrow function ]
 pin: false

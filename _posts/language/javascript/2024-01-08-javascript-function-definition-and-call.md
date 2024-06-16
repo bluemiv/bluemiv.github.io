@@ -89,6 +89,9 @@ function add(a, b) {
 };
 ```
 
+> 일반 함수와 화살표 함수의 차이점이 궁금하면, [이 글](/posts/javascript-function-difference/)을 참고해주세요.
+{: .prompt-info }
+
 ### 4.3. 즉시 실행 함수 표현식 (IIFE)
 
 IIFE(Immediately Invoked Function Expression)는 함수 정의와 동시에 즉시 실행되는 함수입니다. 주로 코드의 스코프를 제한하기 위해 사용됩니다.

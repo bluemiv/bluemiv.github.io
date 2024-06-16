@@ -18,7 +18,7 @@ image:
 JavaScript 배열은 다양한 데이터를 순서대로 저장할 수 있는 리스트입니다. 배열의 각 요소는 0부터 시작하는 인덱스(index)를 통해 접근할 수 있습니다.
 배열은 일반적으로 같은 종류의 데이터를 그룹화하여 관리하는 데 사용되지만, JavaScript 배열은 다양한 데이터 타입을 함께 저장할 수 있습니다.
 
-### 1.1 배열 생성
+### 1.1. 배열 생성
 
 배열을 생성하는 방법은 여러 가지가 있습니다. 가장 일반적인 방법은 배열 리터럴(array literal)을 사용하는 것입니다.
 
@@ -45,7 +45,7 @@ fruits[2] = 'cherry';
 
 배열의 요소에 접근하고 조작하는 방법은 매우 직관적입니다. 인덱스(index)를 사용하여 배열의 요소를 읽고 쓸 수 있습니다.
 
-### 2.1 요소 접근
+### 2.1. 요소 접근
 
 배열의 요소에 접근하려면 인덱스를 사용합니다. 인덱스는 0부터 시작합니다.
 
@@ -56,7 +56,7 @@ console.log(fruits[1]); // 'banana'
 console.log(fruits[2]); // 'cherry'
 ```
 
-### 2.2 요소 수정
+### 2.2. 요소 수정
 
 인덱스를 사용하여 배열의 요소를 수정할 수 있습니다.
 
@@ -66,7 +66,7 @@ fruits[1] = 'blueberry';
 console.log(fruits); // ['apple', 'blueberry', 'cherry']
 ```
 
-### 2.3 요소 추가
+### 2.3. 요소 추가
 
 배열의 끝에 요소를 추가하려면 `push` 메서드를 사용합니다.
 
@@ -84,7 +84,7 @@ fruits.splice(1, 0, 'blueberry');
 console.log(fruits); // ['apple', 'blueberry', 'banana', 'cherry']
 ```
 
-### 2.4 요소 삭제
+### 2.4. 요소 삭제
 
 배열의 마지막 요소를 제거하려면 `pop` 메서드를 사용합니다.
 
@@ -114,7 +114,7 @@ console.log(fruits); // ['apple', 'cherry']
 
 JavaScript 배열은 다양한 메서드를 제공하여 배열을 쉽게 조작할 수 있습니다.
 
-### 3.1 forEach
+### 3.1. forEach
 
 `forEach` 메서드는 배열의 각 요소에 대해 함수를 실행합니다.
 
@@ -128,7 +128,7 @@ fruits.forEach(fruit => {
 // 'cherry'
 ```
 
-### 3.2 map
+### 3.2. map
 
 `map` 메서드는 배열의 각 요소에 대해 함수를 실행하고, 그 결과를 새로운 배열로 반환합니다.
 
@@ -138,7 +138,7 @@ const doubled = numbers.map(number => number * 2);
 console.log(doubled); // [2, 4, 6]
 ```
 
-### 3.3 filter
+### 3.3. filter
 
 `filter` 메서드는 배열의 각 요소에 대해 함수를 실행하여, 그 결과가 `true`인 요소만을 모아 새로운 배열로 반환합니다.
 
@@ -148,7 +148,7 @@ const even = numbers.filter(number => number % 2 === 0);
 console.log(even); // [2, 4]
 ```
 
-### 3.4 reduce
+### 3.4. reduce
 
 `reduce` 메서드는 배열의 각 요소에 대해 함수를 실행하여, 하나의 값을 반환합니다. 쉽게 이해하기 위해 누산기라고 생각하면 됩니다.
 
@@ -158,7 +158,7 @@ const sum = numbers.reduce((total, number) => total + number, 0);
 console.log(sum); // 10
 ```
 
-### 3.5 find
+### 3.5. find
 
 `find` 메서드는 배열의 각 요소에 대해 함수를 실행하여, 그 결과가 `true`인 첫 번째 요소를 반환합니다.
 
@@ -168,7 +168,7 @@ const firstEven = numbers.find(number => number % 2 === 0);
 console.log(firstEven); // 2
 ```
 
-### 3.6 sort
+### 3.6. sort
 
 `sort` 메서드는 배열의 요소를 정렬합니다. 기본적으로 문자열로 정렬되므로 숫자를 정렬하려면 비교 함수를 제공해야 합니다.
 
@@ -210,7 +210,7 @@ for (const fruit of fruits) {
 
 ## 5. 배열의 고급 기능
 
-### 5.1 다차원 배열
+### 5.1. 다차원 배열
 
 JavaScript에서는 배열 안에 배열을 포함하여 다차원 배열을 만들 수 있습니다.
 
@@ -224,7 +224,7 @@ const matrix = [
 console.log(matrix[1][2]); // 6
 ```
 
-### 5.2 배열의 비구조화 할당
+### 5.2. 배열의 비구조화 할당
 
 ES6부터는 배열의 비구조화 할당(destructuring assignment)을 통해 배열의 요소를 개별 변수로 추출할 수 있습니다.
 
@@ -237,7 +237,7 @@ console.log(second); // 'banana'
 console.log(third); // 'cherry'
 ```
 
-### 5.3 스프레드 연산자
+### 5.3. 스프레드 연산자
 
 스프레드 연산자(spread operator)를 사용하면 배열을 쉽게 복사하거나 결합할 수 있습니다.
 

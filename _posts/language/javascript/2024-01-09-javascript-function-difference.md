@@ -17,7 +17,7 @@ image:
 
 JavaScript에서 일반 함수는 `function` 키워드를 사용하여 정의합니다. 반면, 화살표 함수는 `=>` 기호를 사용하여 정의합니다.
 
-### 1.1 일반 함수 (Function)
+### 1.1. 일반 함수 (Function)
 
 일반 함수는 다음과 같이 정의할 수 있습니다
 
@@ -27,7 +27,7 @@ function greet(name) {
 }
 ```
 
-### 1.2 화살표 함수 (Arrow function)
+### 1.2. 화살표 함수 (Arrow function)
 
 화살표 함수는 다음과 같이 정의할 수 있습니다
 
@@ -48,7 +48,7 @@ const greet = name => `안녕, ${name}!`;
 일반 함수와 화살표 함수의 가장 큰 차이점 중 하나는 `this` 키워드의 바인딩 방식입니다. 일반 함수는 호출 방식에 따라 `this`가 동적으로 바인딩됩니다. 반면, 화살표 함수는 `this`를 자신이 정의된
 환경에 정적으로 바인딩합니다.
 
-### 2.1 일반 함수의 this 바인딩
+### 2.1. 일반 함수의 this 바인딩
 
 일반 함수에서는 `this`가 호출 컨텍스트에 따라 다르게 바인딩됩니다
 
@@ -65,7 +65,7 @@ const greet = person.greet;
 greet(); // "Hello, undefined" (전역 객체의 `this` 바인딩)
 ```
 
-### 2.2 화살표 함수의 this 바인딩
+### 2.2. 화살표 함수의 this 바인딩
 
 화살표 함수는 `this`를 자신이 정의된 스코프에 바인딩합니다
 
@@ -98,7 +98,7 @@ hong.greet(); // "Hello, Hong"
 
 일반 함수는 생성자 함수로 사용할 수 있지만, 화살표 함수는 생성자 함수로 사용할 수 없습니다.
 
-### 3.1 일반 함수의 생성자 함수
+### 3.1. 일반 함수의 생성자 함수
 
 일반 함수는 `new` 키워드를 사용하여 인스턴스를 생성할 수 있습니다
 
@@ -111,7 +111,7 @@ const hong = new Person("Hong");
 console.log(hong.name); // "Hong"
 ```
 
-### 3.2 화살표 함수의 생성자 함수 불가능
+### 3.2. 화살표 함수의 생성자 함수 불가능
 
 화살표 함수는 생성자 함수로 사용할 수 없으며, `new` 키워드를 사용하면 오류가 발생합니다:
 
@@ -127,7 +127,7 @@ const hong = new Person("Hong"); // TypeError: Person is not a constructor
 
 일반 함수는 `arguments` 객체를 통해 함수의 인자에 접근할 수 있지만, 화살표 함수는 `arguments` 객체를 지원하지 않습니다.
 
-### 4.1 일반 함수의 `arguments` 객체
+### 4.1. 일반 함수의 arguments 객체
 
 일반 함수에서는 `arguments` 객체를 사용할 수 있습니다
 
@@ -143,7 +143,7 @@ function sum() {
 console.log(sum(1, 2, 3)); // 6
 ```
 
-### 4.2 화살표 함수의 rest parameter
+### 4.2. 화살표 함수의 rest parameter
 
 화살표 함수는 `arguments` 객체를 지원하지 않지만, 나머지 매개변수(`rest parameter`)를 사용할 수 있습니다:
 

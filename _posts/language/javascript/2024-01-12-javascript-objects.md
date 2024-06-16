@@ -216,6 +216,19 @@ console.log(name); // 'Kim'
 console.log(age); // 30
 ```
 
+### 5.5 스프레드 연산자
+
+스프레드 연산자(spread operator)를 사용하면 객체를 쉽게 병합할 수 있습니다. `Object.assign`과 동일한 효과를 가집니다.
+
+```javascript
+const position = { x: 0, y: 10};
+const user = { name: 'Kim', age: 30 };
+
+const userPosition = { ...position, ...user };
+console.log(userPosition); // {x: 0, y: 10, name: 'Kim', age: 30}
+```
+
+
 ## 6. 결론
 
 Javascript 객체(object)는 키와 값의 컬렉션으로, 속성과 메서드를 포함할 수 있습니다. 객체는 점 표기법과 대괄호 표기법을 통해 속성에 접근하고 값을 변경할 수 있으며, 메서드를 정의하여 객체와 관련된 동작을 구현할 수 있습니다. 또한, 객체는 프로토타입을 통해 상속을 지원합니다.

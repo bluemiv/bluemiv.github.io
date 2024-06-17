@@ -59,12 +59,12 @@ webmaster_verifications:
 # Web Analytics Settings
 analytics:
   google:
-    id: 408207215 # fill in your Google Analytics ID
+    id: G-XGMWR2ZV55 # fill in your Google Analytics ID
   goatcounter:
     id: bluemiv # fill in your GoatCounter ID
   umami:
-    id: # fill in your Umami ID
-    domain: # fill in your Umami domain
+    id: e4249fb6-0c76-4824-a4cf-e81644994c92 # fill in your Umami ID
+    domain: bluemiv.github.io # fill in your Umami domain
   matomo:
     id: # fill in your Matomo ID
     domain: # fill in your Matomo domain

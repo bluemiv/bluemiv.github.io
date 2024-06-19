@@ -4,7 +4,7 @@ description: JavaScript는 기본적으로 단일 스레드 기반의 동기적(
 date: 2024-01-17 11:30:53 +0900
 last_modified_at: 2024-01-17 11:30:53 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, web, async, await, 비동기, promise, callback ]
+tags: [ javascript, js, 자바스크립트, web, async, await, 비동기, promise, callback ]
 pin: false
 math: false
 mermaid: false

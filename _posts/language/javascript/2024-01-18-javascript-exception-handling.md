@@ -4,7 +4,7 @@ description: JavaScript에서 예외 처리는 코드의 오류를 관리하고 
 date: 2024-01-18 18:55:32 +0900
 last_modified_at: 2024-01-18 18:55:32 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, web, try, catch, finally, 예외처리, exception, error ]
+tags: [ javascript, js, 자바스크립트, web, try, catch, finally, 예외처리, exception, error ]
 pin: false
 math: false
 mermaid: false

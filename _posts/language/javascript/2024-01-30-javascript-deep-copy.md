@@ -4,7 +4,7 @@ description: JavaScript에서 객체를 복사할 때, 얕은 복사(shallow cop
 date: 2024-01-30 23:00:54 +0900
 last_modified_at: 2024-01-30 23:00:54 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, 복사, 깊은 복사, 얕은 복사, deep copy, shallow copy ]
+tags: [ javascript, js, 자바스크립트, 복사, 깊은 복사, 얕은 복사, deep copy, shallow copy ]
 pin: false
 math: false
 mermaid: false

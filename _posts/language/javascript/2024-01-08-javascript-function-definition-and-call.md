@@ -4,7 +4,7 @@ description: 이 글에서는 JavaScript에서 함수를 정의하고 호출하�
 date: 2024-01-08 15:10:51 +0900
 last_modified_at: 2024-01-08 15:10:51 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, web, function, 함수, method, arrow function, closure, recursive ]
+tags: [ javascript, js, 자바스크립트, web, function, 함수, method, arrow function, closure, recursive ]
 pin: false
 math: false
 mermaid: false

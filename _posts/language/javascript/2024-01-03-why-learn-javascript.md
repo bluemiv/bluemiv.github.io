@@ -4,7 +4,7 @@ description: 자바스크립트(JavaScript)는 현대 웹 개발의 필수적인
 date: 2024-01-03 17:47:09 +0900
 last_modified_at: 2024-01-03 17:47:09 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, web ]
+tags: [ javascript, js, 자바스크립트, web ]
 pin: false
 math: false
 mermaid: false

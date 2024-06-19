@@ -4,7 +4,7 @@ description: 파이썬은 오늘날 가장 인기 있는 프로그래밍 언어 
 date: 2024-01-01 22:19:22 +0900
 last_modified_at: 2024-01-01 22:19:22 +0900
 categories: [ Language, Python ]
-tags: [ python, programming ]
+tags: [ python, 파이썬 ]
 pin: false
 math: false
 mermaid: false

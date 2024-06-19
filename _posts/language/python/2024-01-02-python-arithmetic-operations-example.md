@@ -4,7 +4,7 @@ description: Python은 강력한 프로그래밍 언어로, 수학적 계산을 
 date: 2024-01-02 12:32:16 +0900
 last_modified_at: 2024-01-02 12:32:16 +0900
 categories: [ Language, Python ]
-tags: [ python, programming ]
+tags: [ python, 파이썬, 사칙연산, 덧셈, 뺄셈, 곱셈, 나눗셈 ]
 pin: false
 math: false
 mermaid: false

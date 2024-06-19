@@ -4,7 +4,7 @@ description: CSS에서 크기 값을 정의하는 다양한 단위들은 웹 디
 date: 2024-01-23 11:54:01 +0900
 last_modified_at: 2024-01-23 11:54:01 +0900
 categories: [ WEB, CSS ]
-tags: [ css, programming, web, 크기, size, rem, em, px, vw, vh, 퍼센트, 뷰포트, 반응형 ]
+tags: [ css, web, 크기, size, rem, em, px, vw, vh, 퍼센트, 뷰포트, 반응형 ]
 pin: false
 math: false
 mermaid: false

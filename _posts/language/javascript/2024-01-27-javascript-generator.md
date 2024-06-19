@@ -4,7 +4,7 @@ description: JavaScript에서 제네레이터(Generator)는 실행을 중간에 
 date: 2024-01-27 22:03:34 +0900
 last_modified_at: 2024-01-27 22:03:34 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, programming, generator, 제네레이터, 이터레이터, yield, throw ]
+tags: [ javascript, js, generator, 제네레이터, 이터레이터, yield, throw ]
 pin: false
 math: false
 mermaid: false

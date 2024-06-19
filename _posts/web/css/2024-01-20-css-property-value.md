@@ -4,7 +4,7 @@ description: 이 글에서는 CSS의 기본 개념인 속성(Properties)과 값(
 date: 2024-01-20 20:30:43 +0900
 last_modified_at: 2024-01-20 20:30:43 +0900
 categories: [ WEB, CSS ]
-tags: [ css, programming, web, 속성, 값, property, value ]
+tags: [ css, web, 속성, 값, property, value ]
 pin: false
 math: false
 mermaid: false

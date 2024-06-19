@@ -4,7 +4,7 @@ description: CSS 선택자는 웹 페이지에서 특정 HTML 요소를 선택�
 date: 2024-01-19 11:27:08 +0900
 last_modified_at: 2024-01-19 11:27:08 +0900
 categories: [ WEB, CSS ]
-tags: [ css, programming, web, after, before, 자식 선택자, 자손 선택자, 선택자, selector ]
+tags: [ css, web, after, before, 자식 선택자, 자손 선택자, 선택자, selector ]
 pin: false
 math: false
 mermaid: false

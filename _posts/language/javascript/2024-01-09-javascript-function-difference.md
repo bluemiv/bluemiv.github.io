@@ -4,7 +4,7 @@ description: 일반 함수(function 키워드로 정의된 함수)와 화살표 
 date: 2024-01-09 12:18:11 +0900
 last_modified_at: 2024-01-09 12:18:11 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, programming, web, function, 함수, method, arrow function ]
+tags: [ javascript, js, web, function, 함수, method, arrow function ]
 pin: false
 math: false
 mermaid: false

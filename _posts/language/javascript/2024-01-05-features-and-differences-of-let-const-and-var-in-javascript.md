@@ -4,7 +4,7 @@ description: 자바스크립트에서는 변수를 선언할 때 var, let, const
 date: 2024-01-05 20:30:56 +0900
 last_modified_at: 2024-01-05 20:30:56 +0900
 categories: [ Language, JavaScript ]
-tags: [ javascript, js, programming, web, var, let, const, scope, TDZ ]
+tags: [ javascript, js, web, var, let, const, scope, TDZ ]
 pin: false
 math: false
 mermaid: false

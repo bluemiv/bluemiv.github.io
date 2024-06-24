@@ -13,7 +13,7 @@ image:
   alt: 타입스크립트 tsconfig 모든 옵션 정리
 ---
 
-## 1. tsconfig.json 파일 개요
+## 1. tsconfig.json 파일
 
 타입스크립트 프로젝트에서 `tsconfig.json` 파일은 컴파일러 옵션과 파일 포함/제외(include/exclude) 규칙을 정의하는 역할을 합니다.
 tsconfig 파일을 통해 프로젝트의 빌드 설정을 한 곳에서 관리할 수 있습니다.

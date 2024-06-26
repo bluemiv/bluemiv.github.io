@@ -4,7 +4,7 @@ description: CSS flexbox는 웹 레이아웃 디자인을 더욱 유연하고 �
 date: 2024-02-09 23:02:40 +0900
 last_modified_at: 2024-02-09 23:02:40 +0900
 categories: [ WEB, CSS ]
-tags: [ css, web, flex, flexbox, flexible box layout, flex-start, flex-end, space-between, ]
+tags: [ css, web, flex, layout, 레이아웃, flexbox, flexible box layout, flex-start, flex-end, space-between ]
 pin: false
 math: false
 mermaid: false

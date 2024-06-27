@@ -4,7 +4,7 @@ description: React는 페이스북에서 개발한 오픈 소스 라이브러리
 date: 2024-02-16 20:53:42 +0900
 last_modified_at: 2024-02-16 20:53:42 +0900
 categories: [ WEB, React ]
-tags: [ react, javascript, front-end, web, single pageapplications, spa, component, virtual dom, facebook ]
+tags: [ 리액트, react, javascript, front-end, web, single pageapplications, spa, component, virtual dom, facebook ]
 pin: false
 math: false
 mermaid: false

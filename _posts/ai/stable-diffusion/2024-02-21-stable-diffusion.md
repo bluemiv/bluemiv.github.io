@@ -18,6 +18,9 @@ image:
 **Stable Diffusion**은 이미지를 생성하는 인공지능 기술로, 프롬프트(`prompt`) 입력하면 해당 텍스트를 기반으로 이미지를 생성해주는 모델입니다.
 이 기술은 `diffusion model`(확산 모델)의 원리를 적용하여 고품질의 이미지를 생성할 수 있습니다.
 
+> prompt에 대해 자세한 내용이 궁금하시면 [이 글](/posts/stable-diffusion-prompt/)을 참고해주세요.
+{: .prompt-info }
+
 ## 2. Stable Diffusion의 원리
 
 Stable Diffusion의 핵심 원리는 **확산 과정**에 기반합니다. 이는 `denoising diffusion probabilistic model`(DDPM)에서 발전된 방식입니다.
@@ -60,3 +63,5 @@ Stable Diffusion 기술은 지속적으로 발전하고 있으며, 앞으로 더
 - **인터랙티브 디자인 툴**: 디자이너와 협업하여 실시간으로 이미지를 생성하고 수정할 수 있는 사람과 상호작용할 수 있는 도구가 개발될 것입니다.
 - **다양한 응용 분야 확장**: 의료, 교육, 엔터테인먼트 등 다양한 분야에서도 활용할 수 있습니다.
 
+> Stable Diffusion을 쉽게 사용하고 싶으시면 [이 글](/posts/install-stable-diffusion/)을 참고해주세요
+{: .prompt-info }

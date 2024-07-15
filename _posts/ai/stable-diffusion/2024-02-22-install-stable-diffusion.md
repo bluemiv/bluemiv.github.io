@@ -90,3 +90,6 @@ masterpiece, best quality, cat
 _첫번째 이미지 생성_
 
 예쁜 고양이 이미지는 아니지만, 이미지를 생성되는 것을 확인했습니다.
+
+> prompt를 효율적으로 작성하는 방법에 대해 궁금하시면 [이 글](/posts/stable-diffusion-prompt/)을 참고해주세요.
+{: .prompt-info }

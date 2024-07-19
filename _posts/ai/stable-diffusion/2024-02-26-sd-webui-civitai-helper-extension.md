@@ -1,6 +1,6 @@
 ---
 title: Civitai Helper, Stable Diffusion Extension 추천
-description: Stable Diffusion을 사용하여 이미지를 생성할 때, '프롬프트(prompt)'를 사용합니다. 해당 글에서는 프롬프트에 대해 설명하고 효과적으로 프롬프트를 작성하는 방법에 대해 설명합니다.
+description: Stable Diffusion에서 사용할 수 있는 모델을 다운로드 받을 수 있는 Civitai 공유 사이트가 있습니다. 이 글에서는 쉽게 모델을 다운로드 받을 수 있게 도와주는 Civitai Helper extension에 대해 설명합니다.
 date: 2024-02-26 04:14:33 +0900
 last_modified_at: 2024-02-26 04:14:33 +0900
 categories: [ AI, Stable Diffusion ]
@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: /assets/img/posts/ai/stable-diffusion/2024-02-26-sd-webui-civitai-helper-extension/ex7.webp
+  path: /assets/img/posts/ai/stable-diffusion/2024-02-26-sd-webui-civitai-helper-extension/ex8.webp
   alt: Civitai Helper, Stable Diffusion Extension 추천
 ---
 
@@ -73,6 +73,23 @@ _Download Model_
 
 > 모델의 크기에 따라 시간이 다소 소요될 수 있습니다. 큰 모델의 경우는 10~20분 넘게 걸릴 수 있습니다.
 {: .prompt-info }
+
+### 3.1. 이미지 생성
+
+다운로드 받은 모델로 이미지를 생성해보겠습니다.
+
+```text
+city street, neon, fog, volumetric, closeup photo of a 50 y.o man in dark clothes, serious face
+```
+{: file='positive prompt'}
+
+```text
+(nsfw, naked, nude, deformed iris, deformed pupils, semi-realistic, cgi, 3d, render, sketch, cartoon, drawing, anime, mutated hands and fingers:1.4), (deformed, distorted, disfigured:1.3), poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, disconnected limbs, mutation, mutated, ugly, disgusting, amputation
+```
+{: file='negative prompt'}
+
+![결과물](/assets/img/posts/ai/stable-diffusion/2024-02-26-sd-webui-civitai-helper-extension/ex8.webp)
+_결과물_
 
 ## 4. Reference
 

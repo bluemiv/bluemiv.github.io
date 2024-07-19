@@ -1,6 +1,6 @@
 ---
 title: Easy Prompt Selector, Stable Diffusion Extension 추천 
-description: Stable Diffusion을 사용하여 이미지를 생성할 때, '프롬프트(prompt)'를 사용합니다. 해당 글에서는 프롬프트에 대해 설명하고 효과적으로 프롬프트를 작성하는 방법에 대해 설명합니다.
+description: Stable Diffusion을 사용하여 이미지를 생성할 때, '프롬프트(prompt)'를 사용합니다. 이 글에서는 쉽게 클릭하여 prompt를 입력할 수 있게 도와주는 extension에 대해 설명합니다.
 date: 2024-02-24 23:37:23 +0900
 last_modified_at: 2024-02-24 23:37:23 +0900
 categories: [ AI, Stable Diffusion ]

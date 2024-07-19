@@ -23,7 +23,7 @@ image:
 
 Stable Diffusion에서 `easy-prompt-selector` Extension을 설치하는 방법은 아래와 같습니다.
 
-- 메뉴 탭에서 `Extensions`를 틀릭합니다.
+- 메뉴 탭에서 `Extensions`를 클릭합니다.
 
 ![Extensions 클릭](/assets/img/posts/ai/stable-diffusion/2024-02-24-stable-diffusion-easy-prompt-selector/ex1.webp)
 _Extensions 클릭_

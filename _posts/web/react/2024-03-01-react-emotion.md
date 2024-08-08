@@ -9,7 +9,7 @@ pin: false
 math: false
 mermaid: false
 image:
-  path: https://github.com/user-attachments/assets/8a316ce9-4a1b-4b3b-9f7e-fbc98fc8952c
+  path: /assets/img/posts/web/react/2024-03-01-react-emotion/thumbnail.webp
   alt: React에서 Emotion 사용하기
 ---
 

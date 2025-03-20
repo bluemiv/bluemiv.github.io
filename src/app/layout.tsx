@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendardFont.className} antialiased`}>
+      <body className={`${pretendardFont.className} antialiased min-h-screen`}>
         <Header />
         {children}
       </body>

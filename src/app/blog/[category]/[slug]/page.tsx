@@ -1,23 +1,24 @@
-import { getAllPosts } from '@/entities/post/api';
+import { getAllPosts, getPost } from '@/entities/post/api';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
 }
 
-// export async function generateMetadata({ params }: Props) {
-//   const { category, slug } = await params;
-//   const post = getPost(category, slug);
-//
-//   return {
-//     title: post?.meta?.title || process.env.NEXT_PUBLIC_APP_TITLE,
-//     description: post?.meta?.description || process.env.NEXT_PUBLIC_APP_DESCRIPTION,
-//     openGraph: {
-//       title: post?.meta?.title || process.env.NEXT_PUBLIC_APP_TITLE,
-//       description: post?.meta?.description || process.env.NEXT_PUBLIC_APP_DESCRIPTION,
-//       images: post?.meta?.image ? [{ url: post.meta.image }] : [],
-//     },
-//   };
-// }
+export async function generateMetadata({ params }: Props) {
+  const { category, slug } = await params;
+  const post = getPost(category, slug);
+  const common = {
+    title: post.metadata.title,
+    description: post.metadata.description,
+  };
+  return {
+    ...common,
+    openGraph: {
+      ...common,
+      images: post.metadata.thumbnail ? [{ url: post.metadata.thumbnail }] : [],
+    },
+  };
+}
 
 export default async function Page(props: Props) {
   console.log(props);

@@ -21,11 +21,11 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function Page(props: Props) {
-  console.log(props);
-  // const { category, slug } = await props.params;
-  // const post = getPost(category, slug);
+  const { category, slug } = await props.params;
+  const post = getPost(category, slug);
+
   return (
-    <main className="mx-auto max-w-[1100px] w-full flex flex-col-reverse md:flex-row mt-xl">
+    <main>
       {/*<article className="max-w-[800px] w-full p-md">*/}
       {/*  <div className="flex flex-col gap-lg mb-3xl">*/}
       {/*    <div className="flex flex-col gap-sm">*/}

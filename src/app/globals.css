@@ -23,15 +23,15 @@
     @keyframes splitText {
         0% {
             opacity: 0;
-            transform: translateY(3rem) scale(0.9);
+            transform: translateY(3rem) scale(0.95);
         }
         60% {
             opacity: 0.5;
-            transform: translateY(-0.25rem) scale(1.05);
+            transform: translateY(-0.25rem) scale(1.03);
         }
         80% {
             opacity: 1;
-            transform: translateY(0.05rem) scale(0.98);
+            transform: translateY(0.05rem) scale(0.99);
         }
         100% {
             opacity: 1;

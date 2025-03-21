@@ -1,3 +1,5 @@
+import { getAllPosts } from '@/entities/post/api';
+
 interface Props {
   params: Promise<{ category: string; slug: string }>;
 }
@@ -60,12 +62,12 @@ export default async function Page(props: Props) {
   );
 }
 
-// export async function generateStaticParams() {
-//   const posts = getAllPosts();
-//   return posts.map((post) => ({
-//     category: post.category,
-//     slug: post.slug,
-//   }));
-// }
+export async function generateStaticParams() {
+  const posts = getAllPosts();
+  return posts.map((post) => ({
+    category: post.metadata.category,
+    slug: post.metadata.slug,
+  }));
+}
 
-// export const dynamicParams = false;
+export const dynamicParams = false;

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import clsx from 'clsx';
-import { PropsWithComponent } from '@/shared/types';
+import { PropsWithComponent } from '@/shared/types/props';
 
 interface Props {
   href: string;

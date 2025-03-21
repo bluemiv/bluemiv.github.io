@@ -52,9 +52,6 @@ jobs:
       - name: Build project
         run: |
           bun run build
-          cd out
-          touch .nojekyll
-          cd ../
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -8,4 +8,34 @@
     --spacing-xl: 2rem;
     --spacing-2xl: 3rem;
     --spacing-3xl: 5rem;
+
+    --animate-fade-in: fadeIn 0.1s ease-in-out forwards;
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+
+    --animate-split-text: splitText 0.3s ease-in-out forwards;
+    @keyframes splitText {
+        0% {
+            opacity: 0;
+            transform: translateY(3rem) scale(0.9);
+        }
+        60% {
+            opacity: 0.5;
+            transform: translateY(-0.25rem) scale(1.05);
+        }
+        80% {
+            opacity: 1;
+            transform: translateY(0.05rem) scale(0.98);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
 }

@@ -6,8 +6,8 @@ import NavLink from '@/widgets/NavLink';
 
 export default function Header() {
   return (
-    <header className="w-full px-md h-[50px] sticky top-0 z-10 bg-white/80 backdrop-blur-sm">
-      <nav className="max-w-[1280px] w-full h-full mx-auto flex items-center justify-between">
+    <header className="w-full px-md h-[50px] sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-slate-100">
+      <nav className="w-full h-full mx-auto flex items-center justify-between">
         <Link href={ROUTE_PATH.ROOT} className="font-semibold italic">
           Bluemiv.
         </Link>

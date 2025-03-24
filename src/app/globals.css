@@ -38,4 +38,31 @@
             transform: translateY(0) scale(1);
         }
     }
+
+    --animate-theme-icon-fade-in: themeIconFadeIn 0.15s ease-in-out forwards;
+    @keyframes themeIconFadeIn {
+        from {
+            opacity: 0;
+            transform: translate(45%, 40%) rotate(45deg);
+        }
+        to {
+            opacity: 1;
+            transform: rotate(0deg)
+        }
+    }
+
+    --animate-theme-icon-fade-out: themeIconFadeOut 0.15s ease-in-out;
+    @keyframes themeIconFadeOut {
+        from {
+            opacity: 1;
+            transform: rotate(0deg)
+        }
+        to {
+            opacity: 0;
+            transform: translate(-45%, 40%) rotate(-45deg)
+        }
+
+    }
+
+
 }

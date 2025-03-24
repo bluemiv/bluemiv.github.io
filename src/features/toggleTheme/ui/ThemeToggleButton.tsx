@@ -10,19 +10,19 @@ export default function ThemeToggleButton() {
 
   useEffect(() => {
     const isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const localStorageTheme = localStorage.getItem('theme')?.toLowerCase() || 'light';
-    const curTheme = localStorageTheme === 'dark' || isDarkTheme ? 'dark' : 'light';
-    setThemeValue(curTheme);
+    const curTheme =
+      localStorage.getItem('theme')?.toLowerCase() ?? (isDarkTheme ? 'dark' : 'light');
+    setThemeValue(curTheme as 'light' | 'dark');
   }, []);
 
   const setThemeValue = (nextTheme: 'light' | 'dark') => {
-    setTheme(nextTheme);
     localStorage.setItem('theme', nextTheme);
     if (nextTheme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
+    setTheme(nextTheme);
   };
 
   const toggleTheme = () => {

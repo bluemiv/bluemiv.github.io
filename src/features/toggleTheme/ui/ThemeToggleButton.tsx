@@ -1,27 +1,21 @@
 'use client';
 
+import { useLayoutEffect, useRef, useState } from 'react';
 import Icons from '@/widgets/Icons';
-import { useEffect, useRef, useState } from 'react';
 
 export default function ThemeToggleButton() {
   const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
-  const [isFadeOut, setIsFadeOut] = useState<boolean>(false);
-  const timeoutRef = useRef<null | NodeJS.Timeout>(null);
+  const [isFadeOut, setIsFadeOut] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const isDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const curTheme =
-      localStorage.getItem('theme')?.toLowerCase() ?? (isDarkTheme ? 'dark' : 'light');
-    setThemeValue(curTheme as 'light' | 'dark');
+  useLayoutEffect(() => {
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'dark' : 'light');
   }, []);
 
   const setThemeValue = (nextTheme: 'light' | 'dark') => {
     localStorage.setItem('theme', nextTheme);
-    if (nextTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
     setTheme(nextTheme);
   };
 

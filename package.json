@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/lodash": "^4.17.16",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "gray-matter": "^4.0.3",

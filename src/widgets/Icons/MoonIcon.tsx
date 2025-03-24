@@ -1,4 +1,4 @@
-import { PropsWithClassName } from '@/types/base';
+import { PropsWithClassName } from '@/shared/types/props';
 
 export default function MoonIcon({ className }: PropsWithClassName) {
   return (

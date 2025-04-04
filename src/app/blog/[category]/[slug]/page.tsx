@@ -28,9 +28,9 @@ export default async function Page(props: Props) {
   return (
     <div className="flex items-start justify-start gap-md">
       <aside className="hidden md:inline-block">sidemenu</aside>
-      <main className="relative flex-1">
+      <main className="relative flex-1 px-md">
         <div className="mx-auto max-w-[1200px] w-full flex items-start justify-start gap-md">
-          <article className="max-w-[900px] w-full">
+          <article className="max-w-[900px] w-full min-w-0">
             <PostMdxContent content={post.content} />
           </article>
           <aside className="max-w-[300px] w-full sticky top-[50px]">toc</aside>

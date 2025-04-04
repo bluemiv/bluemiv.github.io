@@ -25,7 +25,9 @@ export default function GridPostCard({ post }: Props) {
       </div>
       <div className="flex flex-col gap-md p-md">
         <div className="font-semibold">{post.metadata.title}</div>
-        <div className="line-clamp-2 text-slate-600">{post.metadata.description}</div>
+        <div className="line-clamp-2 text-app-sub-text dark:text-app-dark-sub-text">
+          {post.metadata.description}
+        </div>
       </div>
     </Link>
   );

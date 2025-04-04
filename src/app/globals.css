@@ -11,7 +11,14 @@
     --spacing-2xl: 3rem;
     --spacing-3xl: 5rem;
 
-    --color-app-text: #121212;
+    --color-app-text: #212529;
+    --color-app-dark-text: #D1D7E0;
+    --color-app-sub-text: #59636E;
+    --color-app-dark-sub-text: #9198A1;
+    --color-app-bg: #ffffff;
+    --color-app-dark-bg: #212830;
+    --color-app-nav-bg: #818b981a;
+    --color-app-dark-nav-bg: #656c7626;
 
     --animate-fade-in: fadeIn 0.1s ease-in-out forwards;
     @keyframes fadeIn {
@@ -69,6 +76,6 @@
 
 }
 
-body {
-    @apply text-app-text dark:text-white bg-white dark:bg-[#121212];
+html, body, html body {
+    @apply text-app-text dark:text-app-dark-text bg-app-bg dark:bg-app-dark-bg;
 }

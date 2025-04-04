@@ -50,7 +50,7 @@ export default async function MDXComponent({ content }: Props) {
               width={768}
               height={300}
               {...(props as ImageProps)}
-              className="block w-full h-auto rounded bg-white/60"
+              className="block w-full h-auto rounded"
             />
             {props.alt && (
               <figcaption className="mt-sm text-center text-secondary italic">
@@ -61,19 +61,17 @@ export default async function MDXComponent({ content }: Props) {
         ),
         a: (props) => (
           <Link
-            className="underline font-semibold md:transition-colors md:ease-in-out md:duration-150 md:hover:text-primary-hover md:active:text-primary-active cursor-pointer"
+            className="underline font-semibold md:transition-colors md:ease-in-out md:duration-150 cursor-pointer"
             {...props}
           />
         ),
         em: (props) => <em className="italic" {...props} />,
         u: (props) => <em className="underline" {...props} />,
         table: (props) => <table className="overflow-hidden w-full mb-lg text-left" {...props} />,
-        thead: (props) => <thead className="bg-bg-secondary" {...props} />,
-        th: (props) => (
-          <th className="px-md py-sm font-semibold border border-secondary-200" {...props} />
-        ),
-        td: (props) => <td className="px-md py-sm border border-secondary-200" {...props} />,
-        tr: (props) => <tr className="hover:bg-bg-hover" {...props} />,
+        thead: (props) => <thead className="" {...props} />,
+        th: (props) => <th className="px-md py-sm font-semibold border" {...props} />,
+        td: (props) => <td className="px-md py-sm border" {...props} />,
+        tr: (props) => <tr className="" {...props} />,
         figure: (props) => <figure {...props} />,
         ul: (props) => (
           <ul className="list-disc pl-md md:pl-lg mb-md marker:text-text-secondary" {...props} />

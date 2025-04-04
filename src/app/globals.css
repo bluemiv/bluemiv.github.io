@@ -79,3 +79,77 @@
 html, body, html body {
     @apply text-app-text dark:text-app-dark-text bg-app-bg dark:bg-app-dark-bg;
 }
+
+/* code highlight */
+pre {
+    @apply px-0 py-md rounded-lg overflow-x-auto;
+}
+
+pre [data-line] {
+    @apply px-md py-xs w-full min-w-0 block;
+}
+
+p > code {
+    @apply text-[#5067A8];
+}
+
+p > code,
+span[data-rehype-pretty-code-figure] code {
+    @apply rounded p-xs text-sm bg-[#333955]/5 dark:bg-[#171e2a];
+}
+
+code[data-line-numbers] {
+    counter-reset: line;
+}
+
+code[data-line-numbers] > [data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    @apply inline-block w-md mr-md text-right text-gray-500;
+}
+
+figure[data-rehype-pretty-code-figure] pre {
+    @apply bg-[#333955] dark:bg-[#171e2a];
+}
+
+figure[data-rehype-pretty-code-figure] {
+    @apply mt-sm mb-md;
+}
+
+[data-rehype-pretty-code-title] {
+    @apply text-zinc-200 rounded-t-lg py-2 px-3 font-semibold text-sm bg-[#333955] dark:bg-[#171e2a];
+}
+
+figure[data-rehype-pretty-code-figure]:has(> [data-rehype-pretty-code-title]) pre {
+    @apply rounded-t-none overflow-auto;
+}
+
+[data-highlighted-line] {
+    background: rgba(200, 200, 255, 0.1);
+}
+
+[data-highlighted-chars] {
+    @apply rounded;
+    background: rgba(200, 200, 255, 0.1);
+    box-shadow: 0 0 0 4px rgb(82 82 91 / 0.5);
+}
+
+[data-chars-id] {
+    @apply shadow-none p-1 border-b-2;
+}
+
+[data-chars-id] span {
+    color: inherit !important;
+}
+
+[data-chars-id='v'] {
+    @apply text-pink-300 bg-rose-800/50 border-b-pink-600 font-bold;
+}
+
+[data-chars-id='s'] {
+    @apply text-yellow-300 bg-yellow-800/50 border-b-yellow-600 font-bold;
+}
+
+[data-chars-id='i'] {
+    @apply text-purple-200 bg-purple-800/50 border-b-purple-600 font-bold;
+}

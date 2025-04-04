@@ -90,7 +90,7 @@ pre [data-line] {
 }
 
 p > code {
-    @apply text-[#5067A8];
+    @apply text-[#5067A8] dark:text-[#c8d3f5];
 }
 
 p > code,

@@ -1,5 +1,5 @@
 import { getAllPosts, getPost } from '@/entities/post/api';
-import { PostMdxContent } from '@/entities/post/ui';
+import { PostMdxContent, TableOfContent } from '@/entities/post/ui';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
@@ -33,7 +33,9 @@ export default async function Page(props: Props) {
           <article className="max-w-[900px] w-full min-w-0">
             <PostMdxContent content={post.content} />
           </article>
-          <aside className="max-w-[300px] w-full sticky top-[50px]">toc</aside>
+          <aside className="max-w-[300px] w-full sticky top-[50px]">
+            <TableOfContent />
+          </aside>
         </div>
       </main>
     </div>

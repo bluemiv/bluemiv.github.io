@@ -33,7 +33,7 @@ export default function ThemeToggleButton() {
   if (theme === null) return <div className="w-[34px] h-[34px]" />;
   return (
     <button
-      className="flex items-center justify-center w-[34px] h-[34px] rounded transition duration-150 ease-in-out hover:bg-slate-100 active:bg-slate-200 cursor-pointer"
+      className="flex items-center justify-center w-[34px] h-[34px] rounded transition duration-150 ease-in-out cursor-pointer hover:bg-app-nav-bg dark:hover:bg-app-dark-nav-bg"
       onClick={toggleTheme}
     >
       <div className={isFadeOut ? 'animate-theme-icon-fade-out' : 'animate-theme-icon-fade-in'}>

@@ -17,8 +17,8 @@
     --color-app-dark-sub-text: #9198A1;
     --color-app-bg: #ffffff;
     --color-app-dark-bg: #212830;
-    --color-app-nav-bg: #818b981a;
-    --color-app-dark-nav-bg: #656c7626;
+    --color-app-sub-bg: rgba(129, 139, 152, 0.1);
+    --color-app-dark-sub-bg: rgba(101, 108, 118, 0.2);
 
     --animate-fade-in: fadeIn 0.1s ease-in-out forwards;
     @keyframes fadeIn {

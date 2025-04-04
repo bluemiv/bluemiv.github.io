@@ -25,41 +25,16 @@ export default async function MDXComponent({ content }: Props) {
         },
       }}
       components={{
-        h1: (props) => (
-          <h1
-            className="font-bold text-4xl md:text-5xl mt-2xl mb-xl text-text-primary"
-            {...props}
-          />
+        h1: (props) => <h1 className="font-bold text-4xl md:text-5xl mt-2xl mb-xl" {...props} />,
+        h2: (props) => <h2 className="font-bold text-2xl md:text-3xl mt-xl mb-lg" {...props} />,
+        h3: (props) => <h3 className="font-semibold text-xl md:text-2xl mt-xl mb-md " {...props} />,
+        h4: (props) => <h4 className="font-semibold text-lg md:text-xl mt-lg mb-md" {...props} />,
+        h5: (props) => <h5 className="font-semibold text-base md:text-lg mt-lg mb-md" {...props} />,
+        h6: (props) => <h6 className="font-semibold text-sm md:text-base mt-lg mb-md" {...props} />,
+        hr: (props) => (
+          <hr className="my-xl border-t-app-sub-bg dark:border-t-app-dark-sub-bg" {...props} />
         ),
-        h2: (props) => (
-          <h2 className="font-bold text-2xl md:text-3xl mt-xl mb-lg text-text-primary" {...props} />
-        ),
-        h3: (props) => (
-          <h3
-            className="font-semibold text-xl md:text-2xl mt-xl mb-md text-text-primary"
-            {...props}
-          />
-        ),
-        h4: (props) => (
-          <h4
-            className="font-semibold text-lg md:text-xl mt-lg mb-md text-text-primary"
-            {...props}
-          />
-        ),
-        h5: (props) => (
-          <h5
-            className="font-semibold text-base md:text-lg mt-lg mb-md text-text-primary"
-            {...props}
-          />
-        ),
-        h6: (props) => (
-          <h6
-            className="font-semibold text-sm md:text-base mt-lg mb-md text-text-primary"
-            {...props}
-          />
-        ),
-        hr: (props) => <hr className="my-xl border-bg-secondary" {...props} />,
-        strong: (props) => <strong className="font-bold text-text-primary" {...props} />,
+        strong: (props) => <strong className="font-bold" {...props} />,
         p: (props) => {
           if (typeof props.children === 'object') {
             const isImage = !!props.children?.props?.src && !props.children?.props?.children;

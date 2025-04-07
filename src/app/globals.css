@@ -103,10 +103,12 @@ pre [data-language="text"] {
     @apply text-[#c8d3f5];
 }
 
+li > code,
 p > code {
     @apply text-[#5067A8] dark:text-[#c8d3f5];
 }
 
+li > code,
 p > code,
 span[data-rehype-pretty-code-figure] code {
     @apply rounded p-xs text-sm bg-[#333955]/5 dark:bg-[#171e2a];

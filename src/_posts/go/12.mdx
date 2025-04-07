@@ -1,0 +1,184 @@
+---
+title: Go의 기본 문법 (타입과 변수 선언, 연산자)
+description: Go 언어의 기본 문법과 타입, 변수 선언 방식, 연산자에 대해 소개합니다.
+createdAt: 2025-04-07T23:58:44Z
+updatedAt: 2025-04-07T23:58:44Z
+tags: ['be', 'go']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/go/12/thumbnail.webp
+---
+
+## 1. Hello, World!
+
+프로그래밍을 처음 시작할때마다 작성해보는, "Hello, World!"를 콘솔에 출력하는 프로그램을 작성해봅시다.
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}
+```
+
+[코드 구조]
+- `package main`: Go 프로그램은 반드시 패키지로 구성되며, 실행 가능한 프로그램은 `main` 패키지로 시작해야 합니다.
+- `import "fmt"`: 표준 입출력을 다루는 표준 패키지 중 하나로, 화면에 출력할 때 자주 사용됩니다.
+- `func main()`: Go에서 실행의 진입점(entry point)은 `main` 함수입니다.
+- `fmt.Println("Hello, World!")`: 콘솔에 문자열을 출력합니다.
+
+---
+
+## 2. 변수와 상수
+
+Go 언어에서는 변수 선언이 매우 유연합니다. 명시적으로 타입을 지정할 수도 있고, 컴파일러가 자동으로 타입을 추론할 수도 있습니다.
+
+### 2.1. 변수 선언
+
+변수는 `var` 키워드를 사용하여 선언합니다. (변수는 프로그램 실행 중에 값을 변경할 수 있음)
+
+```go
+var userName string = "bluemiv"
+var userAge int = 33
+```
+
+**타입 추론을 이용한 선언**
+
+명시적으로 타입을 지정하지 않는 경우는 `:=` 연산자를 사용하여 선언할 수 있습니다.
+
+```go
+userEmail := "public.bluemiv@gmail.com"
+```
+
+**다중 변수 선언**
+
+콤마로 구분하여, 여러 변수를 한 번에 선언할 수 있습니다.
+
+```go
+var height, weight int = 170, 65
+```
+
+### 2.2. 상수 선언
+
+상수는 `const` 키워드를 사용하여 선언하며, 변수(`var`)와 다르게 변경이 불가능합니다.
+
+```go
+const maxLoginAttempts int = 5
+```
+
+### 2.3. 예시
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var foodName string = "김치찌개"
+	fmt.Println(foodName)
+	foodName = "된장찌개"
+	fmt.Println(foodName)
+
+	const maxCookingTime int = 30
+	fmt.Println(maxCookingTime)
+}
+```
+
+![변수/상수 선언](/r/i/go/12/1.webp)
+
+다음 코드와 같이 `const`로 선언된 상수를 변경하려고 하면 컴파일 에러가 발생합니다.
+
+```go {5,6}
+func main() {
+  ...
+  const maxCookingTime int = 30
+	fmt.Println(maxCookingTime)
+	maxCookingTime = 50
+	fmt.Println(maxCookingTime)
+}
+```
+
+![상수 변경시 컴파일 에러 발생](/r/i/go/12/2.webp)
+
+---
+
+## 3. 데이터 타입 (int, float, string, bool 등)
+
+Go는 정적 타입 언어로, 다양한 기본 데이터 타입을 제공합니다.
+
+### 3.1. 정수형(int, int8, int16, int32, int64)
+
+```go
+var userId int = 12345
+var score int32 = 100000
+```
+
+### 3.2. 부동소수점형(float32, float64)
+
+```go
+var gameRating float32 = 4.5
+var temperature float64 = 36.6
+```
+
+### 3.3. 문자열형(string)
+
+```go
+var celebrityName string = "아이유"
+```
+
+### 3.4. 불리언형(bool)
+
+```go
+var isRunning bool = true
+```
+
+### 3.5. 타입 검사
+
+```go
+fmt.Printf("type: %T\n", temperature)
+```
+
+![타입 검사](/r/i/go/12/3.webp)
+
+---
+
+## 4. 연산자
+
+Go는 기본적인 산술, 비교, 논리, 비트 연산자를 지원합니다.
+
+### 4.1. 산술 연산자
+
+```go
+var totalScore int = 80 + 15
+var remainAttempts int = 10 - 3
+var average float64 = 95.0 / 2.0
+```
+
+### 4.2. 비교 연산자
+
+```go
+var isHighScore bool = totalScore > 90
+```
+
+### 4.3. 논리 연산자
+
+```go
+var isEligible bool = (userAge > 18) && (isHighScore == true)
+```
+
+### 4.4. 복합 할당 연산자
+
+```go
+var views int = 100
+views += 10  // 110
+views *= 2   // 220
+```
+
+### 4.5. 비트 연산자
+
+```go
+var permissions uint = 0b1010
+permissions |= 0b0100  // OR 비트 연산
+```

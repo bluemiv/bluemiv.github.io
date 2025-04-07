@@ -81,7 +81,7 @@ export default async function MDXComponent({ content }: Props) {
           return <p className="mb-lg leading-6 md:leading-8" {...props} />;
         },
         img: (props) => (
-          <figure>
+          <figure className="mb-md">
             <Image
               width={768}
               height={300}
@@ -89,7 +89,7 @@ export default async function MDXComponent({ content }: Props) {
               className="block w-full h-auto rounded"
             />
             {props.alt && (
-              <figcaption className="mt-sm text-center text-secondary italic">
+              <figcaption className="mt-sm text-center text-app-sub-text dark:text-app-dark-sub-text italic">
                 {props.alt}
               </figcaption>
             )}

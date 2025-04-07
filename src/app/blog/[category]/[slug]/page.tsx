@@ -1,6 +1,5 @@
 import { getAllPosts, getPost } from '@/entities/post/api';
-import { PostMdxContent, TableOfContent } from '@/entities/post/ui';
-import ArticleMetadata from '../../../../entities/post/ui/ArticleMetadata';
+import { ArticleMetadata, PostMdxContent, TableOfContent } from '@/entities/post/ui';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import ArticleThumbnail from './ArticleThumbnail';
 import { Post } from '../model';
+import { Tag } from '@/entities/post/ui/index';
 
 interface Props {
   post: Post;
@@ -13,6 +14,13 @@ export default function ArticleMetadata({ post }: Props) {
         <ArticleThumbnail thumbnail={post.metadata.thumbnail} alt={post.metadata.title} />
       )}
       <h1 className="font-semibold text-4xl">{post.metadata.title}</h1>
+      <div className="flex flex-wrap gap-sm">
+        {Array.from(new Set(post.metadata.tags))
+          .filter((v) => !!v?.trim())
+          .map((tag) => (
+            <Tag key={tag} tag={tag} />
+          ))}
+      </div>
       <div className="flex flex-col gap-xs text-sm text-app-sub-text dark:text-app-dark-sub-text">
         <div>{post.metadata.author}</div>
         <div className="flex gap-md">

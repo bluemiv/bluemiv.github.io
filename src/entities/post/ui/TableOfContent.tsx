@@ -54,8 +54,10 @@ export default function TableOfContent() {
                 }
               }}
               className={clsx(
-                'hover:text-primary-hover',
-                activeTocItemId === item.id ? 'md:text-primary md:font-semibold' : '',
+                'hover:text-app-primary dark:hover:text-app-dark-primary',
+                activeTocItemId === item.id
+                  ? 'md:text-app-primary dark:text-app-dark-primary md:font-semibold'
+                  : '',
                 {
                   'ml-0': item.level === 'h1' || item.level === 'h2',
                   'ml-[0.5rem]': item.level === 'h3',

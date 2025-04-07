@@ -3,4 +3,5 @@ export const ROUTE_PATH = {
   ABOUT: '/about',
   BLOG: '/blog',
   TAGS: '/tags',
+  CATEGORIES: '/categories',
 };

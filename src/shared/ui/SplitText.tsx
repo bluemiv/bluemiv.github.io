@@ -1,5 +1,5 @@
-import { PropsWithClassName } from '@/shared/types/props';
 import clsx from 'clsx';
+import { PropsWithClassName } from '@/shared/types/props';
 
 interface Props {
   startIndex?: number;

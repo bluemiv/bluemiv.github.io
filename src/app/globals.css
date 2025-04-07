@@ -99,6 +99,10 @@ pre [data-line] {
     @apply px-md py-xs w-full min-w-0 block;
 }
 
+pre [data-language="text"] {
+    @apply text-[#c8d3f5];
+}
+
 p > code {
     @apply text-[#5067A8] dark:text-[#c8d3f5];
 }

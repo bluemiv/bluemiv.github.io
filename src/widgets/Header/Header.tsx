@@ -5,7 +5,7 @@ import { ThemeToggleButton } from '@/features/toggleTheme';
 
 export default function Header() {
   return (
-    <header className="w-full px-md h-[50px] sticky inset-0 z-10 bg-white/80 dark:bg-app-dark-bg/20 backdrop-blur-sm border-b border-app-sub-bg dark:border-app-dark-sub-bg">
+    <header className="w-full px-md h-[50px] sticky inset-0 z-10 bg-white/30 dark:bg-app-dark-bg/30 backdrop-blur-sm border-b border-app-sub-bg dark:border-app-dark-sub-bg">
       <nav className="w-full h-full mx-auto flex items-center justify-between gap-md">
         <Logo />
         <ul className="flex-1 flex justify-end gap-md">

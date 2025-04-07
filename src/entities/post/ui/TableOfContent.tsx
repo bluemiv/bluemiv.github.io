@@ -39,7 +39,7 @@ export default function TableOfContent() {
   }, []);
 
   return (
-    <div className="hidden w-full sticky top-[50px] h-auto lg:inline-block lg:max-w-[250px] md:sticky md:right-0 md:top-header">
+    <div className="hidden w-full sticky top-[50px] h-auto lg:inline-block lg:max-w-[250px] md:sticky md:right-0 md:top-header py-md">
       <div className="font-semibold pb-md mb-md">목차</div>
       <ul className="flex flex-col gap-md text-sm max-h-[75vh] overflow-y-auto pb-md border-b md:pb-0 md:border-none">
         {tocItems.map((item) => (

@@ -25,12 +25,48 @@ export default async function MDXComponent({ content }: Props) {
         },
       }}
       components={{
-        h1: (props) => <h1 className="font-bold text-4xl md:text-5xl mt-2xl mb-xl" {...props} />,
-        h2: (props) => <h2 className="font-bold text-2xl md:text-3xl mt-xl mb-lg" {...props} />,
-        h3: (props) => <h3 className="font-semibold text-xl md:text-2xl mt-xl mb-md " {...props} />,
-        h4: (props) => <h4 className="font-semibold text-lg md:text-xl mt-lg mb-md" {...props} />,
-        h5: (props) => <h5 className="font-semibold text-base md:text-lg mt-lg mb-md" {...props} />,
-        h6: (props) => <h6 className="font-semibold text-sm md:text-base mt-lg mb-md" {...props} />,
+        h1: (props) => (
+          <Link href={`#${props.id}`}>
+            <h1 className="font-bold text-4xl md:text-5xl mt-2xl mb-xl cursor-pointer" {...props} />
+          </Link>
+        ),
+        h2: (props) => (
+          <Link href={`#${props.id}`}>
+            <h2 className="font-bold text-2xl md:text-3xl mt-xl mb-lg cursor-pointer" {...props} />
+          </Link>
+        ),
+        h3: (props) => (
+          <Link href={`#${props.id}`}>
+            <h3
+              className="font-semibold text-xl md:text-2xl mt-xl mb-md cursor-pointer"
+              {...props}
+            />
+          </Link>
+        ),
+        h4: (props) => (
+          <Link href={`#${props.id}`}>
+            <h4
+              className="font-semibold text-lg md:text-xl mt-lg mb-md cursor-pointer"
+              {...props}
+            />
+          </Link>
+        ),
+        h5: (props) => (
+          <Link href={`#${props.id}`}>
+            <h5
+              className="font-semibold text-base md:text-lg mt-lg mb-md cursor-pointer"
+              {...props}
+            />
+          </Link>
+        ),
+        h6: (props) => (
+          <Link href={`#${props.id}`}>
+            <h6
+              className="font-semibold text-sm md:text-base mt-lg mb-md cursor-pointer"
+              {...props}
+            />
+          </Link>
+        ),
         hr: (props) => (
           <hr className="my-xl border-t-app-sub-bg dark:border-t-app-dark-sub-bg" {...props} />
         ),
@@ -61,7 +97,7 @@ export default async function MDXComponent({ content }: Props) {
         ),
         a: (props) => (
           <Link
-            className="underline font-semibold md:transition-colors md:ease-in-out md:duration-150 cursor-pointer"
+            className="underline font-semibold md:transition-colors md:ease-in-out md:duration-150 cursor-pointer hover:text-app-primary dark:hover:text-app-dark-primary"
             {...props}
           />
         ),

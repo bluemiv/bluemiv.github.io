@@ -82,10 +82,124 @@ go의 컴파일 속도가 빠른 이유
 
 자세한 내용은 "[Go는 왜 컴파일 속도가 빠를까?](/blog/go/11)" 를 참고해주세요.
 
+#### 1.1.4. 단일 바이너리로 배포 가능
+
+Go는 모든 의존성을 포함한 단일 실행 파일로 패키징되기 때문에 배포가 매우 간편하고, 복잡한 환경 설정 없이도 다른 시스템에서 바로 실행 가능하다는 장점이 있습니다. 이는 특히 클라우드 환경에서 유용합니다.
+
+#### 1.1.5. 다양한 표준 라이브러리 제공
+
+Go는 네트워크, 웹 서버, JSON 처리 등 다양한 기능들을 기본적으로 표준 라이브러리로 지원합니다.
+
+예를 들어, 간단한 웹 서버를 구현한다고 하면, 다음 코드와 같이 별도의 프레임워크 없이도 간단히 구성할 수 있습니다.
+
+```go
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintln(w, "안녕하세요, Go 서버입니다.")
+}
+
+func main() {
+    http.HandleFunc("/", helloHandler)
+    http.ListenAndServe(":8081", nil)
+}
+```
+
+![웹 서버 실행](/r/i/go/10/3.webp)
+
 ### 1.2. Go 언어의 단점
 
+#### 1.2.1. 제네릭(generic) 지원이 늦음
+
+Go는 오랫동안 제네릭(`generic`)을 지원하지 않았습니다. 이로인해 다양한 타입을 처리할 때 반복적인 코드가 늘어날 수 밖에 없었습니다. 최근 `1.18 버전`부터 제네릭이 도입되었지만, 여전히 사용법이 제한적인 단점이 있습니다.
+
+```go
+// Go 1.18 이상에서의 제네릭 사용 예시
+package main
+
+import "fmt"
+
+func printItems[T any](items []T) {
+    for _, item := range items {
+        fmt.Println(item)
+    }
+}
+
+func main() {
+    names := []string{"아이유", "지드래곤", "뷔"}
+    printItems(names)
+
+    numbers := []int{1, 2, 3}
+    printItems(numbers)
+}
+```
+
+![Go의 제네릭(generic)](/r/i/go/10/4.webp)
+
+과거에는 이와 같은 제네릭 사용이 불가능했기 때문에 interface{}로 처리하거나 별도 타입별 함수가 필요했다.
+
+#### 1.2.2. 번거로운 에러 처리 방식
+
+Go는 예외 처리(`exception`)를 지원하지 않습니다. 함수에서 에러를 직접 반환하고 이를 체크하는 방식을 사용합니다. 이는 코드가 장황해져 복잡해지고 가독성이 떨어질 수 있다는 단점이 있습니다.
+
+```go {10, 17-20}
+package main
+
+import (
+    "errors"
+    "fmt"
+)
+
+func divide(numerator, denominator int) (int, error) {
+    if denominator == 0 {
+        return 0, errors.New("0으로 나눌 수 없습니다")
+    }
+    return numerator / denominator, nil
+}
+
+func main() {
+    result, err := divide(10, 0)
+    if err != nil {
+        fmt.Println("에러 발생:", err)
+        return
+    }
+    fmt.Println("결과:", result)
+}
+```
+
+![에러 처리](/r/i/go/10/5.webp)
+
+에러를 매번 체크하고 처리해야 하므로 코드 중복이 많아질 수 있습니다.
+
+#### 1.2.3. 제한적인 객체 지향
+
+Go는 클래스와 상속이 없어서 복잡하지 않고 간단할 수 있으나, 객체지향 설계에 익숙한 개발자에게는 다소 불편하게 느껴질 수 있다.
+
+#### 1.2.4. GUI 프로그래밍에 적합하지 않음
+
+Go는 서버 개발이나 시스템 프로그래밍에 특화되어 있으며, 데스크탑 GUI 애플리케이션 개발에는 적합하지 않습니다. 대부분 Go의 GUI 프레임워크는 타 언어에 비해 성숙도가 낮습니다.
 
 ---
 
 ## 2. MacOXS에서 설치 방법
 
+MacOSX에서 Go를 사용하기 위해 homebrew를 사용하여 설치하면 편리합니다. 아래 명령어를 사용하여 Go를 설치합니다.
+
+```shell
+brew install go
+```
+
+설치 이후 go version 명령어를 사용하여 제대로 설치가 되었는지 확인합니다.
+
+```shell
+go version
+```
+
+```text
+go version go1.24.2 darwin/arm64
+```

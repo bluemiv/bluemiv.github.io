@@ -1,5 +1,6 @@
 import { getAllPosts, getPost } from '@/entities/post/api';
 import { ArticleMetadata, PostMdxContent, TableOfContent } from '@/entities/post/ui';
+import { Sidebar } from '@/widgets/Sidebar';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
@@ -26,17 +27,15 @@ export default async function Page(props: Props) {
   const post = getPost(category, slug);
 
   return (
-    <div className="flex items-start justify-start gap-md">
-      <aside className="hidden md:inline-block">sidemenu</aside>
+    <div className="flex items-start justify-start">
+      <Sidebar />
       <main className="relative flex-1 px-md">
         <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-md">
-          <article className="animate-fade-in max-w-[750px] w-full min-w-0">
+          <article className="animate-fade-in max-w-[1000px] lg:max-w-[750px] w-full min-w-0">
             <ArticleMetadata post={post} />
             <PostMdxContent content={post.content} />
           </article>
-          <aside className="hidden md:inline-block md:max-w-[250px] w-full sticky top-[50px]">
-            <TableOfContent />
-          </aside>
+          <TableOfContent />
         </div>
       </main>
     </div>

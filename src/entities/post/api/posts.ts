@@ -50,6 +50,11 @@ export const getPost = (category: string, slug: string): Post => {
   return parsePost(filePath, category);
 };
 
+/**
+ * Tag 값에 해당하는 posts를 반환
+ * @param tag
+ * @param page
+ */
 export const getPostsByTag = (tag: string, page?: { limit: number; offset: number }): Post[] => {
   const offset = page?.offset ?? 0;
   const limit = page?.limit ?? 10;
@@ -62,4 +67,22 @@ export const getPostsByTag = (tag: string, page?: { limit: number; offset: numbe
  */
 export const getLatestPosts = (count = 5): Post[] => {
   return getAllPosts().slice(0, count);
+};
+
+/**
+ * 모든 카테고리를 가져온다.
+ */
+export const getCategories = () => {
+  const posts = getAllPosts();
+  const categories = Array.from(
+    new Set(
+      posts
+        .reduce((acc: string[], post) => {
+          acc.push(post.metadata.category);
+          return acc;
+        }, [])
+        .filter((v) => !!v),
+    ),
+  );
+  return categories.sort((p, n) => p.localeCompare(n));
 };

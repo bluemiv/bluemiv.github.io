@@ -57,11 +57,11 @@ export default function TableOfContent() {
                 'hover:text-primary-hover',
                 activeTocItemId === item.id ? 'md:text-primary md:font-semibold' : '',
                 {
-                  'pl-0': item.level === 'h1' || item.level === 'h2',
-                  'pl-[0.5rem]': item.level === 'h3',
-                  'pl-[1rem]': item.level === 'h4',
-                  'pl-[1.5rem]': item.level === 'h5',
-                  'pl-[2rem]': item.level === 'h6',
+                  'ml-0': item.level === 'h1' || item.level === 'h2',
+                  'ml-[0.5rem]': item.level === 'h3',
+                  'ml-[1rem]': item.level === 'h4',
+                  'ml-[1.5rem]': item.level === 'h5',
+                  'ml-[2rem]': item.level === 'h6',
                 },
               )}
             >

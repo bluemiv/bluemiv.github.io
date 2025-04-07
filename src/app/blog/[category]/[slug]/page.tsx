@@ -1,7 +1,6 @@
-import dayjs from 'dayjs';
 import { getAllPosts, getPost } from '@/entities/post/api';
 import { PostMdxContent, TableOfContent } from '@/entities/post/ui';
-import ArticleThumbnail from '../../../../entities/post/ui/ArticleThumbnail';
+import ArticleMetadata from '../../../../entities/post/ui/ArticleMetadata';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
@@ -32,28 +31,8 @@ export default async function Page(props: Props) {
       <aside className="hidden md:inline-block">sidemenu</aside>
       <main className="relative flex-1 px-md">
         <div className="mx-auto max-w-[1200px] w-full flex items-start justify-start gap-md">
-          <article className="max-w-[940px] w-full min-w-0">
-            <div className="flex flex-col gap-md pb-2xl mb-lg">
-              {post.metadata.thumbnail && (
-                <ArticleThumbnail thumbnail={post.metadata.thumbnail} alt={post.metadata.title} />
-              )}
-              <h1 className="font-semibold text-4xl">{post.metadata.title}</h1>
-              <div className="flex flex-col gap-xs text-sm text-app-sub-text dark:text-app-dark-sub-text">
-                <div>{post.metadata.author}</div>
-                <div className="flex gap-md">
-                  {post.metadata.updatedAt &&
-                    !dayjs(post.metadata.createdAt).isSame(
-                      dayjs(post.metadata.updatedAt),
-                      'minutes',
-                    ) && (
-                      <div>
-                        최종 수정일: {dayjs(post.metadata.updatedAt).format('YYYY-MM-DD HH:mm:ss')}
-                      </div>
-                    )}
-                  <div>작성일: {dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>
-                </div>
-              </div>
-            </div>
+          <article className="animate-fade-in max-w-[940px] w-full min-w-0">
+            <ArticleMetadata post={post} />
             <PostMdxContent content={post.content} />
           </article>
           <aside className="hidden md:inline-block md:max-w-[260px] w-full sticky top-[50px]">

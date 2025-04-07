@@ -29,12 +29,12 @@ export default async function Page(props: Props) {
     <div className="flex items-start justify-start gap-md">
       <aside className="hidden md:inline-block">sidemenu</aside>
       <main className="relative flex-1 px-md">
-        <div className="mx-auto max-w-[1200px] w-full flex items-start justify-start gap-md">
-          <article className="animate-fade-in max-w-[940px] w-full min-w-0">
+        <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-md">
+          <article className="animate-fade-in max-w-[750px] w-full min-w-0">
             <ArticleMetadata post={post} />
             <PostMdxContent content={post.content} />
           </article>
-          <aside className="hidden md:inline-block md:max-w-[260px] w-full sticky top-[50px]">
+          <aside className="hidden md:inline-block md:max-w-[250px] w-full sticky top-[50px]">
             <TableOfContent />
           </aside>
         </div>

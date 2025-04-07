@@ -50,6 +50,12 @@ export const getPost = (category: string, slug: string): Post => {
   return parsePost(filePath, category);
 };
 
+export const getPostsByTag = (tag: string, page?: { limit: number; offset: number }): Post[] => {
+  const offset = page?.offset ?? 0;
+  const limit = page?.limit ?? 10;
+  return getAllPosts().slice(offset, offset + limit);
+};
+
 /**
  * 최근에 작성된 글을 가져온다.
  * @param count 가져올 글의 개수 (default: 5)

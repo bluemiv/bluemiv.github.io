@@ -40,9 +40,9 @@ export const getAllPosts = (): Post[] => {
     });
   });
 
-  return posts.sort(
-    (a, b) => dayjs(b.metadata.createdAt).unix() - dayjs(a.metadata.createdAt).unix(),
-  );
+  return posts
+    .filter((post) => post.metadata.release)
+    .sort((a, b) => dayjs(b.metadata.createdAt).unix() - dayjs(a.metadata.createdAt).unix());
 };
 
 export const getPost = (category: string, slug: string): Post => {

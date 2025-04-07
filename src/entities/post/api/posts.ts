@@ -74,15 +74,13 @@ export const getLatestPosts = (count = 5): Post[] => {
  */
 export const getCategories = () => {
   const posts = getAllPosts();
-  const categories = Array.from(
-    new Set(
-      posts
-        .reduce((acc: string[], post) => {
-          acc.push(post.metadata.category);
-          return acc;
-        }, [])
-        .filter((v) => !!v),
-    ),
-  );
-  return categories.sort((p, n) => p.localeCompare(n));
+  const categoriesInfo = posts.reduce((acc: { [key: string]: number }, post) => {
+    if (!acc?.[post.metadata.category]) {
+      acc[post.metadata.category] = 1;
+    } else {
+      acc[post.metadata.category] += 1;
+    }
+    return acc;
+  }, {});
+  return Object.entries(categoriesInfo).sort((p, n) => p[0].localeCompare(n[0]));
 };

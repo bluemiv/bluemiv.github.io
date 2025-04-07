@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import dayjs from 'dayjs';
 import { getAllPosts, getPost } from '@/entities/post/api';
 import { PostMdxContent, TableOfContent } from '@/entities/post/ui';
+import ArticleThumbnail from '../../../../entities/post/ui/ArticleThumbnail';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
@@ -35,17 +35,9 @@ export default async function Page(props: Props) {
           <article className="max-w-[940px] w-full min-w-0">
             <div className="flex flex-col gap-md pb-2xl mb-lg">
               {post.metadata.thumbnail && (
-                <div className="overflow-hidden rounded-lg w-full max-h-[280px] h-full bg-app-sub-bg">
-                  <Image
-                    className="w-full h-full object-cover duration-150 ease-in-out hover:scale-110"
-                    width={720}
-                    height={280}
-                    src={post.metadata.thumbnail}
-                    alt={post.metadata.title}
-                  />
-                </div>
+                <ArticleThumbnail thumbnail={post.metadata.thumbnail} alt={post.metadata.title} />
               )}
-              <h1 className="font-semibold text-4xl mb-md">{post.metadata.title}</h1>
+              <h1 className="font-semibold text-4xl">{post.metadata.title}</h1>
               <div className="flex flex-col gap-xs text-sm text-app-sub-text dark:text-app-dark-sub-text">
                 <div>{post.metadata.author}</div>
                 <div className="flex gap-md">

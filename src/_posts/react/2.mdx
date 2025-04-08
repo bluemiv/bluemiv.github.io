@@ -1,0 +1,146 @@
+---
+title: React의 useEffect와 useLayoutEffect 차이
+description: React 훅에는 useEffect와 useLayoutEffect가 있습니다. 비슷하지만 다른 useEffect와 useLayoutEffect 차이에 대해 설명하고 어떤 경우에 사용하면 좋을지 설명합니다.
+createdAt: 2025-01-09T22:28:36+09:00
+updatedAt: 2025-01-09T22:28:36+09:00
+tags: ['react', 'fe', 'useEffect', 'useLayoutEffect']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/2/thumbnail.webp
+---
+
+## 1. Rendering과 Painting
+
+useEffect와 useLayoutEffect의 차이를 살펴보기 전에 `Rendering`과 `Painting`의 차이를 먼저 이해해야합니다.
+
+- Rendering: 컴포넌트를 기반으로 Virtual DOM 생성, 이후 실제 DOM에 반영하는 과정 (DOM Tree 구성 및 업데이트)
+- Painting: CSS 및 레이아웃 계산 이후 업데이트된 DOM과 스타일을 픽셀로 화면에 그리는 과정
+
+---
+
+## 2. useEffect와 useLayoutEffect
+
+`useEffect`와 `useLayoutEffect`는 동일하게 컴포넌트가 렌더링된 이후에 특정 작업을 수행해야 할 때 사용합니다. 둘 다 비슷하게 보이지만 실행되는 타이밍이 다르다는 차이점이 있습니다.
+
+### 2.1. 실행되는 타이밍
+
+useEffect와 useLayoutEffect의 가장 큰 차이는, 브라우저가 화면을 그리는 시점을 기준으로 전/후 타이밍에 실행됩니다.
+
+- `useLayoutEffect`: 브라우저가 화면을 그리기 직전(즉 레이아웃이 계산된 직후)에 실행 됨
+- `useEffect`: 브라우저가 화면을 그린 후 실행 됨
+
+이해하기 쉽게 렌더링부터 실행되는 순서를 나열해보면
+
+1. 컴포넌트 렌더링 시작
+2. DOM 업데이트 (가상 DOM → 실제 DOM 반영)
+3. CSS 계산
+4. 레이아웃 계산
+5. **useLayoutEffect 실행**
+6. 브라우저가 화면을 그림 (Paint)
+7. **useEffect 실행**
+
+![출처: https://www.dhiwise.com/post/maximizing-react-uselayout-effect-for-ultimate-performance](/r/i/react/2/1.webp)
+
+## 3. 어떤 상황에서 사용해야 하는가?
+
+### 3.1. 스타일 변경시에는 useLayoutEffect 사용
+
+useLayoutEffect는 페인팅을 하기 전에 실행되기 때문에, 화면에 나타나기전에 처리해야하는 작업이 필요한 경우 사용하면 좋습니다.
+
+예를들어, Light/Dark 테마에 따라 화면을 밝게 혹은 어둡게 보이게 한다고 했을때 useEffect로 처리하게 되면, 페인팅 작업(브라우저가 화면을 그리는 과정) 이후 실행되므로 "깜빡이는 현상(`layout shift`)"이 발생할 수 있습니다.
+반면, useLayoutEffect를 사용하게 되면 레이아웃 계산 이후(페인팅 작업 직전)에 바로 실행되므로, 깜빡임 현상 없이 화면을 그릴 수 있습니다.
+
+```tsx
+import { useLayoutEffect } from 'react';
+
+function ThemeInitializer({ theme }: { theme: 'light' | 'dark' }) {
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+
+    if (theme === 'dark') {
+      root.style.backgroundColor = '#121212';
+      root.style.color = '#ffffff';
+    } else {
+      root.style.backgroundColor = '#ffffff';
+      root.style.color = '#000000';
+    }
+  }, [theme]);
+
+  return null;
+}
+```
+
+### 3.2. redirect 할 때 useLayoutEffect 사용
+
+스타일 외에도 저는 리다이렉트를 할때도 종종 사용합니다. 페인팅 연산을 하지 않고 리다이렉트를 하기 때문에 동일하게 깜빡이는 현상이 발생하지 않습니다.
+
+```tsx
+import { useLayoutEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+function ProfilePage() {
+  const navigate = useNavigate();
+  const isLoggedIn = false;
+
+  useLayoutEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login'); // 로그인이 안된 경우, 로그인 페이지로 리다이렉트
+    }
+  }, [isLoggedIn, navigate]);
+
+  return <div>로그인된 사용자의 프로필 정보입니다.</div>;
+}
+```
+
+이런 식으로 useLayoutEffect는 "화면에 뭔가 보이기 전에" 작업을 하고 싶을 때 활용하면 좋습니다.
+
+### 3.3. 화면 렌더링과 직접적인 관련이 없는 경우 useEffect 사용
+
+API 호출과 같이 비동기 요청이나 이벤트 리스너 등록 등, 화면 렌더링과 직접적인 관련이 없는 작업에서는 useEffect를 사용하는 것이 좋습니다.
+
+예를 들어, users API를 호출하여 사용자 목록을 가져오는 경우 useEffect를 사용하여 API 호출하고, 응답 값을 state로 관리하여 업데이트합니다.
+
+```tsx {6-14}
+import { useEffect, useState } from 'react';
+
+function UserList() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch('/api/users');
+      const data = await response.json();
+      setUsers(data);
+    }
+
+    fetchUsers();
+  }, []);
+
+  return (
+    <ul>
+      {users.map(user => <li key={user.id}>{user.name}</li>)}
+    </ul>
+  );
+}
+```
+
+## 4. useLayoutEffect 사용시 주의할 점
+
+useLayoutEffect는 렌더링부터 페인팅 작업 흐름에서 보면 동기적으로 동작하여, 블로킹(blocking)이 발생 할 수 있습니다. useLayoutEffect에서 복잡하고 비용이 비싼 연산을 처리한다면, 화면이 뜨지 않아 사용자 경험에 악영향을 줄 수 있습니다.
+
+1. 렌더링 됨
+2. **useLayoutEffect 실행 (Pending)**
+3. 브라우저가 Paint 수행
+4. 사용자에게 화면이 보임
+
+```tsx
+useLayoutEffect(() => {
+  // 비용이 비싼 작업
+  const start = performance.now();
+  while (performance.now() - start < 1000) {
+    // 1초 동안 화면이 멈춰 있음
+  }
+}, []);
+```
+
+따라서, useLayoutEffect를 사용할 때는 무거운 작업을 수행하면 안됩니다.

@@ -15,7 +15,7 @@ export default function Sidebar() {
               <li key={category}>
                 <Link
                   className="capitalize hover:text-app-primary dark:hover:text-app-dark-primary"
-                  href={`${ROUTE_PATH.CATEGORY}/${category}/1`}
+                  href={`${ROUTE_PATH.BLOG_CATEGORY}/${category}/1`}
                 >
                   {category}
                   <span className="ml-sm text-sm text-app-sub-text dark:text-app-dark-sub-text">

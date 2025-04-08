@@ -1,0 +1,172 @@
+---
+title: Next.js 15로 Github Blog를 만들 수 있을까?
+description: Github Pages와 Next.js 15로 블로그를 만들기 위한 기술 검토와 과정을 소개합니다. 더 나아가 SEO를 높이기 위해 sitemap.xml과 robots.txt를 생성하는 방법 또한 소개합니다.
+createdAt: 2025-01-07T20:13:19+09:00
+updatedAt: 2025-01-07T20:13:19+09:00
+tags: ['next.js', 'blog', 'github pages']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/nextjs/1/thumbnail.webp
+---
+
+## 1. Github 블로그를 만든 이유
+
+이전에는 Tistory로 블로그를 운영해왔으나, 티스토리 자체 광고 삽입으로 블로그 플랫폼을 옮겨야겠다는 생각이 들었습니다.
+
+개발 블로그 이전을 위해, 어떤 플랫폼을 사용하는 것이 좋을지 여러가지 검토를 해봤습니다.
+
+### 1.1. 네이버 블로그
+
+많은 사람들이 사용하는 네이버 블로그는 글을 작성하는 것에만 집중 할 수 있어서 편하고 빠르게 블로그를 시작할 수 있습니다. 하지만, 티스토리와 같이 `HTML`, `CSS`, `JavaScript`를 수정하여 블로그 디자인을 자유롭게 변경 할 수 없는 단점이 있습니다.
+
+### 1.2. 클라우드 호스팅
+
+AWS나 vercel 등으로 자체적으로 블로그를 만들 수 있고, 원하는 개발 언어 및 프레임워크로 개발할 수 있습니다. 하지만 비용이 발생하고, 서버 관리 및 보안도 고려해야 하므로 블로그를 만들기 위해 많은 시간과 노력이 필요합니다.
+
+###  1.3. Github Pages
+
+Github Pages는 무료로 호스팅을 해주기 때문에 블로그를 만들 수 있고, 처음부터 직접 개발하여 만들 수 있기 때문에 블로그 디자인을 자유롭게 변경 할 수 있습니다.
+또한, `Github Actions`로 CI/CD를 자동화하여 배포할 수도 있습니다.
+
+단점으로는 Github Pages는 정적 웹사이트만 지원하므로 동적인 기능을 구현하기는 어렵습니다. 하지만, 정적 웹사이트인 블로그를 만들기에는 전혀 문제가 되지 않습니다.
+
+이러한 이유로 위 네이버/티스토리 블로그와 클라우드 호스팅 방식의 장점을 합친, `Github Pages` 를 선택했습니다.
+
+![Github Pages](/r/i/nextjs/1/1.webp)
+
+---
+
+## 2. 기술 검토
+
+Next.js는 Major 버전이 상당히 빨리 업데이트 됩니다. (25년에는 벌써 15버전이 나왔네요) 이렇게 빨리 바뀌는 Next.js로 Github 블로그를 만드는데, 문제가 없을지 검토가 필요했습니다.
+
+### 2.1. 정적 페이지 생성
+
+Next.js는 SSR 뿐만 아니라 SSG(`Static Site Generation`)도 지원합니다. 따라서 정적 페이지를 생성하는데는 전혀 문제가 없습니다.
+
+```typescript {4, 5}
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  output: 'export',
+  images: { unoptimized: true },
+  ...
+};
+
+export default nextConfig;
+```
+
+정적 페이지 생성을 위한 SSG 설정은 `next.config.js`에서 `output: 'export'`로 설정하면 됩니다.
+
+그리고, 이미지 최적화를 비활성화(`images: { unoptimized: true }`) 하는 이유는 빌드시 이미지 최적화가 되지 않기 때문입니다.
+
+### 2.2. sitemap.xml, robots.txt 생성 가능
+
+SEO 향상 및 검색 엔진의 원활한 크롤링을 위해 `sitemap.xml`와 `robots.txt`이 생성이 가능한지 검토가 필요합니다.
+
+#### 2.2.1. sitemap.ts 설정
+
+기본적으로 `sitemap.xml`을 생성할 수 있도록 기능을 제공해주고 있기 때문에, `/app` 디렉토리에 `sitemap.ts`를 정의하여 생성할 수 있습니다.
+
+```typescript
+import type { MetadataRoute } from 'next';
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  return [
+    {
+      url: 'https://bluemiv.github.io',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    // sitemap에 넣을 페이지 추가
+  ]
+}
+```
+
+#### 2.2.2. robots.ts 설정
+
+`robots.txt`도 마찬가지로 `robots.txt`를 생성할 수 있도록 기능을 제공해주고 있습니다. (기능을 제공해주지 않더라도 robots.txt 파일을 직접 `/public` 디렉토리에 만들어 됨)
+
+```typescript
+import type { MetadataRoute } from 'next';
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: {
+      userAgent: '*',
+      allow: '/',
+    },
+    sitemap: 'https://bluemiv.github.io/sitemap.xml',
+  };
+}
+```
+
+### 2.3. md 파일 작성 가능 여부
+
+블로그 글을 작성할때 md 파일로 작성이 가능한지 필수적으로 필요합니다. md 파일을 작성하고, 파싱하여 HTML로 변환할 수 있는 라이브러리를 제공해주는지 찾아봤습니다.
+
+Next.js 공식 문서에서 MDX를 파싱하고 적용하는 방법을 소개하고 있습니다. ([Next.js MDX 설정 문서](https://nextjs.org/docs/app/building-your-application/configuring/mdx#install-dependencies))
+
+처음에는 공식 문서에서 소개해주고 있는 `@next/mdx`, `@mdx-js/loader`를 사용하여 구현했었으나, 코드 하이라이트를 위해 사용할 rehype-pretty-code 플러그인을 적용하기 위해, `next-mdx-remote` 를 사용했습니다. (자세한 내용은 다음 [2.4. 코드 하이라이트](#24-%EC%BD%94%EB%93%9C-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8)에서 설명)
+
+#### 2.3.1. next-mdx-remote 설정
+
+의존성을 설치하고, `next.config.ts` 파일에 `transpilePackages: ['next-mdx-remote']` 코드를 추가합니다.
+
+```shell
+yarn add next-mdx-remote
+# 혹은
+bun add next-mdx-remote
+```
+
+```typescript {6}
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  output: 'export',
+  images: { unoptimized: true },
+  transpilePackages: ['next-mdx-remote'],
+};
+
+export default nextConfig;
+```
+
+### 2.4. 코드 하이라이트
+
+개발 블로그이므로, 글에 코드를 작성하는 경우가 많습니다. 저의 경우 코드 하이라이트를 적용할 수 있을지 굉장히 중요하게 보기 때문에 여러가지 검토를 해봤습니다.
+
+구글링을 하다보니 `rehype-pretty-code`([npm - rehype-pretty-code](https://www.npmjs.com/package/rehype-pretty-code)) 라는 플러그인을 사용하면 쉽게 적용할 수 있는 것을 확인했습니다.
+
+### 2.5. 기타 플러그인
+
+그 밖에도 Next.js 15로 블로그를 만들기 위해 필요한 플러그인들을 검토했습니다. 검토한 플러그인은 다음과 같습니다.
+
+- `rehype-slug`: 글 본문 헤더에 id를 추가하여 앵커링을 가능하게 해주는 플러그인
+- `remark-gfm`: Github 스타일의 Markdown을 지원하는 플러그인
+- `shiki`: rehype-pretty-code와 함께 코드 하이라이트를 위한 플러그인
+- `gray-matter`: md 파일의 frontmatter(글 정보)를 파싱하기 위한 플러그인
+
+---
+
+## 3. 블로그 개발 중 시도해 본 것
+
+### 3.1. 프로젝트 구조에서 새로운 FSD 패턴 도입
+
+서버 개발을 위한 대표적인 프레임워크로는 Spring Framework, Django 등이 있습니다. 그리고 흔히 사용하는 MVC 패턴이나, MVVM 패턴을 사용하여 개발합니다.
+
+하지만, 프론트 영역은 워낙 빠르게 변화하다 보니 보편적으로 사용하는 패턴이 없는거 같습니다. 그래서 프로젝트를 시작할 때마다 어떤 프로젝트 구조로 구성해야할지 고민이 많았습니다.
+
+우연히 FSD(`Feature-Sliced Design`)라는 아키텍처를 알게 되었고, 이 아키텍처를 사용하여 블로그를 개발해봤습니다. 솔직히 처음 사용해보는 패턴이라 개발할 때, 어느 위치에 어떤 파일 혹은 컴포넌트를 두어야할지 고민이 많았습니다. (자세한 내용은 추후 포스팅을 해볼 예정)
+
+![Feature-Sliced Design](/r/i/nextjs/1/2.webp)
+
+### 3.2. bun 사용
+
+npm, yarn, pnpm 등 여러가지 패키지 매니저가 있습니다. 그 중 `bun`([https://bun.sh/](https://bun.sh/))이라는 패키지 매니저를 사용해봤습니다. 나온지 얼마 안되었기에 실무에서는 사용해보기 힘들었는데, 해당 블로그는 개인 프로젝트다보니 bun을 채택하여 사용해봤습니다.
+
+현재까지는 npm과 호환도 전혀 문제되지 않고, 속도도 빠르다는게 체감이 되네요. (공식 사이트에서는 약 npm보다 30배 이상 빠르다고 함)
+
+![bun 패키지 매니저 속도 비교](/r/i/nextjs/1/3.webp)
+
+계속 사용해보면서 문제가 없다면 실무에서도 한번 적용해봐야겠습니다.

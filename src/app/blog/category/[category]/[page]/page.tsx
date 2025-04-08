@@ -1,5 +1,6 @@
 import { getCategories, getPageNumberByCategory, getPostsByCategory } from '@/entities/post/api';
 import { BlogHomeLayout } from '@/shared/layouts';
+import { LIMIT } from '@/shared/constants/pagination';
 
 interface Props {
   params: Promise<{ category: string; page: string }>;
@@ -22,11 +23,15 @@ export async function generateMetadata({ params }: Props) {
 export default async function Page(props: Props) {
   const { category, page } = await props.params;
   const pageNum = Number(page);
-  const limit = 10;
-  const posts = getPostsByCategory(category, { offset: (pageNum - 1) * limit, limit });
+  const posts = getPostsByCategory(category, { offset: (pageNum - 1) * LIMIT, limit: LIMIT });
 
   return (
-    <BlogHomeLayout mainAreaTitle={`'${category}'에 대한 글 (${page} 페이지)`} posts={posts} />
+    <BlogHomeLayout
+      mainAreaTitle={`'${category}'에 대한 글 (${page} 페이지)`}
+      posts={posts}
+      currentPageNum={pageNum}
+      totalPageNum={getPageNumberByCategory(category)}
+    />
   );
 }
 

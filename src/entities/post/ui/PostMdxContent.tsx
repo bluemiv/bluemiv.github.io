@@ -1,16 +1,16 @@
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import Image, { ImageProps } from 'next/image';
 import Link from 'next/link';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import moonLightTheme from '../../../../assets/moonlight-ii.json' with { type: 'json' };
+import PostContentImage from '@/entities/post/ui/PostContentImage';
 
 interface Props {
   content: string;
 }
 
-export default async function MDXComponent({ content }: Props) {
+export default async function PostMdxContent({ content }: Props) {
   return (
     <MDXRemote
       source={content}
@@ -80,21 +80,7 @@ export default async function MDXComponent({ content }: Props) {
           }
           return <p className="mb-lg leading-6 md:leading-8" {...props} />;
         },
-        img: (props) => (
-          <figure className="mb-md">
-            <Image
-              width={768}
-              height={300}
-              {...(props as ImageProps)}
-              className="block w-full h-auto rounded"
-            />
-            {props.alt && (
-              <figcaption className="mt-sm text-center text-app-sub-text dark:text-app-dark-sub-text italic">
-                {props.alt}
-              </figcaption>
-            )}
-          </figure>
-        ),
+        img: (props) => <PostContentImage imageProps={props} />,
         a: (props) => (
           <Link
             className="underline font-semibold md:transition-colors md:ease-in-out md:duration-150 cursor-pointer hover:text-app-primary dark:hover:text-app-dark-primary"

@@ -30,7 +30,7 @@ export default async function Page(props: Props) {
     <div className="flex items-start justify-start">
       <Sidebar />
       <main className="relative flex-1 px-md">
-        <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-md">
+        <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
           <div className="animate-fade-in max-w-[1000px] lg:max-w-[750px] w-full min-w-0 py-md">
             <ArticleMetadata post={post} />
             <article>

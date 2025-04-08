@@ -21,7 +21,7 @@ export default function ResponsiveAd() {
       script.src =
         'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9462926197232794';
       script.crossOrigin = 'anonymous';
-      adRef.current?.appendChild(script);
+      adRef.current?.insertBefore(script, adRef.current.firstChild);
       adRef.current.dataset.appended = 'true';
     }
 

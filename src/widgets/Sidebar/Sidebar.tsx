@@ -1,5 +1,5 @@
-import { getCategories } from '@/entities/post/api';
 import Link from 'next/link';
+import { getCategories } from '@/entities/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Sidebar() {
@@ -15,7 +15,7 @@ export default function Sidebar() {
               <li key={category}>
                 <Link
                   className="capitalize hover:text-app-primary dark:hover:text-app-dark-primary"
-                  href={`${ROUTE_PATH.CATEGORIES}/${category}`}
+                  href={`${ROUTE_PATH.CATEGORY}/${category}/1`}
                 >
                   {category}
                   <span className="ml-sm text-sm text-app-sub-text dark:text-app-dark-sub-text">

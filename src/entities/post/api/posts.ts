@@ -84,3 +84,28 @@ export const getCategories = () => {
   }, {});
   return Object.entries(categoriesInfo).sort((p, n) => p[0].localeCompare(n[0]));
 };
+
+/**
+ * Category 값에 해당하는 posts를 반환
+ * @param category
+ * @param page
+ */
+export const getPostsByCategory = (
+  category: string,
+  page?: { limit: number; offset: number },
+): Post[] => {
+  const offset = page?.offset ?? 0;
+  const limit = page?.limit ?? 10;
+  return getAllPosts()
+    .slice(offset, offset + limit)
+    .filter((post) => post.metadata.category === category);
+};
+
+/**
+ * Category 값에 해당하는 posts의 전체 페이지 수를 반환
+ * @param category
+ */
+export const getPageNumberByCategory = (category: string): number => {
+  const posts = getAllPosts().filter((post) => post.metadata.category === category);
+  return Math.ceil(posts.length / 10);
+};

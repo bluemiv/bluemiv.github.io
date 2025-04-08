@@ -15,7 +15,7 @@ export default function BlogHomeLayout({ mainAreaTitle, posts }: Props) {
       <div className="flex-1">
         <main className="max-w-[1280px] p-md mx-auto w-full">
           {mainAreaTitle && (
-            <h1 className="font-semibold text-2xl text-app-sub-text dark:text-app-sub-text mb-lg">
+            <h1 className="font-semibold text-2xl text-app-sub-text dark:text-app-dark-sub-text mb-lg">
               {mainAreaTitle}
             </h1>
           )}

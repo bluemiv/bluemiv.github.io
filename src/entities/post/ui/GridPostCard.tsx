@@ -11,7 +11,7 @@ interface Props {
 export default function GridPostCard({ post }: Props) {
   return (
     <Link
-      href={`${[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}`}
+      href={[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}
       className="h-[380px] animate-fade-in flex flex-col rounded-lg overflow-hidden transition-all ease-in-out duration-300 group cursor-pointer border border-app-sub-bg dark:border-app-dark-sub-bg"
     >
       <div className="w-full min-h-[180px] max-h-[180px] bg-app-sub-bg dark:bg-app-dark-sub-bg overflow-hidden">
@@ -26,7 +26,7 @@ export default function GridPostCard({ post }: Props) {
         )}
       </div>
       <div className="flex-1 flex flex-col gap-md p-md">
-        <div className="line-clamp-2 font-semibold group-hover:text-app-primary dark:group-hover:text-app-dark-primary">
+        <div className="line-clamp-2 font-semibold group-hover:text-app-primary dark:group-hover:text-app-dark-primary break-all">
           {post.metadata.title}
         </div>
         <div className="line-clamp-3 text-app-sub-text dark:text-app-dark-sub-text">

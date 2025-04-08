@@ -13,7 +13,7 @@ export default function GridPostCard({ post }: Props) {
       href={`/blog/${[post.metadata.category, post.metadata.slug].join('/')}`}
       className="h-[380px] animate-fade-in flex flex-col rounded-lg overflow-hidden transition-all ease-in-out duration-300 group cursor-pointer border border-app-sub-bg dark:border-app-dark-sub-bg"
     >
-      <div className="w-full min-h-[180px] max-h-[180px] bg-slate-100 overflow-hidden">
+      <div className="w-full min-h-[180px] max-h-[180px] bg-app-sub-bg dark:bg-app-dark-sub-bg overflow-hidden">
         {!!post.metadata.thumbnail && (
           <Image
             className="w-full h-full object-cover group-hover:scale-110 duration-150 ease-in-out"

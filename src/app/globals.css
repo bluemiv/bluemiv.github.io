@@ -90,6 +90,10 @@ html.dark {
     scrollbar-color: #495057 #121923;
 }
 
+::selection {
+    @apply bg-app-primary dark:bg-app-dark-primary text-white;
+}
+
 /* code highlight */
 pre {
     @apply px-0 py-md rounded-lg overflow-x-auto;

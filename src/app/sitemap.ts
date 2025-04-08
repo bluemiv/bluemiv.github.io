@@ -17,14 +17,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: dayjs(post.metadata.updatedAt).tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ssZ'),
     changeFrequency: 'weekly' as ChangeFrequency,
     images: [`${baseUrl}/r/i/${post.metadata.category}/${post.metadata.slug}/thumbnail.webp`],
-    priority: 1,
+    priority: 0.9,
   }));
   return [
     {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.9,
+      priority: 1,
     },
     ...postsSitemapData,
   ];

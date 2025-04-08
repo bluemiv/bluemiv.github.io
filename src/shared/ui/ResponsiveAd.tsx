@@ -2,32 +2,44 @@
 
 import { useEffect, useRef } from 'react';
 
-export default function ResponsiveAd() {
-  const divRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src =
-      'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9462926197232794';
-    script.crossOrigin = 'anonymous';
-    divRef.current?.appendChild(script);
+type AdsWindow = Window &
+  typeof globalThis & {
+    adsbygoogle: unknown[];
+  };
 
-    try {
-      ((window as Window & typeof globalThis & { adsbygoogle: unknown[] }).adsbygoogle =
-        (
-          window as Window &
-            typeof globalThis & {
-              adsbygoogle: unknown[];
-            }
-        ).adsbygoogle || []).push({});
-    } catch (e) {
-      console.error('Adsense error', e);
+export default function ResponsiveAd() {
+  const adRef = useRef<HTMLDivElement>(null);
+  const insRef = useRef<HTMLModElement>(null);
+
+  useEffect(() => {
+    if (!adRef.current || !insRef.current) return;
+
+    // 이미 스크립트가 추가된 경우에는 다시 추가하지 않음
+    if (!adRef.current.dataset.appended) {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src =
+        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9462926197232794';
+      script.crossOrigin = 'anonymous';
+      adRef.current?.appendChild(script);
+      adRef.current.dataset.appended = 'true';
+    }
+
+    // 이미 load 된 경우에는 다시 로드하지 않음
+    if (!insRef.current?.dataset.loaded) {
+      try {
+        ((window as AdsWindow).adsbygoogle = (window as AdsWindow).adsbygoogle || []).push({});
+        insRef.current.dataset.loaded = 'true';
+      } catch (e) {
+        console.error('Adsense error', e);
+      }
     }
   }, []);
 
   return (
-    <div ref={divRef}>
+    <div ref={adRef}>
       <ins
+        ref={insRef}
         className="adsbygoogle"
         style={{ display: 'block' }}
         data-ad-client="ca-pub-9462926197232794"

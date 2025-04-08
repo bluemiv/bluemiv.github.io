@@ -5,7 +5,7 @@ import { ROUTE_PATH } from '@/shared/constants/route';
 export default function Sidebar() {
   const categories = getCategories();
   return (
-    <aside className="min-w-[280px] w-[280px] hidden md:inline-block p-md sticky top-[50px] left-0 overflow-y-hidden hover:overscroll-y-auto border-r border-app-sub-bg dark:border-app-dark-sub-bg min-h-[calc(100vh-50px)]">
+    <aside className="min-w-[280px] w-[280px] hidden md:block p-md sticky top-[50px] left-0 overflow-x-hidden border-r border-app-sub-bg dark:border-app-dark-sub-bg h-[calc(100vh-50px)] hover:overscroll-y-auto">
       <section>
         <ul className="flex flex-col">
           {categories.map((entry) => {

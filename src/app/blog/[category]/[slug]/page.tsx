@@ -1,6 +1,7 @@
 import { getAllPosts, getPost } from '@/entities/post/api';
 import { ArticleMetadata, PostMdxContent, TableOfContent } from '@/entities/post/ui';
 import { Sidebar } from '@/widgets/Sidebar';
+import { ResponsiveAd } from '@/shared/ui';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
@@ -29,8 +30,8 @@ export default async function Page(props: Props) {
   return (
     <div className="flex items-start justify-start">
       <Sidebar />
-      <main className="relative flex-1 px-md">
-        <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
+      <div className="relative flex-1 px-md">
+        <main className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
           <div className="animate-fade-in max-w-[1000px] lg:max-w-[750px] w-full min-w-0 py-md">
             <ArticleMetadata post={post} />
             <article>
@@ -38,8 +39,11 @@ export default async function Page(props: Props) {
             </article>
           </div>
           <TableOfContent />
+        </main>
+        <div className="w-full">
+          <ResponsiveAd />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

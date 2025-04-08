@@ -4,6 +4,7 @@ import path from 'path';
 import dayjs from 'dayjs';
 
 import { Post } from '@/entities/post/model';
+import { LIMIT } from '@/shared/constants/pagination';
 
 const postsDirectory = path.join(process.cwd(), 'src', '_posts');
 
@@ -57,7 +58,7 @@ export const getPost = (category: string, slug: string): Post => {
  */
 export const getPostsByTag = (tag: string, page?: { limit: number; offset: number }): Post[] => {
   const offset = page?.offset ?? 0;
-  const limit = page?.limit ?? 10;
+  const limit = page?.limit ?? LIMIT;
   return getAllPosts().slice(offset, offset + limit);
 };
 
@@ -95,10 +96,10 @@ export const getPostsByCategory = (
   page?: { limit: number; offset: number },
 ): Post[] => {
   const offset = page?.offset ?? 0;
-  const limit = page?.limit ?? 10;
+  const limit = page?.limit ?? LIMIT;
   return getAllPosts()
-    .slice(offset, offset + limit)
-    .filter((post) => post.metadata.category === category);
+    .filter((post) => post.metadata.category === category)
+    .slice(offset, offset + limit);
 };
 
 /**
@@ -107,5 +108,23 @@ export const getPostsByCategory = (
  */
 export const getPageNumberByCategory = (category: string): number => {
   const posts = getAllPosts().filter((post) => post.metadata.category === category);
-  return Math.ceil(posts.length / 10);
+  return Math.ceil(posts.length / LIMIT);
+};
+
+/**
+ * posts를 가져온다.
+ * @param page
+ */
+export const getPosts = (page?: { limit: number; offset: number }): Post[] => {
+  const offset = page?.offset ?? 0;
+  const limit = page?.limit ?? LIMIT;
+  return getAllPosts().slice(offset, offset + limit);
+};
+
+/**
+ * 전체 posts의 전체 페이지 수를 반환
+ */
+export const getPageNumber = () => {
+  const posts = getAllPosts();
+  return Math.ceil(posts.length / LIMIT);
 };

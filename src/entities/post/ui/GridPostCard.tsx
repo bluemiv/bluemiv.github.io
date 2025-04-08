@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import { Post } from '@/entities/post/model';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 interface Props {
   post: Post;
@@ -10,7 +11,7 @@ interface Props {
 export default function GridPostCard({ post }: Props) {
   return (
     <Link
-      href={`/blog/${[post.metadata.category, post.metadata.slug].join('/')}`}
+      href={`${[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}`}
       className="h-[380px] animate-fade-in flex flex-col rounded-lg overflow-hidden transition-all ease-in-out duration-300 group cursor-pointer border border-app-sub-bg dark:border-app-dark-sub-bg"
     >
       <div className="w-full min-h-[180px] max-h-[180px] bg-app-sub-bg dark:bg-app-dark-sub-bg overflow-hidden">

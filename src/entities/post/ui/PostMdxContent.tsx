@@ -26,17 +26,26 @@ export default async function PostMdxContent({ content }: Props) {
       }}
       components={{
         h1: (props) => (
-          <Link href={`#${props.id}`}>
+          <Link
+            href={`#${props.id}`}
+            className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
+          >
             <h1 className="font-bold text-4xl md:text-5xl mt-2xl mb-xl cursor-pointer" {...props} />
           </Link>
         ),
         h2: (props) => (
-          <Link href={`#${props.id}`}>
+          <Link
+            href={`#${props.id}`}
+            className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
+          >
             <h2 className="font-bold text-2xl md:text-3xl mt-xl mb-lg cursor-pointer" {...props} />
           </Link>
         ),
         h3: (props) => (
-          <Link href={`#${props.id}`}>
+          <Link
+            href={`#${props.id}`}
+            className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
+          >
             <h3
               className="font-semibold text-xl md:text-2xl mt-xl mb-md cursor-pointer"
               {...props}
@@ -44,7 +53,10 @@ export default async function PostMdxContent({ content }: Props) {
           </Link>
         ),
         h4: (props) => (
-          <Link href={`#${props.id}`}>
+          <Link
+            href={`#${props.id}`}
+            className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
+          >
             <h4
               className="font-semibold text-lg md:text-xl mt-lg mb-md cursor-pointer"
               {...props}
@@ -52,7 +64,10 @@ export default async function PostMdxContent({ content }: Props) {
           </Link>
         ),
         h5: (props) => (
-          <Link href={`#${props.id}`}>
+          <Link
+            href={`#${props.id}`}
+            className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
+          >
             <h5
               className="font-semibold text-base md:text-lg mt-lg mb-md cursor-pointer"
               {...props}
@@ -60,7 +75,10 @@ export default async function PostMdxContent({ content }: Props) {
           </Link>
         ),
         h6: (props) => (
-          <Link href={`#${props.id}`}>
+          <Link
+            href={`#${props.id}`}
+            className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
+          >
             <h6
               className="font-semibold text-sm md:text-base mt-lg mb-md cursor-pointer"
               {...props}

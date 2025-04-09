@@ -17,7 +17,7 @@ export default function PostContentImage({ imageProps }: Props) {
         width={720}
         height={300}
         {...(imageProps as ImageProps)}
-        className="block w-full h-auto rounded cursor-pointer hover:shadow-lg"
+        className="block object-contain w-full h-full max-h-[300px] rounded cursor-pointer hover:shadow-lg"
       />
       {clicked &&
         createPortal(
@@ -30,7 +30,7 @@ export default function PostContentImage({ imageProps }: Props) {
               width={1000}
               height={1000}
               {...(imageProps as ImageProps)}
-              className="max-w-[98vw] md:max-w-[90vw] w-full max-h-[80vh] h-auto"
+              className="max-w-[98vw] md:max-w-[90vw] max-h-[80vh] object-contain w-full h-full"
             />
           </div>,
           document.body,

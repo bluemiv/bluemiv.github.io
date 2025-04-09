@@ -17,7 +17,7 @@ export default function PostContentImage({ imageProps }: Props) {
         width={720}
         height={300}
         {...(imageProps as ImageProps)}
-        className="block object-contain w-full h-full max-h-[300px] rounded cursor-pointer hover:shadow-lg"
+        className="block object-contain w-full h-full max-h-[500px] rounded cursor-pointer"
       />
       {clicked &&
         createPortal(

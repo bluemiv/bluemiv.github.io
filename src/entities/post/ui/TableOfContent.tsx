@@ -39,7 +39,7 @@ export default function TableOfContent() {
   }, []);
 
   return (
-    <div className="hidden w-full sticky top-[50px] h-auto lg:inline-block lg:max-w-[250px] md:sticky md:right-0 md:top-header py-md">
+    <div className="hidden w-full sticky top-[50px] h-auto lg:inline-block lg:max-w-[230px] md:sticky md:right-0 md:top-header py-md">
       <div className="font-semibold pb-md mb-md border-b border-app-sub-bg dark:border-app-dark-sub-bg">
         목차
       </div>

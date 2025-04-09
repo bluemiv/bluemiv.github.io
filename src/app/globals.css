@@ -100,7 +100,7 @@ pre {
 }
 
 pre [data-line] {
-    @apply px-md py-xs w-full min-w-0 block;
+    @apply px-md py-xs;
 }
 
 pre [data-language="text"] {

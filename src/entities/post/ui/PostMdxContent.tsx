@@ -108,10 +108,17 @@ export default async function PostMdxContent({ content }: Props) {
         em: (props) => <em className="italic" {...props} />,
         u: (props) => <em className="underline" {...props} />,
         table: (props) => <table className="overflow-hidden w-full mb-lg text-left" {...props} />,
-        thead: (props) => <thead className="" {...props} />,
-        th: (props) => <th className="px-md py-sm font-semibold border" {...props} />,
-        td: (props) => <td className="px-md py-sm border" {...props} />,
-        tr: (props) => <tr className="" {...props} />,
+        thead: (props) => <thead className="bg-slate-50 dark:bg-slate-900" {...props} />,
+        th: (props) => (
+          <th
+            className="px-md py-sm font-semibold border border-slate-300 dark:border-slate-700"
+            {...props}
+          />
+        ),
+        td: (props) => (
+          <td className="px-md py-sm border border-slate-300 dark:border-slate-700" {...props} />
+        ),
+        tr: (props) => <tr className="hover:bg-slate-100 dark:hover:bg-slate-800" {...props} />,
         figure: (props) => <figure {...props} />,
         ul: (props) => (
           <ul className="list-disc pl-md md:pl-lg mb-md marker:text-text-secondary" {...props} />

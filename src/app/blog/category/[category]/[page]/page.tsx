@@ -27,7 +27,7 @@ export default async function Page(props: Props) {
 
   return (
     <BlogHomeLayout
-      mainAreaTitle={`'${category}'에 대한 글 (${page} 페이지)`}
+      mainAreaTitle={`'${category.slice(0, 1).toUpperCase()}${category.slice(1, category.length).toLowerCase()}'에 대한 글 (${page} 페이지)`}
       posts={posts}
       currentPageNum={pageNum}
       totalPageNum={getPageNumberByCategory(category)}

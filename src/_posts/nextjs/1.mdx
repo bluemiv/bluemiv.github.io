@@ -2,7 +2,7 @@
 title: Next.js 15로 Github Blog를 만들 수 있을까?
 description: Github Pages와 Next.js 15로 블로그를 만들기 위한 기술 검토와 과정을 소개합니다. 더 나아가 SEO를 높이기 위해 sitemap.xml과 robots.txt를 생성하는 방법 또한 소개합니다.
 createdAt: 2025-01-07T20:13:19+09:00
-updatedAt: 2025-01-07T20:13:19+09:00
+updatedAt: 2025-01-11T23:52:13+09:00
 tags: ['next.js', 'blog', 'github pages']
 release: true
 author: 김태홍 (bluemiv)
@@ -157,9 +157,11 @@ export default nextConfig;
 
 하지만, 프론트 영역은 워낙 빠르게 변화하다 보니 보편적으로 사용하는 패턴이 없는거 같습니다. 그래서 프로젝트를 시작할 때마다 어떤 프로젝트 구조로 구성해야할지 고민이 많았습니다.
 
-우연히 FSD(`Feature-Sliced Design`)라는 아키텍처를 알게 되었고, 이 아키텍처를 사용하여 블로그를 개발해봤습니다. 솔직히 처음 사용해보는 패턴이라 개발할 때, 어느 위치에 어떤 파일 혹은 컴포넌트를 두어야할지 고민이 많았습니다. (자세한 내용은 추후 포스팅을 해볼 예정)
+우연히 FSD(`Feature-Sliced Design`)라는 아키텍처를 알게 되었고, 이 아키텍처를 사용하여 블로그를 개발해봤습니다. 솔직히 처음 사용해보는 패턴이라 개발할 때, 어느 위치에 어떤 파일 혹은 컴포넌트를 두어야할지 고민이 많았습니다.
 
 ![Feature-Sliced Design](/r/i/nextjs/1/2.webp)
+
+FSD에 대해 자세한 내용이 궁금하시면 [React에서 FSD 프로젝트 구조 적용해보기](/blog/react/3)를 참고해주세요!
 
 ### 3.2. bun 사용
 

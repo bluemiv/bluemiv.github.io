@@ -1,0 +1,283 @@
+---
+title: Golang의 웹 서버, Gin 프레임워크 시작하기
+description: 성능이 뛰어나면서도 라우팅, 미들웨어, JSON Serialization, HTML 렌더링, 요청 바인딩, 유효성 검사 등 웹 개발에 필요한 다양한 기능을 제공 Go의 웹 프레임워크 Gin을 소개합니다.
+createdAt: 2025-04-08T23:13:25+09:00
+updatedAt: 2025-04-08T23:13:25+09:00
+tags: ['be', 'go', 'gin']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/go/13/thumbnail.webp
+---
+
+## 1. Gin Framework 소개
+
+`Gin`은 Golang으로 개발된 매우 빠르고 경량화된 웹 프레임워크입니다. Node에서는 `Express.js` 널리 사용되듯이, Gin은 Go에서 가장 많이 쓰이는 웹 프레임워크 중 하나입니다.
+
+성능이 뛰어나면서도 라우팅, 미들웨어, JSON Serialization, HTML 렌더링, 요청 바인딩, 유효성 검사 등 웹 개발에 필요한 다양한 기능을 제공합니다.
+또한, Gin은 Go의 표준 라이브러리인 `net/http`를 기반으로 개발되어, Go의 장점을 최대한 활용할 수 있도록 설계되어 있습니다.
+
+---
+
+## 2. Gin Framwork 시작하기
+
+우선 Go가 설치되어 있어야 합니다. Go 설치 방법은 [Mac에 Go 설치하기](/blog/go/10#2-macosx에서-설치-방법) 문서를 참고하세요.
+
+프로젝트를 생성합니다.
+
+```shell
+> mkdir myapp
+> cd myapp
+```
+
+이후, Go 모듈을 초기화합니다.
+
+> Go 모듈은 Go 1.11부터 도입된 의존성 관리 시스템으로, Go 프로젝트의 패키지와 버전을 관리할 때 사용됩니다.
+
+```shell
+> go mod init myapp
+```
+
+아래 명령어를 사용하여, Gin 프레임워크를 설치합니다.
+
+```shell
+> go get -u github.com/gin-gonic/gin
+```
+
+필요한 의존성을 설치가 완료되면 `main.go` 파일을 생성합니다.
+
+```go {6, 12-16, 18}
+package main
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	router := gin.Default()
+
+	router.GET("/health", func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{
+			"results": "200 Okay",
+		})
+	})
+
+	router.Run(":4000") // 4000 포트에서 실행
+}
+```
+
+위 코드와 같이 `/health` 경로에 GET 요청을 처리하는 핸들러를 생성합니다. 그리고, 서버를 `4000` 포트에서 실행합니다.
+
+```shell
+> go run main.go
+```
+
+![첫 Gin 서버 API](/r/i/go/13/1.webp)
+
+express.js와 비슷한 구조로 되어 `gin.Default()`를 사용하여 Gin 서버를 생성한 뒤, `GET()` 메서드를 사용하여 GET 요청을 처리하는 핸들러를 등록할 수 있습니다. 손쉽게 API 서버를 만들 수 있습니다.
+
+> Gin 빠르게 시작하기 위한 내용은 공식 문서 "[Quickstart](https://gin-gonic.com/ko-kr/docs/quickstart/)" 를 참고해도 좋습니다
+
+---
+
+## 3. Gin 프레임워크의 특징
+
+### 3.1. 기본 라우팅
+
+Gin은 RESTful API를 지원하기 때문에, 다음과 같이 다양한 HTTP 메서드(GET, POST, PUT, DELETE 등)에 대한 라우팅을 지원합니다.
+
+```go
+router.GET("/user/:username", getUserProfile)
+router.POST("/user", createUser)
+router.PUT("/user/:username", updateUser)
+router.DELETE("/user/:username", deleteUser)
+```
+
+위 예제에서 `:username`과 같이 path parameter도 지정할 수 있으며, 핸들러 함수에서 path parameter 값을 사용할 수 있습니다.
+
+```go {2, 8, 9}
+func getUserProfile(c *gin.Context) {
+    username := c.Param("username")
+    c.JSON(200, gin.H{"data": username})
+}
+
+func createUser(c *gin.Context) {
+    var newUser map[string]string
+    if err := c.BindJSON(&newUser); err != nil {
+        c.JSON(400, gin.H{"error": "Bad Request"})
+        return
+    }
+    c.JSON(201, gin.H{"data": newUser})
+}
+```
+
+`c.Param`은 URL의 path paramter를 가져올 때 사용하는 함수입니다. `c.BindJSON`은 Request의 body에 포함된 JSON 데이터를 자동으로 파싱해 변수에 담아줍니다.
+
+Golang의 특성상 예외 처리는 직접 해주어야 합니다. 위 예제에서는 `c.BindJSON`에서 에러가 발생하면 `400 Bad Request`를 응답합니다.
+
+### 3.2. 그룹 라우팅
+
+위 User API(`/user/**`)는 user라는 유사한 경로를 가지고 있습니다. gin에서는 API를 그룹화하여 라우트를 정의할 수 있습니다.
+
+```go {1}
+userGroup := router.Group("/user")
+{
+  userGroup.GET("/:username", getUserProfile)
+  userGroup.POST("/", createUser)
+  userGroup.PUT("/:username", updateUser)
+  userGroup.DELETE("/:username", deleteUser)
+}
+```
+
+중괄호로 그룹화하기 때문에 코드의 가독성이 높아지게 됩니다.
+
+### 3.3. 쿼리 파라미터 & Form 데이터
+
+Client에서 GET 요청으로 데이터를 전송할때 쿼리 파라미터를 보내고, POST 요청을 할 때는 Form 데이터를 사용합니다.
+
+이때 gin에서는 다음과 같이 처리할 수 있습니다. GET 요청의 쿼리 파라미터의 경우,
+
+```text
+# Request
+GET /search?keyword=go&page=1
+```
+
+```go {2, 3}
+router.GET("/search", func(c *gin.Context) {
+    keyword := c.Query("keyword")
+    page := c.DefaultQuery("page", "1")
+    c.JSON(200, gin.H{
+        "search": keyword,
+        "page": page,
+    })
+})
+```
+
+`c.Query`와 `c.DefaultQuery`를 사용하여 쿼리 파라미터를 가져올 수 있습니다. 둘의 차이는 `c.DefaultQuery`는 쿼리 파라미터가 없을 경우, 기본값을 설정할 수 있습니다.
+
+POST 요청의 Form 데이터는 다음과 같이 처리할 수 있습니다.
+
+```text
+# Request
+POST /login
+
+{
+  "username": "bluemiv",
+  "password": "ilovegin!@#"
+}
+```
+
+```go {2-3}
+router.POST("/login", func(c *gin.Context) {
+    username := c.PostForm("username")
+    password := c.PostForm("password")
+    c.JSON(200, gin.H{
+        "username": username,
+    })
+})
+```
+
+### 3.4. Middleware
+
+Gin은 미들웨어(`Middleware`)를 지원합니다. Middleware는 Request와 Response 사이에 실행되는 함수로, 인증 / 로깅 / CORS 처리 등 다양한 용도로 사용할 수 있습니다.
+
+```go
+// 모든 요청을 로깅하는 미들웨어
+func LoggerMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        path := c.Request.URL.Path
+        method := c.Request.Method
+        fmt.Printf("요청: %s %s\n", method, path)
+
+        c.Next()
+
+        status := c.Writer.Status()
+        fmt.Printf("응답 상태 코드: %d\n", status)
+    }
+}
+```
+
+위와 같이 미들웨어를 정의한 후, `router.Use()` 메서드를 사용하여 Gin 서버에 등록할 수 있습니다.
+
+```go
+router.Use(LoggerMiddleware())
+```
+
+### 3.5. JSON 바인딩과 유효성 검사
+
+Gin은 JSON 바인딩과 유효성 검사를 지원합니다. 구조체를 사용하여 클라이언트로부터 받은 JSON 요청 데이터를 바인딩하고, 유효성 검사를 동시에 처리할 수 있습니다.
+
+우선 구조체를 정의합니다.
+
+```go
+type Food struct { // JSON으로부터 받는 데이터 구조
+    Name     string `json:"name" binding:"required"`
+    Calories int    `json:"calories" binding:"gte=0"`
+}
+```
+- `json:"name"`: JSON의 "name" 키를 Name 필드에 매핑
+- `binding:"required"`: 이 필드는 반드시 있어야 함을 의미
+- `binding:"gte=0"`: Calories 값은 0 이상(greater than or equal to 0) 이어야 함을 의미 → 유효성 검사(Validation)
+
+```go {3}
+func createFood(c *gin.Context) {
+    var newFood Food
+    if err := c.ShouldBindJSON(&newFood); err != nil {
+        c.JSON(400, gin.H{"에러": err.Error()})
+        return
+    }
+
+    c.JSON(201, gin.H{"등록된 음식": newFood})
+}
+```
+
+`c.ShouldBindJSON(&newFood)` 는 Request Body의 JSON 데이터를 `Food` 구조체에 바인딩합니다. (이때, 유효성 검사도 함께 수행)
+만약 유효성 검사에 실패하면 `400 Bad Request`를 응답합니다.
+
+### 3.6. 정적 파일
+
+만약, 정적 파일(HTML, CSS, JS, 이미지 등)을 제공해야 한다면, `Static()` 메서드를 사용하여 정적 파일을 제공할 수 있습니다.
+
+```go
+router.Static("/static", "./public")
+```
+
+위 설정은 ./public 폴더 안의 파일들을 /static 경로로 제공함을 의미합니다.
+
+
+### 3.7. HTML 템플릿 렌더링
+
+JSON 응답 외에도 HTML 파일을 렌더링해서 클라이언트에 전달할 수 있습니다.
+
+```go {1}
+router.LoadHTMLGlob("templates/*")
+
+router.GET("/profile", func(c *gin.Context) {
+    c.HTML(200, "profile.tmpl", gin.H{
+        "username": "bluemiv",
+        "job":   "developer",
+    })
+})
+```
+
+`"templates/*"`는 templates 폴더 안에 있는 모든 파일을 대상으로 합니다. 만약 하위 폴더까지 포함하려면 `"templates/**/*"`처럼 재귀적으로 지정해줄 수도 있습니다.
+
+> 참고: 템플릿 파일은 보통 `.tmpl` 확장자를 사용하지만, `.html`도 무방합니다. 하지만, 일관성을 위해 `.tmpl`을 권장합니다.
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head><title>Profile</title></head>
+<body>
+    <h1>이름: {{ .username }}</h1>
+    <p>직업: {{ .job }}</p>
+</body>
+</html>
+```
+
+- `.`(점; dot): 현재 템플릿의 컨텍스트(Context)를 의미합니다. 즉 `gin.H`로 넘긴 map의 키와 매핑되는 값을 참조할 수 있습니다.
+- `{{ .username }}`: context(.)에서 "username" 키에 해당하는 "bluemiv"를 출력한다.
+- `{{ .job }}`: context(.)에서 "job" 키에 해당하는 "developer"를 출력한다.
+
+![HTML 템플릿 렌더링](/r/i/go/13/2.webp)

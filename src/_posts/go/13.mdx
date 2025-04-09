@@ -3,7 +3,7 @@ title: Golang의 웹 서버, Gin 프레임워크 시작하기
 description: 성능이 뛰어나면서도 라우팅, 미들웨어, JSON Serialization, HTML 렌더링, 요청 바인딩, 유효성 검사 등 웹 개발에 필요한 다양한 기능을 제공 Go의 웹 프레임워크 Gin을 소개합니다.
 createdAt: 2025-04-08T23:13:25+09:00
 updatedAt: 2025-04-08T23:13:25+09:00
-tags: ['be', 'go', 'gin']
+tags: ['be', 'go', 'gin', 'api', 'web']
 release: true
 author: 김태홍 (bluemiv)
 thumbnail: /r/i/go/13/thumbnail.webp
@@ -178,7 +178,47 @@ router.POST("/login", func(c *gin.Context) {
 })
 ```
 
-### 3.4. Middleware
+### 3.4. JSON Body 파싱
+
+HTTP 메소드 `POST`, `PUT`, `PATCH` 요청을 처리할 때, 클라이언트는 HTTP body에 JSON 형식의 데이터를 담아 전송합니다.
+
+Gin 프레임워크에서는 JSON 형식의 데이터를 파싱하는 작업을 매우 간단하게 처리할 수 있도록, `c.BindJSON()` 또는 `c.ShouldBindJSON()` 메서드를 제공합니다.
+
+우선, 다음과 같이 구조체를 정의합니다.
+
+```go
+type TodoItem struct {
+    Title       string `json:"title" binding:"required"`
+    Description string `json:"description" binding:"required,min=10,max=300"`
+    Done        bool   `json:"done"`
+}
+```
+
+> 바인딩 태그(binding)를 이용하여 유효성 검사를 할 수 있다.
+
+이후 POST 요청을 처리하는 핸들러를 작성합니다.
+
+```go {4}
+router.POST("/todos", func(c *gin.Context) {
+    var newTodo TodoItem
+
+    if err := c.ShouldBindJSON(&newTodo); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "유효하지 않은 JSON 형식입니다."})
+        return
+    }
+
+    c.JSON(http.StatusCreated, gin.H{
+        "todo": newTodo,
+    })
+})
+```
+
+#### 3.4.1. BindJSON과 ShouldBindJSON의 차이
+
+- `BindJSON()`: 내부적으로 오류가 발생하면 panic을 발생시키므로 잘 사용하지 않음
+- `ShouldBindJSON()`: 오류를 반환 값으로 처리할 수 있어서, 실무에서 더 권장되는 방식
+
+### 3.5. Middleware
 
 Gin은 미들웨어(`Middleware`)를 지원합니다. Middleware는 Request와 Response 사이에 실행되는 함수로, 인증 / 로깅 / CORS 처리 등 다양한 용도로 사용할 수 있습니다.
 
@@ -204,7 +244,7 @@ func LoggerMiddleware() gin.HandlerFunc {
 router.Use(LoggerMiddleware())
 ```
 
-### 3.5. JSON 바인딩과 유효성 검사
+### 3.6. JSON 바인딩과 유효성 검사
 
 Gin은 JSON 바인딩과 유효성 검사를 지원합니다. 구조체를 사용하여 클라이언트로부터 받은 JSON 요청 데이터를 바인딩하고, 유효성 검사를 동시에 처리할 수 있습니다.
 
@@ -235,7 +275,7 @@ func createFood(c *gin.Context) {
 `c.ShouldBindJSON(&newFood)` 는 Request Body의 JSON 데이터를 `Food` 구조체에 바인딩합니다. (이때, 유효성 검사도 함께 수행)
 만약 유효성 검사에 실패하면 `400 Bad Request`를 응답합니다.
 
-### 3.6. 정적 파일
+### 3.7. 정적 파일
 
 만약, 정적 파일(HTML, CSS, JS, 이미지 등)을 제공해야 한다면, `Static()` 메서드를 사용하여 정적 파일을 제공할 수 있습니다.
 
@@ -246,7 +286,7 @@ router.Static("/static", "./public")
 위 설정은 ./public 폴더 안의 파일들을 /static 경로로 제공함을 의미합니다.
 
 
-### 3.7. HTML 템플릿 렌더링
+### 3.8. HTML 템플릿 렌더링
 
 JSON 응답 외에도 HTML 파일을 렌더링해서 클라이언트에 전달할 수 있습니다.
 

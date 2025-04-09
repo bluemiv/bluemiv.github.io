@@ -30,20 +30,20 @@ export default async function Page(props: Props) {
   return (
     <div className="flex items-start justify-start">
       <Sidebar />
-      <div className="relative flex-1 px-md">
-        <main className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
+      <main className="relative w-full px-md overflow-x-hidden">
+        <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
           <div className="animate-fade-in max-w-[1000px] lg:max-w-[750px] w-full min-w-0 py-md">
             <ArticleMetadata post={post} />
             <article>
               <PostMdxContent content={post.content} />
             </article>
+            <div>
+              <ResponsiveAd />
+            </div>
           </div>
           <TableOfContent />
-        </main>
-        <div className="w-full">
-          <ResponsiveAd />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

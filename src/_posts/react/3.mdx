@@ -1,0 +1,260 @@
+---
+title: React에서 FSD 프로젝트 구조 적용해보기
+description: 프로젝트를 시작할 때마다 항상 폴더 구조를 고민합니다. 프론트 영역은 특히 빠르게 변화하다보니 백엔드 영역과 다르게 보편적으로 사용되는 폴더 구조가 없습니다. 여러가지 프로젝트 구조가 있지만, 본 글에서는 FSD(Feature-Sliced Design)라는 아키텍처 패턴을 소개합니다.
+createdAt: 2025-01-10T21:44:28+09:00
+updatedAt: 2025-01-10T21:44:28+09:00
+tags: ['fe', 'react', 'fsd', 'feature sliced design']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/3/thumbnail.webp
+---
+
+프로젝트를 시작할 때마다 항상 폴더 구조를 고민합니다. 프론트 영역은 특히 빠르게 변화하다보니 백엔드 영역과 다르게 보편적으로 사용되는 폴더 구조가 없습니다.
+
+여러가지 프로젝트 구조가 있지만, 본 글에서는 FSD(Feature-Sliced Design)라는 아키텍처 패턴을 소개합니다.
+
+## 1. FSD란 무엇인가?
+
+FSD는 `Feature-Sliced Design`의 약자로, 기능 기반 구조화(Folder by Feature)와 도메인 중심 설계(Domain-Driven Design)의 개념을 적용하여, 기능별로 구조화하는 아키텍처입니다.
+이 구조는 복잡한 프로젝트에서 유지보수성과 확장성을 극대화하기 위해 고안되었습니다.
+
+### 1.1. 기존 프로젝트 구조의 문제점
+
+다음과 같이 기존 아키텍처의 경우 페이지, 컴포넌트, 서비스 등을 **역할** 기반으로 구분하는 방식이었습니다.
+
+```text
+src/
+  components/
+  pages/
+  hooks/
+  utils/
+```
+
+하지만 위 방식은 프로젝트 규모가 커질수록 특정 기능을 구현하기 위해 여러 폴더를 오가야 하며, 하나의 폴더에 많은 컴포넌트가 생기게 됩니다.
+이로 인해 각 폴더의 역할이 모호해지고, 컴포넌트 간의 의존성이 증가하여 유지보수가 어려워집니다.
+
+예를 들어, `components` 폴더에 있는 컴포넌트가 `hooks` 폴더에 있는 훅을 사용하고, `pages` 폴더에 있는 페이지에서 그 컴포넌트를 사용하는 경우, 각 폴더의 역할이 명확하지 않게 됩니다.
+
+또한, 컴포넌트 간의 의존성이 증가하면 유지보수 차원에서도 어려워집니다. 특정 기능을 수정할 때마다 여러 폴더를 오가야 하므로 개발 생산성이 떨어지고, 부수효과(Side Effect)로 인해 버그가 발생할 가능성이 높아집니다.
+
+### 1.2. 기존 구조를 보완한 FSD
+
+반면 FSD는 **기능** 기반으로 구성 요소를 나눈다는 차이가 있습니다. 즉, "어떤 기능인지"를 기준으로 코드를 구성합니다.
+
+```text
+src/
+  app/
+  processes/
+  pages/
+  features/
+  entities/
+  shared/
+  widgets/
+```
+
+---
+
+## 2. FSD 구조
+
+FSD 구조는 다음과 같은 폴더 구조로 구성됩니다.
+
+![FSD 구조](/r/i/react/3/1.webp)
+
+- `app`: 애플리케이션 전체 설정 및 초기화 담당
+- `processes`: 비즈니스 플로우(예: 로그인 프로세스, 주문 프로세스) -> 현재는 잘 사용하지 않음
+- `pages`: 라우팅 단위의 페이지 컴포넌트
+- `features`: 독립적인 기능 단위 (예: 댓글 작성, 유저 프로필 수정)
+- `entities`: 도메인 엔티티 단위 (예: 유저, 게시글, 상품)
+- `shared`: 공통 컴포넌트, 유틸리티 함수, 스타일, 라이브러리
+- `widgets`: 재사용 가능한 UI 컴포넌트 (예: 버튼, 모달, 드롭다운)
+
+아래에서 하나씩 살펴보겠습니다.
+
+### 2.1. app/
+
+애플리케이션 진입점(Root Component), 라우팅 설정, 테마 설정, 글로벌 상태 초기화, 앱 전역의 Provider 등, 애플리케이션의 전체 설정과 초기화 담당합니다.
+
+```text
+app/
+  - App.tsx       →  애플리케이션 진입점
+  - router.ts     →  라우팅 설정
+  - theme.ts      →  테마 설정
+  - providers.ts  →  Provider 설정
+```
+
+### 2.2. processes/
+
+> 현재 processes/ Layer는 deprecated 되어 잘 사용하지 않습니다. 바쁘신 분은 넘어가셔도 됩니다
+
+비즈니스 플로우를 구성하는 컴포넌트들이 위치합니다. (저는 해당 폴더가 이해하기 어려웠던거 같습니다) 비지니스 플로우라고 하면 로그인 프로세스, 회원가입 프로세스, 주문 프로세스 등을 말합니다.
+
+```text
+processes/
+  auth/
+    login/
+      LoginProcess.tsx  →  로그인을 위해 필요한 컴포넌트
+      model.ts          →  상태 관리 (로그인 흐름용)
+      libs.ts           →  로그인 플로우를 도와주는 유틸
+      hooks.ts          →  custom hook
+```
+
+이해를 위해 각 파일별로 예시를 들어보겠습니다.
+
+`LoginProcess.tsx`에는 로그인을 위해서는 사용자 username과 비밀번호를 입력받을 Form을 정의합니다.
+
+```tsx
+// LoginProcess.tsx
+import { LoginForm } from '@/features/auth';
+import { useLoginFlow } from './hooks';
+
+export const LoginProcess = () => {
+  const { onSubmit, error } = useLoginFlow();
+
+  return (
+    <>
+      <LoginForm onSubmit={onSubmit} />
+      {error && <p className="text-red-500">{error}</p>}
+    </>
+  );
+};
+```
+
+`hooks.ts`에는 로그인 정보를 "제출"하는 행위, 에러 처리, 라우팅 등을 관리하는 훅을 정의합니다.
+
+```tsx
+// hooks.ts
+import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '@/entities/user';
+
+export const useLoginFlow = () => {
+  const login = useLoginMutation();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (formData: { email: string; password: string }) => {
+    try {
+      await login.mutateAsync(formData);
+      navigate('/home');
+    } catch (e) {
+      setError('로그인에 실패했습니다.');
+    }
+  };
+
+  return { onSubmit, error };
+};
+```
+
+하지만, `features/`와 `pages/`만으로도 충분히 기능 흐름을 만들 수 있어서, 최근에는 잘 사용하지 않습니다.
+
+### 2.3. pages/
+
+라우트 단위의 Page Component들이 위치합니다. 그리고, 페이지 컴포넌트 내부에서 processes, features, widgets 등을 조합하여 실제 UI를 구성합니다.
+
+```text
+pages/
+  HomePage.tsx
+  LoginPage.tsx
+```
+
+### 2.4. features/
+
+`features/`는 애플리케이션을 구성하는 하나의 기능을 단위로해서 폴더를 나눕니다.
+각 기능은 해당 기능에만 집중한 UI, 상태값, 이벤트 로직, API 요청 등을 정의하며, 재사용성보다는 해당 기능 자체에 특화된 코드를 작성하는 것이 원칙입니다.
+
+`features`는 '로그인', '게시글 작성', '댓글 달기', '좋아요 버튼' 등 사용자의 특정 행동이나 기능 단위를 구현할 때 사용합니다.
+
+```text
+features/
+  auth/
+    ui/
+      LoginForm.tsx   →  로그인 화면을 구성하는 컴포넌트
+    model/
+      authStore.ts    →  로그인 상태, 인증 토큰 등을 관리하는 상태값
+    api/
+      login.ts        →  로그인과 관련된 API
+    hooks/
+      useLogin.ts     →  로그인 버튼 클릭 시, 상태 + API 호출 조합한 커스텀 훅
+```
+
+### 2.5. entities/
+
+`entities/`는 도메인(업무 개념) 중심으로 구성되며, 애플리케이션에서 도메인 모델을 다룹니다.
+각 도메인은 model, API, 상태, UI 등으로 구성하여, `features`나 processes에서 재사용됩니다.
+
+```text
+entities/
+  user/
+    model/
+      userStore.ts        →  user 상태 (예: 로그인한 유저 정보)
+    api/
+      fetchUser.ts        →  user 조회 API
+    ui/
+      UserAvatar.tsx      →  user 프로필 이미지 컴포넌트
+```
+
+#### 2.5.1. entities와 features의 차이
+
+여기까지 읽어보면 `features`와 `entities`의 차이가 헷갈릴 수 있습니다. 둘의 차이는 뭘까요?
+
+| 항목  | entities/   | features/ |
+| --- | --- | --- |
+| 목적  | 도메인(데이터) 중심 | 기능(행위) 중심 |
+| 구성 요소  | 모델, API, 상태, UI 등 도메인 단위 구성  | UI, 상태, 이벤트 로직 등 기능 단위 구성 |
+| 재사용성 | 여러 기능에서 공통적으로 재사용됨 |  특정 기능에 한정적으로 사용됨 |
+| 예시  | user, post, product, comment | login, likePost, toggleTheme, addToCart |
+
+좀 더 쉽게 예시를 들면 다음과 같이 비유할 수 있습니다.
+
+- entities/는 레고 블록
+- features/는 레고 블록을 조합해서 만든 건물
+
+### 2.6. shared/
+
+`shared/`는 재사용 가능하고 애플리케이션에서 범용적으로 사용하는 코드를 모아두는 공간입니다.
+
+다른 레이어들처럼 특정 도메인이나 기능에 한정되지 않고, 앱 전역에서 재사용되는 컴포넌트, 라이브러리, 타입, 상수 등으로 구성됩니다.
+
+```text
+shared/
+  lib/            →  라이브러리 초기화 코드 (axios, i18n 등)
+    axios.ts
+    i18n.ts
+  config/         →  앱 환경 설정값, 상수
+    env.ts
+    routes.ts
+  types/          →  전역 타입 정의
+    index.ts
+  utils/          →  범용 유틸 함수
+    formatDate.ts
+    debounce.ts
+  styles/         →  전역 테마, 디자인 값
+    theme.ts
+    colors.ts
+    spacing.ts
+```
+
+### 2.7. widgets/
+
+`widgets/`는 재사용 가능한 UI 구성 요소(컴포넌트)로 구성합니다.
+
+하나의 도메인(user, post)이나 특정 기능(login, like)에 종속되지 않고, 여러 페이지와 기능에서 공통적으로 사용되는 UI 컴포넌트들을 해당 레이어에 위치시킵니다.
+
+```text
+widgets/
+  Header/
+    Header.tsx
+    index.ts
+  Footer/
+    Footer.tsx
+    index.ts
+  Sidebar/
+    Sidebar.tsx
+  Modal/
+    Modal.tsx
+    useModal.ts
+```
+
+![생각보다 어려운 FSD](/r/i/react/3/2.webp)
+
+여기까지 FSD에 대해 소개 하였습니다. 솔직히 개념이 쉽지 않고, 개발하다보면 "이 컴포넌트 혹은 파일은 어디에 들어가는게 맞을까?" 또 고민하게 됩니다.
+저도 아직 사용해보면서 익숙해지는 중이고, 이 글을 읽는 분들도 FSD를 사용해보시면서 같이 공유해주시면 좋을거 같습니다.

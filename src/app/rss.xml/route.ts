@@ -15,10 +15,10 @@ export async function GET() {
         .map((tag) => `<category><![CDATA[${tag}]]></category>`)
         .join('');
       const authorXml = `<author>${author}</author>`;
+      const dcCreatorXml = `<dc:creator><![CDATA[${process.env.METADATA_AUTHOR}]]></dc:creator>`;
       const thumbnailXml = metadata.thumbnail
         ? `<enclosure url="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
         : '';
-      const contentXml = `<content:encoded><![CDATA[${post.content}]]></content:encoded>`;
 
       return `
   <item>
@@ -28,9 +28,9 @@ export async function GET() {
     <description><![CDATA[${metadata.description}]]></description>
     <pubDate>${new Date(metadata.createdAt).toUTCString()}</pubDate>
     ${authorXml}
+    ${dcCreatorXml}
     ${categoriesXml}
     ${thumbnailXml}
-    ${contentXml}
   </item>`;
     })
     .join('');

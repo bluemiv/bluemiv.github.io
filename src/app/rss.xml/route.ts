@@ -26,7 +26,7 @@ export async function GET() {
   <title>${process.env.METADATA_TITLE}</title>
   <link>${siteUrl}</link>
   <description>${process.env.METADATA_DESCRIPTION}</description>
-  <language>en</language>
+  <language>ko</language>
   <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
   ${itemsXml}
 </channel>

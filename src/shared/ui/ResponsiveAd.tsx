@@ -37,7 +37,11 @@ export default function ResponsiveAd() {
   }, []);
 
   return (
-    <div ref={adRef} className="w-full overflow-hidden">
+    <div
+      ref={adRef}
+      className="relative w-full overflow-hidden bg-app-sub-bg dark:bg-app-dark-sub-bg"
+    >
+      <div className="absolute text-sm top-0 right-0 py-sm px-md">AD</div>
       <ins
         ref={insRef}
         className="adsbygoogle"

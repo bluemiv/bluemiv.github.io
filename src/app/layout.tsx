@@ -14,8 +14,8 @@ const pretendardFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Bluemiv Tech Blog',
-  description: '프론트엔드 개발자로서 배운 기술과 문제 해결 경험을 기록하는 블로그입니다.',
+  title: process.env.METADATA_TITLE,
+  description: process.env.METADATA_DESCRIPTION,
 };
 
 export default function RootLayout({

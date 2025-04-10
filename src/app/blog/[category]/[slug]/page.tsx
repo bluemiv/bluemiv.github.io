@@ -34,12 +34,11 @@ export default async function Page(props: Props) {
         <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
           <div className="animate-fade-in max-w-[1000px] lg:max-w-[770px] w-full min-w-0 py-md">
             <ArticleMetadata post={post} />
+            <ResponsiveAd />
             <article>
               <PostMdxContent content={post.content} />
             </article>
-            <div className="">
-              <ResponsiveAd />
-            </div>
+            <ResponsiveAd />
           </div>
           <TableOfContent />
         </div>

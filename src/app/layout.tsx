@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { Header } from '@/widgets/Header';
+import Head from 'next/head';
 
 dayjs.extend(utc);
 
@@ -25,6 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body className={`${pretendardFont.className} antialiased min-h-screen`}>
         <script
           dangerouslySetInnerHTML={{

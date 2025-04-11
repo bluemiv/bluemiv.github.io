@@ -10,7 +10,7 @@ dayjs.extend(timezone);
 type ChangeFrequency = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.BASE_URL || 'https://bluemiv.github.io';
+  const baseUrl = process.env.BASE_URL;
 
   // 전체 글 sitemap
   const posts = getAllPosts();
@@ -63,7 +63,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: baseUrl,
+      url: baseUrl!,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,

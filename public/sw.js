@@ -3,7 +3,22 @@ const CACHE_NAME = 'v2';
 self.addEventListener('install', () => {});
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  const cacheWhitelist = [CACHE_NAME];
+
+  event.waitUntil(
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (!cacheWhitelist.includes(cacheName)) {
+              return caches.delete(cacheName);
+            }
+          }),
+        );
+      })
+      .then(() => self.clients.claim()),
+  );
 });
 
 self.addEventListener('fetch', (event) => {

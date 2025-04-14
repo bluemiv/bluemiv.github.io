@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { ROUTE_PATH } from '@/shared/constants/route';
 import Image from 'next/image';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Logo() {
   return (

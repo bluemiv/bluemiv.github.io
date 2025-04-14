@@ -45,3 +45,5 @@ next-env.d.ts
 /scripts/.venv
 /scripts/raw
 /scripts/results
+
+/public/sw.js

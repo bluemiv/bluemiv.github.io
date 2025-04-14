@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build:sw": "node scripts/build-sw.js",
+    "build": "bun build:sw && next build",
     "start": "next start",
     "lint": "next lint"
   },

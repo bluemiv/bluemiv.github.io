@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v3';
+const CACHE_NAME = 'v5';
 
 self.addEventListener('install', () => {});
 
@@ -32,18 +32,17 @@ self.addEventListener('fetch', (event) => {
 
   if (url.pathname.startsWith('/')) {
     event.respondWith(
-      caches.match(event.request).then((response) => {
-        return (
-          response ||
-          fetch(event.request).then((fetchResponse) => {
-            return caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, fetchResponse.clone());
-              return fetchResponse;
-            });
-          })
-        );
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((cachedResponse) => {
+          const fetchPromise = fetch(event.request).then((networkResponse) => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          });
+
+          // 캐시가 있으면 먼저 응답하고, 없으면 네트워크 응답을 사용
+          return cachedResponse || fetchPromise;
+        });
       }),
     );
-    return;
   }
 });

@@ -1,7 +1,7 @@
 import { ROUTE_PATH } from '@/shared/constants/route';
 import NavLink from '@/widgets/Header/NavLink';
 import Logo from '@/widgets/Header/Logo';
-import { ThemeToggleButton } from '@/features/toggleTheme';
+import { ThemeToggleButton } from '@/features/toggleTheme/ui';
 
 export default function Header() {
   return (

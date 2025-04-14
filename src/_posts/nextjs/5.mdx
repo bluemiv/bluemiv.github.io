@@ -1,10 +1,10 @@
 ---
-title: Next.js 15에서 PWA 설정하기
+title: Next.js 15에서 PWA 설정하여 블로그 글 캐싱하기
 description: PWA는 웹 애플리케이션을 네이티브 앱처럼 동작하게 만드는 기술입니다. 본 글에서는 Next.js 15에서 Progressive Web App(PWA)을 설정하는 방법을 설명합니다.
 createdAt: 2025-01-16T19:47:29+09:00
 updatedAt: 2025-01-16T19:47:29+09:00
-tags: ['next.js', 'fe', 'pwa', 'service worker']
-release: false
+tags: ['nextjs', 'fe', 'pwa', 'service worker']
+release: true
 author: 김태홍 (bluemiv)
 thumbnail: /r/i/nextjs/4/thumbnail.webp
 ---
@@ -22,3 +22,127 @@ PWA는 웹 애플리케이션을 네이티브 앱처럼 동작하게 만드는 �
 
 ## 2. Next.js 15에서 PWA 설정하기
 
+### 2.1. manifest.json 생성
+
+Next.js 13 버전 app router 부터는 `app/manifest.ts` 파일로 manifest.json을 생성할 수 있습니다.
+
+다음과 같이 `app/manifest.ts` 작성하여 PWA의 메타데이터(앱 이름, 아이콘, 시작 URL 등)를 설정합니다.
+
+```typescript
+// app/manifest.ts
+import { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'My PWA App',
+    short_name: 'PWAApp',
+    description: 'A Progressive Web App built with Next.js',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#000000',
+    icons: [
+      {
+        src: '/icons/icon-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
+      },
+      {
+        src: '/icons/icon-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
+    ],
+  };
+}
+```
+
+- 참고 문서: [Mozilla - Manifest](https://developer.mozilla.org/ko/docs/Web/Progressive_web_apps/Manifest)
+
+### 2.2. service worker 설정
+
+`public/sw.js` 파일을 생성하여 service worker를 설정합니다. 이 파일은 PWA의 오프라인 기능과 푸시 알림을 처리하는 데 사용됩니다.
+
+```javascript
+self.addEventListener('install', (event) => {
+  console.log('서비스 워커 설치됨');
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('서비스 워커 활성화됨');
+});
+```
+
+이후 sw.js를 등록하는 hook을 만듭니다. `app/layout.tsx` 파일에 다음 코드를 추가합니다.
+
+```typescript {7-8}
+import { useEffect } from 'react';
+
+export default function useRegisterServiceWorker() {
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then((registration) => {
+            console.log('서비스 워커 등록 성공:', registration);
+          })
+          .catch((error) => {
+            console.error('서비스 워커 등록 실패:', error);
+          });
+      });
+    }
+  }, []);
+}
+```
+
+최초에는 Service Worker가 설치되고 활성화되는 콘솔 로그가 출력됩니다. 이후 페이지를 새로고침하면 Service Worker가 등록되는 콘솔 로그만 출력됩니다.
+
+![Service Worker 설치 및 등록 콘솔 출력](/r/i/nextjs/5/1.webp)
+
+### 2.3. 블로그 글 캐싱
+
+Service Worker 등록까지 완료되었으니, 블로그 글을 캐싱해야 합니다. 블로그 글을 캐싱하기 위해서는 `fetch` 이벤트를 사용하여 네트워크 요청을 가로채고, 캐시된 응답을 반환하는 로직을 추가해야 합니다.
+
+```javascript {3}
+// sw.js
+// ...
+const CACHE_NAME = 'v1';
+
+self.addEventListener('fetch', (event) => {
+  const url = new URL(event.request.url);
+
+  if (url.pathname.startsWith('/posts/')) {  // 캐싱할 블로그 글 URL 패턴
+    event.respondWith(
+      caches
+        .match(event.request)
+        .then((response) => {
+          return (
+            response ||
+            fetch(event.request).then((fetchResponse) => {
+              return caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, fetchResponse.clone());
+                return fetchResponse;
+              });
+            })
+          );
+        })
+        .catch(() => caches.match('/offline.html')), // 네트워크 연결이 안된 경우, 보여줄 오프라인 페이지
+    );
+    return;
+  }
+});
+```
+
+이제 `/posts/` 하위 경로는 Service Worker에 의해 캐싱됩니다. 블로그 글을 열어보면, 캐싱된 블로그 글이 로드되고 오프라인 상태에서도 블로그 글을 확인할 수 있습니다.
+
+> 3번째 줄에는 `const CACHE_NAME = 'v1';` 가 있습니다. 캐싱 키 값은 새로운 내용이 있을때, 강제로 내용을 업데이트 하기 위해 사용됩니다. 이어서 캐싱 삭제하는 방법에 대해 소개합니다.
+
+### 2.4. 블로그 글 캐싱 제거
+
+블로그 글이 캐싱되어 글을 수정해도 변경된 내용이 반영되지 않습니다. 따라서, 캐싱된 블로그 글을 제거하는 로직이 필요합니다.
+
+`caches.delete()` 메서드를 사용하여 캐시를 삭제할 수 있습니다. 다음과 같이 `sw.js` 파일에 캐시 삭제 로직을 추가합니다.
+
+```javascript
+```

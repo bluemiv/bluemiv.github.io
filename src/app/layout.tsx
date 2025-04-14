@@ -3,8 +3,9 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Header } from '@/widgets/Header';
 import Head from 'next/head';
+import { Header } from '@/widgets/Header';
+import RegisterServiceWorker from '@/features/serviceWorker/ui/RegisterServiceWorker';
 
 dayjs.extend(utc);
 
@@ -48,6 +49,7 @@ export default function RootLayout({
         />
         <Header />
         {children}
+        <RegisterServiceWorker />
       </body>
     </html>
   );

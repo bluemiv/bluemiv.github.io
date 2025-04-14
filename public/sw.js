@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v2';
+const CACHE_NAME = 'v3';
 
 self.addEventListener('install', () => {});
 
@@ -23,6 +23,9 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+
+  // Serice Worker가 자기 자신(sw.js)은 캐싱하면 안 되므로 제외
+  if (url.pathname.test(/\/sw\.js/)) return;
 
   if (event.request.method !== 'GET') return;
   if (url.protocol === 'chrome-extension:') return;

@@ -1,27 +1,25 @@
 const CACHE_NAME = '__CACHE_NAME__';
+const CACHE_WHITELIST = [CACHE_NAME];
+
+async function cleanupCaches() {
+  const cacheNames = await caches.keys();
+  await Promise.all(
+    cacheNames.map((cacheName) => {
+      if (!CACHE_WHITELIST.includes(cacheName)) {
+        console.log(`[SW] 캐시 제거: '${cacheName}'`);
+        return caches.delete(cacheName);
+      }
+    }),
+  );
+  await self.clients.claim();
+}
 
 self.addEventListener('install', () => {
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
-
-  event.waitUntil(
-    caches
-      .keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (!cacheWhitelist.includes(cacheName)) {
-              console.log(`캐시 '${cacheName}' 제거`);
-              return caches.delete(cacheName);
-            }
-          }),
-        );
-      })
-      .then(() => self.clients.claim()),
-  );
+  event.waitUntil(cleanupCaches());
 });
 
 self.addEventListener('fetch', (event) => {
@@ -42,19 +40,24 @@ self.addEventListener('fetch', (event) => {
   if (!url.pathname.startsWith('/')) return;
 
   event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((cachedResponse) => {
+    caches.open(CACHE_NAME).then((cache) =>
+      cache.match(event.request).then((cachedResponse) => {
         const fetchPromise = fetch(event.request).then(async (networkResponse) => {
-          const clonedNetworkResponse = networkResponse.clone();
+          const clonedResponse = networkResponse.clone();
           const networkEtag = networkResponse.headers.get('Etag');
+
+          await cache.put(event.request, clonedResponse);
 
           const cached = await cache.match(event.request);
           const cachedEtag = cached?.headers?.get('Etag');
 
-          await cache.put(event.request, clonedNetworkResponse);
+          const isUpdated = networkEtag && cachedEtag && networkEtag !== cachedEtag;
 
-          if (networkEtag && cachedEtag && networkEtag !== cachedEtag) {
-            console.log('새로운 컨텐츠가 있어서 postMessage 전송');
+          if (isUpdated) {
+            console.log('[SW:fetch] 새로운 컨텐츠 감지됨 → postMessage & 캐시 정리');
+
+            await cleanupCaches();
+
             self.clients.matchAll().then((clients) => {
               clients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
             });
@@ -65,9 +68,8 @@ self.addEventListener('fetch', (event) => {
 
         event.waitUntil(fetchPromise);
 
-        // 캐시가 있으면 먼저 응답하고, 없으면 네트워크 응답을 사용
         return cachedResponse || fetch(event.request);
-      });
-    }),
+      }),
+    ),
   );
 });

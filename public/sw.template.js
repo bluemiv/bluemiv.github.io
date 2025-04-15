@@ -30,8 +30,15 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Serice Worker가 자기 자신(sw.js)은 캐싱하면 안 되므로 제외
-  if (/\/sw\.js/.test(url.pathname.toLowerCase())) return;
+  // Service Worker 자기 자신은 제외
+  if (/\/sw\.js$/i.test(url.pathname.toLowerCase())) return;
+
+  // sitemap.xml, rss.xml, manifest.webmanifest 등은 캐시하지 않음
+  if (
+    /\/(sitemap\.xml|rss\.xml|feed\.xml|manifest\.webmanifest)$/i.test(url.pathname.toLowerCase())
+  ) {
+    return;
+  }
 
   // GET이 아닌 요청은 제외
   if (event.request.method !== 'GET') return;

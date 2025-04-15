@@ -166,3 +166,55 @@ self.addEventListener('activate', (event) => {
 ```
 
 activate 이벤트를 사용하여, Service Worker가 활성화가 되었을때, 새로운 캐시 버전이 있다면 이전 캐시를 삭제합니다.
+
+### 2.6. 빌드시 캐시명 자동 업데이트
+
+`CACHE_NAME`을 수동으로 업데이트하는 것은 번거롭습니다. 따라서, 빌드 시점에 자동으로 캐시 이름을 업데이트하는 방법을 적용하기 위해 스크립트를 작성해봅시다.
+
+sw.js 캐시명에 `__CACHE_NAME__`을 할당하여, 빌드시간을 치환하는 방식을 사용할겁니다. 우선 `public/build-sw.js`를 작성합니다.
+
+```javascript {12}
+// public/build-sw.js
+const fs = require('fs');
+const path = require('path');
+
+const cacheVersion = `blog-${Date.now()}`;
+
+const templatePath = path.join(__dirname, '../public/sw.template.js');
+const outputPath = path.join(__dirname, '../public/sw.js');
+
+let swTemplate = fs.readFileSync(templatePath, 'utf8');
+
+// __CACHE_NAME__을 실제 버전(빌드 시간)으로 치환
+swTemplate = swTemplate.replace('__CACHE_NAME__', cacheVersion);
+
+fs.writeFileSync(outputPath, swTemplate);
+
+console.log(`sw.js 생성 완료. CACHE_NAME = ${cacheVersion}`);
+```
+
+위 스크립트는 `public/sw.template.js`의 `__CACHE_NAME__`을 빌드 시간으로 치환하여 `sw.js` 파일을 새롭게 생성해주는 스크립트 입니다. 그리고, `sw.template.js`의 캐시명을 수정합니다.
+
+```javascript
+// public/sw.template.js
+const CACHE_NAME = '__CACHE_NAME__';
+// ...
+```
+
+마지막으로 package.json 스크립트에 `prebuild`를 추가하여, 빌드 전에 `node scripts/build-sw.js` 명령어가 실행될 수 있도록 합니다.
+
+> prebuild는 build 전에 실행되는 스크립트입니다.
+
+```json
+{
+  "scripts": {
+    "prebuild": "node scripts/build-sw.js",
+    "build": "next build"
+  },
+  ...
+}
+```
+
+다음 사진과 같이 빌드 할때마다 캐시 값이 변경되므로 따로 관리하지 않아도 됩니다.
+
+![__CACHE_NAME__이 제대로 치환됨](/r/i/nextjs/5/2.webp)

@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import Head from 'next/head';
 import { Header } from '@/widgets/Header';
 import RegisterServiceWorker from '@/features/serviceWorker/ui/RegisterServiceWorker';
 
@@ -18,6 +17,10 @@ const pretendardFont = localFont({
 export const metadata: Metadata = {
   title: process.env.METADATA_TITLE,
   description: process.env.METADATA_DESCRIPTION,
+  icons: {
+    icon: '/favicon.ico',
+  },
+  manifest: '/manifest.webmanifest',
 };
 
 export default function RootLayout({
@@ -27,10 +30,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/manifest.webmanifest" />
-      </Head>
       <body className={`${pretendardFont.className} antialiased min-h-screen`}>
         <script
           dangerouslySetInnerHTML={{

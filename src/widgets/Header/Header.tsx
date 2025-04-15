@@ -2,6 +2,7 @@ import { ROUTE_PATH } from '@/shared/constants/route';
 import NavLink from '@/widgets/Header/NavLink';
 import Logo from '@/widgets/Header/Logo';
 import { ThemeToggleButton } from '@/features/toggleTheme/ui';
+import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/ui/RefreshServiceWorkerCacheButton';
 
 export default function Header() {
   return (
@@ -19,7 +20,8 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <div>
+        <div className="flex items-center gap-sm">
+          <RefreshServiceWorkerCacheButton />
           <ThemeToggleButton />
         </div>
       </nav>

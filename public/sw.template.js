@@ -28,6 +28,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  console.log('fetch 수행 url:', url);
 
   // Serice Worker가 자기 자신(sw.js)은 캐싱하면 안 되므로 제외
   if (/\/sw\.js/.test(url.pathname.toLowerCase())) return;
@@ -48,10 +49,10 @@ self.addEventListener('fetch', (event) => {
       return cache.match(event.request).then((cachedResponse) => {
         const fetchPromise = fetch(event.request).then(async (networkResponse) => {
           const clonedNetworkResponse = networkResponse.clone();
-          const networkEtag = networkResponse.headers.get('etag');
+          const networkEtag = networkResponse.headers.get('Etag');
 
           const cached = await cache.match(event.request);
-          const cachedEtag = cached?.headers?.get('etag');
+          const cachedEtag = cached?.headers?.get('Etag');
 
           console.log('캐시 저장');
           await cache.put(event.request, clonedNetworkResponse);

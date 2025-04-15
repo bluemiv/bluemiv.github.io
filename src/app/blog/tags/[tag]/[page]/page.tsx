@@ -9,8 +9,8 @@ interface Props {
 export async function generateMetadata({ params }: Props) {
   const { tag } = await params;
   const common = {
-    title: `'${tag}'에 대한 글`,
-    description: `'${tag}'에 대한 글 목록입니다.`,
+    title: `'${decodeURIComponent(tag)}'에 대한 글`,
+    description: `'${decodeURIComponent(tag)}'에 대한 글 목록입니다.`,
   };
   return {
     ...common,
@@ -23,11 +23,14 @@ export async function generateMetadata({ params }: Props) {
 export default async function Page(props: Props) {
   const { tag, page } = await props.params;
   const pageNum = Number(page);
-  const posts = getPostsByTag(tag, { offset: (pageNum - 1) * LIMIT, limit: LIMIT });
+  const posts = getPostsByTag(decodeURIComponent(tag), {
+    offset: (pageNum - 1) * LIMIT,
+    limit: LIMIT,
+  });
 
   return (
     <BlogHomeLayout
-      mainAreaTitle={`'#${tag}'에 대한 글 (${page} 페이지)`}
+      mainAreaTitle={`'#${decodeURIComponent(tag)}'에 대한 글 (${page} 페이지)`}
       posts={posts}
       currentPageNum={pageNum}
       totalPageNum={getPageNumberByTag(tag)}

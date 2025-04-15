@@ -1,12 +1,10 @@
 const CACHE_NAME = '__CACHE_NAME__';
 
 self.addEventListener('install', () => {
-  console.log('서비스 워커 설치');
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  console.log('서비스 워커 활성화');
   const cacheWhitelist = [CACHE_NAME];
 
   event.waitUntil(
@@ -53,11 +51,8 @@ self.addEventListener('fetch', (event) => {
           const cached = await cache.match(event.request);
           const cachedEtag = cached?.headers?.get('Etag');
 
-          console.log('캐시 저장');
           await cache.put(event.request, clonedNetworkResponse);
 
-          console.log('networkEtag', networkEtag);
-          console.log('cachedEtag', cachedEtag);
           if (networkEtag && cachedEtag && networkEtag !== cachedEtag) {
             console.log('새로운 컨텐츠가 있어서 postMessage 전송');
             self.clients.matchAll().then((clients) => {

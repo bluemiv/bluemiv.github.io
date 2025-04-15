@@ -63,6 +63,24 @@ export const getPostsByTag = (tag: string, page?: { limit: number; offset: numbe
 };
 
 /**
+ * 모든 태그를 가져온다.
+ */
+export const getTags = () => {
+  const posts = getAllPosts();
+  const tags = posts.reduce((acc: { [key: string]: number }, post) => {
+    for (const tag of post.metadata.tags) {
+      if (!acc?.[tag]) {
+        acc[tag] = 1;
+      } else {
+        acc[tag] += 1;
+      }
+    }
+    return acc;
+  }, {});
+  return Object.entries(tags).sort((p, n) => p[0].localeCompare(n[0]));
+};
+
+/**
  * 최근에 작성된 글을 가져온다.
  * @param count 가져올 글의 개수 (default: 5)
  */

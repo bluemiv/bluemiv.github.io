@@ -27,7 +27,10 @@ self.addEventListener('fetch', (event) => {
   // Serice Worker가 자기 자신(sw.js)은 캐싱하면 안 되므로 제외
   if (/\/sw\.js$/.test(url.pathname)) return;
 
+  // GET이 아닌 요청은 제외
   if (event.request.method !== 'GET') return;
+
+  // chrome extension 등 제외
   if (url.protocol === 'chrome-extension:') return;
 
   // 외부 도메인 (Google Ads 등)은 제외

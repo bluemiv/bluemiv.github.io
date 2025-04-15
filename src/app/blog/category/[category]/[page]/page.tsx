@@ -43,7 +43,7 @@ export async function generateStaticParams() {
     return [
       ...acc,
       ...Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => ({
-        category: encodeURIComponent(category),
+        category,
         page: page.toString(),
       })),
     ];

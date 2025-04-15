@@ -30,6 +30,9 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   if (url.protocol === 'chrome-extension:') return;
 
+  // 외부 도메인 (Google Ads 등)은 제외
+  if (url.origin !== self.location.origin) return;
+
   if (url.pathname.startsWith('/')) {
     event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {

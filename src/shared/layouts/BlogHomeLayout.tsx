@@ -20,9 +20,9 @@ export default function BlogHomeLayout({
   totalPageNum,
 }: Props) {
   return (
-    <div className="flex items-start justify-start gap-md">
+    <div className="flex items-start justify-start gap-md w-full">
       <Sidebar />
-      <div className="flex-1">
+      <div className="w-full">
         <main className="max-w-[1280px] p-md mx-auto w-full flex flex-col gap-lg justify-start items-start">
           {mainAreaTitle && (
             <h1 className="font-semibold text-2xl text-app-sub-text dark:text-app-dark-sub-text">

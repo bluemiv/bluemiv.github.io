@@ -29,6 +29,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.webmanifest" />
       </Head>
       <body className={`${pretendardFont.className} antialiased min-h-screen`}>
         <script

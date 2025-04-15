@@ -16,7 +16,11 @@ export default function CategorySection() {
             <li key={category}>
               <Link
                 className="capitalize hover:text-app-primary dark:hover:text-app-dark-primary flex items-center px-sm h-[36px] hover:bg-app-sub-bg dark:hover:bg-app-dark-sub-bg rounded"
-                href={[ROUTE_PATH.BLOG_CATEGORY, encodeURIComponent(category), '1'].join('/')}
+                href={[
+                  ROUTE_PATH.BLOG_CATEGORY,
+                  encodeURIComponent(category.toLowerCase()),
+                  '1',
+                ].join('/')}
               >
                 {category}
                 <span className="ml-sm text-sm text-app-sub-text dark:text-app-dark-sub-text">

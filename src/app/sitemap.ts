@@ -59,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       return [
         ...acc,
         ...Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => ({
-          url: `${baseUrl}/blog/category/${encodeURIComponent(category)}/${page}`,
+          url: `${baseUrl}/blog/category/${encodeURIComponent(category.toLowerCase())}/${page}`,
           changeFrequency: 'weekly' as ChangeFrequency,
         })),
       ];
@@ -83,7 +83,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       return [
         ...acc,
         ...Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => ({
-          url: `${baseUrl}/blog/tags/${encodeURIComponent(tag)}/${page}`,
+          url: `${baseUrl}/blog/tags/${encodeURIComponent(tag.toLowerCase())}/${page}`,
           changeFrequency: 'weekly' as ChangeFrequency,
         })),
       ];

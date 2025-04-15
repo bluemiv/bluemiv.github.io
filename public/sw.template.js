@@ -27,47 +27,47 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   // Serice Worker가 자기 자신(sw.js)은 캐싱하면 안 되므로 제외
-  if (/\/sw\.js$/.test(url.pathname)) return;
+  if (/\/sw\.js/.test(url.pathname.toLowerCase())) return;
 
   // GET이 아닌 요청은 제외
   if (event.request.method !== 'GET') return;
 
   // chrome extension 등 제외
-  if (url.protocol === 'chrome-extension:') return;
+  if (url.protocol !== 'https') return;
 
   // 외부 도메인 (Google Ads 등)은 제외
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.startsWith('/')) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then((cache) => {
-        return cache.match(event.request).then((cachedResponse) => {
-          const fetchPromise = fetch(event.request).then(async (networkResponse) => {
-            const clonedNetworkResponse = networkResponse.clone();
-            const networkEtag = networkResponse.headers.get('etag');
+  if (!url.pathname.startsWith('/')) return;
 
-            const cached = await cache.match(event.request);
-            const cachedEtag = cached?.headers?.get('etag');
+  event.respondWith(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then(async (networkResponse) => {
+          const clonedNetworkResponse = networkResponse.clone();
+          const networkEtag = networkResponse.headers.get('etag');
 
-            await cache.put(event.request, clonedNetworkResponse);
+          const cached = await cache.match(event.request);
+          const cachedEtag = cached?.headers?.get('etag');
 
-            // 실제 변경된 경우에만 메시지 보냄
-            if (!networkEtag || !cachedEtag || networkEtag !== cachedEtag) {
-              // 다르면 메시지 전송
-              self.clients.matchAll().then((clients) => {
-                clients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
-              });
-            }
+          await cache.put(event.request, clonedNetworkResponse);
 
-            return networkResponse;
-          });
+          // 실제 변경된 경우에만 메시지 보냄
+          if (!networkEtag || !cachedEtag || networkEtag !== cachedEtag) {
+            // 다르면 메시지 전송
+            self.clients.matchAll().then((clients) => {
+              clients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
+            });
+          }
 
-          event.waitUntil(fetchPromise);
-
-          // 캐시가 있으면 먼저 응답하고, 없으면 네트워크 응답을 사용
-          return cachedResponse || fetch(event.request);
+          return networkResponse;
         });
-      }),
-    );
-  }
+
+        event.waitUntil(fetchPromise);
+
+        // 캐시가 있으면 먼저 응답하고, 없으면 네트워크 응답을 사용
+        return cachedResponse || fetch(event.request);
+      });
+    }),
+  );
 });

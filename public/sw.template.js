@@ -1,6 +1,8 @@
 const CACHE_NAME = '__CACHE_NAME__';
 
-self.addEventListener('install', () => {});
+self.addEventListener('install', () => {
+  self.skipWaiting();
+});
 
 self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];

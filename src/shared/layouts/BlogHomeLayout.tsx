@@ -4,6 +4,7 @@ import { GridPostCard } from '@/entities/post/ui';
 import { Post } from '@/entities/post/model';
 import Link from 'next/link';
 import clsx from 'clsx';
+import { ResponsiveAd } from '@/shared/ui';
 
 interface Props {
   mainAreaTitle?: ReactNode;
@@ -36,6 +37,7 @@ export default function BlogHomeLayout({
               />
             ))}
           </div>
+          <ResponsiveAd />
           <div className="w-full flex items-center justify-center">
             {Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => (
               <div

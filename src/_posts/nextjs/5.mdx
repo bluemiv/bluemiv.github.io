@@ -2,7 +2,7 @@
 title: Next.js 15에서 PWA 설정하여 블로그 글 캐싱하기
 description: PWA는 웹 애플리케이션을 네이티브 앱처럼 동작하게 만드는 기술입니다. 본 글에서는 Next.js 15에서 Progressive Web App(PWA)을 설정하는 방법을 설명합니다.
 createdAt: 2025-01-16T19:47:29+09:00
-updatedAt: 2025-01-16T19:47:29+09:00
+updatedAt: 2025-04-15T22:13:07+09:00
 tags: ['nextjs', 'fe', 'pwa', 'service worker']
 release: true
 author: 김태홍 (bluemiv)
@@ -24,16 +24,12 @@ PWA는 웹 애플리케이션을 네이티브 앱처럼 동작하게 만드는 �
 
 ### 2.1. manifest.json 생성
 
-Next.js 13 버전 app router 부터는 `app/manifest.ts` 파일로 manifest.json을 생성할 수 있습니다.
-
-다음과 같이 `app/manifest.ts` 작성하여 PWA의 메타데이터(앱 이름, 아이콘, 시작 URL 등)를 설정합니다.
+다음과 같이 `app/manifest.webmanifest/route.ts` 작성하여 PWA의 메타데이터(앱 이름, 아이콘, 시작 URL 등)를 설정합니다.
 
 ```typescript
-// app/manifest.ts
-import { MetadataRoute } from 'next';
-
-export default function manifest(): MetadataRoute.Manifest {
-  return {
+// app/manifest.webmanifest/route.ts
+export function GET() {
+  const manifest = {
     name: 'My PWA App',
     short_name: 'PWAApp',
     description: 'A Progressive Web App built with Next.js',
@@ -54,6 +50,30 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
   };
+
+  return new Response(JSON.stringify(manifest), {
+    headers: {
+      'Content-Type': 'application/manifest+json',
+    },
+  });
+}
+```
+
+그리고, manifest의 경로를 metadata에 명시합니다.
+
+```tsx {4}
+export const metadata: Metadata = {
+  // ...
+  icons: { icon: '/favicon.ico' },
+  manifest: '/manifest.webmanifest',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  // ...
 }
 ```
 

@@ -42,6 +42,12 @@ self.addEventListener('fetch', (event) => {
         return cache.match(event.request).then((cachedResponse) => {
           const fetchPromise = fetch(event.request).then((networkResponse) => {
             cache.put(event.request, networkResponse.clone());
+
+            // 클라이언트에게 새 버전 알림
+            self.clients.matchAll().then((clients) => {
+              clients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
+            });
+
             return networkResponse;
           });
 

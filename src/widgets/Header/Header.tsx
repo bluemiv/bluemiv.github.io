@@ -13,7 +13,7 @@ export default function Header() {
           {[
             // { href: ROUTE_PATH.ABOUT, label: 'ABOUT' },
             { href: ROUTE_PATH.ROOT, label: 'HOME' },
-            { href: ROUTE_PATH.BLOG_TAGS, label: 'TAGS' },
+            // { href: ROUTE_PATH.BLOG_TAGS, label: 'TAGS' },
           ].map(({ href, label }) => (
             <li key={href}>
               <NavLink href={href}>{label}</NavLink>

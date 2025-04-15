@@ -53,8 +53,7 @@ self.addEventListener('fetch', (event) => {
           await cache.put(event.request, clonedNetworkResponse);
 
           // 실제 변경된 경우에만 메시지 보냄
-          if (!networkEtag || !cachedEtag || networkEtag !== cachedEtag) {
-            // 다르면 메시지 전송
+          if (networkEtag && cachedEtag && networkEtag !== cachedEtag) {
             self.clients.matchAll().then((clients) => {
               clients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
             });

@@ -20,9 +20,9 @@ export default function BlogHomeLayout({
   totalPageNum,
 }: Props) {
   return (
-    <div className="flex items-start justify-start gap-md w-full">
+    <div className="flex items-start justify-start w-full">
       <Sidebar />
-      <div className="w-full">
+      <div className="w-full md:w-[calc(100%-280px)]">
         <main className="max-w-[1280px] p-md mx-auto w-full flex flex-col gap-lg justify-start items-start">
           {mainAreaTitle && (
             <h1 className="font-semibold text-2xl text-app-sub-text dark:text-app-dark-sub-text">
@@ -37,7 +37,9 @@ export default function BlogHomeLayout({
               />
             ))}
           </div>
-          <ResponsiveAd />
+          <div className="overflow-hidden w-full">
+            <ResponsiveAd />
+          </div>
           <div className="w-full flex items-center justify-center">
             {Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => (
               <div

@@ -11,15 +11,20 @@ async function cleanupCaches() {
       }
     }),
   );
-  await self.clients.claim();
 }
 
-self.addEventListener('install', () => {
+self.addEventListener('install', (event) => {
   self.skipWaiting();
+  event.waitUntil(cleanupCaches());
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(cleanupCaches());
+  event.waitUntil(
+    (async () => {
+      await cleanupCaches();
+      await self.clients.claim();
+    })(),
+  );
 });
 
 self.addEventListener('fetch', (event) => {
@@ -55,12 +60,10 @@ self.addEventListener('fetch', (event) => {
 
           if (isUpdated) {
             console.log('[SW:fetch] 새로운 컨텐츠 감지됨 → postMessage & 캐시 정리');
-
-            await cleanupCaches();
-
-            self.clients.matchAll().then((clients) => {
+            const clients = await self.clients.matchAll();
+            if (clients.length > 0) {
               clients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
-            });
+            }
           }
 
           return networkResponse;

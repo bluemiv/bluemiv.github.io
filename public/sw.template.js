@@ -30,15 +30,19 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Service Worker 자기 자신은 제외
-  if (/\/sw\.js$/i.test(url.pathname.toLowerCase())) return;
+  // 캐시 제외할 리소스 목록
+  const excludedPaths = [
+    '/sw.js',
+    '/sitemap.xml',
+    '/rss.xml',
+    '/feed.xml',
+    '/manifest.webmanifest',
+    '/robots.txt',
+    '/ads.txt',
+  ];
 
-  // sitemap.xml, rss.xml, manifest.webmanifest 등은 캐시하지 않음
-  if (
-    /\/(sitemap\.xml|rss\.xml|feed\.xml|manifest\.webmanifest)$/i.test(url.pathname.toLowerCase())
-  ) {
-    return;
-  }
+  // 소문자 처리 후 정확히 일치하는 경로 제외
+  if (excludedPaths.includes(url.pathname.toLowerCase())) return;
 
   // GET이 아닌 요청은 제외
   if (event.request.method !== 'GET') return;

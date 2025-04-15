@@ -45,8 +45,10 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           });
 
+          event.waitUntil(fetchPromise);
+
           // 캐시가 있으면 먼저 응답하고, 없으면 네트워크 응답을 사용
-          return cachedResponse || fetchPromise;
+          return cachedResponse || fetch(event.request);
         });
       }),
     );

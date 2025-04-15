@@ -2,7 +2,13 @@ import type { MetadataRoute } from 'next';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import { getAllPosts, getCategories, getPageNumberByCategory } from '@/entities/post/api';
+import {
+  getAllPosts,
+  getCategories,
+  getPageNumberByCategory,
+  getPageNumberByTag,
+  getTags,
+} from '@/entities/post/api';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -61,6 +67,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     [],
   );
 
+  // Category sitemap
+  const tags = getTags();
+  const tagsSitemapData = tags.reduce(
+    (
+      acc: {
+        url: string;
+        changeFrequency?: ChangeFrequency;
+        priority?: number | undefined;
+      }[],
+      entry,
+    ) => {
+      const tag = entry[0];
+      const totalPageNum = getPageNumberByTag(tag);
+      return [
+        ...acc,
+        ...Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => ({
+          url: `${baseUrl}/blog/tags/${tag}/${page}`,
+          changeFrequency: 'weekly' as ChangeFrequency,
+        })),
+      ];
+    },
+    [],
+  );
+
   return [
     {
       url: baseUrl!,
@@ -70,6 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...postsSitemapData,
     ...categoriesSitemapData,
+    ...tagsSitemapData,
   ];
 }
 

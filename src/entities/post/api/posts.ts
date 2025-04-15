@@ -53,13 +53,15 @@ export const getPost = (category: string, slug: string): Post => {
 
 /**
  * Tag 값에 해당하는 posts를 반환
- * @param tag
+ * @param tag post의 태그
  * @param page
  */
 export const getPostsByTag = (tag: string, page?: { limit: number; offset: number }): Post[] => {
   const offset = page?.offset ?? 0;
   const limit = page?.limit ?? LIMIT;
-  return getAllPosts().slice(offset, offset + limit);
+  return getAllPosts()
+    .filter((post) => post.metadata.tags.includes(tag))
+    .slice(offset, offset + limit);
 };
 
 /**
@@ -126,6 +128,15 @@ export const getPostsByCategory = (
  */
 export const getPageNumberByCategory = (category: string): number => {
   const posts = getAllPosts().filter((post) => post.metadata.category === category);
+  return Math.ceil(posts.length / LIMIT);
+};
+
+/**
+ * Tag 값에 해당하는 posts의 전체 페이지 수를 반환
+ * @param tag
+ */
+export const getPageNumberByTag = (tag: string): number => {
+  const posts = getAllPosts().filter((post) => post.metadata.tags.includes(tag));
   return Math.ceil(posts.length / LIMIT);
 };
 

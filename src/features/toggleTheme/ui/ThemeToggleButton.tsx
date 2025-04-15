@@ -1,7 +1,8 @@
 'use client';
 
 import { useLayoutEffect, useRef, useState } from 'react';
-import Icons from '@/widgets/Icons';
+import MoonIcon from './MoonIcon';
+import SunIcon from './SunIcon';
 
 export default function ThemeToggleButton() {
   const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
@@ -37,7 +38,7 @@ export default function ThemeToggleButton() {
       onClick={toggleTheme}
     >
       <div className={isFadeOut ? 'animate-theme-icon-fade-out' : 'animate-theme-icon-fade-in'}>
-        {theme === 'dark' ? <Icons.SunIcon /> : <Icons.MoonIcon />}
+        {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
       </div>
     </button>
   );

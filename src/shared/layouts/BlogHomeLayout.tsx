@@ -33,6 +33,7 @@ export default function BlogHomeLayout({
             {posts.map((post) => (
               <GridPostCard
                 key={[post.metadata.category, post.metadata.slug].join('/')}
+                className="first:col-span-1 md:first:col-span-2"
                 post={post}
               />
             ))}

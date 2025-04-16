@@ -12,9 +12,8 @@ async function cleanupCaches() {
   );
 }
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', () => {
   self.skipWaiting();
-  event.waitUntil(cleanupCaches());
 });
 
 self.addEventListener('activate', (event) => {

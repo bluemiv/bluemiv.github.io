@@ -9,7 +9,7 @@ export async function GET() {
     .filter((post) => post.metadata.release)
     .map((post) => {
       const { metadata } = post;
-      const postUrl = `${siteUrl}/posts/${metadata.slug}`;
+      const postUrl = `${siteUrl}/blog/${metadata.category}/${metadata.slug}`;
 
       const categoriesXml = metadata.tags
         .map((tag) => `<category><![CDATA[${tag}]]></category>`)

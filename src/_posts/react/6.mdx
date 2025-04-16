@@ -1,0 +1,152 @@
+---
+title: Tailwind CSS vs styled-components
+description: 최근에는 사용할 수 있는 스타일링 도구가 많습니다. 본 글에서는 보편적으로 사용하는 Tailwind CSS와 Styled-components의 특징, 장단점, 그리고 프로젝트 상황에 따른 선택 기준을 설명합니다.
+createdAt: 2025-01-29T20:12:11+09:00
+updatedAt: 2025-01-29T20:12:11+09:00
+tags: ['css-in-js', 'tailwindcss', 'styled-components', 'fe']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/6/thumbnail.webp
+---
+
+본 글에서는 Tailwind CSS와 styled-components의 특징을 보고, 어떤 경우에 사용하면 좋을지 설명합니다.
+
+## 1. Tailwind CSS
+
+`Tailwind CSS`는 유틸리티 클래스 기반의 CSS 라이브러리입니다. UI를 빠르고 일관되게 만들 수 있도록 도와주는 도구로, 저도 실제 프로젝트에서 자주 사용하는 라이브러리입니다.
+
+> 사용 방법이나 프로젝트 설정이 궁금하시면 [tailwindcss](http://tailwindcss.com/)를 참고해주세요
+
+예를들어,
+
+```html
+<div class="card">
+  카드 내용
+</div>
+```
+
+```css
+.card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+```
+
+위와 같은 css를 tailwindcss로 작성한다고 하면, 다음과 같이 별도의 CSS 없이 HTML 클래스만으로 동일한 스타일을 구현할 수 있습니다
+
+```html
+<div class="bg-white p-4 rounded shadow-md">
+  카드 내용
+</div>
+```
+
+![tailwind 결과](/r/i/react/6/2.webp)
+
+위와 같이 tailwind는 재사용 가능한 유틸리티 클래스들을 조합하여 원하는 UI를 빠르게 구현할 수 있습니다.
+
+### 1.1. 장점
+
+- 유틸리티 기반: Tailwind는 margin, padding, color, typography 등 각각의 속성을 세분화된 클래스를 제공
+- 미리 정의된 크기 값: 예를 들어 p-4는 padding: 1rem을 의미하고, text-lg는 큰 텍스트 크기를 의미
+- 커스터마이징 가능: 설정파일(`tailwind.config.js`)을 통해 테마 색상, 폰트, spacing 값을 자유롭게 설정할 수 있음
+- 반응형 및 상태 기반 클래스 제공: `sm:`, `md:`, `hover:`, `focus:` 등을 조합해 반응형 및 인터랙션 스타일도 쉽게 구현할 수 있음
+- 빠른 개발 속도: 별도 CSS 없이 빠르게 스타일링 가능
+- 일관된 디자인 유지: 팀 프로젝트에서도 통일된 크기와 규칙 사용 가능
+- 불필요한 CSS 제거: 빌드시 실제 사용하는 클래스만 번들링되어 결과물이 가볍고 최적화됨
+
+### 1.2. 단점
+
+- HTML이 길어짐: 복잡한 UI일수록 class 속성이 길어지고 가독성이 떨어질 수 있음
+- 디자인 수정 시 클래스 일일이 변경해야 함
+
+---
+
+## 2. Styled Components
+
+`Styled Components`는 JavaScript 안에서 CSS를 작성할 수 있도록 해주는 `CSS-in-JS` 라이브러리입니다. 스타일을 컴포넌트와 같이 정의하고 관리할 수 있어서, 재사용성과 유지보수성이 높다는 장점이 있습니다.
+
+예를들어,
+
+```html
+<button class="primary-button">버튼</button>
+```
+
+```css
+.primary-button {
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+}
+```
+
+`styled-components`를 사용하면 다음과 같이 작성할 수 있습니다.
+
+```tsx
+import styled from 'styled-components';
+
+const PrimaryButton = styled.button`
+  background-color: #4f46e5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+`;
+
+function App() {
+  return <PrimaryButton>버튼</PrimaryButton>;
+}
+```
+
+`<PrimaryButton>`와 같이 컴포넌트처럼 정의하고 사용할 수 있습니다.
+
+### 2.1. 장점
+
+- CSS-in-JS 방식: 자바스크립트 파일 안에서 스타일을 정의할 수 있음
+- props로 동적 스타일 처리: 스타일에 `props`를 전달하여, 동적으로 스타일링을 할 수 있음
+- 자동 클래스 네이밍: 고유한 className이 자동으로 생성되어 스타일 충돌이 발생하지 않음
+- 높은 재사용성: 컴포넌트 단위로 캡슐화하여, 다른 곳에서도 쉽게 재사용 가능
+- 테마 설정 쉬움: `ThemeProvider`를 사용하면 다크모드나 사용자 지정 테마 구현이 쉬움
+
+### 2.2. 단점
+
+- 런타임 성능 이슈: 브라우저에서 CSS가 동적으로 생성되기 때문에 성능 부담이 있을 수 있음
+- 빌드 사이즈 증가: 별도의 CSS 파일이 없고 모두 JS에 포함되므로 번들 크기가 커질 수 있음
+
+---
+
+## 3. 선택 기준
+
+Tailwind CSS와 Styled Components는 각각 장단점이 있습니다. 어떤게 좋다 나쁘다를 따지기는 힘들 것 같습니다.
+사실 어떤 방식을 사용하는 것이 적합할지는 속해있는 팀의 개발 방식, 취향에 따라 다를 것 같습니다.
+
+그래도 상황별로 어떤 방식을 선택하면 좋올지 정리해보면,
+
+**Tailwind CSS를 선택하면 좋은 경우**
+
+- 빠른 UI 구현이 필요한 경우
+- 프로토타입 제작, MVP 개발 등 빠른 피드백이 필요한 프로젝트
+- 일관된 디자인 시스템을 빠르게 구축하고 싶은 경우
+- 디자이너 없이 개발자가 직접 디자인을 구성하는 경우
+- 정적인 웹사이트나 블로그, 랜딩페이지 개발에 적합
+
+**Styled Components를 선택하면 좋은 경우**
+
+- 컴포넌트 기반 아키텍처를 중요시하는 경우
+- 스타일도 컴포넌트로 관리되기 때문에 유지보수가 쉬움
+- 동적으로 스타일을 변경할 일이 잦은 경우
+
+---
+
+## 4. 결론
+
+다음 사진과 같이 최근 1년간 구글 트렌드도 확인해봤습니다.
+
+![구글 트렌드](/r/i/react/6/1.webp)
+
+tailwindcss를 검색량이 styled component 보다 더 많긴합니다. 하지만 검색량이 높다고, styled component는 별로고 tailwindcss가 더 좋다고 할 수는 없습니다.
+
+프로젝트의 성격, 팀의 스타일, 개발 방식에 따라 Tailwind CSS도, Styled Components도 모두 좋은 선택이 될 수 있습니다.

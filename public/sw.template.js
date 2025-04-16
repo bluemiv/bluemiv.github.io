@@ -1,11 +1,10 @@
 const CACHE_NAME = '__CACHE_NAME__';
-const CACHE_WHITELIST = [CACHE_NAME];
 
 async function cleanupCaches() {
   const cacheNames = await caches.keys();
   await Promise.all(
     cacheNames.map((cacheName) => {
-      if (!CACHE_WHITELIST.includes(cacheName)) {
+      if (CACHE_NAME !== cacheName) {
         console.log(`[SW] 캐시 제거: '${cacheName}'`);
         return caches.delete(cacheName);
       }
@@ -53,6 +52,8 @@ self.addEventListener('fetch', (event) => {
   // 외부 도메인 (Google Ads 등)은 제외
   if (url.origin !== self.location.origin) return;
 
+  if (event.request.headers.has('range')) return;
+
   if (!url.pathname.startsWith('/')) return;
 
   event.respondWith(
@@ -68,6 +69,14 @@ self.addEventListener('fetch', (event) => {
           const cachedEtag = cached?.headers?.get('Etag');
 
           const isUpdated = networkEtag && cachedEtag && networkEtag !== cachedEtag;
+          console.log(
+            'networkEtag:',
+            networkEtag,
+            'cachedEtag:',
+            cachedEtag,
+            'isUpdated:',
+            isUpdated,
+          );
 
           if (isUpdated) {
             console.log('[SW:fetch] 새로운 컨텐츠 감지됨 → postMessage & 캐시 정리');

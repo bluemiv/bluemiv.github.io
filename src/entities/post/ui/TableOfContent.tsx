@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import RSSLink from '@/features/post/ui/RSSLink';
 
 export default function TableOfContent() {
   const [tocItems, setTocItems] = useState<{ level: string; id: string; label: string }[]>([]);
@@ -43,7 +44,7 @@ export default function TableOfContent() {
       <div className="font-semibold pb-md mb-md border-b border-app-sub-bg dark:border-app-dark-sub-bg">
         목차
       </div>
-      <ul className="flex flex-col gap-md text-sm max-h-[75vh] overflow-y-auto pb-md border-b md:pb-0 md:border-none">
+      <ul className="flex flex-col gap-md text-sm max-h-[60vh] overflow-hidden hover:overflow-y-auto pb-md border-b md:pb-0 md:border-none">
         {tocItems.map((item) => (
           <li key={item.id}>
             <a
@@ -74,6 +75,9 @@ export default function TableOfContent() {
           </li>
         ))}
       </ul>
+      <div className="pt-md mt-md border-t border-app-sub-bg dark:border-app-dark-sub-bg flex items-center gap-sm justify-end">
+        <RSSLink />
+      </div>
     </div>
   );
 }

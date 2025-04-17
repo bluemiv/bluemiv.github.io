@@ -22,6 +22,7 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
       <div className="w-full min-h-[180px] max-h-[180px] bg-app-sub-bg dark:bg-app-dark-sub-bg overflow-hidden">
         {!!post.metadata.thumbnail && (
           <Image
+            loading="lazy"
             className="w-full h-full object-cover group-hover:scale-110 duration-150 ease-in-out"
             width="320"
             height="280"

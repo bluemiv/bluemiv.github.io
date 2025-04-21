@@ -46,7 +46,7 @@ export default function BlogHomeLayout({
               <div
                 key={page}
                 className={clsx(
-                  ' w-[32px] h-[32px] flex items-center justify-center rounded-md',
+                  ' w-[32px] h-[32px] flex items-center justify-center gap-md rounded-md',
                   page === currentPageNum
                     ? 'bg-app-primary dark:bg-app-dark-primary text-white cursor-not-allowed'
                     : 'bg-app-sub-bg dark:bg-app-dark-sub-bg hover:bg-app-primary dark:hover:bg-app-dark-primary hover:text-white duration-100 ease-in-out cursor-pointer',

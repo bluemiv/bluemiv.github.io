@@ -5,10 +5,10 @@ async function cleanupCaches() {
   await Promise.all(
     cacheNames.map(async (cacheName) => {
       if (CACHE_NAME !== cacheName) {
-        console.log('[SW:fetch] 새로운 컨텐츠 감지됨 → postMessage & 캐시 정리');
-        const allClients = await self.clients.matchAll();
+        await caches.delete(cacheName);
+        console.log('[SW] 새로운 컨텐츠 감지됨 → postMessage & 캐시 정리');
+        const allClients = await self.clients.matchAll({ includeUncontrolled: true });
         allClients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
-        return caches.delete(cacheName);
       }
     }),
   );

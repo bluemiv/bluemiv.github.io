@@ -14,8 +14,12 @@ export default function RefreshServiceWorkerCacheButton() {
           setShowTooltip(true);
         }
       };
-
-      navigator.serviceWorker.addEventListener('message', handleMessage);
+      
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.addEventListener('message', handleMessage);
+      } else {
+        console.log('서비스워커가 아직 이 탭을 제어하고 있지 않아요!');
+      }
 
       return () => {
         navigator.serviceWorker.removeEventListener('message', handleMessage);

@@ -1,0 +1,177 @@
+---
+title: Turborepo에서 React 패키지 Storybook 설정하기
+description: Turborepo를 사용하는 Monorepo 프로젝트에서, React 패키지에 Storybook을 설정하는 방법을 설명합니다. 추가적으로 tailwindcss를 적용하는 방법도 설명합니다.
+createdAt: 2025-04-20T21:31:48+09:00
+updatedAt: 2025-04-20T21:31:48+09:00
+tags: ['fe', 'turborepo', 'react', 'storybook', 'monorepo', 'tailwindcss']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/14/thumbnail.webp
+---
+
+## 1. 프로젝트 구조
+
+기존에 진행하는 프로젝트에 `Storybook`을 적용하게 되었습니다. 진행하는 프로젝트의 package 구조는 다음과 같습니다.
+
+```text {7,10}
+├── apps
+│    ├── app1
+│    ├── app2
+│    └── app3
+└── packages
+     ├── core
+     ├── entities
+     ├── eslint-config
+     ├── i18n
+     ├── shared
+     ├── typescript-config
+     └── widgets
+```
+
+앱에서 공통으로 사용하는 `entities`와 `shared` 패키지에 storybook을 적용할 예정입니다.
+
+## 2. Storybook 설치
+
+우선 설치한 패키지로 이동하여 Storybook을 설치합니다.
+
+```bash
+cd packgeages/entities
+npx storybook@latest init
+```
+
+설치가 완료되면 `.storybook` 폴더와 `stories` 폴더가 생성됩니다. `stories` 폴더는 Storybook에서 미리 작성해둔 예시 컴포넌트들입니다.
+
+![.storybook와 stories 폴더](/r/i/react/14/1.webp)
+
+## 3. Storybook 작성
+
+storybook cli가 자동으로 만들어주는 stories라는 폴더에 작성해도 되지만, 저는 구현한 컴포넌트와 같은 depth에 작성할 예정입니다.
+
+tree를 그려보면 다음과 같습니다.
+
+```text {4-7}
+entities
+ └── src
+     ├── student
+     │    ├── StudentInfoCard
+     │    │    ├── index.ts
+     │    │    ├── StudentInfoCard.tsx
+     │    │    └── StudentInfoCard.stories.ts
+     │    └── ...
+     └── ...
+```
+
+`StudentInfoCard.stories.ts` 파일을 작성합니다.
+
+```typescript
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { dummyStudent } from '@repo/core/constants';
+
+import { StudentInfoCard } from './StudentInfoCard';
+
+const meta = {
+    title: 'Student/StudentInfoCard',
+    component: StudentInfoCard,
+    parameters: {
+        layout: 'centered',
+    },
+    tags: ['autodocs'],
+} satisfies Meta<typeof StudentInfoCard>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const studentInfoCard: Story = {
+    args: {
+        student: dummyStudent,
+    },
+};
+
+export const compactStudentInfoCard: Story = {
+    args: {
+        student: dummyStudent,
+        compact: true,
+    },
+};
+
+export const loadingStudentInfoCard: Story = {
+    args: {
+        isLoading: true,
+    },
+};
+
+export const errorStudentInfoCard: Story = {
+    args: {
+        isError: true,
+    },
+};
+```
+
+- `meta.title`: Storybook의 사이드바에 보여질 컴포넌트 경로
+- `meta.component`: Storybook에 보여줄 컴포넌트
+- `meta.parameters.layout`: Storybook의 레이아웃을 설정합니다. `centered`로 설정하면, 컴포넌트가 가운데 정렬됩니다.
+- `meta.tags`: Storybook의 문서화 기능을 사용하기 위한 설정입니다. `autodocs` 태그는 `@storybook/addon-docs` 플러그인에 의해 자동으로 문서를 생성합니다.
+
+다음 명령어로 storybook을 실행해보면, 구현한 컴포넌트를 확인할 수 있습니다.
+
+```bash
+> yarn entities storybook
+```
+
+![첫 storybook 작성](/r/i/react/14/2.webp)
+
+## 4. Tailwind CSS 설정
+
+진행중인 프로젝트에서는 Tailwind CSS를 사용하고 있습니다. 하지만 Storybook을 설치했다고 Tailwind CSS를 적용되는 것은 아닙니다.
+
+tailwindcss를 적용하기 위해, `packages/entites/postcss.config.js`와 `packages/entites/tailwind.config.js`를 생성합니다.
+
+```javascript
+// packages/entites/postcss.config.js
+export default {
+    plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+    },
+};
+```
+
+```javascript
+// packages/entites/tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        // ...생략
+    ],
+    theme: {
+        extend: {
+            //...생략
+        },
+    },
+    plugins: [],
+};
+```
+
+그리고, `.storybook/tailwind.css`를 생성합니다.
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+마지막으로 `.storybook/preview.ts` 파일을 열어서 위에 tailwindcss를 import 해줍니다.
+
+```typescript {1}
+import './tailwind.css';
+import type { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  // ... 생략
+};
+
+export default preview;
+```
+
+> 참고 문서: [https://storybook.js.org/recipes/tailwindcss](https://storybook.js.org/recipes/tailwindcss)

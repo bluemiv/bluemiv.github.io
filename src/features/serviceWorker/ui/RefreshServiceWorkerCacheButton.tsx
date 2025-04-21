@@ -13,8 +13,9 @@ export default function RefreshServiceWorkerCacheButton() {
           setShowTooltip(true);
         }
       };
-      navigator.serviceWorker.addEventListener('message', handleMessage);
-
+      navigator.serviceWorker.ready.then(() =>
+        navigator.serviceWorker.addEventListener('message', handleMessage),
+      );
       return () => {
         navigator.serviceWorker.removeEventListener('message', handleMessage);
       };

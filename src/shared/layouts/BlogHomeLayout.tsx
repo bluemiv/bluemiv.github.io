@@ -41,7 +41,7 @@ export default function BlogHomeLayout({
           <div className="overflow-hidden w-full">
             <ResponsiveAd />
           </div>
-          <div className="w-full flex items-center justify-center gap-md">
+          <div className="w-full flex items-center justify-center gap-sm">
             {Array.from({ length: totalPageNum }, (_, idx) => idx + 1).map((page) => (
               <div
                 key={page}

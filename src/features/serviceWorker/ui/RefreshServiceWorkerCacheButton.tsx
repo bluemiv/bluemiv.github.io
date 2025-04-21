@@ -7,11 +7,16 @@ export default function RefreshServiceWorkerCacheButton() {
 
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'NEW_VERSION_AVAILABLE') {
+      const handleMessage = (event: MessageEvent) => {
+        if (event.data?.type === 'NEW_VERSION_AVAILABLE') {
           setShowTooltip(true);
         }
-      });
+      };
+      navigator.serviceWorker.addEventListener('message', handleMessage);
+
+      return () => {
+        navigator.serviceWorker.removeEventListener('message', handleMessage);
+      };
     }
   }, []);
 

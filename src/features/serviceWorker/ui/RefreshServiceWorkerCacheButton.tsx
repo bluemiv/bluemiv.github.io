@@ -9,7 +9,7 @@ export default function RefreshServiceWorkerCacheButton() {
     if ('serviceWorker' in navigator) {
       const handleMessage = (event: MessageEvent) => {
         if (event.data?.type === 'NEW_VERSION_AVAILABLE') {
-          console.log('새로운 컨텐츠가 있습니다.');
+          console.log(`새로운 컨텐츠가 있습니다. ${event}`);
           setShowTooltip(true);
         }
       };

@@ -8,19 +8,12 @@ export default function RefreshServiceWorkerCacheButton() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       const handleMessage = (event: MessageEvent) => {
-        console.log(`이벤트 전달 받음`, event.data);
         if (event.data?.type === 'NEW_VERSION_AVAILABLE') {
-          console.log(`새로운 컨텐츠가 있습니다.`, event.data);
+          console.log(`[APP] 새로운 컨텐츠가 있습니다.`);
           setShowTooltip(true);
         }
       };
-      
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.addEventListener('message', handleMessage);
-      } else {
-        console.log('서비스워커가 아직 이 탭을 제어하고 있지 않아요!');
-      }
-
+      navigator.serviceWorker.addEventListener('message', handleMessage);
       return () => {
         navigator.serviceWorker.removeEventListener('message', handleMessage);
       };

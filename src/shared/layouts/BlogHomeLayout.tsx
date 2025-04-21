@@ -55,7 +55,12 @@ export default function BlogHomeLayout({
                 {page === currentPageNum ? (
                   <span>{page}</span>
                 ) : (
-                  <Link href={`/${page}`}>{page}</Link>
+                  <Link
+                    className="w-full h-full flex items-center justify-center"
+                    href={`/${page}`}
+                  >
+                    {page}
+                  </Link>
                 )}
               </div>
             ))}

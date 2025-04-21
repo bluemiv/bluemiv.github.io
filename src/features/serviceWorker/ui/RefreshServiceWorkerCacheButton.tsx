@@ -8,6 +8,7 @@ export default function RefreshServiceWorkerCacheButton() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       const handleMessage = (event: MessageEvent) => {
+        console.log(`이벤트 전달 받음`, event.data);
         if (event.data?.type === 'NEW_VERSION_AVAILABLE') {
           console.log(`새로운 컨텐츠가 있습니다.`, event.data);
           setShowTooltip(true);

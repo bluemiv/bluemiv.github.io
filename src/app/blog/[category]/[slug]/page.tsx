@@ -1,5 +1,10 @@
-import { getAllPosts, getPost } from '@/entities/post/api';
-import { ArticleMetadata, PostMdxContent, TableOfContent } from '@/entities/post/ui';
+import { getAllPosts, getNextAndPrevPost, getPost } from '@/entities/post/api';
+import {
+  ArticleMetadata,
+  NextOrPrevPostCard,
+  PostMdxContent,
+  TableOfContent,
+} from '@/entities/post/ui';
 import { Sidebar } from '@/widgets/Sidebar';
 import { ResponsiveAd } from '@/shared/ui';
 
@@ -26,6 +31,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function Page(props: Props) {
   const { category, slug } = await props.params;
   const post = getPost(category, slug);
+  const { nextPost, prevPost } = getNextAndPrevPost(category, slug);
+  console.log(nextPost, prevPost);
 
   return (
     <div className="flex items-start justify-start">
@@ -39,6 +46,14 @@ export default async function Page(props: Props) {
               <PostMdxContent content={post.content} />
             </article>
             <ResponsiveAd />
+            <div className="flex items-center gap-md mt-lg">
+              <div className="flex-1">
+                {prevPost?.metadata?.title && <NextOrPrevPostCard type="prev" post={prevPost} />}
+              </div>
+              <div className="flex-1">
+                {nextPost?.metadata?.title && <NextOrPrevPostCard type="next" post={nextPost} />}
+              </div>
+            </div>
           </div>
           <TableOfContent />
         </div>

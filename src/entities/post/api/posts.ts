@@ -157,3 +157,20 @@ export const getPageNumber = () => {
   const posts = getAllPosts();
   return Math.ceil(posts.length / LIMIT);
 };
+
+/**
+ * 다음글과 이전글을 가져온다.
+ * @param category
+ * @param slug
+ */
+export const getNextAndPrevPost = (category: string, slug: string) => {
+  const posts = getAllPosts();
+  const currentPostIndex = getAllPosts().findIndex(
+    (post) => post.metadata.category === category && post.metadata.slug === slug,
+  );
+
+  const nextPost = currentPostIndex <= 0 ? null : posts[currentPostIndex - 1];
+  const prevPost = currentPostIndex >= posts.length - 1 ? null : posts[currentPostIndex + 1];
+
+  return { nextPost, prevPost };
+};

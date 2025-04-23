@@ -5,6 +5,7 @@ import { Post } from '@/entities/post/model';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import clsx from 'clsx';
 import { PropsWithClassName } from '@/shared/types/props';
+import { CategoryTag } from '@/entities/post/ui/CategoryTag';
 
 interface Props {
   post: Post;
@@ -38,11 +39,11 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
         <div className="line-clamp-3 text-app-sub-text dark:text-app-dark-sub-text">
           {post.metadata.description}
         </div>
-        <div className="flex-1 text-app-sub-text dark:text-app-dark-sub-text text-sm flex items-end justify-between gap-sm">
-          <span className="bg-app-sub-bg dark:bg-app-dark-sub-bg px-xs rounded-md">
-            {post.metadata.category}
+        <div className="flex-1 flex items-end justify-between gap-sm">
+          <CategoryTag category={post.metadata.category} />
+          <span className="text-app-sub-text dark:text-app-dark-sub-text text-sm">
+            {dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm')}
           </span>
-          <span>{dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm')}</span>
         </div>
       </div>
     </Link>

@@ -32,7 +32,6 @@ export default async function Page(props: Props) {
   const { category, slug } = await props.params;
   const post = getPost(category, slug);
   const { nextPost, prevPost } = getNextAndPrevPost(category, slug);
-  console.log(nextPost, prevPost);
 
   return (
     <div className="flex items-start justify-start">

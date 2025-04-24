@@ -1,5 +1,14 @@
 {
   "printWidth": 100,
   "singleQuote": true,
-  "semi": true
+  "semi": true,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+  "importOrder": [
+    "^react",
+    "<THIRD_PARTY_MODULES>",
+    "^@/(.*)$",
+    "^[./]"
+  ]
 }

@@ -1,11 +1,11 @@
+import clsx from 'clsx';
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import dayjs from 'dayjs';
 import { Post } from '@/entities/post/model';
-import { ROUTE_PATH } from '@/shared/constants/route';
-import clsx from 'clsx';
-import { PropsWithClassName } from '@/shared/types/props';
 import { CategoryTag } from '@/entities/post/ui/CategoryTag';
+import { ROUTE_PATH } from '@/shared/constants/route';
+import { PropsWithClassName } from '@/shared/types/props';
 
 interface Props {
   post: Post;

@@ -1,6 +1,6 @@
+import RSSLink from '@/features/post/ui/RSSLink';
 import CategorySection from './CategorySection';
 import TagSection from './TagSection';
-import RSSLink from '@/features/post/ui/RSSLink';
 
 export default function Sidebar() {
   return (

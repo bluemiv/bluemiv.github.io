@@ -1,5 +1,4 @@
 // app/feed.xml/route.ts
-
 import { getAllPosts } from '@/entities/post/api';
 
 export async function GET() {

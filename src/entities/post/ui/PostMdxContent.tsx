@@ -3,8 +3,8 @@ import Link from 'next/link';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
-import moonLightTheme from '../../../../assets/moonlight-ii.json' with { type: 'json' };
 import PostContentImage from '@/entities/post/ui/PostContentImage';
+import moonLightTheme from '../../../../assets/moonlight-ii.json' with { type: 'json' };
 
 interface Props {
   content: string;

@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import { Sidebar } from '@/widgets/Sidebar';
-import { GridPostCard } from '@/entities/post/ui';
-import { Post } from '@/entities/post/model';
-import Link from 'next/link';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { Post } from '@/entities/post/model';
+import { GridPostCard } from '@/entities/post/ui';
 import { ResponsiveAd } from '@/shared/ui';
+import { Sidebar } from '@/widgets/Sidebar';
 
 interface Props {
   mainAreaTitle?: ReactNode;

@@ -1,8 +1,8 @@
-import { ROUTE_PATH } from '@/shared/constants/route';
-import NavLink from '@/widgets/Header/NavLink';
-import Logo from '@/widgets/Header/Logo';
-import { ThemeToggleButton } from '@/features/toggleTheme/ui';
 import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/ui/RefreshServiceWorkerCacheButton';
+import { ThemeToggleButton } from '@/features/toggleTheme/ui';
+import { ROUTE_PATH } from '@/shared/constants/route';
+import Logo from '@/widgets/Header/Logo';
+import NavLink from '@/widgets/Header/NavLink';
 
 export default function Header() {
   return (

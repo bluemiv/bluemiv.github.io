@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { ROUTE_PATH } from '@/shared/constants/route';
 import { getCategories } from '@/entities/post/api';
+import { ROUTE_PATH } from '@/shared/constants/route';
 import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 
 export default function CategorySection() {

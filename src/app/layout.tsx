@@ -1,10 +1,10 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { Header } from '@/widgets/Header';
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import RegisterServiceWorker from '@/features/serviceWorker/ui/RegisterServiceWorker';
+import { Header } from '@/widgets/Header';
+import './globals.css';
 
 dayjs.extend(utc);
 

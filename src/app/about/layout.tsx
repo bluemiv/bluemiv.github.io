@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
 import dayjs from 'dayjs';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About :: Bluemiv Tech Blog',

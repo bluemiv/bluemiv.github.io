@@ -1,6 +1,6 @@
 import { getTags } from '@/entities/post/api';
-import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 import { Tag } from '@/features/post/ui';
+import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 
 export default function TagSection() {
   const tags = getTags();

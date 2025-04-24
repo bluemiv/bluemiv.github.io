@@ -5,8 +5,8 @@ import {
   PostMdxContent,
   TableOfContent,
 } from '@/entities/post/ui';
-import { Sidebar } from '@/widgets/Sidebar';
 import { ResponsiveAd } from '@/shared/ui';
+import { Sidebar } from '@/widgets/Sidebar';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;

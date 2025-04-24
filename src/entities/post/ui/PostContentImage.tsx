@@ -1,8 +1,8 @@
 'use client';
 
-import Image, { ImageProps } from 'next/image';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
+import Image, { ImageProps } from 'next/image';
 
 interface Props {
   imageProps: ImageProps;

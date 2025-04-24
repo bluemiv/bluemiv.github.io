@@ -1,8 +1,7 @@
+import dayjs from 'dayjs';
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
-import dayjs from 'dayjs';
-
 import { Post } from '@/entities/post/model';
 import { LIMIT } from '@/shared/constants/pagination';
 

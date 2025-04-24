@@ -1,6 +1,6 @@
 import { getPageNumberByTag, getPostsByTag, getTags } from '@/entities/post/api';
-import { BlogHomeLayout } from '@/shared/layouts';
 import { LIMIT } from '@/shared/constants/pagination';
+import { BlogHomeLayout } from '@/shared/layouts';
 
 interface Props {
   params: Promise<{ tag: string; page: string }>;

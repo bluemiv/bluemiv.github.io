@@ -1,6 +1,6 @@
 import { getCategories, getPageNumberByCategory, getPostsByCategory } from '@/entities/post/api';
-import { BlogHomeLayout } from '@/shared/layouts';
 import { LIMIT } from '@/shared/constants/pagination';
+import { BlogHomeLayout } from '@/shared/layouts';
 
 interface Props {
   params: Promise<{ category: string; page: string }>;

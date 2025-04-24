@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import ArticleThumbnail from './ArticleThumbnail';
-import { Post } from '../model';
 import { Tag } from '@/features/post/ui';
+import { Post } from '../model';
+import ArticleThumbnail from './ArticleThumbnail';
 
 interface Props {
   post: Post;

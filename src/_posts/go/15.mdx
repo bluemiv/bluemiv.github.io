@@ -1,0 +1,29 @@
+---
+title: Gin 프레임워크에 swagger 적용하기
+description: Go 언어의 웹 서버 프레임워크인 Gin 프레임워크에서 Swagger를 적용하고, 활용하여 REST API 문서를 자동으로 생성하고 관리하는 방법에 대해 설명합니다.
+createdAt: 2025-04-23T20:34:09+09:00
+updatedAt: 2025-04-23T20:34:09+09:00
+tags: ['go', 'gin', 'swagger', 'api', 'rest api', 'api documentation', 'be']
+release: false
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/go/15/thumbnail.webp
+---
+
+## 1. Gin 과 Swagger란?
+
+### 1.1. Gin
+
+Gin은 Go 언어로 작성된 웹 프레임워크로, 성능이 뛰어나고 사용이 간편하여 RESTful API를 구축하는 데 널리 사용됩니다. 자세한 내용은 [Golang의 웹 서버, Gin 프레임워크 시작하기](/blog/go/13)를 참고해주세요
+
+### 1.2. Swagger
+
+API가 실제 코드와 문서가 맞지 않거나 부정확하여 Frontend와 Backend 간의 협업이 원활하지 않을 수 있습니다. 또한, API 스펙이 변경되면 문서를 업데이트를 해줘야하는 번거로움도 있습니다.
+이러한 문제를 해결하기 위해 Swagger를 사용할 수 있습니다.
+
+Swagger는 **RESTful API를 문서를 자동으로 생성**해주는 오픈 소스 프레임워크입니다. Swagger를 사용하면 Frontend와 Backend간의 협업을 원활하게 할 수 있습니다.
+
+---
+
+## 2. Gin 프레임워크에 Swagger 적용하기
+
+Gin 프레임워크에 Swagger를 통합하여 API 문서를 자동으로 생성하려면 다음과 같은 단계를 따르면 됩니다.

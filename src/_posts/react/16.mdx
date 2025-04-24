@@ -1,0 +1,143 @@
+---
+title: prettier plugin으로 import 순서 자동 정렬하기
+description: React 프로젝트에서 import 문들의 순서를 자동으로 정리할 수 있도록 도와주는 @trivago/prettier-plugin-sort-imports 플러그인 적용하는 방법을 소개하고, 사용벙을 설명합니다.
+createdAt: 2025-04-24T21:13:22+09:00
+updatedAt: 2025-04-24T21:13:22+09:00
+tags: ['prettier', 'eslint', 'import', 'trivago', 'fe', 'typescript']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/16.webp
+---
+
+## 1. prettier란?
+
+Prettier는 코드 컨벤션을 자동으로 정리해주는 오픈소스 코드 포맷터(formatter)입니다. 개발자가 일일이 줄바꿈, 들여쓰기, 괄호 위치 등을 정리할 필요없이, prettier 설정 파일에 정의된 규칙에 따라 일관된 형태로 코드를 변환해줍니다.
+
+설치는 다음과 같이 할 수 있습니다.
+
+```bash
+npm add --save-dev prettier
+yarn add --dev prettier
+bun add --dev prettier
+```
+
+자세한 내용은 [Prettier 공식 문서](https://prettier.io/)를 참고해주세요.
+
+---
+
+## 2. @trivago/prettier-plugin-sort-imports
+
+`@trivago/prettier-plugin-sort-imports`는 Prettier의 플러그인으로, import 구문의 순서를 자동으로 정렬해주는 도구입니다. 협업을 하다보면 import의 순서도 팀 컨벤션에 따라 지켜야하는데, 하나씩 수정하기엔 매우 번거롭고 가끔 잊어버리곤 합니다.
+
+이 플러그인을 사용하면 코드 스타일을 일관되게 유지할 수 있으며, 협업 시 충돌(`conflict`)을 줄이는 데에도 도움이 됩니다. ESLint의 import/order 규칙과 다르게, prettier 플러그인은 Prettier 포맷팅 시점에 동작하여 별도의 작업 없이 자동으로 정렬되도록 할 수 있어서 더 편합니다.
+
+### 2.1. 설치 방법
+
+프로젝트의 패키지 매니저에 따라 `@trivago/prettier-plugin-sort-imports`를 설치합니다.
+
+npm을 사용하는 경우
+
+```bash
+npm install --save-dev @trivago/prettier-plugin-sort-imports
+```
+
+yarn을 사용하는 경우
+
+```bash
+yarn add --dev @trivago/prettier-plugin-sort-imports
+```
+
+bun을 사용하는 경우
+
+```bash
+bun add --dev @trivago/prettier-plugin-sort-imports
+```
+
+### 2.2. prettier 설정
+
+prettier 설정 파일에 `"plugins": ["@trivago/prettier-plugin-sort-imports"]`를 추가하여 플러그인을 적용합니다. 그리고, `importOrder` 를 사용하여 정렬 규칙을 정의합니다.
+
+예시로 `.prettierrc.json`을 만들어보면
+
+```json
+{
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^react$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/components/(.*)$",
+    "^@/utils/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
+```
+
+#### 2.2.1. plugins 옵션
+
+Prettier에 플러그인을 추가하는 부분입니다.
+
+#### 2.2.2. importOrder 옵션
+
+import들을 어떤 순서로 정렬할지 정의합니다. 규칙은 정규식으로 표현할 수 있습니다.
+
+- `<THIRD_PARTY_MODULES>`: 외부 라이브러리를 뜻합니다. (예를들어, `axios`, `lodash` 등을 위치)
+- `^[./]`: 상대 경로 import인 `./Card` 또는 `../MyComponent`와 등을 뜻합니다.
+
+#### 2.2.3. importOrderSeparation 옵션
+
+true로 설정하면 importOrder에 설정한 규칙들 사이에 개행(`\n`) 구분자를 추가합니다.
+
+```tsx {2, 5}
+import React from 'react';
+
+import axios from 'axios';
+import * as lodash from 'lodash';
+
+import Button from '@/components/Button';
+```
+
+#### 2.2.4. importOrderSortSpecifiers 옵션
+
+true로 설정하면 중괄호 안의 항목들을 알파벳순으로 정렬합니다.
+
+```tsx {5}
+// before
+import { b, a, c } from 'module';
+
+// after
+import { a, b, c } from 'module';
+```
+
+---
+
+### 2.3. package.json 설정
+
+package.json의 scripts에 `formatting`을 수행하는 명령어를 추가합니다.
+
+```json {5}
+{
+  ...,
+  "scripts": {
+    ...
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+  },
+}
+```
+
+이제 `npm run format` 또는 `yarn format` 혹은 `bun run format`을 실행하면 import 문들이 자동으로 정렬됩니다.
+
+---
+
+## 3. 실제 현업에 적용
+
+진행하고 있는 프로젝트에 `@trivago/prettier-plugin-sort-imports` 플러그인을 한번 적용해봤습니다. 해당 플러그인을 알기 전에는 하나씩 수정했었는데, 플러그인 적용하고 다음 사진과 같이 깔끔해졌습니다.
+
+![import 정렬 전후](/r/i/react/16/1.webp)
+
+---
+
+## 4. References
+
+- [https://www.npmjs.com/package/@trivago/prettier-plugin-sort-imports](https://www.npmjs.com/package/@trivago/prettier-plugin-sort-imports)

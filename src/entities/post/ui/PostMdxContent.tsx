@@ -38,7 +38,7 @@ export default async function PostMdxContent({ content }: Props) {
             href={`#${props.id}`}
             className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
           >
-            <h2 className="font-bold text-2xl md:text-3xl mt-xl mb-lg cursor-pointer" {...props} />
+            <h2 className="font-bold text-2xl md:text-3xl mt-2xl mb-lg cursor-pointer" {...props} />
           </Link>
         ),
         h3: (props) => (
@@ -47,7 +47,7 @@ export default async function PostMdxContent({ content }: Props) {
             className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
           >
             <h3
-              className="font-semibold text-xl md:text-2xl mt-xl mb-md cursor-pointer"
+              className="font-semibold text-xl md:text-2xl mt-2xl mb-md cursor-pointer"
               {...props}
             />
           </Link>
@@ -58,7 +58,7 @@ export default async function PostMdxContent({ content }: Props) {
             className="duration-150 ease-in-out hover:text-app-primary dark:hover:text-app-dark-primary"
           >
             <h4
-              className="font-semibold text-lg md:text-xl mt-lg mb-md cursor-pointer"
+              className="font-semibold text-lg md:text-xl mt-xl mb-md cursor-pointer"
               {...props}
             />
           </Link>
@@ -96,7 +96,7 @@ export default async function PostMdxContent({ content }: Props) {
               return <>{props.children}</>;
             }
           }
-          return <p className="mb-lg leading-6 md:leading-8" {...props} />;
+          return <p className="mb-lg leading-8 md:leading-10" {...props} />;
         },
         img: (props) => <PostContentImage imageProps={props} />,
         a: (props) => (

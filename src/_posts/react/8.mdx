@@ -1,0 +1,97 @@
+---
+title: 내가 현업에서 typescript 타입 정의시 사용하는 명명 규칙
+description: Frontend 개발자로서 typescript를 사용하면서 타입을 정의할 때, 어떤 규칙을 사용하고 있는지에 대해 작성한 글입니다. 속해있는 팀과 개인 취향에 따라 다를 수 있으니 참고만 해주시면 좋겠습니다.
+createdAt: 2025-02-11T20:19:22+09:00
+updatedAt: 2025-02-11T20:19:22+09:00
+tags: ['typescript', 'react', 'type', 'interface', 'fe']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/8/thumbnail.webp
+---
+
+## 1. 타입과 인터페이스의 구분
+
+타입스크립트(`typescript`)에서는 타입을 정의할때, `interface`와 `type` 2가지 방식이 있습니다.
+
+type과 interface를 어떤 상황에서 사용하면 좋을지 정해진 규칙은 없지만, 저의 경우에는 컴포넌트의 props를 정의할때는 interface를 사용하고, 나머지 유니온, 인터섹션 등 복잡한 타입을 정의해야할때는 (상대적으로 쉬운) type을 사용합니다.
+
+> type과 interface의 차이점이 궁금하신 경우 []()를 참고해주세요
+
+---
+
+## 2. PropsXXX 형태의 네이밍 규칙
+
+### 2.1. 반복되는 props 재사용
+
+Modal, Button 등 공통으로 자주 사용하는 props를 정의할 때는 `PropsXXX`와 같이 type을 정의합니다.
+
+예를들어,
+
+```tsx
+type PropsWithButton<T=unknown> = {
+  children: React.ReactNode;
+  onClick: () => void;
+} & T
+```
+
+예전에는 버튼(Button)과 관련된 컴포넌트를 개발하면 onClick과 children을 매번 props로 정의했지만, 코드 중복이 많아져서 이제는 위와 같이 PropsWithButton을 정의하여 사용하고 있습니다.
+
+좀 더 다른 예시를 들어보면, tailwindcss를 자주 사용하기 때문에 className을 props로 받을 수 있는 타입을 많이 사용합니다. 그래서 `PropsWithClassName`과 같이 정의하여 사용합니다.
+
+```tsx
+type PropsWithClassName<T=unknown> = {
+  className?: string;
+} & T
+```
+
+### 2.2. 제네릭을 활용하여 확장성 높이기
+
+제네릭(Generic)을 활용하여 `PropsWithButton`과 `PropsWithClassName`을 정의할 때, 제네릭을 활용하여 다른 타입을 추가할 수 있도록 하였습니다.
+
+예를들어, 다음과 같이 className과 관련된 타입과 Modal 컴포넌트와 관련된 타입을 정의했을때,
+
+```tsx
+type PropsWithClassName<T=unknown> = {
+  className?: string;
+} & T
+
+type PropsWithModal<T=unknown> = {
+  open: boolean;
+  onClose: () => void;
+} & T
+```
+
+제네릭을 활용했기 때문에 다음 코드와 같이 `PropsWithModal<PropsWithClassName<Props>>` 확장해서 사용할 수 있습니다.
+
+```tsx {10}
+interface Props {
+  user: User;
+}
+
+export const EditUserModal = ({
+  open,
+  onClose,
+  className,
+  user,
+}: PropsWithModal<PropsWithClassName<Props>>) => {
+  return (
+    <Modal open={open} onClose={onClose} className={className}>
+      {/*...생략...*/}
+    </Modal>
+  )
+}
+```
+
+### 2.3. PropsXXX 네이밍 규칙을 정하게된 이유
+
+처음에는 규칙을 따로 정하지 않고 ButtonProps, CustomButtonType처럼 매번 다른 이름으로 작성하거나, 경우에 따라서는 아예 타입명을 명시하지 않고 inline으로 바로 작성하는 경우도 있었습니다.
+
+이렇게 사용하다 보니 다음과 같은 문제가 발생했습니다.
+
+- 일관성 부족: 각 컴포넌트마다 props 타입 이름이 달라서 일관성이 떨어졌습니다.
+- 자동완성 및 검색 어려움: 정해진 명명 규칙이 없다보니, 타입 이름을 예측하기 어려웠고, 검색할때 시간이 오래 걸렸습니다.
+- 재사용성 저하: 재사용 할 수 있는 타입이지만, 매번 따로 정의하다보니 중복 코드가 많아졌습니다.
+
+문득 다른 곳에서는 어떻게 사용할까 궁금증이 생겼고, React 라이브러리를 살펴보며 `PropsWithChildren`과 같이 사용하는 것을 보고 `PropsXXX` 형태로 네이밍을 정하게 되었습니다.
+
+이렇게 해서 `PropsWithButton`, `PropsWithClassName`, `PropsWithModal` 등 다양한 PropsXXX 네이밍 규칙을 팀원들과 논의하여 컨벤션으로 정하게 되었습니다.

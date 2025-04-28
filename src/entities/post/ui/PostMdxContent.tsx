@@ -96,7 +96,9 @@ export default async function PostMdxContent({ content }: Props) {
               return <>{props.children}</>;
             }
           }
-          return <p className="mb-lg leading-8 md:leading-10" {...props} />;
+          return (
+            <p className="break-all sm:break-words mb-lg leading-8 md:leading-10" {...props} />
+          );
         },
         img: (props) => <PostContentImage imageProps={props} />,
         a: (props) => (
@@ -128,7 +130,10 @@ export default async function PostMdxContent({ content }: Props) {
         ),
         li: (props) => <li className="pl-sm mb-sm leading-6 md:leading-8" {...props} />,
         blockquote: (props) => (
-          <blockquote className="italic text-text-secondary border-l-2 pl-md" {...props} />
+          <blockquote
+            className="break-all sm:break-words italic text-text-secondary border-l-2 pl-md"
+            {...props}
+          />
         ),
       }}
     />

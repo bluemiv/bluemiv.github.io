@@ -45,7 +45,7 @@ export default async function Page(props: Props) {
               <PostMdxContent content={post.content} />
             </article>
             <ResponsiveAd />
-            <div className="flex items-center gap-md mt-lg">
+            <div className="flex items-center gap-md mt-lg flex-col md:flex-row">
               <div className="flex-1">
                 {prevPost?.metadata?.title && <NextOrPrevPostCard type="prev" post={prevPost} />}
               </div>

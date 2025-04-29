@@ -11,12 +11,7 @@ interface Props {
   totalPageNum: number;
 }
 
-export default function BlogHomeLayout({
-  mainAreaTitle,
-  posts,
-  currentPageNum,
-  totalPageNum,
-}: Props) {
+export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPageNum }: Props) => {
   return (
     <div className="flex items-start justify-start w-full">
       <Sidebar />
@@ -44,4 +39,4 @@ export default function BlogHomeLayout({
       </div>
     </div>
   );
-}
+};

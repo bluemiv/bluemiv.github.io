@@ -246,3 +246,11 @@ export const getShortPostCurrentPageNumber = (slug: string) => {
   const foundIndex = getAllShortPosts().findIndex((post) => post.metadata.slug === slug);
   return Math.floor(foundIndex / LIMIT) + 1;
 };
+
+/**
+ * tag에 해당하는 짧은 글 목록을 조회한다.
+ * @param tag
+ */
+export const getShortPostsByTag = (tag: string): ShortPost[] => {
+  return getAllShortPosts().filter((post) => post.metadata.tags.includes(tag));
+};

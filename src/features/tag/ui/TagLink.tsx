@@ -8,7 +8,10 @@ interface Props {
 
 export const TagLink = ({ tag }: Props) => {
   return (
-    <Link href={[ROUTE_PATH.BLOG_TAGS, encodeURIComponent(tag.toLowerCase()), '1'].join('/')}>
+    <Link
+      className="duration-150 ease-in-out hover:shadow-md rounded-full"
+      href={[ROUTE_PATH.BLOG_TAGS, encodeURIComponent(tag.toLowerCase()), '1'].join('/')}
+    >
       <Tag tag={tag} />
     </Link>
   );

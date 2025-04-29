@@ -3,7 +3,7 @@ import { getCategories } from '@/entities/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 
-export default function CategorySection() {
+export const CategorySection = () => {
   const categories = getCategories();
   return (
     <section>
@@ -33,4 +33,4 @@ export default function CategorySection() {
       </ul>
     </section>
   );
-}
+};

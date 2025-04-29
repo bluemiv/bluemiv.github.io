@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Tag } from '@/features/post/ui';
+import { TagLink } from '@/features/tag/ui';
 import { Post } from '../model';
 import ArticleThumbnail from './ArticleThumbnail';
 
@@ -18,7 +18,7 @@ export default function ArticleMetadata({ post }: Props) {
         {Array.from(new Set(post.metadata.tags))
           .filter((v) => !!v?.trim())
           .map((tag) => (
-            <Tag key={tag} tag={tag} />
+            <TagLink key={tag} tag={tag} />
           ))}
       </div>
       <div className="flex flex-col gap-xs text-sm text-app-sub-text dark:text-app-dark-sub-text">

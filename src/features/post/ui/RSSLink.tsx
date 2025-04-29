@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import RSSIcon from '@/shared/ui/RSSIcon';
 
-export default function RSSLink() {
+export const RSSLink = () => {
   return (
     <Link
       href={ROUTE_PATH.RSS}
@@ -11,4 +11,4 @@ export default function RSSLink() {
       <RSSIcon className="w-[1.5rem]" />
     </Link>
   );
-}
+};

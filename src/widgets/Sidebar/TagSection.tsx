@@ -1,5 +1,5 @@
 import { getTags } from '@/entities/post/api';
-import { Tag } from '@/features/post/ui';
+import { TagLink } from '@/features/tag/ui';
 import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 
 export const TagSection = () => {
@@ -10,8 +10,7 @@ export const TagSection = () => {
       <ul className="flex gap-sm flex-wrap">
         {tags.map((entry) => {
           const tag = entry[0];
-          // const count = entry[1];
-          return <Tag key={tag} tag={tag} />;
+          return <TagLink key={tag} tag={tag} />;
         })}
       </ul>
     </section>

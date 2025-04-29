@@ -2,10 +2,11 @@ import dayjs from 'dayjs';
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
-import { Post } from '@/entities/post/model';
+import { Post, ShortPost } from '@/entities/post/model';
 import { LIMIT } from '@/shared/constants/pagination';
 
 const postsDirectory = path.join(process.cwd(), 'src', '_posts');
+const shortPostsDirectory = path.join(process.cwd(), 'src', '_short');
 
 const parsePost = (filePath: string, category: string): Post => {
   const fileContents = fs.readFileSync(filePath, 'utf8');
@@ -14,6 +15,26 @@ const parsePost = (filePath: string, category: string): Post => {
   return {
     metadata: {
       category,
+      slug,
+      title: data?.title ?? '',
+      description: data?.description ?? '',
+      createdAt: data?.createdAt ?? dayjs().utc().format(),
+      updatedAt: data?.updatedAt ?? dayjs().utc().format(),
+      tags: data?.tags ?? [],
+      release: data?.release ?? false,
+      author: data?.author ?? '',
+      thumbnail: data?.thumbnail,
+    },
+    content,
+  };
+};
+
+const parseShortPost = (filePath: string): ShortPost => {
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const { data, content } = matter(fileContents);
+  const slug = path.basename(filePath).replace(/\.mdx?$/, '');
+  return {
+    metadata: {
       slug,
       title: data?.title ?? '',
       description: data?.description ?? '',
@@ -172,4 +193,56 @@ export const getNextAndPrevPost = (category: string, slug: string) => {
   const prevPost = currentPostIndex >= posts.length - 1 ? null : posts[currentPostIndex + 1];
 
   return { nextPost, prevPost };
+};
+
+/**
+ * 짧은 글 목록을 가져온다.
+ */
+export const getAllShortPosts = (): ShortPost[] => {
+  const postFiles = fs.readdirSync(shortPostsDirectory);
+
+  const posts = postFiles.map((file) => {
+    const filePath = path.join(shortPostsDirectory, file);
+    return parseShortPost(filePath);
+  });
+
+  return posts
+    .filter((post) => post.metadata.release)
+    .sort((a, b) => dayjs(b.metadata.createdAt).unix() - dayjs(a.metadata.createdAt).unix());
+};
+
+/**
+ * 짧은 글을 조회한다.
+ * @param slug
+ */
+export const getShortPost = (slug: string): ShortPost => {
+  const filePath = path.join(shortPostsDirectory, `${slug}.mdx`);
+  return parseShortPost(filePath);
+};
+
+/**
+ * short posts를 가져온다.
+ * @param slug
+ */
+export const getShortPosts = (slug: string): ShortPost[] => {
+  const currentPageNum = getShortPostCurrentPageNumber(slug);
+  const offset = (currentPageNum - 1) * LIMIT;
+  return getAllShortPosts().slice(offset, offset + LIMIT);
+};
+
+/**
+ * 전체 short posts의 전체 페이지 수를 반환
+ */
+export const getShortPageNumber = () => {
+  const posts = getAllShortPosts();
+  return Math.ceil(posts.length / LIMIT);
+};
+
+/**
+ * 현재 slug에 맞는 current page number를 반환
+ * @param slug
+ */
+export const getShortPostCurrentPageNumber = (slug: string) => {
+  const foundIndex = getAllShortPosts().findIndex((post) => post.metadata.slug === slug);
+  return Math.floor(foundIndex / LIMIT) + 1;
 };

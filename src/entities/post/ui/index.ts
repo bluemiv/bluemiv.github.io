@@ -4,3 +4,4 @@ export { default as TableOfContent } from './TableOfContent';
 export { default as ArticleMetadata } from './ArticleMetadata';
 export * from './CategoryTag';
 export * from './NextOrPrevPostCard';
+export * from './Pagination';

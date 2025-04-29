@@ -1,4 +1,5 @@
-import { getAllPosts } from '@/entities/post/api';
+import { getAllPosts, getAllShortPosts } from '@/entities/post/api';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 export async function GET() {
   const posts = getAllPosts();
@@ -20,8 +21,36 @@ export async function GET() {
         ? `<enclosure url="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
         : '';
 
-      return `
-  <item>
+      return `<item>
+    <title><![CDATA[${metadata.title}]]></title>
+    <link>${postUrl}</link>
+    <guid>${postUrl}</guid>
+    <description><![CDATA[${metadata.description}]]></description>
+    <pubDate>${new Date(metadata.createdAt).toUTCString()}</pubDate>
+    ${authorXml}
+    ${dcCreatorXml}
+    ${categoriesXml}
+    ${thumbnailXml}
+  </item>`;
+    })
+    .join('');
+
+  const shortPosts = getAllShortPosts();
+  const shortItemsXml = shortPosts
+    .map((post) => {
+      const { metadata } = post;
+      const postUrl = `${siteUrl}${ROUTE_PATH.BLOG_SHORT}/${metadata.slug}`;
+
+      const categoriesXml = metadata.tags
+        .map((tag) => `<category><![CDATA[${tag}]]></category>`)
+        .join('');
+      const authorXml = `<author>${author}</author>`;
+      const dcCreatorXml = `<dc:creator><![CDATA[${process.env.METADATA_AUTHOR}]]></dc:creator>`;
+      const thumbnailXml = metadata.thumbnail
+        ? `<enclosure url="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
+        : '';
+
+      return `<item>
     <title><![CDATA[${metadata.title}]]></title>
     <link>${postUrl}</link>
     <guid>${postUrl}</guid>
@@ -48,6 +77,7 @@ export async function GET() {
   <managingEditor>${author}</managingEditor>
   <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
   ${itemsXml}
+  ${shortItemsXml}
 </channel>
 </rss>`;
 

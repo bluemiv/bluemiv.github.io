@@ -1,5 +1,6 @@
 // app/feed.xml/route.ts
-import { getAllPosts } from '@/entities/post/api';
+import { getAllPosts, getAllShortPosts } from '@/entities/post/api';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 export async function GET() {
   const posts = getAllPosts();
@@ -8,10 +9,9 @@ export async function GET() {
   const authorEmail = process.env.METADATA_EMAIL;
 
   const entriesXml = posts
-    .filter((post) => post.metadata.release)
     .map((post) => {
       const { metadata } = post;
-      const postUrl = `${siteUrl}/blog/${metadata.category}/${metadata.slug}`;
+      const postUrl = `${siteUrl}${ROUTE_PATH.BLOG}/${metadata.category}/${metadata.slug}`;
       const updated = new Date(metadata.createdAt).toISOString();
       const categoriesXml = metadata.tags
         .map((tag) => `<category term="${tag}" />`)
@@ -20,8 +20,36 @@ export async function GET() {
         ? `<link rel="enclosure" href="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
         : '';
 
-      return `
-  <entry>
+      return `<entry>
+    <title><![CDATA[${metadata.title}]]></title>
+    <link href="${postUrl}" />
+    <id>${postUrl}</id>
+    <updated>${updated}</updated>
+    <summary><![CDATA[${metadata.description}]]></summary>
+    <author>
+      <name>${authorName}</name>
+      <email>${authorEmail}</email>
+    </author>
+    ${categoriesXml}
+    ${thumbnailLink}
+  </entry>`;
+    })
+    .join('');
+
+  const shortPosts = getAllShortPosts();
+  const shortEntriesXml = shortPosts
+    .map((post) => {
+      const { metadata } = post;
+      const postUrl = `${siteUrl}${ROUTE_PATH.BLOG_SHORT}/${metadata.slug}`;
+      const updated = new Date(metadata.createdAt).toISOString();
+      const categoriesXml = metadata.tags
+        .map((tag) => `<category term="${tag}" />`)
+        .join('\n      ');
+      const thumbnailLink = metadata.thumbnail
+        ? `<link rel="enclosure" href="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
+        : '';
+
+      return `<entry>
     <title><![CDATA[${metadata.title}]]></title>
     <link href="${postUrl}" />
     <id>${postUrl}</id>
@@ -48,6 +76,7 @@ export async function GET() {
     <email>${authorEmail}</email>
   </author>
   ${entriesXml}
+  ${shortEntriesXml}
 </feed>`;
 
   return new Response(feedXml, {

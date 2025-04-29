@@ -1,0 +1,37 @@
+---
+title: Next.js에서 환경 변수 설정하기
+description: 환경 변수에 대해 설명하고, Next.js의 클라이언트, 백엔드 환경 변수를 어떻게 선언하는지 설명합니다.
+createdAt: 2025-04-28T21:32:48+09:00
+updatedAt: 2025-04-28T21:32:48+09:00
+tags: ['nextjs', 'env', 'fe']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/short/1/thumbnail.webp
+---
+
+## 1. 환경 변수란?
+
+환경 변수(`environment variable`)는 애플리케이션의 동작에 영향을 주는 외부 설정값을 말합니다. 보통 데이터베이스 주소/포트, API 키 값과 같은 민감한 정보들을 코드에 직접 작성하지 않고, 외부 파일이나 시스템 환경 변수로 분리하여 관리합니다.
+
+Next.js는 Node.js 위에서 동작하기 때문에 `.env` 파일을 사용하여 환경 변수를 설정할 수 있으며,
+SSR을 지원하는 프레임워크이므로 프론트엔드 뿐 아니라 백엔드 영역에서까지 환경변수를 구분하여 사용할 수 있습니다.
+
+---
+
+## 2. 환경 변수 작성 규칙
+
+환경 변수는 `KEY=VALUE` 형태로 작성되며, KEY는 대문자로 구성하는 것이 일반적입니다. `Next.js`에서는 클라이언트와 벡엔드 환경 변수를 다음과 같이 `NEXT_PUBLIC_`으로 구분할 수 있습니다.
+
+- `NEXT_PUBLIC_XXX`: 클라이언트에서 접근 가능한 환경 변수
+- (`NEXT_PUBLIC_`으로 시작하지 않는) 그 외 나머지: 서버에서만 접근 가능한 환경 변수
+
+```text
+# 클라이언트 환경 변수
+NEXT_PUBLIC_ENV=prod
+NEXT_PUBLIC_API_URL=https://api.example.com
+
+# 서버 환경 변수
+DATABASE_URL=mysql://user:password@localhost:3306/dbname
+```
+
+클라이언트와 백엔트가 구분되기 때문에 각 환경에 맞는 변수만 접근할 수 있습니다. 예를들어, 클라이언트에서 백엔드 환경변수를 가지고 올 수 없습니다. 보안이 중요하고 서버에서만 사용하는 환경변수에는 `NEXT_PUBLIC_`을 붙이면 안됩니다.

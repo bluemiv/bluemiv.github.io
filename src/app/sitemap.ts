@@ -4,11 +4,13 @@ import utc from 'dayjs/plugin/utc';
 import type { MetadataRoute } from 'next';
 import {
   getAllPosts,
+  getAllShortPosts,
   getCategories,
   getPageNumberByCategory,
   getPageNumberByTag,
   getTags,
 } from '@/entities/post/api';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -35,10 +37,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
 
     return {
-      url: `${baseUrl}/blog/${post.metadata.category}/${post.metadata.slug}`,
+      url: `${baseUrl}${ROUTE_PATH.BLOG}/${post.metadata.category}/${post.metadata.slug}`,
       lastModified: updatedAt.tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ssZ'),
       changeFrequency: 'weekly' as ChangeFrequency,
-      images: [`${baseUrl}/r/i/${post.metadata.category}/${post.metadata.slug}/thumbnail.webp`],
+      images: [`${baseUrl}${post.metadata.thumbnail}`],
+      priority,
+    };
+  });
+
+  // 전체 짧은 글 sitemap
+  const shortPosts = getAllShortPosts();
+  const shortPostsSitemapData = shortPosts.map((post) => {
+    const updatedAt = dayjs(post.metadata.updatedAt);
+    const now = dayjs();
+    const daysDiff = now.diff(updatedAt, 'day');
+
+    let priority = 0.6;
+    if (daysDiff <= 7) {
+      priority = 0.9;
+    } else if (daysDiff <= 30) {
+      priority = 0.8;
+    } else if (daysDiff <= 90) {
+      priority = 0.7;
+    }
+
+    return {
+      url: `${baseUrl}${ROUTE_PATH.BLOG_SHORT}/${post.metadata.slug}`,
+      lastModified: updatedAt.tz('Asia/Seoul').format('YYYY-MM-DDTHH:mm:ssZ'),
+      changeFrequency: 'weekly' as ChangeFrequency,
+      images: [`${baseUrl}${post.metadata.thumbnail}`],
       priority,
     };
   });
@@ -99,6 +126,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     ...postsSitemapData,
+    ...shortPostsSitemapData,
     ...categoriesSitemapData,
     ...tagsSitemapData,
   ];

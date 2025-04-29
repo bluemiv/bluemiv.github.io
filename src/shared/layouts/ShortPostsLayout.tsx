@@ -9,7 +9,7 @@ import {
   getShortPosts,
 } from '@/entities/post/api';
 import { Pagination, PostMdxContent } from '@/entities/post/ui';
-import { Tag } from '@/features/post/ui';
+import { ShortTagLink } from '@/features/tag/ui';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import { ResponsiveAd } from '@/shared/ui';
 import { Sidebar } from '@/widgets/Sidebar';
@@ -70,7 +70,7 @@ export const ShortPostsLayout = ({ slug }: Props) => {
               </article>
               <div className="flex flex-wrap gap-md">
                 {post.metadata.tags.map((tag) => (
-                  <Tag key={tag} tag={tag} />
+                  <ShortTagLink key={tag} tag={tag} />
                 ))}
               </div>
             </div>
@@ -106,8 +106,8 @@ export const ShortPostsLayout = ({ slug }: Props) => {
                         </div>
                         <div className="w-full flex items-center justify-between gap-sm">
                           <div className="flex items-center flex-wrap gap-xs">
-                            {post.metadata.tags.slice(0, 3).map((tag) => (
-                              <Tag key={tag} tag={tag} />
+                            {post.metadata.tags.slice(0, 4).map((tag) => (
+                              <ShortTagLink key={tag} tag={tag} />
                             ))}
                           </div>
                           <div className="text-xs text-app-sub-text dark:text-app-dark-sub-text">

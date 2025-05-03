@@ -1,0 +1,92 @@
+---
+title: Next.js 15에서 Google Analytics 4 설정하기
+description: Next.js 15에서 Google Analytics 4 설정하는 방법을 소개합니다. 또한, nextjs의 Script 컴포넌트에 대해 자세하게 설명합니다.
+createdAt: 2025-05-02T12:47:31+09:00
+updatedAt: 2025-05-02T12:47:31+09:00
+tags: ['blog', 'ga4', 'nextjs']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/nextjs/17/thumbnail.webp
+---
+
+## 1. Google Analytics 4란?
+
+`Google Analytics 4`(GA4)는 구글이 만든, 웹과 앱 사용자 행동을 분석하기 위한 플랫폼입니다. 이벤트(`Event`) 기반으로 사용자 행동을 세밀하게 추적할 수 있기 때문에, 많은 사람들 또는 회사에서 GA4를 사용하고 있습니다.
+
+---
+
+## 2. Google Analytics 4 설정하기
+
+### 2.1. 스트림 생성하기
+
+"스트림 추가"를 눌러 스트림을 추가합니다.
+
+![스트림 추가하기](/r/i/nextjs/17/1.webp)
+
+"태그 안내보기"를 클릭하여, 자신의 사이트에 추가하는 방법을 확인합니다.
+
+!["태그 안내보기" 클릭](/r/i/nextjs/17/5.webp)
+
+"직접 설치"를 누릅니다.
+
+!["직접 설치" 클릭](/r/i/nextjs/17/2.webp)
+
+그럼, 다음과 같이 스크립트 코드가 나옵니다. 스크립트를 복사하여 코드에 추가할 준비를 합니다.
+
+![스크립트 복사](/r/i/nextjs/17/3.webp)
+
+### 2.2. Script 추가하기
+
+쉽게 id를 변경 할 수 있도록 `process.env.NEXT_PUBLIC_GA_ID`와 같이 환경변수로 id를 분리합니다.
+
+```tsx {4}
+import Script from 'next/script';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  return ( ... );
+}
+```
+
+Next.js 15에서는 스크립트를 추가할때 `next/script`를 사용합니다.
+`next/script`는 페이지의 로딩 성능을 높이기 위해 스크립트를 비동기로 로드할 수 있도록 해줍니다.
+(물론 `<script>`를 사용해도 되지만, Next.js에서 권장하는 방식은 아닙니다)
+
+```tsx {4, 9, 10}
+<body>
+  {/* 1) gtag.js 라이브러리 로드 */}
+  <Script
+    strategy="afterInteractive"
+    src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+  />
+  {/* 2) GA4 초기화 스니펫 */}
+  <Script
+    id="ga4-init"
+    strategy="afterInteractive"
+    dangerouslySetInnerHTML={{
+      __html: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${gaId}', {
+          page_path: window.location.pathname,
+        });
+      `
+    }}
+  />
+  ...
+</body>
+```
+
+`<Script />` 컴포넌트에는 strategy 속성이 있습니다. 간단하게 설명을 하면
+
+- `beforeInteractive`: 페이지가 로드되기 전에 스크립트를 실행합니다.
+- `afterInteractive`: 페이지가 로드된 후에 스크립트를 실행합니다.
+- `lazyOnload`: 페이지가 로드된 후, 브라우저가 여유로운(`idle`) 시점에 스크립트를 실행합니다. (보통 성능에 거의 영향을 주지 않아야하고, 우선순위가 낮은 서드파티 스크립트에 사용합니다)
+
+> Script 컴포넌트에서 dangerouslySetInnerHTML 속성을 사용할때는 id 속성을 꼭 설정해야합니다. id 속성이 없으면, 스크립트가 중복으로 실행될 수 있습니다.
+
+
+"테스트"를 눌러 제대로 적용되었는지 확인합니다.
+
+![적용됐는지 확인](/r/i/nextjs/17/4.webp)

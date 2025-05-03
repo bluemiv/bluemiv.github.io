@@ -1,6 +1,6 @@
 import { getPageNumber, getPosts } from '@/entities/post/api';
 import { LIMIT } from '@/shared/constants/pagination';
-import { BlogHomeLayout } from '@/shared/layouts';
+import { BlogHomeLayout } from '../../widgets/layouts';
 
 interface Props {
   params: Promise<{ page: string }>;

@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 import RegisterServiceWorker from '@/features/serviceWorker/ui/RegisterServiceWorker';
 import { Header } from '@/widgets/Header';
 import './globals.css';
@@ -28,9 +29,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.GA_ID;
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={`${pretendardFont.className} antialiased min-h-screen`}>
+        {/*Google Analytics*/}
+        <Script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaId}');`,
+          }}
+        />
+        {/*Toggle Theme*/}
         <script
           dangerouslySetInnerHTML={{
             __html: `(function() {

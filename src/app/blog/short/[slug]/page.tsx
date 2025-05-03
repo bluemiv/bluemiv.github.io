@@ -1,5 +1,5 @@
 import { getAllShortPosts, getShortPost } from '@/entities/post/api';
-import { ShortPostsLayout } from '@/shared/layouts';
+import { ShortPostsLayout } from '../../../../widgets/layouts';
 
 interface Props {
   params: Promise<{ slug: string }>;

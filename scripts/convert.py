@@ -5,7 +5,7 @@ import shutil
 from PIL import Image
 
 
-def convert_png_to_webp(input_folder, output_folder, quality=100, target_width=720):
+def convert_png_to_webp(input_folder, output_folder, quality=100, target_width=1080):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 

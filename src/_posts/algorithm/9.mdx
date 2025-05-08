@@ -2,8 +2,8 @@
 title: 투 포인터(Two Pointers) 알고리즘
 description: 투 포인터는 배열이나 문자열처럼 선형 구조에서 2개의 인덱스(포인터)를 사용해 원하는 조건을 만족하는 해를 효율적으로 찾는 기법입니다. 본 글에서는 투 포인터에 대해 설명하고 예제 문제도 같이 풀이합니다.
 createdAt: 2025-03-01T12:11:48+09:00
-updatedAt: 2025-03-01T12:11:48+09:00
-tags: ['algorithm', 'two pointer']
+updatedAt: 2025-05-08T23:09:17+09:00
+tags: ['algorithm', 'two pointer', 'python']
 release: true
 author: 김태홍 (bluemiv)
 thumbnail: /r/i/algorithm/9/thumbnail.webp
@@ -74,6 +74,32 @@ print(solution(nums, target))  # [(1, 5), (2, 4)]
 ```
 
 `nums[1] + nums[5] = 2 + 7`, `nums[2] + nums[4] = 3 + 6` 이므로, 정답은 `[(1, 5), (2, 4)]` 입니다.
+
+### 2.2. 프로그래머스: 구명보트
+
+**문제**
+
+![문제 출처: https://school.programmers.co.kr/learn/courses/30/lessons/42885](/r/i/algorithm/9/2.webp)
+
+**풀이**
+
+```python
+def solution(people, limit):
+    answer = 0
+
+    l = 0
+    r = len(people) - 1
+    pp = sorted(people)  # 투 포인터를 사용하기 위해 우선 정렬
+
+    while l <= r:
+        # 함께 탈 수 있으면 둘 다 태우고,
+        if pp[l] + pp[r] <= limit:
+            l += 1
+        r -= 1  # 아니면 무거운 사람만 태운다
+        answer += 1
+
+    return answer
+```
 
 ---
 

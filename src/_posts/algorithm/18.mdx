@@ -1,0 +1,101 @@
+---
+title: 슬라이딩 윈도우(Sliding Window) 알고리즘
+description: 슬라이딩 윈도우(Sliding Window)는 배열이나 문자열처럼 선형 구조에서 연속된 구간(윈도우)을 효율적으로 탐색할 때 쓰는 기법입니다. 투 포인터와 비슷하지만 약간의 차이가 있고, 본 글에서는 슬라이딩 윈도우에 대해 설명합니다.
+createdAt: 2025-05-02T12:47:31+09:00
+updatedAt: 2025-05-02T12:47:31+09:00
+tags: ['algorithm', 'sliding window', 'python']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/algorithm/18/thumbnail.webp
+---
+
+## 1. 슬라이딩 윈도우
+
+슬라이딩 윈도우(`Sliding Window`)는 배열이나 문자열처럼 선형 구조에서 연속된 구간(윈도우)을 효율적으로 탐색할 때 쓰는 기법입니다.
+
+투 포인터와 비슷하지만, 윈도우 크기가 고정되어 있거나, 조건에 따라 크기가 달라질 수 있는 경우 사용할 수 있습니다.
+
+> 투 포인터에 대해 더 자세히 알고싶다면, [투 포인터(Two Pointers) 알고리즘](/blog/algorithm/9)를 참고해주세요.
+
+### 1.1. 기본 개념
+
+1. 우선 윈도우를 정의합니다. 왼쪽 포인터 `l`, 오른쪽 포인터 `r`을 지정하고, l과 r 사이의 구간(`l ~ r`)이 현재 활성 윈도우입니다.
+2. `r`을 오른쪽으로 한 칸씩 옮기며(확장) 윈도우에 새로운 요소를 포함시킵니다. 윈도우가 만족해야 할 조건에 맞지 않으면, `l`을 오른쪽으로 옮기며(수축) 불필요한 요소를 제거합니다.
+
+주의 할 점은 윈도우 내부 알고리즘을 O(1)이어야 효율적으로 문제를 풀 수 있습니다. 이러한 과정을 통해 한 번의 순회 만으로 모든 연속 구간을 탐색할 수 있기 때문에 `O(n)`으로 문제를 풀 수 있습니다.
+
+---
+
+## 2. 예제 문제 풀어보기
+
+### 2.1. 길이가 k인 부분 배열의 최대 합 구하기
+
+**문제**
+
+- 입력: 양수와 음수가 섞인 정수 배열 `nums`가 있고, 윈도우 크기 `k`가 입력으로 주어진다.
+- 출력: 길이 `k`인 연속 부분 배열 중 합이 최대인 값
+
+**풀이**
+
+```python
+def solution(nums, k):
+    # 초기 윈도우 합
+    window_sum = sum(nums[0:k])
+    max_sum = window_sum
+
+    for r in range(k, len(nums)):
+        window_sum += nums[r]  # r을 이동하며 새로운 요소를 더함
+        window_sum -= nums[r - k]  # l을 이동하며 기존 요소를 뺌
+        max_sum = max(max_sum, window_sum)
+
+    return max_sum
+
+
+nums = [2, -1, 3, 4, -2, 1]
+k = 3
+print(solution(nums, k))  # 출력: 6
+```
+
+### 2.2. 백준 - 줄줄이 박수 (29718번)
+
+**문제**
+
+![문제 출처: https://www.acmicpc.net/problem/29718](/r/i/algorithm/18/1.webp)
+
+**풀이**
+
+```python {16, 17}
+n, m = map(int, input().split(" "))
+
+# 입력 받으면서 열의 합을 미리 구함
+col_sums = [0] * m
+for j in range(n):
+    for i, num in enumerate(input().split(" ")):
+        col_sums[i] += int(num)
+
+k = int(input())
+
+window_sum = sum(col_sums[:k])  # 초기 값 설정
+answer = window_sum
+
+for r in range(k, m):
+    # 윈도우 이동하면서
+    window_sum -= col_sums[r - k]  # 왼쪽 값을 뺌
+    window_sum += col_sums[r]  # 오른쪽 값을 더함
+
+    # 더 큰 값 저장
+    answer = max(answer, window_sum)
+
+print(answer)  # 정답 출력
+```
+
+![정답](/r/i/algorithm/18/2.webp)
+
+---
+
+## 3. 언제 슬라이딩 윈도우를 쓰면 좋을까?
+
+- 연속된 구간의 합, 평균, 최대값, 최소값을 빠르게 계산해야 할 때 사용
+- 문자열의 부분 문자열에서 중복 검사 또는 빈도 카운팅을 할 때 사용
+
+슬라이딩 윈도우를 사용하여 문제를 풀면, 대부분 연속 구간 문제를 `O(n)`에 해결할 수 있는 장점이 있습니다.

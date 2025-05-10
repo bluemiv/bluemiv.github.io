@@ -1,0 +1,110 @@
+---
+title: 이진 탐색(Binary Search) 알고리즘
+description: 이진 탐색(Binary Search)은 정렬된 배열에서 원하는 값을 빠르게 찾는 알고리즘입니다. 본 글에서는 이진 탐색에 대해 설명하고 예제를 통해 실제로 어떻게 문제를 해결하는지 설명합니다.
+createdAt: 2025-05-09T22:48:26+09:00
+updatedAt: 2025-05-09T22:48:26+09:00
+tags: ['algorithm', '이진 탐색', 'binary search', 'python']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/algorithm/20/thumbnail.webp
+---
+
+## 1. 이진 탐색(Binary Search)
+
+이진 탐색(Binary Search)은 정렬된 배열에서 원하는 값을 빠르게 찾는 알고리즘입니다.
+단순히 순회하며 찾으면 시간 복잡도가 `O(n)`이지만, 이진 탐색으로 찾으면 매 단계마다 탐색 범위를 절반으로 좁혀 나가기 때문에 시간 복잡도는 `O(log n)`으로 매우 효율적으로 문제를 해결할 수 있습니다.
+
+### 1.1. 기본 동작 설명
+
+1. 왼쪽 포인터와 오른쪽 포인터를 초기화합니다. `l = 0`, `r = len(nums) - 1`
+2. 반복 탐색을 하며 `while l <= r` 다음 과정을 반복합니다.
+    1. 중간 인덱스를 계산합니다. `m = (l + r) // 2`
+    2. `nums[m]`와 찾으려는 값 `target` 비교합니다.
+        1. `nums[m] == target` 이면 target을 반환합니다. (정답 찾음)
+        2. `nums[m] < target` 이면 찾고자 하는 값이 오른쪽에 있으므로 왼쪽 포인터를 오른쪽 구간의 첫번째(`l = m + 1`)로 변경합니다.
+        3. `nums[m] > target` 이면 찾고자 하는 값이 왼쪽에 있으므로 오른쪽 포인터를 왼쪽 구간의 마지막(`r = m - 1`)으로 변경합니다.
+
+```python
+def binary_search(nums, target):
+    l, r = 0, len(nums) - 1
+
+    while l <= r:
+        m = (l + r) // 2
+        if nums[m] == target:
+            return m  # 정답 반환
+        elif nums[m] < target:
+            l = m + 1  # 중간값보다 크면 오른쪽 구간으로 포인터 이동
+        else:
+            r = m - 1  # 중간값보다 작으면 왼쪽 구간으로 포인터 이동
+
+    return None  # 없으면 None 반환
+
+
+nums = [1, 3, 5, 7, 9, 11, 13]
+print(binary_search(nums, 7))  # 3
+print(binary_search(nums, 8))  # None
+```
+
+---
+
+## 2. 예제 문제 풀어보기
+
+### 2.1 배열에서 특정 값의 등장 횟수 구하기
+
+**문제**
+
+오름차순으로 정렬된 정수 배열 `nums`와 정수 값 `target`이 주어집니다. `nums` 배열에서 `target`이 등장하는 횟수를 구하세요. 만약 `target`이 배열에 없으면 0을 반환합니다.
+
+**풀이**
+
+1. `lower_bound`와 `upper_bound`를 구합니다.
+    1. `lower_bound`: nums에서 target이 **처음 등장**하는 위치(left)를 이진 탐색으로 찾는다.
+    2. `upper_bound`: nums에서 **target 보다 큰 첫 요소**의 위치(right)를 이진 탐색으로 찾는다.
+2. `right` - `left`를 하면 `target`의 개수가 나옵니다.
+
+```python
+def solution(nums, target):
+    def lower_bound():
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2
+            # target보다 작으므로,
+            # target보다 크거나 같아질때까지 왼쪽 포인터를 오른쪽 구간으로 이동
+            if nums[m] < target:
+                l = m + 1
+            # target보다 크거나 같으므로, 오른쪽 포인터를 중간으로 이동하여 왼쪽 구간 탐색
+            else:
+                r = m
+        return l
+
+    def upper_bound():
+        l, r = 0, len(nums) - 1
+        while l < r:
+            m = (l + r) // 2
+            # target보다 작거나 같으므로,
+            # target보다 큰 값을 만날때까지 왼쪽 포인터를 오른쪽 구간으로 이동
+            if nums[m] <= target:
+                l = m + 1
+            # target보다 크므로, 오른쪽 포인터를 중간으로 이동하여 왼쪽 구간 탐색
+            else:
+                r = m
+        return l
+
+    left = lower_bound()
+    if left == 0 and nums[0] != target:  # target이 배열에 없는 경우는 0 바로 반환
+        return 0
+
+    right = upper_bound()
+    return right - left
+
+
+nums = [1, 2, 2, 2, 3, 4, 5]
+print(solution(nums, 2))  # 출력: 3
+print(solution(nums, 6))  # 출력: 0
+```
+
+---
+
+## 3. 언제 사용할까?
+
+이진 탐색은 시간복잡도 `O(log n)`으로 정렬된 데이터에서 원하는 값을 찾을때 사용하기 좋은 효율적인 알고리즘입니다. 단, 반드시 **정렬된 배열**에서만 사용 가능합니다.

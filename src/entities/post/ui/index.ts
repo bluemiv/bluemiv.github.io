@@ -5,3 +5,4 @@ export { default as ArticleMetadata } from './ArticleMetadata';
 export * from './CategoryTag';
 export * from './NextOrPrevPostCard';
 export * from './Pagination';
+export * from './Comments';

@@ -1,0 +1,110 @@
+---
+title: utterances로 Next.js 블로그에 댓글 기능 추가하기 (블로그 테마에 따른 댓글 UI)
+description: GitHub Issues 기반의 댓글 시스템인 utterances를 Next.js에 적용하여, 자신의 블로그에 댓글 기능을 추가하는 방법에 대해 소개합니다. 그리고 블로그 테마 변환에 따른 댓글 UI도 같이 변환 되도록 하는 방법에 대해서도 같이 설명합니다.
+createdAt: 2025-05-29T22:17:54+09:00
+updatedAt: 2025-05-29T22:17:54+09:00
+tags: ['nextjs', 'fe', 'blog', 'utterances']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/nextjs/22/thumbnail.webp
+---
+
+## 1. utterances이란?
+
+`utterances`는 GitHub Issues를 이용해 블로그에 댓글 기능을 넣어주는 오픈소스 위젯입니다. 사용자가 웹 페이지에 utterances에서 생성해준 script를 추가하면, 추가한 위치에 댓글 UI가 보이게 됩니다.
+
+별도의 백엔드 없이 댓글 기능을 넣을 수 있는 장점이 있고 markdown으로도 작성할 수 있는 특징이 있습니다. 다만, github repository 이슈를 생성하여 댓글을 만들기 때문에, public으로 생성된 repository가 필요합니다.
+
+## 2. utterances 적용하기
+
+### 2.1. Github과 utterances app 연결
+
+우선, 자신의 github에 public으로 된 repository를 생성해야합니다. 위에서 설명한 것과 같이 `utterances`는 github 이슈를 이용하여 댓글을 만들기 때문에 꼭 필요합니다. 전 githubblog-comment로 저장소를 생성했습니다. 저장송 이름은 중요하지 않습니다.
+
+그 다음, Github과 [utterances app](https://github.com/apps/utterances)을 연결합니다. 이때 방금 생성한 github repository에 접근할 수 있도록 권한을 부여합니다.
+
+![생성한 Repository 선택](/r/i/nextjs/22/1.webp)
+
+### 2.2. 기본 설정
+
+[https://utteranc.es/](https://utteranc.es/)으로 접속합니다. 그리고, 위에서 생성한 repository 명을 입력합니다. 예를 들어, `bluemiv/githubblog-comment`와 같이 입력합니다.
+
+![댓글을 저장할 Repository 선택](/r/i/nextjs/22/2.webp)
+
+블로그와 이슈를 어떤 이름을 맵핑을 할 것인지 정해야 합니다. 취향에 따라 설정하시면 됩니다. 저는 default 값인 `Issue title contains page pathname`으로 선택하겠습니다.
+
+![블로그와 github issue 매핑 선택](/r/i/nextjs/22/3.webp)
+
+![github의 issue 제목이 블로그 주소가 됨](/r/i/nextjs/22/6.webp)
+
+댓글 UI 테마도 설정할 수 있습니다. 원하는 테마를 선택합니다.
+
+![댓글 UI Theme 설정](/r/i/nextjs/22/4.webp)
+
+테마까지 설정하고 나면, 바로 밑에 `script` 태그가 있습니다. 해당 script 태그를 원하는 위치에 삽입하면 됩니다.
+
+### 2.3. Next.js에서 적용하기
+
+Next.js에서 바로 script 태그를 삽입하면 노출되지 않습니다. 따라서 아래와 같이 클라이언트 사이드에서 동작할 수 있도록 use client와 useEffect를 사용하여 script를 불러옵니다.
+
+```tsx {1, 8-17}
+'use client';
+
+// ...
+
+export const Comments = () => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', 'bluemiv/githubblog-comment');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('cross-origin', 'anonymous');
+    script.setAttribute('async', '');
+    ref.current?.appendChild(script);
+  }, []);
+
+  return <div ref={ref} className="w-full" />;
+};
+```
+
+> Next.js의 `<Script>` 컴포넌트를 사용하면, 스크립트가 body의 최하단에 위치하게 됩니다. 따라서 원하는 위치가 아닌 맨 아래에 댓글 창이 보이게 됩니다.
+
+### 2.4. Light / Dark 테마에 따른 다른 테마 적용
+
+만약, 자신의 블로그에 Light / Dark 테마를 전환하는 기능이 있다면, 댓글의 테마도 같이 바뀌면 UI 측면에서 더 좋을거 같습니다. 하지만, 브라우저의 개발자 도구를 통해 html 요소를 확인해보면 iframe으로 삽입되어 있는 것을 볼 수 있습니다.
+
+![iframe으로 요소가 삽입되어 있음](/r/i/nextjs/22/7.webp)
+
+따라서, 선택자를 통해 스타일을 변경하기가 쉽지 않습니다. 따라서, 테마 값에 따라 새로운 javascript를 불러오도록 개선을 해야합니다.
+
+```tsx {13, 17}
+export const Comments = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', process.env.NEXT_PUBLIC_COMMENTS_REPO!);
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', theme === 'light' ? 'github-light' : 'dark-blue'); // theme에 따라 다른 댓글 테마를 적용하여 script를 로드함
+    script.setAttribute('cross-origin', 'anonymous');
+    script.setAttribute('async', '');
+    ref.current?.appendChild(script);
+  }, [theme]);
+
+  return (
+    <div ref={ref} className="w-full min-h-[280px] [&_.utterances_.markdown-body]:bg-transparent" />
+  );
+};
+```
+
+`theme`가 변경 될 때마다 `useEffect`가 실행되며, 새로운 댓글 UI를 불러오게 됩니다.
+
+![블로그 테마에 따라 댓글 테마도 변경](/r/i/nextjs/22/8.gif)

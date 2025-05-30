@@ -58,6 +58,7 @@ gtag('config', '${gaId}');`,
     const isDark = theme === 'dark' || (!theme && prefersDark);
     if (isDark) {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     }
   } catch (e) {
   console.warn('Failed to load theme');

@@ -1,30 +1,20 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useTheme } from '../hooks';
 import MoonIcon from './MoonIcon';
 import SunIcon from './SunIcon';
 
 export default function ThemeToggleButton() {
-  const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
+  const { theme, toggleTheme } = useTheme();
   const [isFadeOut, setIsFadeOut] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useLayoutEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark');
-    setTheme(isDark ? 'dark' : 'light');
-  }, []);
-
-  const setThemeValue = (nextTheme: 'light' | 'dark') => {
-    localStorage.setItem('theme', nextTheme);
-    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
-    setTheme(nextTheme);
-  };
-
-  const toggleTheme = () => {
+  const onClick = () => {
     if (timeoutRef.current) return;
     setIsFadeOut(true);
     timeoutRef.current = setTimeout(() => {
-      setThemeValue(theme === 'dark' ? 'light' : 'dark');
+      toggleTheme();
       setIsFadeOut(false);
       clearTimeout(timeoutRef.current!);
       timeoutRef.current = null;
@@ -35,7 +25,7 @@ export default function ThemeToggleButton() {
   return (
     <button
       className="flex items-center justify-center w-[34px] h-[34px] rounded transition duration-150 ease-in-out cursor-pointer hover:bg-app-sub-bg dark:hover:bg-app-dark-sub-bg"
-      onClick={toggleTheme}
+      onClick={onClick}
     >
       <div className={isFadeOut ? 'animate-theme-icon-fade-out' : 'animate-theme-icon-fade-in'}>
         {theme === 'dark' ? <SunIcon /> : <MoonIcon />}

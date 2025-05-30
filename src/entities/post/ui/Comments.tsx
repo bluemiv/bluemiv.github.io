@@ -22,6 +22,6 @@ export const Comments = () => {
   }, [theme]);
 
   return (
-    <div ref={ref} className="w-full min-h-[300px] [&_.utterances_.markdown-body]:bg-transparent" />
+    <div ref={ref} className="w-full min-h-[280px] [&_.utterances_.markdown-body]:bg-transparent" />
   );
 };

@@ -1,0 +1,193 @@
+---
+title: React 프로젝트에 vitest로 Unit Test 환경 구축하기
+description: Vitest를 사용하여, Vite 기반의 React 프로젝트에서 unit test 환경을 구축하는 방법에 대해 소개합니다. 그리고, CI 단계에서 자동화 테스트를 위해, Github Actions과 연동하는 방법도 같이 소개합니다.
+createdAt: 2025-05-30T21:20:33+09:00
+updatedAt: 2025-05-30T21:20:33+09:00
+tags: ['react', 'fe', 'vite', 'vitest', 'test', 'unit test', 'github actions']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/react/23/thumbnail.webp
+---
+
+## 1. Unit Test 환경 구축
+
+### 1.1. Unit Test란?
+
+Unit Test는 앱을 구성하는 가장 작은 단위(`unit`)인 함수 또는 컴포넌트 단위로 동작을 테스트하는 것을 말합니다.
+
+Unit Test 수행하면 다음과 같은 이점이 있습니다.
+
+- 코드 안정성 확보: 특정 기능이 의도한대로 동작하는지 검증 가능
+- 리펙토링 및 유지보수 용이: 리펙토링 이후 기존 기능이 제대로 동작하는지 테스트를 통해 자동으로 검증 가능
+- 개발 생산성 향상: CI 단계에서 자동으로 테스트를 통해 검증이 되므로, 모든 기능에 대해서 수동으로 테스트하고 확인하는 과정이 필요없음
+- 문서화 효과: 특정 함수 또는 모듈을 어떻게 사용하는지, 테스트 코드를 통해 알 수 있어서 문서화가 필요 없음.
+
+위와 같은 이유로 현업에서는 안정적인 서비스를 제공하기 위해 필수적으로 unit test를 사용합니다.
+
+### 1.2. Vitest란?
+
+`Vitest`는 Vite 프로젝트에서 사용가능한 테스트 도구로, `Jest`나 `Mocha` 같은 기존 테스트 도구와 유사한 기능들을 제공합니다.
+
+- 간단한 설정: Vite에서 만든 만큼 vite 프로젝트와 잘 연동되어 `vite.config.ts`를 그대로 가져와서 테스트를 수행합니다.
+- 빠른 실행 속도: Vite에서 제공하는 ES 모듈 기반 핫 모듈 로딩 기능을 활용하여, 테스트시 불필요한 빌드 작업을 최소화하기 때문에 빠른 테스트 실행 속도를 제공합니다.
+- 기타: Jest와 호환, TypeScript / JSX / TSX 지원
+
+#### 1.2.1. vitest 설치
+
+다음 명령어를 통해 의존성을 설치합니다.
+
+```bash
+# npm 사용시
+npm install -D vitest
+# yarn 사용시
+yarn add -D vitest
+```
+
+#### 1.2.2. 테스트 수행
+
+테스트 코드를 작성합니다.
+
+```typescript
+// sum.test.ts
+import { expect, test } from 'vitest';
+import { sum } from './sum';
+```
+
+```typescript
+// sum.ts
+export function sum(a: number, b: number) {
+  return a + b;
+}
+
+test('adds 1 + 2 to equal 3', () => {
+  expect(sum(1, 2)).toBe(3);
+});
+```
+
+`package.json`에 test 스크립트를 추가합니다.
+
+```json
+# package.json
+{
+  "scripts": {
+    "test": "vitest"
+  }
+}
+```
+
+그리고, 테스트를 수행합니다.
+
+```bash
+yarn test
+```
+
+## 2. 테스트 코드 작성 방법 및 명명 규칙
+
+### 2.1. 자주 사용하는 함수
+
+- describe: 테스트 대상이 되는 함수를 그룹화할때 사용합니다. 코드에서는 `describe()` 함수를 사용합니다.
+- it / test: 구체적인 테스트 시나리오를 작성합니다. 코드에서는 `it()`, `test()` 함수를 사용합니다.
+- expect: 테스트 결과 값과 예상 값을 비교할때 사용합니다. 코드에서는 `expect()` 함수를 사용합니다.
+
+### 2.2. 테스트 코드 작성 단계
+
+테스트 코드를 작성할때는 3가지 단계로 작성합니다.
+
+- Arrage(준비): 테스트에 필요한 데이터, Mock 함수 등을 선언합니다.
+- Act(실행): 검증할 함수를 호출합니다.
+- Assert(검증): 함수의 반환 값을 검증합니다.
+
+```typescript {8-9, 12, 15}
+// utils.test.ts
+import { describe, it, expect } from 'vitest';
+import { multiply } from './utils';
+
+describe('multiply 함수 테스트', () => {
+  it('두 양수를 곱하면 올바른 결과를 반환해야 한다', () => {
+    // Arrange: 테스트에 필요한 값과 Mock 함수 등을 선언
+    const a = 4;
+    const b = 5;
+
+    // Act: 검증할 함수를 호출
+    const result = multiply(a, b);
+
+    // Assert: 함수의 반환 값을 검증
+    expect(result).toBe(20);
+  });
+
+  it('하나의 수가 0일 때 0을 반환해야 한다', () => {
+    // Arrange
+    const a = 0;
+    const b = 7;
+
+    // Act
+    const result = multiply(a, b);
+
+    // Assert
+    expect(result).toBe(0);
+  });
+
+  it('음수를 곱했을 때 부호가 올바르게 적용되어야 한다', () => {
+    // Arrange
+    const a = -3;
+    const b = 6;
+
+    // Act
+    const result = multiply(a, b);
+
+    // Assert
+    expect(result).toBe(-18);
+  });
+});
+```
+
+### 2.1. Github Actions와 연동하여 테스트 자동화
+
+`Github Actions`는 GitHub에서 push, pull request에 의해 코드가 변경되었을때, 사용자가 정의한 워크플로우(Workflow)를 자동으로 실행해주는 CI/CD 툴입니다. Github Actions를 활용하여 unit test를 자동으로 수행하는 환경을 구축할 수 있습니다.
+
+`yarn test` 명령어를 수행하면, 테스트 이후 프로세스가 종료되지 않고 코드 변경이 일어나면 지속적으로 테스트를 수행합니다. CI 단계에서는 테스트 프로세스가 한번만 수행되어야 하므로, `--coverage` 옵션을 추가하여 수행해야 합니다. 이 부분을 유의해서 아래 github actions yaml 스크립트를 작성하겠습니다.
+
+```yaml {31, 33-36}
+# .github/workflows/test-coverage.yml
+name: Test & Coverage
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    name: Vitest 테스트 및 커버리지
+    runs-on: ubuntu-latest
+
+    steps:
+      # 저장소 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Node.js 환경 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      # 의존성 설치
+      - name: Install dependencies
+        run: yarn install
+
+      # 테스트 코드 실행
+      - name: Run tests
+        run: yarn test --coverage
+
+      # 리포트 댓글 생성
+      - name: Report coverage
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2
+```
+
+![Github Actions 수행 후 댓글 자동 생성](/r/i/react/23/1.webp)
+
+## Reference
+
+- [https://vitest.dev/](https://vitest.dev/)

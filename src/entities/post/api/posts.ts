@@ -99,7 +99,7 @@ export const getTags = () => {
     }
     return acc;
   }, {});
-  return Object.entries(tags).sort((p, n) => p[0].localeCompare(n[0]));
+  return Object.entries(tags).sort((p, n) => n[1] - p[1]);
 };
 
 /**

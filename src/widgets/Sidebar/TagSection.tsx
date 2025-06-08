@@ -10,7 +10,8 @@ export const TagSection = () => {
       <ul className="flex gap-sm flex-wrap">
         {tags.map((entry) => {
           const tag = entry[0];
-          return <TagLink key={tag} tag={tag} />;
+          const count = entry[1];
+          return <TagLink key={tag} tag={tag} count={count} />;
         })}
       </ul>
     </section>

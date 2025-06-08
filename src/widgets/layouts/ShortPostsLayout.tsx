@@ -42,14 +42,16 @@ export const ShortPostsLayout = ({ slug }: Props) => {
                         dayjs(post.metadata.updatedAt),
                         'minutes',
                       ) && (
-                        <div>
+                        <time
+                          dateTime={dayjs(post.metadata.updatedAt).format('YYYY-MM-DD HH:mm:ss')}
+                        >
                           최종 수정일:{' '}
                           {dayjs(post.metadata.updatedAt).format('YYYY-MM-DD HH:mm:ss')}
-                        </div>
+                        </time>
                       )}
-                    <div>
+                    <time dateTime={dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
                       작성일: {dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm:ss')}
-                    </div>
+                    </time>
                   </div>
                 </div>
               </div>

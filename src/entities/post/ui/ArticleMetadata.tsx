@@ -14,21 +14,27 @@ export default function ArticleMetadata({ post }: Props) {
         <ArticleThumbnail thumbnail={post.metadata.thumbnail} alt={post.metadata.title} />
       )}
       <h1 className="font-semibold text-4xl">{post.metadata.title}</h1>
-      <div className="flex flex-wrap gap-sm">
+      <ul aria-label="tags" className="flex flex-wrap gap-sm">
         {Array.from(new Set(post.metadata.tags))
           .filter((v) => !!v?.trim())
           .map((tag) => (
-            <TagLink key={tag} tag={tag} />
+            <li key={tag}>
+              <TagLink tag={tag} />
+            </li>
           ))}
-      </div>
+      </ul>
       <div className="flex flex-col gap-xs text-sm text-app-sub-text dark:text-app-dark-sub-text">
         <div>{post.metadata.author}</div>
         <div className="flex gap-md">
           {post.metadata.updatedAt &&
             !dayjs(post.metadata.createdAt).isSame(dayjs(post.metadata.updatedAt), 'minutes') && (
-              <div>최종 수정일: {dayjs(post.metadata.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+              <time dateTime={dayjs(post.metadata.updatedAt).format('YYYY-MM-DD HH:mm:ss')}>
+                최종 수정일: {dayjs(post.metadata.updatedAt).format('YYYY-MM-DD HH:mm:ss')}
+              </time>
             )}
-          <div>작성일: {dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+          <time dateTime={dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
+            작성일: {dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+          </time>
         </div>
       </div>
     </div>

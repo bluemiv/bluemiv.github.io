@@ -1,0 +1,203 @@
+---
+title: 시맨틱 태그(semantic tag)의 종류와 사용해야하는 이유
+description: 시맨틱(semantic) 태그는 HTML5에 등장한 개념입니다. 문서 구조에 의미를 부여하여 사람뿐 아니라 검색 엔진 등 기계(robot)이 컨텐츠를 이해하기 쉽도록 도와주는 역할을 합니다. 본 글에서는 시맨틱 태그의 종류를 설명하고, 왜 사용해야 하는지 설명합니다.
+createdAt: 2025-06-02T09:53:29+09:00
+updatedAt: 2025-06-02T09:53:29+09:00
+tags: ['web', 'fe', 'html', 'semantic tag']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/web/25/thumbnail.webp
+---
+
+## 1. 시맨틱 태그란?
+
+시맨틱 태그(`semantic tag`)는 태그 이름으로 해당 요소의 역할 또는 의미를 나타내는 `HTML` 요소입니다.
+
+반면 기존의 `<div>`나 `<span>`은 아무런 의미가 없으므로, 별도 주석이나 클래스명이 없으면 역할에 대해서 명확하게 확인하기 힘듭니다. 따라서, header, footer, article과 같이 의미 부여를 할 수 있는 태그를 사용하기 시작했습니다.
+
+---
+
+## 2. 시맨틱 태그의 종류
+
+### 2.1. header
+
+- 문서의 머리말(Header, 헤더)을 의미
+- 헤더에는 로고, 제목, 내비게이션 등의 내용을 넣음
+
+```html
+<header>
+  <h1>My Blog</h1>
+  ...
+</header>
+```
+
+### 2.2. nav
+
+- 사이트의 내비게이션 링크를 의미
+- 보통 Footer의 개인정보 약관이나 GNB(Global Navigation Bar)를 구현할때 사용
+
+```html
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+</nav>
+```
+
+### 2.3. main
+
+- 문서의 주요 컨텐츠를 의미
+- 페이지당 하나만 존재해야 함
+
+```html {4-14}
+<body>
+  <header>...</header>
+
+  <main>
+    <article>
+      <h2>title</h2>
+      <p>description</p>
+      <footer>...</footer>
+    </article>
+    <aside>
+      <h3>인기 글</h3>
+      ...
+    </aside>
+  </main>
+
+  <footer>...</footer>
+</body>
+```
+
+### 2.4. section
+
+- 주제별로 영역을 나눌때 사용
+
+```html
+<section>
+  <h2>소개</h2>
+  <p>블로그 설명</p>
+</section>
+
+<section>
+  <h2>카테고리</h2>
+  <ul>
+    <li>HTML5</li>
+    <li>CSS3</li>
+    <li>JavaScript</li>
+  </ul>
+</section>
+```
+
+### 2.5. article
+
+- 독립적인 컨텐츠를 넣을때 사용
+- 블로그 글, 뉴스 기사 등을 작성할 때 사용
+
+```html
+<article>
+  <header>
+    <h2>2025년 웹 표준 동향</h2>
+    <time datetime="2025-06-01">2025년 6월 1일</time>
+  </header>
+  <p>글 내용</p>
+  <footer>
+    <p>작성자: bluemiv</p>
+  </footer>
+</article>
+```
+
+### 2.6. aside
+
+- 보조 컨텐츠(사이드바, 광고, 추천 링크 등)를 구현할때 사용
+
+```html
+<aside>
+  <h3>최신 글</h3>
+  <ul>
+    <li><a href="#">HTML 시맨틱 태그 가이드</a></li>
+    <li><a href="#">CSS 그리드 레이아웃 튜토리얼</a></li>
+  </ul>
+</aside>
+```
+
+### 2.7. footer
+
+- 꼬리말(Footer, 푸터)
+- 저작권, 연락처, 링크 등의 내용을 넣음
+
+```html
+<footer>
+  <p>&copy; 2025 My Blog. All rights reserved.</p>
+  <nav>
+    <a href="/privacy">개인정보 처리방침</a> |
+    <a href="/terms">이용 약관</a>
+  </nav>
+</footer>
+```
+
+### 2.8. figure
+
+- 독립된 이미지, 도표, 코드 블록을 구현할때 사용
+
+```html {1, 4}
+<figure>
+  <img src="/your/image.png" alt="시맨틱 태그 구조" />
+  <figcaption>그림 1. HTML5 시맨틱 태그 구조</figcaption>
+</figure>
+```
+
+### 2.9. figcaption
+
+- `<figure>`의 캡션(설명문)을 넣을때 사용
+
+```html {3}
+<figure>
+  <img src="/your/image.png" alt="시맨틱 태그 구조" />
+  <figcaption>그림 1. HTML5 시맨틱 태그 구조</figcaption>
+</figure>
+```
+
+### 2.10. time
+
+- 날짜 및 시간 정보를 넣을때 사용
+
+```html {3}
+<div>
+  작성일:
+  <time datetime="2025-06-01T7:40:00+09:00">2025년 6월 1일 오전 7시 40분</time>
+</div>
+```
+
+### 2.11. address
+
+- 글 작성자, 저작권자 연락처 정보를 넣을때 사용
+
+```html
+<address>
+  작성자: bluemiv<br />
+  이메일: <a href="mailto:public.bluemiv@gmail.com">public.bluemiv@gmail.com</a><br />
+  주소: 서울특별시
+</address>
+```
+
+---
+
+## 3. 시맨틱 태그를 사용하는 이유
+
+**접근성(Accessibility) 향상**
+
+스크린 리더는 시맨틱 태그를 기반으로 사용자에게 페이지 구조를 보여줍니다. `<nav>`가 있으면 내비게이션 영역으로 알려주기 때문에 시각장애인도 쉽게 찾을 수 있습니다.
+
+**검색 엔진 최적화(SEO) 개선**
+
+검색 엔진은 `<article>`, `<section>` 등 시맨틱 태그로 컨텐츠의 주제와 우선순위를 파악합니다. `<main>`의 주요 정보를 우선적으로 색인하기 때문에 시멘틱 태그를 사용하면, 검색 결과 노출에 유리하게 작용합니다.
+
+**코드 가독성 및 유지 보수성 증대**
+
+태그만 보고도 해당 영역의 역할을 알 수 있기 떄문에 협업 시 다른 개발자가 구조를 빠르게 파악할 수 있습니다. 클래스로 구분하던 불명확한 `<div>` 혹은 `<span>` 태그 남발을 줄일 수 있습니다.
+
+**표준 준수 및 향후 브라우저 지원**
+
+HTML5 표준(웹 표준)을 지키면, 브라우저와의 호환성과 성능 최적화 측면에서도 이점이 있습니다.

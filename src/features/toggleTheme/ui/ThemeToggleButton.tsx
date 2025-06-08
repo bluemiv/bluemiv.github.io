@@ -1,11 +1,10 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { SunIcon, MoonIcon } from '@/shared/ui/Icons';
 import { useTheme } from '../hooks';
-import MoonIcon from './MoonIcon';
-import SunIcon from './SunIcon';
 
-export default function ThemeToggleButton() {
+export const ThemeToggleButton = () => {
   const { theme, toggleTheme } = useTheme();
   const [isFadeOut, setIsFadeOut] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,4 +31,4 @@ export default function ThemeToggleButton() {
       </div>
     </button>
   );
-}
+};

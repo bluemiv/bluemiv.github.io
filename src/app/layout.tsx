@@ -32,15 +32,9 @@ export default function RootLayout({
   const gaId = process.env.GA_ID;
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${pretendardFont.className} antialiased min-h-screen`}>
-        {/* Google Tags */}
-        <Script
-          strategy="beforeInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=AW-946389205"
-        />
-        <Script
-          id="gtag-init"
-          strategy="beforeInteractive"
+      <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-946389205"></script>
+        <script
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -49,7 +43,8 @@ export default function RootLayout({
   gtag('config', 'AW-946389205');`,
           }}
         />
-
+      </head>
+      <body className={`${pretendardFont.className} antialiased min-h-screen`}>
         {/*Google Analytics*/}
         <Script
           strategy="afterInteractive"

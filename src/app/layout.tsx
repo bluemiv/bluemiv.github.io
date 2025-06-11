@@ -30,21 +30,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.GA_ID;
+  const lineGTagId = process.env.LINE_GTAG_ID;
   return (
     <html lang="ko" suppressHydrationWarning>
-      <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-946389205"></script>
-        <script
+      <body className={`${pretendardFont.className} antialiased min-h-screen`}>
+        {/*Google Tag Manager for LINE*/}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${lineGTagId}`}
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
-  gtag('config', 'AW-946389205');`,
+  gtag('config', '${lineGTagId}');`,
           }}
         />
-      </head>
-      <body className={`${pretendardFont.className} antialiased min-h-screen`}>
         {/*Google Analytics*/}
         <Script
           strategy="afterInteractive"

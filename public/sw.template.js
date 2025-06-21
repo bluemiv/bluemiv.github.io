@@ -45,6 +45,7 @@ self.addEventListener('fetch', (event) => {
     '/ads.txt',
     '/naver0b3c7144e2b65f42ae8194ba42c9f26c.html',
     '/google8ae0c2a16b4b1e23.html',
+    '/app-ads.txt',
   ];
 
   // 소문자 처리 후 정확히 일치하는 경로 제외

@@ -52,6 +52,7 @@ export const CategorySection = () => {
           </ul>
         </li>
         <CategoryItem label="Algorithm" category="algorithm" count={categoriesMap['algorithm']} />
+        <CategoryItem label="Firebase" category="firebase" count={categoriesMap['firebase']} />
       </ul>
     </section>
   );

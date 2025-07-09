@@ -1,0 +1,156 @@
+---
+title: Cloud Firestore의 컬렉션(Collection)과 문서(Document) 개념
+description: Firebase의 Cloud Firestore에서 사용되는 개념인 컬렉션(collection)과 문서(document)에 대해 설명합니다. 그리고, flutter에서 어떻게 사용하는지 예제를 통해 알아봅니다.
+createdAt: 2025-06-12T11:47:31+09:00
+updatedAt: 2025-06-12T11:47:31+09:00
+tags: ['firebase', 'flutter', 'dart', 'collection', 'document']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/firebase/26/thumbnail.webp
+---
+
+## 1. Cloud Firestore
+
+`Cloud Firestore`는 Google의 Firebase에서 제공하는 `NoSQL` 기반의 Document Database 입니다. 보통 모바일 혹은 웹 애플리케이션을 개발할때 사용합니다.
+
+Cloud Firestore의 특징으로는 다음과 같습니다.
+
+- JSON 형태와 같이 key-value 쌍으로 데이터를 저장
+- 멀티 리전(muti-region) 구조에서 동작해서 전 세계 어디서나 빠르고 안정적인 응답을 보장
+- 자동으로 파티셔닝을 하기 때문에, 사용량이 늘어나더라도 별도의 서버 관리 없이 수평 확장(horizontal scaling)이 가능
+- Web(JavaScript), Android, iOS, Flutter, Unity 등 다양한 개발 환경마다 `SDK`를 지원하고 있어서, 복잡하게 REST 호출을 할 필요없이 간단한 메서드 호출만으로 데이터를 CRUD 할 수 있음
+
+### 1.1. 문서 (Document)
+
+데이터를 JSON과 같이 key-value로 저장하고 있고, 이 데이터들을 담고 있는 단위를 `Document`라고 합니다.
+
+예를 들어,
+
+```json
+# user 컬렉션 > userA 문서
+{
+  "name": "bluemiv",
+  "email": "public.bluemiv@gmail.com",
+  "age": 32
+}
+```
+
+Document의 특징은 다음과 같습니다.
+
+- 하나의 Document의 최대 크기는 약 1 MiB (1,048,576 bytes)
+- 각 문서는 고유한 ID를 가집니다. ID는 개발자가 직접 설정하거나 Firestore가 자동으로 생성하도록 할 수 있습니다.
+- 문서 안에는 다시 하위 컬렉션(`subcollection`)을 둘 수 있습니다.
+
+
+### 1.2. 컬렉션 (Collection)
+
+여러 개의 문서(Document)를 그룹화한 것을 `Collection` 이라고 합니다.
+
+```bash
+users (컬렉션)
+    ├── userA (문서)
+    ├── userB (문서)
+    └── userC (문서)
+```
+
+Collection의 특징은 다음과 같습니다.
+
+- 빈 컬렉션은 존재할 수 없습니다. 최소한 하나의 문서가 있어야 컬렉션을 생성할 수 있습니다.
+- 이름은 마음대로 정해도 되지만, 일반적으로 복수형(예: users, posts)으로 만듭니다.
+- 컬렉션 안에는 순서 없이 여러 문서가 저장됩니다.
+
+### 1.3. 하위 컬렉션 (Subcollection)
+
+Firestore에서는 Document 안에 또 다른 Collection을 만들 수 있습니다. Document 하위에 있는 Collection을 `Subcollection`이라고 합니다.
+
+```bash
+posts (컬렉션)
+    ├── post1 (문서)
+    │   ├── title: "Firestore 기초"
+    │   └── comments (하위 컬렉션)
+    │       ├── commentA (문서)
+    │       └── commentB (문서)
+    └── post2 (문서)
+        └── title: "Firebase 튜토리얼"
+```
+
+## 2. Flutter에서 Firestore 사용하기
+
+Flutter에서 Firestore를 사용하려면, [cloud_firestore](https://pub.dev/packages/cloud_firestore) 의존성이 필요합니다.
+
+다음 명령어를 통해, 의존성을 추가합니다.
+
+```bash
+flutter pub add cloud_firestore
+```
+
+이후, 앱에서는 다음 코드와 같이 import 합니다.
+
+```dart
+import 'package:cloud_firestore/cloud_firestore.dart';
+```
+
+Firestore에 접근하기 위해, 인스턴스를 생성하고 SDK에서 제공해주는 메소드를 통해 데이터에 접근할 수 있습니다
+
+```dart
+final db = FirebaseFirestore.instance;
+
+// Document 쓰기
+await db.collection('users')
+    .doc('userA')
+    .set({
+      'name': 'bluemiv',
+      'email': 'public.bluemiv@gmail.com',
+      'age': 32
+    });
+
+// Collection 읽기
+final querySnapshot = await db.collection('users').get();
+for (var doc in querySnapshot.docs) {
+  print('${doc.id} => ${doc.data()}');
+}
+
+// Document 읽기
+final docSnapshot = await db.collection('users').doc('userA').get();
+if (docSnapshot.exists) {
+  print(docSnapshot.data());
+}
+```
+
+위와 같이 코드를 작성하고 실행하면, 권한에 의해 조회하거나 쓰기가 동작하지 않을 수도 있습니다. 이때는 보안 규칙을 설정해줘야 합니다.
+
+## 3. Firestore 보안 규칙 설정하기
+
+Firebase 콘솔에서 Firestore의 읽기(`read`) 또는 쓰기(`write`) 권한을 설정할 수 있습니다. 이러한 접근 권한 규칙을 **보안 규칙(Security Rules)** 이라고 합니다.
+
+![Firebase 콘솔 - 보안 규칙 설정](/r/i/firebase/26/1.webp)
+
+보안 규칙은 다음과 같이 작성할 수 있습니다.
+
+```javascript
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // users 컬렉션
+    match /users/{userId} {
+      allow read: true; // 모든 사용자가 읽을 수 있음
+      allow write: if request.auth != null && request.auth.uid == userId; // 인증된 사용자이고, 본인인 경우에만 문서를 쓸 수 있도록 설정
+    }
+
+    // posts 컬렉션
+    match /posts/{postId} {
+      allow read: if true; // 모든 사용자가 읽을 수 있음
+      allow create: if request.auth != null; // 인증된 사용자만 작성 가능
+      allow update, delete: if request.auth != null && 
+                           resource.data.authorId == request.auth.uid; // 인증된 사용자이고, 본인인 경우에만 수정, 삭제 가능
+    }
+
+    // 그 외 모든 문서 접근 금지
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+```

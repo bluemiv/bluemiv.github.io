@@ -1,0 +1,91 @@
+---
+title: bun이란? bun 설치 및 사용해보기
+description: 런타임 실행이 가능하고, npm, yarn 과 같이 패키지 매니저 역할도 하며, 번들러 & 트랜스파일러 역할도 하는 bun에 대해서 설명하고, bun을 사용하여 React 프로젝트를 생성하는 방법에 대해 설명합니다.
+createdAt: 2025-08-01T14:22:57+09:00
+updatedAt: 2025-08-01T14:22:57+09:00
+tags: ['web', 'fe', 'bun']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/web/27/thumbnail.webp
+---
+
+## 1. bun 이란?
+
+`bun`은 Zig로 만들어진 올인원 런타임 toolkit 입니다. 올인원이라고 하는 이유는 bun은 런타임 실행이 가능하고, npm, yarn 과 같이 패키지 매니저 역할도 하며, 번들러 & 트랜스파일러 역할도 합니다.
+
+> Zig는 (C 언어의 대안으로 나온) 시스템 프로그래밍을 위해 설계된 프로그래밍 언어입니다.
+
+### 1.1. 런타임 실행
+
+예를 들어, 런타임 실행을 할때는 다음과 같이 실행할 수 있습니다.
+
+```bash
+# node 명령어 대신해서 사용 가능
+bun run script.js
+```
+
+### 1.2. 패키지 매니저
+
+또는 npm, pnpm, yarn과 같이 패키지 매니저 역할도 하기 때문에 `bun install` 명령어를 사용하여 의존성(dependency)을 설치할 수 있습니다. 그리고, 다른 패키지 매니저에 비해 설치 속도가 매우 빠른 장점이 있습니다.
+
+
+### 1.3. 번들러 & 트랜스파일러
+
+다음 명령어를 통해, 별도의 Webpack, Rollup 없이 `JSX`, `TSX`, `TailwindCSS` 같은 최신 문법을 네이티브로 지원해줍니다.
+
+```bash
+bun build entry.tsx --target=esnext
+```
+
+![Express 속도 비교](/r/i/web/27/1.webp)
+
+![Postgres 속도 비교](/r/i/web/27/2.webp)
+
+![WebSocket 속도 비교](/r/i/web/27/3.webp)
+
+## 2. macOS에 설치
+
+macOS에서는 bun을 brew로 설치할 수 있습니다.
+
+```bash
+brew install oven-sh/bun/bun
+```
+
+설치가 완료되면 `--version` 명령어로 정상적으로 설치가 되었는지 확인 할 수 있습니다.
+
+```bash
+> bun --version
+1.2.19
+```
+
+## 3. bun 사용하기
+
+### 3.1. 프로젝트 생성
+
+npm, yarn 과 같이 사용하여 CRA 혹은 vite 프로젝트를 생성할 수 있습니다.
+
+```bash
+# CRA로 생성하기
+bun create react-app my-bun-app
+```
+
+```bash
+# Vite로 생성하기
+bun create vite my-bun-app
+```
+
+![Vite 프로젝트 생성하기](/r/i/web/27/4.webp)
+
+![Vite 프로젝트 실행](/r/i/web/27/5.webp)
+
+### 3.2. 의존성 추가하기
+
+다음과 같이 yarn 과 동일한 명령어로 의존성을 추가할 수 있습니다.
+
+```bash
+# axios 의존성 추가하기
+bun add axios
+
+# axios 의존성 삭제하기
+bun remove axios
+```

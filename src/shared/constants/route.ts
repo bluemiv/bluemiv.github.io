@@ -7,4 +7,8 @@ export const ROUTE_PATH = {
   BLOG_CATEGORY: '/blog/category',
   BLOG_SHORT: '/blog/short',
   RSS: '/rss.xml',
+  PRIVACY: '/privacy',
+  PRIVACY_KO: '/privacy/ko',
+  PRIVACY_EN: '/privacy/en',
+  PRIVACY_JP: '/privacy/jp',
 };

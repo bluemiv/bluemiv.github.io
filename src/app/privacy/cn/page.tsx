@@ -12,6 +12,7 @@ export default function Page() {
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
           {[
+            { title: '🇰🇷 한국어', href: ROUTE_PATH.PRIVACY_KO },
             { title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_EN },
             { title: '🇯🇵 日本語', href: ROUTE_PATH.PRIVACY_JP },
           ].map(({ title, href }) => (

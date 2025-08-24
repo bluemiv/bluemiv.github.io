@@ -14,6 +14,7 @@ export default function Page() {
           {[
             { title: '🇰🇷 한국어', href: ROUTE_PATH.PRIVACY_KO },
             { title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_EN },
+            { title: '🇨🇳 简体中文', href: ROUTE_PATH.PRIVACY_CN },
           ].map(({ title, href }) => (
             <Link
               key={title}

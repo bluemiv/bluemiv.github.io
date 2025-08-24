@@ -1,4 +1,4 @@
-import AboutProfile from '@/app/about/_components/AboutProfile';
+import AboutProfile from '@/app/(blog)/about/_components/AboutProfile';
 import { SplitText } from '@/shared/ui';
 
 export default function AboutPage() {

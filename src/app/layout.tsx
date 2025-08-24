@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 import RegisterServiceWorker from '@/features/serviceWorker/ui/RegisterServiceWorker';
-import { Header } from '@/widgets/Header';
 import './globals.css';
 
 dayjs.extend(utc);
@@ -66,7 +65,6 @@ gtag('config', '${gaId}');`,
 })();`,
           }}
         />
-        <Header />
         {children}
         <RegisterServiceWorker />
       </body>

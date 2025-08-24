@@ -46,6 +46,7 @@ self.addEventListener('fetch', (event) => {
     '/naver0b3c7144e2b65f42ae8194ba42c9f26c.html',
     '/google8ae0c2a16b4b1e23.html',
     '/app-ads.txt',
+    '/privacy',
     '/privacy/en',
     '/privacy/ko',
     '/privacy/jp',

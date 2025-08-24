@@ -11,4 +11,5 @@ export const ROUTE_PATH = {
   PRIVACY_KO: '/privacy/ko',
   PRIVACY_EN: '/privacy/en',
   PRIVACY_JP: '/privacy/jp',
+  PRIVACY_CN: '/privacy/cn',
 };

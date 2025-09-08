@@ -8,8 +8,9 @@ export const ROUTE_PATH = {
   BLOG_SHORT: '/blog/short',
   RSS: '/rss.xml',
   PRIVACY: '/privacy',
-  PRIVACY_KO: '/privacy/ko',
-  PRIVACY_EN: '/privacy/en',
-  PRIVACY_JP: '/privacy/jp',
-  PRIVACY_CN: '/privacy/cn',
+  PRIVACY_KPOP_KO: '/privacy/kpop/ko',
+  PRIVACY_KPOP_EN: '/privacy/kpop/en',
+  PRIVACY_KPOP_JP: '/privacy/kpop/jp',
+  PRIVACY_KPOP_CN: '/privacy/kpop/cn',
+
 };

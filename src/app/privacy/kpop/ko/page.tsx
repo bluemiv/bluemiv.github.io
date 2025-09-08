@@ -12,9 +12,9 @@ export default function Page() {
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
           {[
-            { title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_EN },
-            { title: '🇯🇵 日本語', href: ROUTE_PATH.PRIVACY_JP },
-            { title: '🇨🇳 简体中文', href: ROUTE_PATH.PRIVACY_CN },
+            { title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_KPOP_EN },
+            { title: '🇯🇵 日本語', href: ROUTE_PATH.PRIVACY_KPOP_JP },
+            { title: '🇨🇳 简体中文', href: ROUTE_PATH.PRIVACY_KPOP_CN },
           ].map(({ title, href }) => (
             <Link
               key={title}

@@ -47,10 +47,11 @@ self.addEventListener('fetch', (event) => {
     '/google8ae0c2a16b4b1e23.html',
     '/app-ads.txt',
     '/privacy',
-    '/privacy/en',
-    '/privacy/ko',
-    '/privacy/jp',
-    '/privacy/cn',
+    '/privacy/kpop/en',
+    '/privacy/kpop/ko',
+    '/privacy/kpop/jp',
+    '/privacy/kpop/cn',
+    '/privacy/lottocat645',
   ];
 
   // 소문자 처리 후 정확히 일치하는 경로 제외

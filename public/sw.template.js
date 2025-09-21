@@ -52,6 +52,9 @@ self.addEventListener('fetch', (event) => {
     '/privacy/kpop/jp',
     '/privacy/kpop/cn',
     '/privacy/lottocat645',
+    '/privacy/ai-wallpaper/en',
+    '/privacy/ai-wallpaper/ko',
+    '/privacy/ai-wallpaper/jp',
   ];
 
   // 소문자 처리 후 정확히 일치하는 경로 제외

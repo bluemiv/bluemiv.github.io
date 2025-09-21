@@ -12,5 +12,7 @@ export const ROUTE_PATH = {
   PRIVACY_KPOP_EN: '/privacy/kpop/en',
   PRIVACY_KPOP_JP: '/privacy/kpop/jp',
   PRIVACY_KPOP_CN: '/privacy/kpop/cn',
-
+  PRIVACY_AI_WALLPAPER_KO: '/privacy/ai-wallpaper/ko',
+  PRIVACY_AI_WALLPAPER_EN: '/privacy/ai-wallpaper/en',
+  PRIVACY_AI_WALLPAPER_JP: '/privacy/ai-wallpaper/jp',
 };

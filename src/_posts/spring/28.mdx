@@ -1,0 +1,168 @@
+---
+title: Spring vs Spring Boot 차이점
+description: Spring Framework와 Spring Boot의 차이점에 대해 설명하고, 왜 Spring Boot를 사용하는게 좋은지 설명합니다.
+createdAt: 2025-08-02T14:23:17+09:00
+updatedAt: 2025-08-02T14:23:17+09:00
+tags: ['spring', 'springboot', 'java', 'backend']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/spring/28/thumbnail.webp
+---
+
+## 1. Spring Framework란?
+
+`Spring Framework`는 자바 기반의 서버 개발을 위해 많이 사용하는 오픈소스 프레임워크입니다. 2003년에 Rod Johnson이 개발했으며, 현재까지도 Java 환경의 백엔드 개발로 가장 많이 사용되는 프레임워크입니다.
+
+### 1.1. Spring의 핵심 특징
+
+- `IoC (Inversion of Control)`: 프레임워크에서 객체 생성, 의존성 관리를 해줌
+- `DI (Dependency Injection)`: 의존성을 외부에서 주입받아 결합도를 낮춤
+- `AOP (Aspect Oriented Programming)`: 공통 관심사를 분리하여 모듈화
+- `POJO (Plain Old Java Object)`: 특정 인터페이스나 클래스를 상속받지 않는 순수 자바 객체 사용 (더 자세한 내용은 [이 글](/blog/java/86)을 참고해주세요)
+
+## 2. Spring Boot란?
+
+`Spring Boot`는 Spring Framework를 기반으로 한 프로젝트로, 복잡한 설정 없이 빠르게 Spring 애플리케이션을 개발할 수 있도록 도와줍니다. 2014년에 처음 출시되었으며, "Convention over Configuration" 철학을 따릅니다.
+
+> React의 CRA(Create React App)와 같이 보일러플레이트 프로젝트라고 생각하면 됩니다.
+
+### 2.1. Spring Boot의 핵심 특징
+
+- `Auto Configuration`: 필요한 설정을 자동으로 구성
+- `Starter Dependencies`: 관련 의존성을 하나로 묶어 제공
+- `Embedded Server`: 톰캣, 제티 등의 서버가 내장되어 있어서, JAR 파일 하나로 실행 가능한 앱을 만들 수 있음
+- `Production Ready`: Actuator를 통한 모니터링, 헬스체크 기능 제공
+
+## 3. Spring과 Spring Boot의 차이점
+
+### 3.1. 설정 방식
+
+Spring Framework는 `XML` 또는 Java Config를 통해 직접 설정해야 합니다.
+
+```xml
+<!-- Spring Framework - XML 설정 예시 -->
+<beans xmlns="http://www.springframework.org/schema/beans">
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mydb"/>
+        <property name="username" value="root"/>
+        <property name="password" value="password"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.example.entity"/>
+        <!-- ... 추가 설정들 -->
+    </bean>
+</beans>
+```
+
+Spring Boot는 `application.yml` 또는 `application.properties` 파일에 설정하면 됩니다. 설정이 많아질수록 Spring Framework에 비해 가독성도 좋고 상대적으로 간단하다는 것을 알 수 있습니다.
+
+```yaml
+# Spring Boot - application.yml 설정 예시
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+```
+
+### 3.2. 의존성 관리
+
+Spring Framework에 필요한 라이브러리들을 각각 추가하고, 라이브러리 버전을 직접 관리해야 하는 번거로움이 있습니다.
+
+```xml
+<!-- Spring Framework - 각각 의존성 추가 및 버전 명시 -->
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>5.3.23</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>5.3.23</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>5.3.23</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>5.3.23</version>
+    </dependency>
+    <!-- ... -->
+</dependencies>
+```
+
+Spring Boot는 `Starter`를 사용하여 관련 의존성을 한 번에 추가할 수 있어서 간단합니다.
+
+```xml {4-5, 8-9}
+<!-- Spring Boot - Starter 의존성 -->
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+</dependencies>
+```
+
+### 3.3. 서버 구성 및 배포
+
+Spring Framework는 외부 서버(`Tomcat`, `Jetty` 등)를 별도로 설치하고 WAR 파일을 배포해야 합니다.
+
+Spring Boot는 내장 서버가 포함되어 있어 JAR 파일 하나로 실행 가능하는 장점이 있습니다.
+
+```bash
+# Spring Boot 애플리케이션 실행
+java -jar myapp.jar
+```
+
+### 3.4. 프로젝트 생성
+
+Spring Framework는 프로젝트 구조를 직접 설정해야 합니다.
+
+Spring Boot는 [Spring Initializr](https://start.spring.io)를 통해 몇 번의 클릭으로 프로젝트를 생성할 수 있습니다.
+
+## 4. 비교 요약표
+
+| 항목 | Spring Framework | Spring Boot |
+|------|------------------|-------------|
+| 설정 방식 | XML / Java Config (수동) | Auto Configuration (자동) |
+| 의존성 관리 | 각각의 라이브러리 직접 추가 | Starter로 묶음 제공 |
+| 서버 | 외부 서버 필요 (WAR 배포) | 내장 서버 포함 (JAR 실행) |
+| 프로젝트 생성 | 직접 구성 | Spring Initializr 활용 가능 |
+| 러닝 커브 | 높음 | 낮음 |
+| 유연성 | 높음 (세밀한 제어 가능) | 보통 (컨벤션 따름) |
+
+## 5. 언제 무엇을 사용해야 할까?
+
+### 5.1. Spring Boot를 선택해야 하는 경우
+
+- 복잡한 설정 없이 빠르게 앱을 개발하고 싶을 때
+- 마이크로서비스 아키텍처로 구축할 때
+- 클라우드 환경에 배포할 때
+
+### 5.2. Spring Framework를 선택해야 하는 경우
+
+- 레거시 시스템과 통합해야 할 때
+- 세밀한 설정 제어가 필요할 때 (실무에서 이런 경우가 거의 없음)
+- 기존 Spring 프로젝트를 유지보수할 때
+
+## 6. 결론
+
+Spring Boot는 Spring Framework의 복잡함을 줄이고, 개발자가 오직 개발에 집중할 수 있도록 도와줍니다. (Spring Framework 위에서 동작하며 개발 생산성을 높여줌)
+
+현재 대부분의 신규 프로젝트에서는 **Spring Boot**를 사용합니다. 빠른 개발, 쉬운 배포 등 효율적으로 개발을 할 수 있기 때문입니다.

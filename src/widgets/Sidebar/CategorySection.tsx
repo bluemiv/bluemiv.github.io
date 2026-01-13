@@ -34,12 +34,30 @@ export const CategorySection = () => {
             ))}
           </ul>
         </li>
-        <CategoryItem label="Web" category="web" count={categoriesMap['web']} />
+        <CategoryItem label="Front-end" category="frontend" count={categoriesMap['frontend']} />
         <li>
           <ul className="flex flex-col">
             {[
               { label: 'React', category: 'react' },
               { label: 'Next.js', category: 'nextjs' },
+            ].map(({ label, category }) => (
+              <CategoryItem
+                isSubList
+                key={category}
+                label={label}
+                category={category}
+                count={categoriesMap[category]}
+              />
+            ))}
+          </ul>
+        </li>
+        <CategoryItem label="Back-end" category="backend" count={categoriesMap['backend']} />
+        <li>
+          <ul className="flex flex-col">
+            {[
+              { label: 'Java', category: 'java' },
+              { label: 'Kotlin', category: 'kotlin' },
+              { label: 'Spring', category: 'spring' },
             ].map(({ label, category }) => (
               <CategoryItem
                 isSubList

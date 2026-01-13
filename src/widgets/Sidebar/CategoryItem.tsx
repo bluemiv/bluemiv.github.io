@@ -34,7 +34,7 @@ export const CategoryItem = ({
         >
           {label}
           <span className="ml-sm text-sm text-app-sub-text dark:text-app-dark-sub-text">
-            ({count})
+            ({count || 0})
           </span>
         </Link>
       )}

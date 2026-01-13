@@ -1,0 +1,250 @@
+---
+title: POJO(Plain Old Java Object)란?
+description: Java의 POJO 개념과 왜 POJO를 사용해야 하는지, Spring에서 POJO가 어떻게 활용되는지 설명합니다.
+createdAt: 2025-08-04T10:32:45+09:00
+updatedAt: 2025-08-04T10:32:45+09:00
+tags: ['java', 'pojo', 'spring', 'oop']
+release: true
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/java/86/thumbnail.webp
+---
+
+## 1. POJO란?
+
+`POJO(Plain Old Java Object)`는 특정 프레임워크나 기술에 종속되지 않은 순수한 자바 객체를 말합니다. 간단히 말해, 특별한 인터페이스를 구현하거나 특정 클래스를 상속받지 않는 순수한 자바 클래스입니다.
+
+## 2. POJO가 되기 위한 조건
+
+### 2.1. 특정 클래스를 상속받지 않음
+
+```java {7-10}
+// POJO 아님
+public class UserServlet extends HttpServlet {
+    // HttpServlet을 상속 받음
+}
+
+// POJO 예시 - 상속 없음
+public class User {
+    private String name;
+    private int age;
+}
+```
+
+### 2.2. 특정 인터페이스를 구현하지 않음
+
+```java {10-13}
+// POJO 아님 - 특정 인터페이스 구현해야 함
+public class UserEJB implements SessionBean {
+    @Override
+    public void ejbActivate() { }
+    @Override
+    public void ejbPassivate() { }
+}
+
+// POJO 예시 - 인터페이스 구현 없음
+public class User {
+    private String name;
+    private int age;
+}
+```
+
+### 2.3. 특정 어노테이션에 의존하지 않음
+
+```java
+// POJO 예시 - 순수 자바 객체
+public class User {
+    private String name;
+    private int age;
+
+    public User() {}
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Getter, Setter
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
+}
+```
+
+## 3. POJO vs Non-POJO 비교
+
+### 3.1. EJB 시절의 Non-POJO
+
+과거 Java EE(EJB)에는 비즈니스 로직을 작성하기 위해 많은 보일러플레이트 코드가 필요했습니다.
+
+```java
+// 레거시 Non-POJO
+public class UserBean implements SessionBean {
+    private SessionContext context;
+
+    // 비즈니스 로직
+    public void createUser(String name) {
+        // 실제 로직
+    }
+
+    // EJB가 강제하는 메서드들
+    @Override
+    public void setSessionContext(SessionContext ctx) {
+        this.context = ctx;
+    }
+
+    @Override
+    public void ejbCreate() {}
+
+    @Override
+    public void ejbRemove() {}
+
+    @Override
+    public void ejbActivate() {}
+
+    @Override
+    public void ejbPassivate() {}
+}
+```
+
+### 3.2. POJO 방식
+
+깔끔하고 단순합니다.
+
+```java
+public class UserService {
+
+    public void createUser(String name) {
+        // 비즈니스 로직만 작성
+        User user = new User(name);
+        // ...
+    }
+}
+```
+
+## 4. POJO의 장점
+
+### 4.1. 테스트 용이성
+
+POJO는 프레임워크에 종속되지 않아 단위 테스트를 쉽게 작성할 수 있습니다.
+
+```java
+@Test
+void testUser() {
+    User user = new User("홍길동", 25);
+
+    assertEquals("홍길동", user.getName());
+    assertEquals(25, user.getAge());
+}
+```
+
+### 4.2. 코드 재사용성
+
+특정 환경에 종속되지 않아, 어디서든 재사용할 수 있는 장점이 있습니다.
+
+```java
+// 어디서든 사용 가능
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+### 4.3. 유지보수 용이성
+
+불필요한 코드가 없어서 로직을 이해하기 쉽고, 수정이 상대적으로 간편합니다.
+
+### 4.4. 객체지향 설계 가능
+
+POJO는 순수 자바 객체이므로 OOP 원칙을 적용하여 개발하기 용이합니다.
+
+## 5. Spring과 POJO
+
+`Spring Framework`는 POJO 기반이 개발을 핵심 철학으로 삼고 있습니다.
+
+### 5.1. Spring에서의 POJO 활용
+
+```java {7-9}
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    // 생성자 주입 - POJO 원칙 유지
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+}
+```
+
+> 위 코드에서 `@Service` 어노테이션을 제거해도 클래스 자체는 정상적으로 동작합니다. 어노테이션은 Spring에게 힌트를 줄 뿐, 클래스의 동작에 영향을 주지 않습니다.
+
+### 5.2. POJO Entity 예시
+
+```java
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    protected User() {}
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+}
+```
+
+## 6. POJO와 JavaBeans
+
+POJO와 JavaBeans는 비슷하지만 약간의 차이가 있습니다.
+
+| 구분 | POJO | JavaBeans |
+|------|------|-----------|
+| 기본 생성자 | 필수 아님 | 필수 |
+| Getter/Setter | 필수 아님 | 필수 |
+| Serializable | 필수 아님 | 필수 |
+| 명명 규칙 | 없음 | get/set 접두사 필요 |
+
+```java
+// JavaBeans 규약을 따르는 POJO
+public class UserBean implements Serializable {
+    private String name;
+
+    // 기본 생성자 필수
+    public UserBean() {}
+
+    // Getter/Setter 명명 규칙 준수
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+```
+
+## 7. 결론
+
+POJO는, 특정 기술에 종속되지 않는 순수한 자바 객체를 사용함으로써 다음과 같은 이점을 얻을 수 있습니다.
+
+- 테스트 용이성: 프레임워크 없이도 테스트 가능
+- 유연성: 다양한 환경에서 재사용 가능
+- 단순성: 불필요한 코드 없이 핵심 로직에 집중
+- OOP 원칙 준수: 객체지향 설계 자유롭게 적용
+
+Spring Framework가 POJO를 핵심으로 삼은 이유도 바로 이러한 장점들 때문입니다. POJO를 통해 깔끔하고 유지보수하기 쉬운 코드를 작성할 수 있습니다.

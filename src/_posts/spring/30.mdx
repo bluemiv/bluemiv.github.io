@@ -1,0 +1,237 @@
+---
+title: 첫 번째 Spring Boot 프로젝트 생성
+description: Spring Initializr를 사용하여 첫 번째 Spring Boot 프로젝트를 생성하는 방법에 대해 설명합니다. 그리고 간단한 API도 생성합니다.
+createdAt: 2025-08-07T21:12:48+09:00
+updatedAt: 2025-08-07T21:12:48+09:00
+tags: ['spring', 'springboot', 'java', 'spring-initializr']
+release: false
+author: 김태홍 (bluemiv)
+thumbnail: /r/i/spring/30/thumbnail.webp
+---
+
+## 1. Spring Initializr란?
+
+`Spring Initializr`는 Spring Boot 프로젝트를 빠르고 쉽게 생성할 수 있도록 도와주는 웹 도구입니다. 프로젝트 빌드 툴, 의존성 등을 선택하면 자동으로 템플릿을 생성해줍니다.
+
+Spring Initializr를 사용하면 복잡한 설정 없이 몇 번의 클릭만으로 Spring Boot 프로젝트를 만들 수 있습니다.
+
+## 2. Spring Initializr 사용 방법
+
+### 2.1. 웹 사이트
+
+[Spring Initializr 웹사이트](https://start.spring.io)에 접속하여 프로젝트를 생성할 수 있습니다.
+
+### 2.2. IDE
+
+보통 IDE에서 Spring Initializr를 지원해주기 때문에 IDE 기능을 사용할 수도 있습니다.
+
+- `IntelliJ IDEA`: `File` > `New` > `Project` > `Spring Initializr`
+- `VS Code`: Spring Boot Extension Pack 설치
+
+## 3. 프로젝트 생성하기
+
+### 3.1. 프로젝트 메타데이터 설정
+
+웹사이트에 접속하면 아래와 같은 옵션을 설정할 수 있습니다.
+
+| 옵션 | 설명 | 권장 값 |
+|------|------|---------|
+| `Project` | 빌드 도구 선택 | Gradle - Groovy 또는 Maven |
+| `Language` | 프로그래밍 언어 | Java |
+| `Spring Boot` | Spring Boot 버전 | 최신 안정 버전 (SNAPSHOT 제외) |
+| `Group` | 프로젝트 그룹 ID | com.example |
+| `Artifact` | 프로젝트 아티팩트 ID | demo |
+| `Name` | 프로젝트 이름 | demo |
+| `Description` | 프로젝트 설명 | Demo project for Spring Boot |
+| `Package name` | 기본 패키지 이름 | com.example.demo |
+| `Packaging` | 패키징 방식 | Jar |
+| `Java` | Java 버전 | 17 또는 21 |
+
+> 보통 빌드 도구는 gradle을 사용합니다.
+
+### 3.2. 의존성 추가
+
+`ADD DEPENDENCIES` 버튼을 클릭하여 필요한 의존성을 미리 추가 할 수 있습니다. 처음 시작하는 경우 다음 의존성을 추가하길 권장드립니다.
+
+- `Spring Web`: 웹 앱 개발을 위해 필요한 의존성
+- `Spring Boot DevTools`: 개발 시 자동 재시작, 라이브 리로드 등 편의 기능 제공
+- `Lombok`: 보일러플레이트 코드를 줄여주는 라이브러리
+
+### 3.3. 프로젝트 생성 및 다운로드
+
+설정 완료 후 `GENERATE` 버튼을 클릭하면 ZIP 파일이 다운로드됩니다. 압축을 해제하고 IDE에서 프로젝트를 엽니다.
+
+## 4. 프로젝트 구조 살펴보기
+
+생성된 프로젝트의 기본 구조는 다음과 같습니다.
+
+```
+demo/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/demo/
+│   │   │       └── DemoApplication.java
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── static/
+│   │       └── templates/
+│   └── test/
+│       └── java/
+│           └── com/example/demo/
+│               └── DemoApplicationTests.java
+├── build.gradle (또는 pom.xml)
+└── settings.gradle (또는 없음)
+```
+
+### 4.1. 주요 파일 설명
+
+#### DemoApplication.java
+
+메인 애플리케이션 클래스입니다. `@SpringBootApplication` 어노테이션이 붙어있으며, 이 클래스의 `main` 메서드를 실행하여 애플리케이션을 시작합니다.
+
+```java
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+
+}
+```
+
+#### application.properties
+
+애플리케이션의 설정을 관리하는 파일입니다. 서버 포트, 데이터베이스 연결 정보 등을 설정할 수 있습니다.
+
+```properties
+# 서버 포트 설정 (기본값: 8080)
+server.port=8080
+
+# 애플리케이션 이름 설정
+spring.application.name=demo
+```
+
+#### build.gradle
+
+Gradle을 선택한 경우 생성되는 빌드 설정 파일입니다.
+
+```groovy
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+```
+
+## 5. 애플리케이션 실행하기
+
+### 5.1. IDE에서 실행
+
+1. `DemoApplication.java` 파일을 엽니다.
+2. `main` 메서드 옆의 실행 버튼을 클릭하거나 우클릭하여 `Run 'DemoApplication'`을 선택합니다.
+
+### 5.2. 터미널에서 실행
+
+프로젝트 루트 디렉토리에서 다음 명령어를 실행합니다.
+
+```bash
+# Gradle 사용 시
+./gradlew bootRun
+
+# Maven 사용 시
+./mvnw spring-boot:run
+```
+
+### 5.3. 실행 확인
+
+애플리케이션이 정상적으로 실행되면 콘솔에 다음과 같은 로그가 출력됩니다.
+
+```
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2025-08-07T20:26:15.123+09:00  INFO 12345 --- [demo] [main] com.example.demo.DemoApplication : Starting DemoApplication using Java 17
+2025-08-07T20:26:15.456+09:00  INFO 12345 --- [demo] [main] com.example.demo.DemoApplication : Started DemoApplication in 1.234 seconds
+```
+
+브라우저에서 `http://localhost:8080`에 접속하면, 아직 컨트롤러를 작성하지 않았기 때문에 `Whitelabel Error Page`가 표시되지만, 애플리케이션에 접근할 수 있습니다.
+
+## 6. 간단한 REST API 만들기
+
+애플리케이션이 정상 동작하는지 확인하기 위해 간단한 REST API를 만들어보겠습니다.
+
+### 6.1. HelloController 생성
+
+`src/main/java/com/example/demo` 경로에 `HelloController.java` 파일을 생성합니다.
+
+```java
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, Spring Boot!";
+    }
+}
+```
+
+### 6.2. API 테스트
+
+앱을 다시 실행하고 브라우저로 `http://localhost:8080/hello` 에 접속하면 "Hello, Spring Boot!" 메시지가 표시됩니다.
+
+터미널에서 curl 명령어로 테스트해도 됩니다.
+
+```bash
+curl http://localhost:8080/hello
+# 출력: Hello, Spring Boot!
+```
+
+## 7. 정리
+
+본 글에서는 Spring Initializr를 사용하여, Spring Boot 프로젝트를 생성하고 간단한 API 생성까지 설명했습니다.
+
+- `Spring Initializr`를 통해 프로젝트의 기본 구조와 의존성을 쉽게 설정할 수 있습니다.
+- `@SpringBootApplication` 어노테이션이 붙은 메인 클래스에서 애플리케이션이 시작됩니다.
+- `application.properties` 파일로 다양한 설정을 관리 할 수 있습니다.
+- `@RestController`와 `@GetMapping`을 사용하여 간단한 REST API를 만들 수 있습니다.

@@ -12,7 +12,7 @@ export default function Page() {
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
-          <Link href="/privacy/easy-dots/kr" className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇰🇷 한국어</Link>
+          <Link href="/privacy/easy-dots/ko" className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇰🇷 한국어</Link>
         </div>
         <h1 className="font-semibold text-2xl mb-md">Privacy Policy</h1>
         <p>Effective Date: {startDate.format('YYYY-MM-DD')}</p>
@@ -145,7 +145,7 @@ export default function Page() {
           <PrivacyList
             type="ol"
             items={[
-              { text: 'Since the App does not operate a separate sign-up server, all data stored on the user’s device is immediately destroyed upon app deletion.' },
+              { text: 'Since the App does not operate a separate sign-up server, all data stored on the user&apos;s device is immediately destroyed upon app deletion.' },
             ]}
           />
         </PrivacySection>
@@ -206,7 +206,7 @@ export default function Page() {
 
         <PrivacySection title="Article 12 (Linkage with External Services)">
           <p>
-            The App uses Google LLC's AdMob SDK to provide advertisements. If the provider collects/processes personal information independently, their privacy policy applies.
+            The App uses Google LLC&apos;s AdMob SDK to provide advertisements. If the provider collects/processes personal information independently, their privacy policy applies.
           </p>
         </PrivacySection>
 

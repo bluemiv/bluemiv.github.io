@@ -11,6 +11,9 @@ export default function Page() {
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
+        <div className="flex gap-md justify-end">
+          <Link href="/privacy/easy-dots/en" className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇺🇸 English</Link>
+        </div>
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>

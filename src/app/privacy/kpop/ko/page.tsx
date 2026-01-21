@@ -29,7 +29,10 @@ export default function Page() {
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
           본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(접속주소:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
           )가 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 관련 민원을 신속하고
@@ -37,9 +40,9 @@ export default function Page() {
         </p>
         <PrivacySection title="제1조(처리 목적)">
           <p>
-            {appName}는 다음의 목적을 위하여 최소한의 개인정보를 처리합니다. 명시된 목적 외의 용도로는
-            이용하지 않으며, 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도 동의를
-            받는 등 필요한 조치를 이행합니다.
+            {appName}는 다음의 목적을 위하여 최소한의 개인정보를 처리합니다. 명시된 목적 외의
+            용도로는 이용하지 않으며, 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라
+            별도 동의를 받는 등 필요한 조치를 이행합니다.
           </p>
           <PrivacyList
             type="ol"
@@ -109,8 +112,8 @@ export default function Page() {
           />
         </PrivacySection>
         <PrivacySection title="제4조(개인정보의 제3자 제공)">
-          {appName}는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령에 근거가
-          있거나 정보주체의 별도 동의를 받은 경우에 한하여 제공할 수 있습니다.
+          {appName}는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령에
+          근거가 있거나 정보주체의 별도 동의를 받은 경우에 한하여 제공할 수 있습니다.
         </PrivacySection>
 
         <PrivacySection title="제5조(처리 위탁 및 국외 이전)">
@@ -181,7 +184,8 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제8조(개인정보의 안전성 확보 조치)">
-          {appName}는 「개인정보의 안전성 확보조치 기준」을 준수하기 위해 다음과 같은 조치를 취합니다.
+          {appName}는 「개인정보의 안전성 확보조치 기준」을 준수하기 위해 다음과 같은 조치를
+          취합니다.
           <PrivacyList
             items={[
               {

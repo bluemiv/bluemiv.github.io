@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
-
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
 import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
@@ -30,12 +29,14 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">プライバシーポリシー</h1>
         <p>施行日: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          本プライバシーポリシーは、&lt;{appName}&gt;（以下「本アプリ」）を運営する&lt;{companyName}&gt;が、「個人情報の保護に関する法律」に基づき、情報主体（以下「利用者」）の個人情報を保護し、関連する苦情を迅速かつ円滑に処理するために策定・公開するものです。
+          本プライバシーポリシーは、&lt;{appName}&gt;（以下「本アプリ」）を運営する&lt;{companyName}
+          &gt;が、「個人情報の保護に関する法律」に基づき、情報主体（以下「利用者」）の個人情報を保護し、関連する苦情を迅速かつ円滑に処理するために策定・公開するものです。
         </p>
 
         <PrivacySection title="第1条（個人情報の取り扱い目的）">
           <p>
-            {companyName}は、以下の目的のために最小限の個人情報を取り扱います。取り扱っている個人情報は、以下の目的以外には利用せず、利用目的が変更される場合は、「個人情報の保護に関する法律」第18条に基づき、別途同意を得るなど必要な措置を講じます。
+            {companyName}
+            は、以下の目的のために最小限の個人情報を取り扱います。取り扱っている個人情報は、以下の目的以外には利用せず、利用目的が変更される場合は、「個人情報の保護に関する法律」第18条に基づき、別途同意を得るなど必要な措置を講じます。
           </p>
           <PrivacyList
             type="ol"
@@ -87,19 +88,22 @@ export default function Page() {
 
         <PrivacySection title="第3条（個人情報の保有および利用期間）">
           <p>
-            {companyName}は、別途サーバーを通じて個人情報を保存しないため、アプリを削除すると、お気に入りなどすべてのデータは利用者の端末から完全に削除されます。広告目的で自動収集された情報は、以下の委託先のポリシーに従って処理されます。
+            {companyName}
+            は、別途サーバーを通じて個人情報を保存しないため、アプリを削除すると、お気に入りなどすべてのデータは利用者の端末から完全に削除されます。広告目的で自動収集された情報は、以下の委託先のポリシーに従って処理されます。
           </p>
         </PrivacySection>
 
         <PrivacySection title="第4条（個人情報の第三者提供）">
           <p>
-            {companyName}は、利用者の個人情報を第1条（個人情報の取り扱い目的）で明示した範囲内でのみ取り扱い、法令に特別な規定がある場合を除き、利用者の同意なしに第三者に提供しません。
+            {companyName}
+            は、利用者の個人情報を第1条（個人情報の取り扱い目的）で明示した範囲内でのみ取り扱い、法令に特別な規定がある場合を除き、利用者の同意なしに第三者に提供しません。
           </p>
         </PrivacySection>
 
         <PrivacySection title="第5条（個人情報の取り扱いの委託および国外移転）">
           <p>
-            {companyName}は、円滑なサービス提供のため、以下のように個人情報の取り扱い業務を国外の事業者に委託しています。
+            {companyName}
+            は、円滑なサービス提供のため、以下のように個人情報の取り扱い業務を国外の事業者に委託しています。
           </p>
           <PrivacyList
             items={[
@@ -132,9 +136,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第6条（情報主体の権利・義務およびその行使方法）">
-          <p>
-            情報主体は、広告識別子に関して以下の権利を行使することができます。
-          </p>
+          <p>情報主体は、広告識別子に関して以下の権利を行使することができます。</p>
           <PrivacyList
             items={[
               {
@@ -146,39 +148,45 @@ export default function Page() {
                 text: '「設定」>「プライバシーとセキュリティ」>「トラッキング」>「Appからのトラッキング要求を許可」をオフ',
               },
               {
-                text: '上記の設定を変更すると、パーソナライズ広告の受信が制限されることがありますが、一般の広告は引き続き表示される場合があります。'
-              }
+                text: '上記の設定を変更すると、パーソナライズ広告の受信が制限されることがありますが、一般の広告は引き続き表示される場合があります。',
+              },
             ]}
           />
         </PrivacySection>
 
         <PrivacySection title="第7条（個人情報の破棄）">
           <p>
-            {companyName}は、別途個人情報を保存・管理していないため、破棄手続きを行いません。利用者がアプリを削除すると、すべてのデータが破棄されます。
+            {companyName}
+            は、別途個人情報を保存・管理していないため、破棄手続きを行いません。利用者がアプリを削除すると、すべてのデータが破棄されます。
           </p>
         </PrivacySection>
 
         <PrivacySection title="第8条（個人情報の安全性の確保措置）">
           <p>
-            {companyName}は、個人情報の安全性を確保するために技術的、管理的対策を講じています。ただし、個人情報を直接収集・保存しないため、ほとんどの措置は広告SDK提供業者であるGoogleのポリシーを遵守します。
+            {companyName}
+            は、個人情報の安全性を確保するために技術的、管理的対策を講じています。ただし、個人情報を直接収集・保存しないため、ほとんどの措置は広告SDK提供業者であるGoogleのポリシーを遵守します。
           </p>
         </PrivacySection>
 
         <PrivacySection title="第9条（個人情報保護責任者）">
           <p>
-            {companyName}は、個人情報の取り扱いに関する業務を総括して責任を負い、個人情報の取り扱いに関連する利用者の苦情処理および被害救済などのために、以下のように個人情報保護責任者を指定しています。
+            {companyName}
+            は、個人情報の取り扱いに関する業務を総括して責任を負い、個人情報の取り扱いに関連する利用者の苦情処理および被害救済などのために、以下のように個人情報保護責任者を指定しています。
           </p>
           <PrivacyList
             items={[
               { title: '氏名', text: 'TAEHONG KIM' },
-              { title: '連絡先', text: (
+              {
+                title: '連絡先',
+                text: (
                   <Link
                     className="text-app-primary dark:text-app-dark-primary underline"
                     href={`mailto:${DEVELOPER.EMAIL}`}
                   >
                     {DEVELOPER.EMAIL}
                   </Link>
-                )},
+                ),
+              },
             ]}
           />
           <p className="mt-sm">
@@ -194,7 +202,8 @@ export default function Page() {
 
         <PrivacySection title="第11条（プライバシーポリシーの変更）">
           <p>
-            本プライバシーポリシーは{startDate.format('YYYY-MM-DD')}から適用されます。法令および方針による変更内容の追加、削除、修正がある場合は、変更事項の施行7日前からアプリ内のお知らせまたはウェブサイトを通じて告知します。
+            本プライバシーポリシーは{startDate.format('YYYY-MM-DD')}
+            から適用されます。法令および方針による変更内容の追加、削除、修正がある場合は、変更事項の施行7日前からアプリ内のお知らせまたはウェブサイトを通じて告知します。
           </p>
         </PrivacySection>
       </div>

@@ -29,7 +29,10 @@ export default function Page() {
         <p>施行日: {startDate.format('YYYY-MM-DD')}</p>
         <p>
           本プライバシーポリシーは、&lt;&lsquo;{appName}&rsquo;&gt;（アクセス先:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
           ）が、情報主体の個人情報を保護し、関連する苦情を迅速かつ円滑に処理するため、
@@ -113,7 +116,8 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第4条（第三者提供）">
-          {appName}は、原則として利用者の個人情報を第三者に提供しません。ただし、法令に根拠がある場合や、
+          {appName}
+          は、原則として利用者の個人情報を第三者に提供しません。ただし、法令に根拠がある場合や、
           情報主体の別途同意がある場合には提供することがあります。
         </PrivacySection>
 

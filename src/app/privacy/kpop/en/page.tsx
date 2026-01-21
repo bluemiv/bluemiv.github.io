@@ -29,7 +29,10 @@ export default function Page() {
         <p>Effective date: {startDate.format('MM-DD-YYYY')}</p>
         <p>
           This Privacy Policy is established and disclosed by &lt;&lsquo;{appName}&rsquo;&gt; (URL:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
           ) in accordance with Article 30 of the Personal Information Protection Act to protect the
@@ -40,9 +43,9 @@ export default function Page() {
         <PrivacySection title="Article 1 (Purpose of Processing)">
           <p>
             {appName} processes only the minimum personal information for the purposes below. It is
-            not used for any other purposes, and if the purpose changes, {appName} will take necessary
-            measures such as obtaining separate consent under Article 18 of the Personal Information
-            Protection Act.
+            not used for any other purposes, and if the purpose changes, {appName} will take
+            necessary measures such as obtaining separate consent under Article 18 of the Personal
+            Information Protection Act.
           </p>
           <PrivacyList
             type="ol"
@@ -115,8 +118,9 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="Article 4 (Provision to Third Parties)">
-          {appName} does not provide personal information to third parties by default. However, it may
-          be provided when there is a legal basis or with separate consent from the data subject.
+          {appName} does not provide personal information to third parties by default. However, it
+          may be provided when there is a legal basis or with separate consent from the data
+          subject.
         </PrivacySection>
 
         <PrivacySection title="Article 5 (Outsourcing and Cross-Border Transfers)">
@@ -198,7 +202,8 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="Article 8 (Security Measures)">
-          To comply with the “Standards for Ensuring the Security of Personal Information,” {appName}
+          To comply with the “Standards for Ensuring the Security of Personal Information,”{' '}
+          {appName}
           implements measures such as:
           <PrivacyList
             items={[

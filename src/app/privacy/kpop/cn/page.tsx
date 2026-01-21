@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
   const startDate = dayjs('2025-03-05');
-  const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
+  const appName = 'KPOP Clip';
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
@@ -29,16 +29,16 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">隐私政策</h1>
         <p>施行日期: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          本隐私政策由 &lt;&lsquo;Berryfy&rsquo;&gt;（访问地址:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={siteUrl}>
-            {siteUrl}
+          本隐私政策由 &lt;&lsquo;{appName}&rsquo;&gt;（访问地址:{' '}
+          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+            {DEVELOPER.SITE_URL}
           </Link>
           ）依据《个人信息保护法》第30条制定并公开，旨在保护信息主体的个人信息，并及时、顺畅地处理相关投诉。
         </p>
 
         <PrivacySection title="第1条（处理目的）">
           <p>
-            Berryfy仅为以下目的处理最少限度的个人信息。除所列目的外不作他用；如处理目的发生变化，将依据《个人信息保护法》第18条采取取得单独同意等必要措施。
+            {appName}仅为以下目的处理最少限度的个人信息。除所列目的外不作他用；如处理目的发生变化，将依据《个人信息保护法》第18条采取取得单独同意等必要措施。
           </p>
           <PrivacyList
             type="ol"
@@ -95,7 +95,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: 'Berryfy不运营单独服务器以长期保存用户的识别信息；用于广告与分析的数据遵循相应 SDK 提供商的保留设置与政策。',
+                text: '{appName}不运营单独服务器以长期保存用户的识别信息；用于广告与分析的数据遵循相应 SDK 提供商的保留设置与政策。',
               },
               {
                 title: 'GA4 保留期限',
@@ -109,7 +109,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第4条（向第三方提供）">
-          Berryfy原则上不向第三方提供用户个人信息。但在具有法律依据或已取得信息主体单独同意的情形下，可能提供。
+          {appName}原则上不向第三方提供用户个人信息。但在具有法律依据或已取得信息主体单独同意的情形下，可能提供。
         </PrivacySection>
 
         <PrivacySection title="第5条（处理委托及跨境传输）">
@@ -117,7 +117,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: '为稳定提供服务，Berryfy可能将部分个人信息处理业务委托给外部受托方。若受托方位于境外，则可能发生跨境传输。签订委托合同时，将遵守个人信息保护相关法律法规。',
+                text: '为稳定提供服务，{appName}可能将部分个人信息处理业务委托给外部受托方。若受托方位于境外，则可能发生跨境传输。签订委托合同时，将遵守个人信息保护相关法律法规。',
                 children: [
                   { title: '受托方/接收方', text: 'Google LLC（AdMob, Google Analytics）' },
                   { title: '接收国家/地区', text: '美国' },
@@ -143,7 +143,7 @@ export default function Page() {
           <PrivacyList
             type="ol"
             items={[
-              { title: 'Cookie', text: '鉴于移动应用特性，Berryfy不使用Cookie。' },
+              { title: 'Cookie', text: '鉴于移动应用特性，{appName}不使用Cookie。' },
               {
                 title: '广告标识符（AAID/IDFA）',
                 text: '用于广告投放与分析。',
@@ -173,7 +173,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第8条（安全性保障措施）">
-          为遵循《确保个人信息安全性的基准》，Berryfy采取以下措施：
+          为遵循《确保个人信息安全性的基准》，{appName}采取以下措施：
           <PrivacyList
             items={[
               {
@@ -187,10 +187,10 @@ export default function Page() {
           <PrivacyList
             items={[
               {
-                text: '信息主体可随时行使对Berryfy的查阅、更正、删除、停止处理等权利。亦可通过代理人行使（需提交规定格式的委托书）。',
+                text: '信息主体可随时行使对{appName}的查阅、更正、删除、停止处理等权利。亦可通过代理人行使（需提交规定格式的委托书）。',
               },
               {
-                text: '可通过书面、电子邮件、传真等方式提出请求；Berryfy将不延迟地予以处理。',
+                text: '可通过书面、电子邮件、传真等方式提出请求；{appName}将不延迟地予以处理。',
               },
               {
                 text: '如依据法律存在查阅限制或拒绝停止处理的事由，将依相关规定办理。',
@@ -210,9 +210,9 @@ export default function Page() {
                     +82-10-3920-8518，{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
-                      href={`mailto:${email}`}
+                      href={`mailto:${DEVELOPER.EMAIL}`}
                     >
-                      {email}
+                      {DEVELOPER.EMAIL}
                     </Link>
                   </span>
                 ),
@@ -293,7 +293,7 @@ export default function Page() {
 
         <PrivacySection title="第13条（本政策的变更）">
           本政策自 {startDate.format('YYYY-MM-DD')}{' '}
-          起适用。若因法律、服务内容或受托方变更等产生调整，Berryfy将通过网站公告等方式告知变更内容与生效日期。
+          起适用。若因法律、服务内容或受托方变更等产生调整，{appName}将通过网站公告等方式告知变更内容与生效日期。
         </PrivacySection>
       </div>
     </main>

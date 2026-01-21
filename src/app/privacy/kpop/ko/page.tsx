@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
   const startDate = dayjs('2025-03-05');
-  const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
+  const appName = 'KPOP Clip';
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
@@ -28,16 +28,16 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          본 개인정보 처리방침은 &lt;&lsquo;Berryfy&rsquo;&gt;(접속주소:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={siteUrl}>
-            {siteUrl}
+          본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(접속주소:{' '}
+          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+            {DEVELOPER.SITE_URL}
           </Link>
           )가 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 관련 민원을 신속하고
           원활하게 처리하기 위하여 수립·공개하는 것입니다.
         </p>
         <PrivacySection title="제1조(처리 목적)">
           <p>
-            Berryfy는 다음의 목적을 위하여 최소한의 개인정보를 처리합니다. 명시된 목적 외의 용도로는
+            {appName}는 다음의 목적을 위하여 최소한의 개인정보를 처리합니다. 명시된 목적 외의 용도로는
             이용하지 않으며, 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도 동의를
             받는 등 필요한 조치를 이행합니다.
           </p>
@@ -95,7 +95,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: 'Berryfy는 별도 서버를 운영하여 이용자의 식별정보를 장기간 저장하지 않으며, 광고·분석 목적의 데이터는 해당 SDK 사업자의 보관기간 설정과 정책에 따릅니다.',
+                text: '{appName}는 별도 서버를 운영하여 이용자의 식별정보를 장기간 저장하지 않으며, 광고·분석 목적의 데이터는 해당 SDK 사업자의 보관기간 설정과 정책에 따릅니다.',
               },
               {
                 title: 'GA4 보관기간',
@@ -109,7 +109,7 @@ export default function Page() {
           />
         </PrivacySection>
         <PrivacySection title="제4조(개인정보의 제3자 제공)">
-          Berryfy는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령에 근거가
+          {appName}는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령에 근거가
           있거나 정보주체의 별도 동의를 받은 경우에 한하여 제공할 수 있습니다.
         </PrivacySection>
 
@@ -118,7 +118,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: 'Berryfy는 안정적 서비스 제공을 위해 개인정보 처리 업무의 일부를 외부에 위탁하며, 수탁자가 국외에 위치한 경우 국외 이전이 발생할 수 있습니다. 위탁계약 체결 시 개인정보 보호 관련 법령을 준수합니다.',
+                text: '{appName}는 안정적 서비스 제공을 위해 개인정보 처리 업무의 일부를 외부에 위탁하며, 수탁자가 국외에 위치한 경우 국외 이전이 발생할 수 있습니다. 위탁계약 체결 시 개인정보 보호 관련 법령을 준수합니다.',
                 children: [
                   { title: '수탁자/이전받는 자', text: 'Google LLC(AdMob, Google Analytics)' },
                   { title: '이전 국가', text: '미국' },
@@ -150,7 +150,7 @@ export default function Page() {
             items={[
               {
                 title: '쿠키',
-                text: 'Berryfy는 모바일 앱 서비스 특성상 쿠키를 사용하지 않습니다.',
+                text: '{appName}는 모바일 앱 서비스 특성상 쿠키를 사용하지 않습니다.',
               },
               {
                 title: '광고 식별자(AAID/IDFA)',
@@ -181,7 +181,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제8조(개인정보의 안전성 확보 조치)">
-          Berryfy는 「개인정보의 안전성 확보조치 기준」을 준수하기 위해 다음과 같은 조치를 취합니다.
+          {appName}는 「개인정보의 안전성 확보조치 기준」을 준수하기 위해 다음과 같은 조치를 취합니다.
           <PrivacyList
             items={[
               {
@@ -195,10 +195,10 @@ export default function Page() {
           <PrivacyList
             items={[
               {
-                text: '정보주체는 Berryfy에 대해 언제든지 열람·정정·삭제·처리정지 요구 등을 행사할 수 있습니다. 대리인을 통한 행사도 가능합니다(별지 제11호 서식 위임장).',
+                text: '정보주체는 {appName}에 대해 언제든지 열람·정정·삭제·처리정지 요구 등을 행사할 수 있습니다. 대리인을 통한 행사도 가능합니다(별지 제11호 서식 위임장).',
               },
               {
-                text: '권리 행사는 서면, 이메일, 팩스 등으로 신청하실 수 있으며, Berryfy는 지체 없이 조치합니다.',
+                text: '권리 행사는 서면, 이메일, 팩스 등으로 신청하실 수 있으며, {appName}는 지체 없이 조치합니다.',
               },
               {
                 text: '법령에 따라 열람 제한 또는 처리정지 거절 사유가 존재하는 경우 관련 규정에 따릅니다.',
@@ -218,9 +218,9 @@ export default function Page() {
                     +82-10-3920-8518,{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
-                      href={`mailto:${email}`}
+                      href={`mailto:${DEVELOPER.EMAIL}`}
                     >
-                      {email}
+                      {DEVELOPER.EMAIL}
                     </Link>
                   </span>
                 ),

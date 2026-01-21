@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 
 export default function Page() {
   const startDate = dayjs('2025-09-09');
-  const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
@@ -13,8 +12,8 @@ export default function Page() {
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
           본 개인정보 처리방침은 &lt;&lsquo;로또켓645&rsquo;&gt;(접속주소:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={siteUrl}>
-            {siteUrl}
+          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+            {DEVELOPER.SITE_URL}
           </Link>
           )가 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 관련 민원을 신속하고
           원활하게 처리하기 위하여 수립·공개하는 것입니다. 로또켓645는 동행복권에서 제공하는 공개
@@ -217,9 +216,9 @@ export default function Page() {
                     +82-10-3920-8518,{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
-                      href={`mailto:${email}`}
+                      href={`mailto:${DEVELOPER.EMAIL}`}
                     >
-                      {email}
+                      {DEVELOPER.EMAIL}
                     </Link>
                   </span>
                 ),

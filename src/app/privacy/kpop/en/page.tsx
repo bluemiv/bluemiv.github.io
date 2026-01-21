@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
   const startDate = dayjs('2025-03-05');
-  const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
+  const appName = 'KPOP Clip';
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
@@ -28,9 +28,9 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">Privacy Policy</h1>
         <p>Effective date: {startDate.format('MM-DD-YYYY')}</p>
         <p>
-          This Privacy Policy is established and disclosed by &lt;&lsquo;Berryfy&rsquo;&gt; (URL:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={siteUrl}>
-            {siteUrl}
+          This Privacy Policy is established and disclosed by &lt;&lsquo;{appName}&rsquo;&gt; (URL:{' '}
+          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+            {DEVELOPER.SITE_URL}
           </Link>
           ) in accordance with Article 30 of the Personal Information Protection Act to protect the
           personal information of data subjects and to handle related complaints promptly and
@@ -39,8 +39,8 @@ export default function Page() {
 
         <PrivacySection title="Article 1 (Purpose of Processing)">
           <p>
-            Berryfy processes only the minimum personal information for the purposes below. It is
-            not used for any other purposes, and if the purpose changes, Berryfy will take necessary
+            {appName} processes only the minimum personal information for the purposes below. It is
+            not used for any other purposes, and if the purpose changes, {appName} will take necessary
             measures such as obtaining separate consent under Article 18 of the Personal Information
             Protection Act.
           </p>
@@ -100,7 +100,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: 'Berryfy does not operate separate servers to store users’ identifying information for long periods. Data used for advertising and analytics follows the retention settings and policies of the respective SDK providers.',
+                text: '{appName} does not operate separate servers to store users’ identifying information for long periods. Data used for advertising and analytics follows the retention settings and policies of the respective SDK providers.',
               },
               {
                 title: 'GA4 retention',
@@ -115,7 +115,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="Article 4 (Provision to Third Parties)">
-          Berryfy does not provide personal information to third parties by default. However, it may
+          {appName} does not provide personal information to third parties by default. However, it may
           be provided when there is a legal basis or with separate consent from the data subject.
         </PrivacySection>
 
@@ -124,7 +124,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: 'For stable service provision, Berryfy may outsource parts of personal information processing to external processors. If a processor is located overseas, cross-border transfers may occur. Berryfy complies with applicable laws when concluding outsourcing agreements.',
+                text: 'For stable service provision, {appName} may outsource parts of personal information processing to external processors. If a processor is located overseas, cross-border transfers may occur. {appName} complies with applicable laws when concluding outsourcing agreements.',
                 children: [
                   { title: 'Processor / Recipient', text: 'Google LLC (AdMob, Google Analytics)' },
                   { title: 'Destination country', text: 'United States' },
@@ -162,7 +162,7 @@ export default function Page() {
             items={[
               {
                 title: 'Cookies',
-                text: 'Given the nature of mobile apps, Berryfy does not use cookies.',
+                text: 'Given the nature of mobile apps, {appName} does not use cookies.',
               },
               {
                 title: 'Advertising Identifier (AAID/IDFA)',
@@ -198,7 +198,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="Article 8 (Security Measures)">
-          To comply with the “Standards for Ensuring the Security of Personal Information,” Berryfy
+          To comply with the “Standards for Ensuring the Security of Personal Information,” {appName}
           implements measures such as:
           <PrivacyList
             items={[
@@ -216,10 +216,10 @@ export default function Page() {
                 text: 'Data subjects may at any time exercise the rights to request access, correction, deletion, and suspension of processing. These rights may also be exercised through a representative (with a power of attorney in the prescribed form).',
               },
               {
-                text: 'Requests may be submitted in writing, by email, or by fax. Berryfy will handle them without undue delay.',
+                text: 'Requests may be submitted in writing, by email, or by fax. {appName} will handle them without undue delay.',
               },
               {
-                text: 'Where there are statutory grounds to restrict access or refuse suspension, Berryfy will act in accordance with the relevant laws.',
+                text: 'Where there are statutory grounds to restrict access or refuse suspension, {appName} will act in accordance with the relevant laws.',
               },
             ]}
           />
@@ -236,9 +236,9 @@ export default function Page() {
                     +82-10-3920-8518,{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
-                      href={`mailto:${email}`}
+                      href={`mailto:${DEVELOPER.EMAIL}`}
                     >
-                      {email}
+                      {DEVELOPER.EMAIL}
                     </Link>
                   </span>
                 ),
@@ -322,7 +322,7 @@ export default function Page() {
 
         <PrivacySection title="Article 13 (Changes to this Privacy Policy)">
           This policy applies from {startDate.format('MM-DD-YYYY')}. If there are changes due to
-          laws, service content, or processors, Berryfy will notify users of the changes and
+          laws, service content, or processors, {appName} will notify users of the changes and
           effective date on the website.
         </PrivacySection>
       </div>

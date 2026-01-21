@@ -2,11 +2,11 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
   const startDate = dayjs('2025-09-22');
-  const email = 'public.berryfy@gmail.com';
   const companyName = 'Berryfy';
   const appName = 'Prisma AI Wallpaper';
 
@@ -174,9 +174,9 @@ export default function Page() {
               { title: 'Contact', text: (
                   <Link
                     className="text-app-primary dark:text-app-dark-primary underline"
-                    href={`mailto:${email}`}
+                    href={`mailto:${DEVELOPER.EMAIL}`}
                   >
-                    {email}
+                    {DEVELOPER.EMAIL}
                   </Link>
                 )},
             ]}

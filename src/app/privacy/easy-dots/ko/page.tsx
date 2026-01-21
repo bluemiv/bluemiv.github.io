@@ -1,26 +1,35 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
   const startDate = dayjs('2026-01-17');
-  const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
   const appName = 'Easy Dots: Pixel Art Maker';
 
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
-          <Link href={ROUTE_PATH.PRIVACY_EASY_DOTS_EN} className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇺🇸 English</Link>
+          {[
+            { title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_EASY_DOTS_EN },
+          ].map(({ title, href }) => (
+            <Link
+              key={title}
+              href={href}
+              className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm"
+            >
+              {title}
+            </Link>
+          ))}
         </div>
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
           본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(이하 &quot;본 앱&quot;)(접속주소:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={siteUrl}>
-            {siteUrl}
+          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+            {DEVELOPER.SITE_URL}
           </Link>
           )가 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 관련 민원을 신속하고
           원활하게 처리하기 위하여 수립·공개하는 것입니다.
@@ -203,9 +212,9 @@ export default function Page() {
                     +82-10-3920-8518,{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
-                      href={`mailto:${email}`}
+                      href={`mailto:${DEVELOPER.EMAIL}`}
                     >
-                      {email}
+                      {DEVELOPER.EMAIL}
                     </Link>
                   </span>
                 ),

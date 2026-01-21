@@ -15,4 +15,8 @@ export const ROUTE_PATH = {
   PRIVACY_AI_WALLPAPER_KO: '/privacy/ai-wallpaper/ko',
   PRIVACY_AI_WALLPAPER_EN: '/privacy/ai-wallpaper/en',
   PRIVACY_AI_WALLPAPER_JP: '/privacy/ai-wallpaper/jp',
+  PRIVACY_EASY_DOTS_KO: '/privacy/easy-dots/ko',
+  PRIVACY_EASY_DOTS_EN: '/privacy/easy-dots/en',
+  PRIVACY_PIXEL_BLUR_KO: '/privacy/pixel-blur/ko',
+  PRIVACY_PIXEL_BLUR_EN: '/privacy/pixel-blur/en',
 };

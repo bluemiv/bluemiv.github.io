@@ -4,16 +4,16 @@ import { PrivacyList, PrivacySection } from '@/entities/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
-  const startDate = dayjs('2026-01-17');
+  const startDate = dayjs('2026-01-21');
   const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
-  const appName = 'Easy Dots: Pixel Art Maker';
+  const email = 'bluemiv@gmail.com';
+  const appName = 'Pixel Blur';
 
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
-          <Link href={ROUTE_PATH.PRIVACY_EASY_DOTS_EN} className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇺🇸 English</Link>
+          <Link href={ROUTE_PATH.PRIVACY_PIXEL_BLUR_EN} className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇺🇸 English</Link>
         </div>
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
@@ -37,8 +37,7 @@ export default function Page() {
             items={[
               {
                 title: '서비스 제공',
-                text:
-                  '픽셀 아트 그리기, 도안(템플릿) 제공, 참고 이미지 불러오기(로컬 처리), 프로젝트 기기 내 저장 및 내보내기 기능 제공',
+                text: '이미지 일부를 흐리게 하거나 픽셀화하는 기능 제공, 기기 내 로컬 이미지 처리, 편집된 결과물 저장 기능 제공',
               },
               {
                 title: '광고 제공 및 서비스 품질 유지',
@@ -84,7 +83,7 @@ export default function Page() {
               {
                 title: '수집하지 않는 항목',
                 text:
-                  '이름, 연락처, 위치정보 등 직접 식별 가능한 개인정보는 앱 차원에서 수집하지 않습니다. 사용자가 갤러리에서 불러온 이미지나 생성한 프로젝트는 기기 내부에만 저장되며 외부 서버로 전송되지 않습니다.',
+                  '이름, 연락처, 위치정보 등 직접 식별 가능한 개인정보는 앱 차원에서 수집하지 않습니다. 사용자가 갤러리에서 불러온 이미지나 편집된 결과물은 기기 내부에만 처리되며 외부 서버로 전송되지 않습니다.',
               },
             ]}
           />
@@ -100,7 +99,7 @@ export default function Page() {
               },
               {
                 title:
-                  '앱 삭제 시 기기에 저장된 모든 데이터(프로젝트, 설정 등)는 즉시 파기됩니다.',
+                  '앱 삭제 시 기기에 저장된 모든 데이터(설정 등)는 즉시 파기됩니다.',
               },
             ]}
           />

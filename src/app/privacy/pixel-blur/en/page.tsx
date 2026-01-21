@@ -12,27 +12,40 @@ export default function Page() {
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
-          {[
-            { title: '🇰🇷 한국어', href: ROUTE_PATH.PRIVACY_PIXEL_BLUR_KO },
-          ].map(({ title, href }) => (
-            <Link
-              key={title}
-              href={href}
-              className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm"
-            >
-              {title}
-            </Link>
-          ))}
+          {[{ title: '🇰🇷 한국어', href: ROUTE_PATH.PRIVACY_PIXEL_BLUR_KO }].map(
+            ({ title, href }) => (
+              <Link
+                key={title}
+                href={href}
+                className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm"
+              >
+                {title}
+              </Link>
+            ),
+          )}
         </div>
         <h1 className="font-semibold text-2xl mb-md">Privacy Policy</h1>
         <p>Effective Date: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          This Privacy Policy is established and disclosed by &lt;&lsquo;{appName}&rsquo;&gt; (hereinafter referred to as the &quot;App&quot;) (Website: <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>{DEVELOPER.SITE_URL}</Link>) to protect the personal information of data subjects and to promptly and smoothly handle related complaints in accordance with Article 30 of the Personal Information Protection Act.
+          This Privacy Policy is established and disclosed by &lt;&lsquo;{appName}&rsquo;&gt;
+          (hereinafter referred to as the &quot;App&quot;) (Website:{' '}
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
+            {DEVELOPER.SITE_URL}
+          </Link>
+          ) to protect the personal information of data subjects and to promptly and smoothly handle
+          related complaints in accordance with Article 30 of the Personal Information Protection
+          Act.
         </p>
 
         <PrivacySection title="Article 1 (Purpose of Processing)">
           <p>
-            The App processes the minimum amount of personal information for the following purposes. It will not be used for purposes other than those specified, and if the purpose of use changes, necessary measures such as obtaining separate consent will be taken in accordance with Article 18 of the Personal Information Protection Act.
+            The App processes the minimum amount of personal information for the following purposes.
+            It will not be used for purposes other than those specified, and if the purpose of use
+            changes, necessary measures such as obtaining separate consent will be taken in
+            accordance with Article 18 of the Personal Information Protection Act.
           </p>
           <PrivacyList
             type="ol"
@@ -68,7 +81,8 @@ export default function Page() {
                 ],
                 extra: (
                   <div className="border-l-4 border-app-sub-bg dark:border-app-sub-bg pl-md">
-                    The advertising identifier is a resettable identifier per device, and users can reset/delete it or opt-out of personalized ads in the device settings.
+                    The advertising identifier is a resettable identifier per device, and users can
+                    reset/delete it or opt-out of personalized ads in the device settings.
                   </div>
                 ),
               },
@@ -96,14 +110,16 @@ export default function Page() {
                 text: 'The App does not store user identification information on a separate server for long periods. Data for ad operations follows Google LLC (AdMob) retention policies.',
               },
               {
-                title: 'Upon app deletion, all data stored on the device (settings, etc.) is immediately destroyed.',
+                title:
+                  'Upon app deletion, all data stored on the device (settings, etc.) is immediately destroyed.',
               },
             ]}
           />
         </PrivacySection>
 
         <PrivacySection title="Article 4 (Provision to Third Parties)">
-          The App does not provide personal information to third parties in principle. However, it may be provided if required by law or with separate consent from the data subject.
+          The App does not provide personal information to third parties in principle. However, it
+          may be provided if required by law or with separate consent from the data subject.
         </PrivacySection>
 
         <PrivacySection title="Article 5 (Entrustment and International Transfer)">
@@ -115,7 +131,10 @@ export default function Page() {
                 children: [
                   { title: 'Trustee/Recipient', text: 'Google LLC (AdMob)' },
                   { title: 'Country', text: 'United States' },
-                  { title: 'Date/Method', text: 'Real-time transmission via network upon app usage' },
+                  {
+                    title: 'Date/Method',
+                    text: 'Real-time transmission via network upon app usage',
+                  },
                   {
                     title: 'Items Transferred',
                     text: 'Advertising Identifier (AAID/IDFA), Ad Event Logs (Impression/Click), Device/App Info',
@@ -155,7 +174,9 @@ export default function Page() {
           <PrivacyList
             type="ol"
             items={[
-              { text: 'Since the App does not operate a separate sign-up server, all data stored on the user&apos;s device is immediately destroyed upon app deletion.' },
+              {
+                text: 'Since the App does not operate a separate sign-up server, all data stored on the user&apos;s device is immediately destroyed upon app deletion.',
+              },
             ]}
           />
         </PrivacySection>
@@ -216,12 +237,14 @@ export default function Page() {
 
         <PrivacySection title="Article 12 (Linkage with External Services)">
           <p>
-            The App uses Google LLC&apos;s AdMob SDK to provide advertisements. If the provider collects/processes personal information independently, their privacy policy applies.
+            The App uses Google LLC&apos;s AdMob SDK to provide advertisements. If the provider
+            collects/processes personal information independently, their privacy policy applies.
           </p>
         </PrivacySection>
 
         <PrivacySection title="Article 13 (Changes to Privacy Policy)">
-          This policy is effective from {startDate.format('YYYY-MM-DD')}. Changes due to laws or service updates will be notified via website announcements.
+          This policy is effective from {startDate.format('YYYY-MM-DD')}. Changes due to laws or
+          service updates will be notified via website announcements.
         </PrivacySection>
       </div>
     </main>

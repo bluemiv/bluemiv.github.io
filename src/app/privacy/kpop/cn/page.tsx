@@ -30,7 +30,10 @@ export default function Page() {
         <p>施行日期: {startDate.format('YYYY-MM-DD')}</p>
         <p>
           本隐私政策由 &lt;&lsquo;{appName}&rsquo;&gt;（访问地址:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
           ）依据《个人信息保护法》第30条制定并公开，旨在保护信息主体的个人信息，并及时、顺畅地处理相关投诉。
@@ -38,7 +41,8 @@ export default function Page() {
 
         <PrivacySection title="第1条（处理目的）">
           <p>
-            {appName}仅为以下目的处理最少限度的个人信息。除所列目的外不作他用；如处理目的发生变化，将依据《个人信息保护法》第18条采取取得单独同意等必要措施。
+            {appName}
+            仅为以下目的处理最少限度的个人信息。除所列目的外不作他用；如处理目的发生变化，将依据《个人信息保护法》第18条采取取得单独同意等必要措施。
           </p>
           <PrivacyList
             type="ol"
@@ -109,7 +113,8 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第4条（向第三方提供）">
-          {appName}原则上不向第三方提供用户个人信息。但在具有法律依据或已取得信息主体单独同意的情形下，可能提供。
+          {appName}
+          原则上不向第三方提供用户个人信息。但在具有法律依据或已取得信息主体单独同意的情形下，可能提供。
         </PrivacySection>
 
         <PrivacySection title="第5条（处理委托及跨境传输）">
@@ -293,7 +298,8 @@ export default function Page() {
 
         <PrivacySection title="第13条（本政策的变更）">
           本政策自 {startDate.format('YYYY-MM-DD')}{' '}
-          起适用。若因法律、服务内容或受托方变更等产生调整，{appName}将通过网站公告等方式告知变更内容与生效日期。
+          起适用。若因法律、服务内容或受托方变更等产生调整，{appName}
+          将通过网站公告等方式告知变更内容与生效日期。
         </PrivacySection>
       </div>
     </main>

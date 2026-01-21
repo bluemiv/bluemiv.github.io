@@ -12,23 +12,26 @@ export default function Page() {
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
-          {[
-            { title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_EASY_DOTS_EN },
-          ].map(({ title, href }) => (
-            <Link
-              key={title}
-              href={href}
-              className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm"
-            >
-              {title}
-            </Link>
-          ))}
+          {[{ title: '🇺🇸 English', href: ROUTE_PATH.PRIVACY_EASY_DOTS_EN }].map(
+            ({ title, href }) => (
+              <Link
+                key={title}
+                href={href}
+                className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm"
+              >
+                {title}
+              </Link>
+            ),
+          )}
         </div>
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
           본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(이하 &quot;본 앱&quot;)(접속주소:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
           )가 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 관련 민원을 신속하고
@@ -46,8 +49,7 @@ export default function Page() {
             items={[
               {
                 title: '서비스 제공',
-                text:
-                  '픽셀 아트 그리기, 도안(템플릿) 제공, 참고 이미지 불러오기(로컬 처리), 프로젝트 기기 내 저장 및 내보내기 기능 제공',
+                text: '픽셀 아트 그리기, 도안(템플릿) 제공, 참고 이미지 불러오기(로컬 처리), 프로젝트 기기 내 저장 및 내보내기 기능 제공',
               },
               {
                 title: '광고 제공 및 서비스 품질 유지',
@@ -85,15 +87,13 @@ export default function Page() {
                 title: '수집 방법',
                 children: [
                   {
-                    text:
-                      '회원가입·로그인 절차 없이 앱 설치 및 사용 시 Google AdMob SDK를 통해 자동 수집됩니다.',
+                    text: '회원가입·로그인 절차 없이 앱 설치 및 사용 시 Google AdMob SDK를 통해 자동 수집됩니다.',
                   },
                 ],
               },
               {
                 title: '수집하지 않는 항목',
-                text:
-                  '이름, 연락처, 위치정보 등 직접 식별 가능한 개인정보는 앱 차원에서 수집하지 않습니다. 사용자가 갤러리에서 불러온 이미지나 생성한 프로젝트는 기기 내부에만 저장되며 외부 서버로 전송되지 않습니다.',
+                text: '이름, 연락처, 위치정보 등 직접 식별 가능한 개인정보는 앱 차원에서 수집하지 않습니다. 사용자가 갤러리에서 불러온 이미지나 생성한 프로젝트는 기기 내부에만 저장되며 외부 서버로 전송되지 않습니다.',
               },
             ]}
           />
@@ -104,12 +104,10 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text:
-                  '본 앱은 별도 서버를 통해 이용자 식별정보를 장기간 저장하지 않습니다. 광고 운영 목적 데이터는 Google LLC(AdMob)의 보관기간 설정 및 정책에 따릅니다.',
+                text: '본 앱은 별도 서버를 통해 이용자 식별정보를 장기간 저장하지 않습니다. 광고 운영 목적 데이터는 Google LLC(AdMob)의 보관기간 설정 및 정책에 따릅니다.',
               },
               {
-                title:
-                  '앱 삭제 시 기기에 저장된 모든 데이터(프로젝트, 설정 등)는 즉시 파기됩니다.',
+                title: '앱 삭제 시 기기에 저장된 모든 데이터(프로젝트, 설정 등)는 즉시 파기됩니다.',
               },
             ]}
           />
@@ -125,16 +123,17 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text:
-                  '안정적 서비스 제공을 위해 개인정보 처리 업무의 일부를 외부에 위탁하며, 수탁자가 국외에 위치한 경우 국외 이전이 발생할 수 있습니다.',
+                text: '안정적 서비스 제공을 위해 개인정보 처리 업무의 일부를 외부에 위탁하며, 수탁자가 국외에 위치한 경우 국외 이전이 발생할 수 있습니다.',
                 children: [
                   { title: '수탁자/이전받는 자', text: 'Google LLC(AdMob)' },
                   { title: '이전 국가', text: '미국' },
-                  { title: '이전 일시 및 방법', text: '앱 사용 시점마다 네트워크를 통한 실시간 전송' },
+                  {
+                    title: '이전 일시 및 방법',
+                    text: '앱 사용 시점마다 네트워크를 통한 실시간 전송',
+                  },
                   {
                     title: '이전 항목',
-                    text:
-                      '광고 식별자(AAID/IDFA), 광고 이벤트 로그(노출/클릭 등), 기기·앱 정보',
+                    text: '광고 식별자(AAID/IDFA), 광고 이벤트 로그(노출/클릭 등), 기기·앱 정보',
                   },
                   { title: '이용 목적', text: '광고 제공 및 운영' },
                   { title: '보유·이용 기간', text: 'Google LLC 정책에 따름' },
@@ -155,13 +154,11 @@ export default function Page() {
                 children: [
                   {
                     title: 'Android',
-                    text:
-                      '설정 > 개인정보 보호 > 광고 > 광고 ID 재설정/삭제, 맞춤형 광고 제한 설정 가능',
+                    text: '설정 > 개인정보 보호 > 광고 > 광고 ID 재설정/삭제, 맞춤형 광고 제한 설정 가능',
                   },
                   {
                     title: 'iOS',
-                    text:
-                      '설정 > 개인정보 보호 및 보안 > 추적 > 앱이 추적을 요청하도록 허용 설정 관리',
+                    text: '설정 > 개인정보 보호 및 보안 > 추적 > 앱이 추적을 요청하도록 허용 설정 관리',
                   },
                 ],
               },
@@ -173,7 +170,9 @@ export default function Page() {
           <PrivacyList
             type="ol"
             items={[
-              { text: '본 앱은 별도의 회원가입 서버를 운영하지 않으므로, 앱 삭제 시 이용자의 기기에 저장된 모든 데이터가 즉시 파기됩니다.' },
+              {
+                text: '본 앱은 별도의 회원가입 서버를 운영하지 않으므로, 앱 삭제 시 이용자의 기기에 저장된 모든 데이터가 즉시 파기됩니다.',
+              },
             ]}
           />
         </PrivacySection>
@@ -183,8 +182,7 @@ export default function Page() {
           <PrivacyList
             items={[
               {
-                text:
-                  '개인정보 최소 수집 원칙 준수, 광고 SDK 보안 설정 적용, 기기 내 로컬 데이터 처리 원칙(서버 미사용) 등',
+                text: '개인정보 최소 수집 원칙 준수, 광고 SDK 보안 설정 적용, 기기 내 로컬 데이터 처리 원칙(서버 미사용) 등',
               },
             ]}
           />
@@ -194,8 +192,7 @@ export default function Page() {
           <PrivacyList
             items={[
               {
-                text:
-                  '정보주체는 언제든지 개인정보 보호 관련 권리를 행사할 수 있으며, 관련 문의는 아래 보호책임자에게 연락하시기 바랍니다.',
+                text: '정보주체는 언제든지 개인정보 보호 관련 권리를 행사할 수 있으며, 관련 문의는 아래 보호책임자에게 연락하시기 바랍니다.',
               },
             ]}
           />
@@ -298,7 +295,8 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제13조(개인정보 처리방침의 변경)">
-          본 방침은 {startDate.format('YYYY-MM-DD')}부터 적용됩니다. 법령, 서비스 내용 변경 등이 있을 경우 웹사이트 공지 등을 통해 안내합니다.
+          본 방침은 {startDate.format('YYYY-MM-DD')}부터 적용됩니다. 법령, 서비스 내용 변경 등이
+          있을 경우 웹사이트 공지 등을 통해 안내합니다.
         </PrivacySection>
       </div>
     </main>

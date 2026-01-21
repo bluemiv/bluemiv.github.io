@@ -58,6 +58,9 @@ self.addEventListener('fetch', (event) => {
     '/privacy/ai-wallpaper/en',
     '/privacy/ai-wallpaper/ko',
     '/privacy/ai-wallpaper/jp',
+    '/privacy/pixel-blur',
+    '/privacy/pixel-blur/en',
+    '/privacy/pixel-blur/ko',
   ];
 
   // 소문자 처리 후 정확히 일치하는 경로 제외

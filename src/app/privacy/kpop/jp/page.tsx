@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
   const startDate = dayjs('2025-03-05');
-  const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
+  const appName = 'KPOP Clip';
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
@@ -28,9 +28,9 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">プライバシーポリシー</h1>
         <p>施行日: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          本プライバシーポリシーは、&lt;&lsquo;Berryfy&rsquo;&gt;（アクセス先:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={siteUrl}>
-            {siteUrl}
+          本プライバシーポリシーは、&lt;&lsquo;{appName}&rsquo;&gt;（アクセス先:{' '}
+          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+            {DEVELOPER.SITE_URL}
           </Link>
           ）が、情報主体の個人情報を保護し、関連する苦情を迅速かつ円滑に処理するため、
           「個人情報保護法」第30条に基づき策定・公表するものです。
@@ -38,7 +38,7 @@ export default function Page() {
 
         <PrivacySection title="第1条（取扱いの目的）">
           <p>
-            Berryfyは、以下の目的のために最小限の個人情報のみを取り扱います。記載の目的以外で
+            {appName}は、以下の目的のために最小限の個人情報のみを取り扱います。記載の目的以外で
             利用することはなく、目的が変更される場合は「個人情報保護法」第18条に基づき、
             別途同意の取得など必要な措置を講じます。
           </p>
@@ -98,7 +98,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: 'Berryfyは、利用者の識別情報を長期保存するための独自サーバーを運用していません。広告・分析目的のデータは、各SDK事業者の保存期間設定およびポリシーに従います。',
+                text: '{appName}は、利用者の識別情報を長期保存するための独自サーバーを運用していません。広告・分析目的のデータは、各SDK事業者の保存期間設定およびポリシーに従います。',
               },
               {
                 title: 'GA4の保存期間',
@@ -113,7 +113,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第4条（第三者提供）">
-          Berryfyは、原則として利用者の個人情報を第三者に提供しません。ただし、法令に根拠がある場合や、
+          {appName}は、原則として利用者の個人情報を第三者に提供しません。ただし、法令に根拠がある場合や、
           情報主体の別途同意がある場合には提供することがあります。
         </PrivacySection>
 
@@ -153,7 +153,7 @@ export default function Page() {
             items={[
               {
                 title: 'クッキー',
-                text: 'モバイルアプリの特性上、Berryfyはクッキーを使用しません。',
+                text: 'モバイルアプリの特性上、{appName}はクッキーを使用しません。',
               },
               {
                 title: '広告ID（AAID/IDFA）',
@@ -184,7 +184,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="第8条（安全管理措置）">
-          Berryfyは「個人情報の安全性確保のための基準」に従い、以下の措置を講じます。
+          {appName}は「個人情報の安全性確保のための基準」に従い、以下の措置を講じます。
           <PrivacyList
             items={[
               {
@@ -198,10 +198,10 @@ export default function Page() {
           <PrivacyList
             items={[
               {
-                text: '情報主体は、Berryfyに対していつでも開示・訂正・削除・処理停止を求める権利を行使できます。代理人による行使も可能です（所定様式の委任状が必要）。',
+                text: '情報主体は、{appName}に対していつでも開示・訂正・削除・処理停止を求める権利を行使できます。代理人による行使も可能です（所定様式の委任状が必要）。',
               },
               {
-                text: '請求は書面、メール、FAX等で行うことができ、Berryfyは遅滞なく対応します。',
+                text: '請求は書面、メール、FAX等で行うことができ、{appName}は遅滞なく対応します。',
               },
               {
                 text: '法令に基づき開示制限や処理停止の拒否事由がある場合は、関係規定に従います。',
@@ -221,9 +221,9 @@ export default function Page() {
                     +82-10-3920-8518,{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
-                      href={`mailto:${email}`}
+                      href={`mailto:${DEVELOPER.EMAIL}`}
                     >
-                      {email}
+                      {DEVELOPER.EMAIL}
                     </Link>
                   </span>
                 ),

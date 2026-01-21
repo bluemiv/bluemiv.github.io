@@ -5,13 +5,15 @@ import { DEVELOPER } from '@/features/privacy';
 
 export default function Page() {
   const startDate = dayjs('2025-09-09');
+  const appName = '로또켓645';
+
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          본 개인정보 처리방침은 &lt;&lsquo;로또켓645&rsquo;&gt;(접속주소:{' '}
+          본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(사이트주소:{' '}
           <Link
             className="text-app-primary dark:text-app-dark-primary underline"
             href={DEVELOPER.SITE_URL}
@@ -19,13 +21,13 @@ export default function Page() {
             {DEVELOPER.SITE_URL}
           </Link>
           )가 「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고 관련 민원을 신속하고
-          원활하게 처리하기 위하여 수립·공개하는 것입니다. 로또켓645는 동행복권에서 제공하는 공개
+          원활하게 처리하기 위하여 수립·공개하는 것입니다. {appName}는 동행복권에서 제공하는 공개
           자료를 바탕으로 서비스 기능을 제공합니다.
         </p>
 
         <PrivacySection title="제1조(처리 목적)">
           <p>
-            로또켓645는 다음의 목적을 위하여 최소한의 개인정보를 처리합니다. 명시된 목적 외의
+            {appName}는 다음의 목적을 위하여 최소한의 개인정보를 처리합니다. 명시된 목적 외의
             용도로는 이용하지 않으며, 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라
             별도 동의를 받는 등 필요한 조치를 이행합니다.
           </p>
@@ -43,7 +45,7 @@ export default function Page() {
             ]}
           />
           <div className="mt-sm text-sm opacity-80">
-            ※ 로또켓645는 동행복권 및 관계사와 무관한 비공식 정보 제공 앱이며, 구매/당첨을 보장하지
+            ※ {appName}는 동행복권 및 관계사와 무관한 비공식 정보 제공 앱이며, 구매/당첨을 보장하지
             않습니다.
           </div>
         </PrivacySection>
@@ -93,7 +95,7 @@ export default function Page() {
             type="ol"
             items={[
               {
-                text: '로또켓645는 별도 서버를 통해 이용자 식별정보를 장기간 저장하지 않습니다. 광고 운영 목적 데이터는 Google LLC(AdMob)의 보관기간 설정 및 정책에 따릅니다.',
+                text: '{appName}는 별도 서버를 통해 이용자 식별정보를 장기간 저장하지 않습니다. 광고 운영 목적 데이터는 Google LLC(AdMob)의 보관기간 설정 및 정책에 따릅니다.',
               },
               {
                 title:
@@ -104,7 +106,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제4조(개인정보의 제3자 제공)">
-          로또켓645는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령에
+          {appName}는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령에
           근거가 있거나 정보주체의 별도 동의를 받은 경우에 한하여 제공할 수 있습니다.
         </PrivacySection>
 
@@ -143,7 +145,7 @@ export default function Page() {
           <PrivacyList
             type="ol"
             items={[
-              { title: '쿠키', text: '로또켓645는 모바일 앱 특성상 쿠키를 사용하지 않습니다.' },
+              { title: '쿠키', text: '{appName}는 모바일 앱 특성상 쿠키를 사용하지 않습니다.' },
               {
                 title: '광고 식별자(AAID/IDFA)',
                 text: '광고 제공을 위해 사용됩니다.',
@@ -173,7 +175,7 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제8조(개인정보의 안전성 확보 조치)">
-          로또켓645는 「개인정보의 안전성 확보조치 기준」을 준수하기 위해 다음과 같은 조치를
+          {appName}는 「개인정보의 안전성 확보조치 기준」을 준수하기 위해 다음과 같은 조치를
           취합니다.
           <PrivacyList
             items={[
@@ -188,10 +190,10 @@ export default function Page() {
           <PrivacyList
             items={[
               {
-                text: '정보주체는 로또켓645에 대해 언제든지 열람·정정·삭제·처리정지 요구 등을 행사할 수 있습니다. 대리인을 통한 행사도 가능합니다(별지 제11호 서식 위임장).',
+                text: '정보주체는 {appName}에 대해 언제든지 열람·정정·삭제·처리정지 요구 등을 행사할 수 있습니다. 대리인을 통한 행사도 가능합니다(별지 제11호 서식 위임장).',
               },
               {
-                text: '권리 행사는 서면, 이메일, 팩스 등으로 신청하실 수 있으며, 로또켓645는 지체 없이 조치합니다.',
+                text: '권리 행사는 서면, 이메일, 팩스 등으로 신청하실 수 있으며, {appName}는 지체 없이 조치합니다.',
               },
               {
                 text: '법령에 따라 열람 제한 또는 처리정지 거절 사유가 존재하는 경우 관련 규정에 따릅니다.',
@@ -208,7 +210,7 @@ export default function Page() {
                 title: '연락처',
                 text: (
                   <span>
-                    +82-10-3920-8518,{' '}
+                    {DEVELOPER.PHONE_NUMBER},{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
                       href={`mailto:${DEVELOPER.EMAIL}`}

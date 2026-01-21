@@ -212,7 +212,7 @@ export default function Page() {
                 title: '联系方式',
                 text: (
                   <span>
-                    +82-10-3920-8518，{' '}
+                    {DEVELOPER.PHONE_NUMBER}，{' '}
                     <Link
                       className="text-app-primary dark:text-app-dark-primary underline"
                       href={`mailto:${DEVELOPER.EMAIL}`}

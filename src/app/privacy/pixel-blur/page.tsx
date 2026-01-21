@@ -2,5 +2,5 @@ import { redirect } from 'next/navigation';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
-  redirect(ROUTE_PATH.PRIVACY_EASY_DOTS_EN);
+  redirect(ROUTE_PATH.PRIVACY_PIXEL_BLUR_EN);
 }

@@ -4,16 +4,16 @@ import { PrivacyList, PrivacySection } from '@/entities/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export default function Page() {
-  const startDate = dayjs('2026-01-17');
+  const startDate = dayjs('2026-01-21');
   const siteUrl = 'https://bluemiv.github.io/';
-  const email = 'public.berryfy@gmail.com';
-  const appName = 'Easy Dots: Pixel Art Maker';
+  const email = 'bluemiv@gmail.com';
+  const appName = 'Pixel Blur';
 
   return (
     <main>
       <div className="mx-auto max-w-[1280px] w-full flex flex-col gap-md leading-8">
         <div className="flex gap-md justify-end">
-          <Link href={ROUTE_PATH.PRIVACY_EASY_DOTS_KO} className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇰🇷 한국어</Link>
+          <Link href={ROUTE_PATH.PRIVACY_PIXEL_BLUR_KO} className="py-xs px-sm rounded bg-app-sub-bg dark:bg-app-dark-sub-bg text-sm">🇰🇷 한국어</Link>
         </div>
         <h1 className="font-semibold text-2xl mb-md">Privacy Policy</h1>
         <p>Effective Date: {startDate.format('YYYY-MM-DD')}</p>
@@ -30,7 +30,7 @@ export default function Page() {
             items={[
               {
                 title: 'Service Provision',
-                text: 'Providing pixel art drawing, templates, loading reference images (processed locally), saving projects on the device, and exporting features.',
+                text: 'Blurring and pixelating parts of images, processing images locally on the device, and saving edited images to the device.',
               },
               {
                 title: 'Providing Advertisements and Maintaining Service Quality',
@@ -73,7 +73,7 @@ export default function Page() {
               },
               {
                 title: 'Items Not Collected',
-                text: 'Personally identifiable information such as name, contact, or location is not collected by the App. Images loaded from the gallery or created projects are stored locally on the device and are not transmitted to external servers.',
+                text: 'Personally identifiable information such as name, contact, or location is not collected by the App. Images loaded from the gallery or edited results are processed locally on the device and are not transmitted to external servers.',
               },
             ]}
           />
@@ -87,7 +87,7 @@ export default function Page() {
                 text: 'The App does not store user identification information on a separate server for long periods. Data for ad operations follows Google LLC (AdMob) retention policies.',
               },
               {
-                title: 'Upon app deletion, all data stored on the device (projects, settings, etc.) is immediately destroyed.',
+                title: 'Upon app deletion, all data stored on the device (settings, etc.) is immediately destroyed.',
               },
             ]}
           />

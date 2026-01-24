@@ -61,6 +61,9 @@ self.addEventListener('fetch', (event) => {
     '/privacy/pixel-blur',
     '/privacy/pixel-blur/en',
     '/privacy/pixel-blur/ko',
+    '/privacy/pomodoro-flow',
+    '/privacy/pomodoro-flow/en',
+    '/privacy/pomodoro-flow/ko',
   ];
 
   // 소문자 처리 후 정확히 일치하는 경로 제외

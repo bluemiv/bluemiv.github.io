@@ -19,4 +19,6 @@ export const ROUTE_PATH = {
   PRIVACY_EASY_DOTS_EN: '/privacy/easy-dots/en',
   PRIVACY_PIXEL_BLUR_KO: '/privacy/pixel-blur/ko',
   PRIVACY_PIXEL_BLUR_EN: '/privacy/pixel-blur/en',
+  PRIVACY_POMODORO_FLOW_KO: '/privacy/pomodoro-flow/ko',
+  PRIVACY_POMODORO_FLOW_EN: '/privacy/pomodoro-flow/en',
 };

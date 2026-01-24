@@ -244,8 +244,9 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제13조 (개인정보 처리방침 변경)">
-          이 개인정보 처리방침은 {startDate.format('YYYY-MM-DD')}부터 적용됩니다. 법령 및 방침에 따른
-          변경내용의 추가, 삭제 및 정정이 있는 경우에는 웹사이트 공지사항을 통하여 고지할 것입니다.
+          이 개인정보 처리방침은 {startDate.format('YYYY-MM-DD')}부터 적용됩니다. 법령 및 방침에
+          따른 변경내용의 추가, 삭제 및 정정이 있는 경우에는 웹사이트 공지사항을 통하여 고지할
+          것입니다.
         </PrivacySection>
       </div>
     </main>

@@ -64,6 +64,7 @@ self.addEventListener('fetch', (event) => {
     '/privacy/pomodoro-flow',
     '/privacy/pomodoro-flow/en',
     '/privacy/pomodoro-flow/ko',
+    '/privacy/blim',
   ];
 
   // 소문자 처리 후 정확히 일치하는 경로 제외

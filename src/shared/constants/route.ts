@@ -22,4 +22,5 @@ export const ROUTE_PATH = {
   PRIVACY_POMODORO_FLOW_KO: '/privacy/pomodoro-flow/ko',
   PRIVACY_POMODORO_FLOW_EN: '/privacy/pomodoro-flow/en',
   PRIVACY_BLIM_KO: '/privacy/blim',
+  ACCOUNT_DELETION_BLIM: '/blim/account-deletion',
 };

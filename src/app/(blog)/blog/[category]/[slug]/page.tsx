@@ -1,9 +1,10 @@
-import { getAllPosts, getNextAndPrevPost, getPost } from '@/features/post/api';
+import { getAllPosts, getNextAndPrevPost, getPost, getRelatedPosts } from '@/features/post/api';
 import {
   ArticleMetadata,
   Comments,
   NextOrPrevPostCard,
   PostMdxContent,
+  RelatedPosts,
   RSSSubscribeBanner,
   TableOfContent,
 } from '@/features/post/components';
@@ -83,6 +84,7 @@ export default async function Page(props: Props) {
               <PostMdxContent content={post.content} />
             </article>
             <ResponsiveAd />
+            <RelatedPosts posts={getRelatedPosts(category, slug)} />
             <RSSSubscribeBanner />
             <Comments />
             <div className="flex items-center gap-md mt-lg flex-col md:flex-row">

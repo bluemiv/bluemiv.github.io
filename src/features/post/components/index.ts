@@ -7,4 +7,5 @@ export * from './NextOrPrevPostCard';
 export * from './Pagination';
 export * from './Comments';
 export * from './RSSLink';
+export * from './RSSSubscribeBanner';
 export * from './ShortPostItem';

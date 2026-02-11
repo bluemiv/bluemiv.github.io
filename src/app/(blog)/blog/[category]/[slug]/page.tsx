@@ -4,6 +4,7 @@ import {
   Comments,
   NextOrPrevPostCard,
   PostMdxContent,
+  RSSSubscribeBanner,
   TableOfContent,
 } from '@/features/post/components';
 import { ResponsiveAd } from '@/shared/components';
@@ -82,6 +83,7 @@ export default async function Page(props: Props) {
               <PostMdxContent content={post.content} />
             </article>
             <ResponsiveAd />
+            <RSSSubscribeBanner />
             <Comments />
             <div className="flex items-center gap-md mt-lg flex-col md:flex-row">
               <div className="flex-1">

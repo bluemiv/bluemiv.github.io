@@ -1,12 +1,12 @@
-import { getAllPosts, getNextAndPrevPost, getPost } from '@/entities/post/api';
+import { getAllPosts, getNextAndPrevPost, getPost } from '@/features/post/api';
 import {
   ArticleMetadata,
   Comments,
   NextOrPrevPostCard,
   PostMdxContent,
   TableOfContent,
-} from '@/entities/post/ui';
-import { ResponsiveAd } from '@/shared/ui';
+} from '@/features/post/components';
+import { ResponsiveAd } from '@/shared/components';
 import { Sidebar } from '@/widgets/Sidebar';
 
 interface Props {

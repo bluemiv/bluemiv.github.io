@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { ShortPost } from '@/entities/post/model';
-import { ShortTagLink } from '@/features/tag/ui';
+import { ShortPost } from '@/features/post/model';
+import { ShortTagLink } from '@/features/tag/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 interface Props {

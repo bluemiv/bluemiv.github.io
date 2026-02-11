@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { RSSLink } from '@/features/post/ui';
+import { RSSLink } from '@/features/post/components';
 
 export default function TableOfContent() {
   const [tocItems, setTocItems] = useState<{ level: string; id: string; label: string }[]>([]);

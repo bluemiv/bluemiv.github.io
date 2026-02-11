@@ -1,5 +1,5 @@
 import { isNil } from 'lodash';
-import { TagIcon } from '@/shared/ui/Icons';
+import { TagIcon } from '@/shared/components/Icons';
 
 interface Props {
   tag: string;

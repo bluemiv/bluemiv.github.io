@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
-import { Post, ShortPost } from '@/entities/post/model';
+import { Post, ShortPost } from '@/features/post/model';
 import { LIMIT } from '@/shared/constants/pagination';
 
 const postsDirectory = path.join(process.cwd(), 'src', '_posts');

@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import { getShortPost } from '@/entities/post/api';
-import { PostMdxContent } from '@/entities/post/ui';
-import { ShortTagLink } from '@/features/tag/ui';
+import { getShortPost } from '@/features/post/api';
+import { PostMdxContent } from '@/features/post/components';
+import { ShortTagLink } from '@/features/tag/components';
 import { ShortPostGroup } from '@/widgets/ShortPostGroup';
 import { Sidebar } from '@/widgets/Sidebar';
 

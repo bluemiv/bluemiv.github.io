@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import { Post } from '@/entities/post/model';
-import { GridPostCard, Pagination } from '@/entities/post/ui';
-import { ResponsiveAd } from '@/shared/ui';
+import { Post } from '@/features/post/model';
+import { GridPostCard, Pagination } from '@/features/post/components';
+import { ResponsiveAd } from '@/shared/components';
 import { Sidebar } from '@/widgets/Sidebar';
 
 interface Props {

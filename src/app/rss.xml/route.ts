@@ -1,4 +1,4 @@
-import { getAllPosts, getAllShortPosts } from '@/entities/post/api';
+import { getAllPosts, getAllShortPosts } from '@/features/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 export async function GET() {

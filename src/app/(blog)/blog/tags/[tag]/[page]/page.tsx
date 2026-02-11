@@ -1,4 +1,4 @@
-import { getPageNumberByTag, getPostsByTag, getTags } from '@/entities/post/api';
+import { getPageNumberByTag, getPostsByTag, getTags } from '@/features/post/api';
 import { LIMIT } from '@/shared/constants/pagination';
 import { BlogHomeLayout } from '../../../../../../widgets/layouts';
 

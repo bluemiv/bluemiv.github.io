@@ -14,6 +14,8 @@ const pretendardFont = localFont({
   weight: '45 920',
 });
 
+const baseUrl = process.env.BASE_URL!;
+
 export const metadata: Metadata = {
   title: process.env.METADATA_TITLE,
   description: process.env.METADATA_DESCRIPTION,
@@ -21,6 +23,17 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
   },
   manifest: '/manifest.webmanifest',
+  metadataBase: new URL(baseUrl),
+  alternates: { canonical: '/' },
+  authors: [{ name: process.env.METADATA_AUTHOR }],
+  openGraph: {
+    type: 'website',
+    siteName: process.env.METADATA_TITLE,
+    locale: 'ko_KR',
+  },
+  twitter: {
+    card: 'summary',
+  },
 };
 
 export default function RootLayout({

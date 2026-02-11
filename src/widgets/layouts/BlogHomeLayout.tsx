@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Post } from '@/features/post/model';
 import { GridPostCard, Pagination } from '@/features/post/components';
+import { Post } from '@/features/post/model';
 import { ResponsiveAd } from '@/shared/components';
 import { Sidebar } from '@/widgets/Sidebar';
 

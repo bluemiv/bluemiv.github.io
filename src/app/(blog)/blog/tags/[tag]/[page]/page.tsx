@@ -7,15 +7,18 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { tag } = await params;
-  const common = {
-    title: `'${decodeURIComponent(tag)}'에 대한 글`,
-    description: `'${decodeURIComponent(tag)}'에 대한 글 목록입니다.`,
-  };
+  const { tag, page } = await params;
+  const baseUrl = process.env.BASE_URL!;
+  const decodedTag = decodeURIComponent(tag);
+  const url = `${baseUrl}/blog/tags/${tag}/${page}`;
   return {
-    ...common,
+    title: `'${decodedTag}'에 대한 글`,
+    description: `'${decodedTag}'에 대한 글 목록입니다.`,
+    alternates: { canonical: url },
     openGraph: {
-      ...common,
+      title: `'${decodedTag}'에 대한 글`,
+      description: `'${decodedTag}'에 대한 글 목록입니다.`,
+      url,
     },
   };
 }

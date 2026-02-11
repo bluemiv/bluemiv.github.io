@@ -2,11 +2,11 @@ import {
   getShortPageNumber,
   getShortPostCurrentPageNumber,
   getShortPosts,
-} from '@/entities/post/api';
-import { Pagination } from '@/entities/post/ui';
-import { ShortPostItem } from '@/features/post/ui';
+} from '@/features/post/api';
+import { Pagination } from '@/features/post/components';
+import { ShortPostItem } from '@/features/post/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
-import { ResponsiveAd } from '@/shared/ui';
+import { ResponsiveAd } from '@/shared/components';
 
 interface Props {
   slug: string;

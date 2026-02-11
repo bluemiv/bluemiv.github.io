@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { SunIcon, MoonIcon } from '@/shared/ui/Icons';
+import { SunIcon, MoonIcon } from '@/shared/components/Icons';
 import { useTheme } from '../hooks';
 
 export const ThemeToggleButton = () => {

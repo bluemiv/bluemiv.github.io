@@ -2,8 +2,8 @@ import clsx from 'clsx';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Post } from '@/entities/post/model';
-import { CategoryTag } from '@/entities/post/ui/CategoryTag';
+import { Post } from '@/features/post/model';
+import { CategoryTag } from '@/features/post/components/CategoryTag';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import { PropsWithClassName } from '@/shared/types/props';
 

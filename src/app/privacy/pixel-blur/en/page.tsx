@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { PrivacyList, PrivacySection } from '@/entities/privacy';
+import { PrivacyList, PrivacySection } from '@/features/privacy';
 import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
 

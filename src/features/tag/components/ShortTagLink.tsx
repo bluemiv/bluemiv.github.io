@@ -1,4 +1,4 @@
-import { Tag } from '@/entities/tag/ui';
+import { Tag } from '@/features/tag/components';
 
 interface Props {
   tag: string;

@@ -1,4 +1,4 @@
-import { getCategories } from '@/entities/post/api';
+import { getCategories } from '@/features/post/api';
 import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 import { CategoryItem } from './CategoryItem';
 

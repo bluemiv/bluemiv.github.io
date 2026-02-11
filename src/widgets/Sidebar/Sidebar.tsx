@@ -1,4 +1,4 @@
-import { RSSLink } from '@/features/post/ui';
+import { RSSLink } from '@/features/post/components';
 import { ProfileSection } from '@/widgets/Sidebar/ProfileSection';
 import { CategorySection } from './CategorySection';
 import { TagSection } from './TagSection';

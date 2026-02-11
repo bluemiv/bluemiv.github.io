@@ -1,5 +1,5 @@
 import { PropsWithChildren, ReactNode } from 'react';
-import { PrivacyTitle } from '@/entities/privacy';
+import { PrivacyTitle } from '@/features/privacy';
 
 export const PrivacySection = ({ title, children }: PropsWithChildren<{ title: ReactNode }>) => {
   return (

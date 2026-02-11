@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useTheme } from '@/features/toggleTheme/hooks';
+import { useTheme } from '@/features/theme/hooks';
 
 export const Comments = () => {
   const ref = useRef<HTMLDivElement>(null);

@@ -3,7 +3,7 @@ import utc from 'dayjs/plugin/utc';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
-import RegisterServiceWorker from '@/features/serviceWorker/ui/RegisterServiceWorker';
+import RegisterServiceWorker from '@/features/serviceWorker/components/RegisterServiceWorker';
 import './globals.css';
 
 dayjs.extend(utc);

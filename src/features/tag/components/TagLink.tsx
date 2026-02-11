@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Tag } from '@/entities/tag/ui';
+import { Tag } from '@/features/tag/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 interface Props {

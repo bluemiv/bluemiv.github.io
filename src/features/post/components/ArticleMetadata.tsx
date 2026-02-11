@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { TagLink } from '@/features/tag/ui';
+import { TagLink } from '@/features/tag/components';
 import { Post } from '../model';
 import ArticleThumbnail from './ArticleThumbnail';
 

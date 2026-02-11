@@ -9,7 +9,7 @@ import {
   getPageNumberByCategory,
   getPageNumberByTag,
   getTags,
-} from '@/entities/post/api';
+} from '@/features/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
 dayjs.extend(utc);

@@ -1,6 +1,6 @@
-import { getAllShortPosts } from '@/entities/post/api';
-import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/ui/RefreshServiceWorkerCacheButton';
-import { ThemeToggleButton } from '@/features/toggleTheme/ui';
+import { getAllShortPosts } from '@/features/post/api';
+import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/components/RefreshServiceWorkerCacheButton';
+import { ThemeToggleButton } from '@/features/theme/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import Logo from '@/widgets/Header/Logo';
 import NavLink from '@/widgets/Header/NavLink';

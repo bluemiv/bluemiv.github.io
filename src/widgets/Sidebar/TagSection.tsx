@@ -1,5 +1,5 @@
-import { getTags } from '@/entities/post/api';
-import { TagLink } from '@/features/tag/ui';
+import { getTags } from '@/features/post/api';
+import { TagLink } from '@/features/tag/components';
 import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 
 export const TagSection = () => {

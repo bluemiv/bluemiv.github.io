@@ -1,4 +1,4 @@
-import { getAllShortPosts, getShortPost } from '@/entities/post/api';
+import { getAllShortPosts, getShortPost } from '@/features/post/api';
 import { ShortPostsLayout } from '../../../../../widgets/layouts';
 
 interface Props {

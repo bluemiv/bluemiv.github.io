@@ -12,9 +12,7 @@ export const RelatedPosts = ({ posts }: Props) => {
 
   return (
     <section className="my-lg">
-      <h2 className="text-lg font-semibold text-app-text dark:text-app-dark-text mb-md">
-        관련 글
-      </h2>
+      <h2 className="text-lg font-semibold text-app-text dark:text-app-dark-text mb-md">관련 글</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-md">
         {posts.map((post) => (
           <Link

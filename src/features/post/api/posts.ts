@@ -196,6 +196,28 @@ export const getNextAndPrevPost = (category: string, slug: string) => {
 };
 
 /**
+ * 태그 유사도 기반으로 관련 글을 가져온다.
+ * @param category 현재 글의 카테고리
+ * @param slug 현재 글의 slug
+ * @param count 가져올 관련 글 수 (default: 4)
+ */
+export const getRelatedPosts = (category: string, slug: string, count = 4): Post[] => {
+  const current = getPost(category, slug);
+  const currentTags = new Set(current.metadata.tags);
+
+  return getAllPosts()
+    .filter((p) => !(p.metadata.category === category && p.metadata.slug === slug))
+    .map((p) => ({
+      post: p,
+      score: p.metadata.tags.filter((t) => currentTags.has(t)).length,
+    }))
+    .filter((e) => e.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, count)
+    .map((e) => e.post);
+};
+
+/**
  * 짧은 글 목록을 가져온다.
  */
 export const getAllShortPosts = (): ShortPost[] => {

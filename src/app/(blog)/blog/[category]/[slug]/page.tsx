@@ -16,15 +16,28 @@ interface Props {
 export async function generateMetadata({ params }: Props) {
   const { category, slug } = await params;
   const post = getPost(category, slug);
-  const common = {
+  const baseUrl = process.env.BASE_URL!;
+  const url = `${baseUrl}/blog/${category}/${slug}`;
+  return {
     title: post.metadata.title,
     description: post.metadata.description,
-  };
-  return {
-    ...common,
+    alternates: { canonical: url },
     openGraph: {
-      ...common,
-      images: post.metadata.thumbnail ? [{ url: post.metadata.thumbnail }] : [],
+      type: 'article',
+      title: post.metadata.title,
+      description: post.metadata.description,
+      url,
+      images: post.metadata.thumbnail ? [{ url: `${baseUrl}${post.metadata.thumbnail}` }] : [],
+      publishedTime: post.metadata.createdAt,
+      modifiedTime: post.metadata.updatedAt,
+      authors: [post.metadata.author],
+      tags: post.metadata.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.metadata.title,
+      description: post.metadata.description,
+      images: post.metadata.thumbnail ? [`${baseUrl}${post.metadata.thumbnail}`] : [],
     },
   };
 }
@@ -33,9 +46,32 @@ export default async function Page(props: Props) {
   const { category, slug } = await props.params;
   const post = getPost(category, slug);
   const { nextPost, prevPost } = getNextAndPrevPost(category, slug);
+  const baseUrl = process.env.BASE_URL!;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.metadata.title,
+    description: post.metadata.description,
+    datePublished: post.metadata.createdAt,
+    dateModified: post.metadata.updatedAt,
+    author: { '@type': 'Person', name: post.metadata.author },
+    url: `${baseUrl}/blog/${category}/${slug}`,
+    ...(post.metadata.thumbnail && { image: `${baseUrl}${post.metadata.thumbnail}` }),
+    keywords: post.metadata.tags.join(', '),
+    publisher: {
+      '@type': 'Organization',
+      name: process.env.METADATA_TITLE,
+      url: baseUrl,
+    },
+  };
 
   return (
     <div className="flex items-start justify-start">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Sidebar />
       <main className="relative w-full px-md md:max-w-[calc(100%-280px)]">
         <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">

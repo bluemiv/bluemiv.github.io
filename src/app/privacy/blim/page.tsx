@@ -13,8 +13,7 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {startDate.format('YYYY-MM-DD')}</p>
         <p>
-          본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(이하 &quot;본
-          앱&quot;)(사이트주소:{' '}
+          본 개인정보 처리방침은 &lt;&lsquo;{appName}&rsquo;&gt;(이하 &quot;본 앱&quot;)(사이트주소:{' '}
           <Link
             className="text-app-primary dark:text-app-dark-primary underline"
             href={DEVELOPER.SITE_URL}

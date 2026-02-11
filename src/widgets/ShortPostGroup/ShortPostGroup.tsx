@@ -5,8 +5,8 @@ import {
 } from '@/features/post/api';
 import { Pagination } from '@/features/post/components';
 import { ShortPostItem } from '@/features/post/components';
-import { ROUTE_PATH } from '@/shared/constants/route';
 import { ResponsiveAd } from '@/shared/components';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 interface Props {
   slug: string;

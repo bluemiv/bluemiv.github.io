@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { ROUTE_PATH } from '@/shared/constants/route';
 import { RSSIcon } from '@/shared/components/Icons';
+import { ROUTE_PATH } from '@/shared/constants/route';
 
 export const RSSLink = () => {
   return (

@@ -65,6 +65,7 @@ self.addEventListener('fetch', (event) => {
     '/privacy/pomodoro-flow/en',
     '/privacy/pomodoro-flow/ko',
     '/privacy/blim',
+    '/privacy/luna',
     '/blim/account-deletion',
   ];
 

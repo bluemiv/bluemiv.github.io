@@ -21,6 +21,9 @@ export const ROUTE_PATH = {
   PRIVACY_PIXEL_BLUR_EN: '/privacy/pixel-blur/en',
   PRIVACY_POMODORO_FLOW_KO: '/privacy/pomodoro-flow/ko',
   PRIVACY_POMODORO_FLOW_EN: '/privacy/pomodoro-flow/en',
+  PRIVACY_MUSEPIECE_KO: '/privacy/musepiece/ko',
+  PRIVACY_MUSEPIECE_EN: '/privacy/musepiece/en',
+  PRIVACY_MUSEPIECE_JP: '/privacy/musepiece/jp',
   PRIVACY_BLIM_KO: '/privacy/blim',
   ACCOUNT_DELETION_BLIM: '/blim/account-deletion',
 };

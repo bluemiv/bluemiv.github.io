@@ -30,7 +30,7 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {effectiveDate.format('YYYY-MM-DD')}</p>
         <p>
-          본 개인정보 처리방침은 {companyName}(이하 "회사")가 운영하는 {appName} 서비스에서
+          본 개인정보 처리방침은 {companyName}(이하 &quot;회사&quot;)가 운영하는 {appName} 서비스에서
           개인정보를 어떻게 처리하는지 설명합니다. 회사는 서비스 제공·보안·운영에 필요한 범위에서만 개인정보를 처리합니다.
         </p>
         <p>

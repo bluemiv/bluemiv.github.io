@@ -10,13 +10,17 @@ interface Props {
 
 export default function PostContentImage({ imageProps }: Props) {
   const [clicked, setClicked] = useState<boolean>(false);
+  const { alt, ...restImageProps } = imageProps;
+  const altText = typeof alt === 'string' ? alt : '';
+
   return (
     <figure className="mb-md">
       <Image
+        {...(restImageProps as ImageProps)}
+        alt={altText}
         onClick={() => setClicked(!clicked)}
         width={720}
         height={300}
-        {...(imageProps as ImageProps)}
         className="block object-contain w-full h-full max-h-[500px] rounded cursor-pointer"
       />
       {clicked &&
@@ -26,18 +30,19 @@ export default function PostContentImage({ imageProps }: Props) {
             onClick={() => setClicked(!clicked)}
           >
             <Image
+              {...(restImageProps as ImageProps)}
+              alt={altText}
               onClick={() => setClicked(!clicked)}
               width={1000}
               height={1000}
-              {...(imageProps as ImageProps)}
               className="max-w-[98vw] md:max-w-[90vw] max-h-[80vh] object-contain w-full h-full"
             />
           </div>,
           document.body,
         )}
-      {imageProps.alt && (
+      {altText && (
         <figcaption className="mt-sm text-center text-app-sub-text dark:text-app-dark-sub-text italic">
-          {imageProps.alt}
+          {altText}
         </figcaption>
       )}
     </figure>

@@ -31,8 +31,7 @@ export default function Page() {
         <p>Effective Date: {effectiveDate.format('YYYY-MM-DD')}</p>
         <p>
           This Privacy Policy explains how {companyName} ("we", "us", "our") processes
-          personal data when you use {appName}. {appName} is an AI character chat service for adults
-          (18+). We process personal data only as needed to provide, secure, and improve the service.
+          personal data when you use {appName}. We process personal data only as needed to provide, secure, and improve the service.
         </p>
         <p>
           Website:{' '}
@@ -204,8 +203,7 @@ export default function Page() {
 
         <PrivacySection title="Article 9 (Children)">
           <p>
-            {appName} is intended for adults (18+) and is not directed to children. If we learn an
-            account belongs to a minor, we may suspend/delete related data as required.
+            If we learn an account belongs to a minor, we may suspend/delete related data as required by applicable law and policy.
           </p>
         </PrivacySection>
 

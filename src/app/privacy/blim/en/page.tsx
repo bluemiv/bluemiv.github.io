@@ -30,7 +30,7 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">Privacy Policy</h1>
         <p>Effective Date: {effectiveDate.format('YYYY-MM-DD')}</p>
         <p>
-          This Privacy Policy explains how {companyName} ("we", "us", "our") processes
+          This Privacy Policy explains how {companyName} (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) processes
           personal data when you use {appName}. We process personal data only as needed to provide, secure, and improve the service.
         </p>
         <p>

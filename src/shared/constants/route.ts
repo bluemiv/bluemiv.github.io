@@ -24,6 +24,9 @@ export const ROUTE_PATH = {
   PRIVACY_MUSEPIECE_KO: '/privacy/musepiece/ko',
   PRIVACY_MUSEPIECE_EN: '/privacy/musepiece/en',
   PRIVACY_MUSEPIECE_JP: '/privacy/musepiece/jp',
-  PRIVACY_BLIM_KO: '/privacy/blim',
+  PRIVACY_BLIM: '/privacy/blim',
+  PRIVACY_BLIM_EN: '/privacy/blim/en',
+  PRIVACY_BLIM_KO: '/privacy/blim/ko',
+  PRIVACY_BLIM_JP: '/privacy/blim/jp',
   ACCOUNT_DELETION_BLIM: '/blim/account-deletion',
 };

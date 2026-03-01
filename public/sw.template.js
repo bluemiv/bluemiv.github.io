@@ -69,6 +69,9 @@ self.addEventListener('fetch', (event) => {
     '/privacy/musepiece/ko',
     '/privacy/musepiece/jp',
     '/privacy/blim',
+    '/privacy/blim/en',
+    '/privacy/blim/ko',
+    '/privacy/blim/jp',
     '/privacy/luna',
     '/blim/account-deletion',
   ];

@@ -7,9 +7,9 @@ interface Props {
 
 export default function ArticleThumbnail({ thumbnail, alt }: Props) {
   return (
-    <div className="flex items-center overflow-hidden rounded-lg w-full max-h-[300px] h-full bg-app-sub-bg mb-md">
+    <div className="motion-card flex items-center overflow-hidden rounded-2xl w-full max-h-[360px] h-full bg-app-surface-muted dark:bg-app-dark-surface-muted mb-md border border-app-border/80 dark:border-app-dark-border/80">
       <Image
-        className="w-full h-full object-cover duration-150 ease-in-out hover:scale-110"
+        className="w-full h-full object-cover duration-300 ease-out hover:scale-105"
         width={720}
         height={280}
         src={thumbnail}

@@ -45,7 +45,7 @@ export default function RefreshServiceWorkerCacheButton() {
   if (!isUpdateAvailable) return null;
 
   const notice = (
-    <div className="fixed inset-x-md bottom-md z-[85] mx-auto flex max-w-[420px] items-start gap-sm rounded-2xl border border-app-primary/25 bg-app-surface/95 p-md shadow-[0_18px_54px_rgb(15_23_42_/_0.18)] backdrop-blur-xl dark:border-app-dark-primary/30 dark:bg-app-dark-surface/95 dark:shadow-[0_18px_54px_rgb(0_0_0_/_0.35)]">
+    <div className="fixed bottom-md left-1/2 z-[85] flex w-[calc(100vw-2rem)] max-w-[420px] -translate-x-1/2 items-start gap-sm rounded-2xl border border-app-primary/25 bg-app-surface/95 p-md shadow-[0_18px_54px_rgb(15_23_42_/_0.18)] backdrop-blur-xl dark:border-app-dark-primary/30 dark:bg-app-dark-surface/95 dark:shadow-[0_18px_54px_rgb(0_0_0_/_0.35)]">
       <div className="mt-[2px] flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-app-primary-soft text-app-primary dark:bg-app-dark-primary-soft dark:text-app-dark-primary">
         <Sparkles size={16} strokeWidth={2.4} aria-hidden="true" />
       </div>
@@ -89,7 +89,7 @@ export default function RefreshServiceWorkerCacheButton() {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-app-primary/70 dark:bg-app-dark-primary/70 opacity-75" />
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-app-primary dark:bg-app-dark-primary" />
         </span>
-        <Sparkles className="h-[1.375rem] w-[1.375rem]" strokeWidth={2.4} aria-hidden="true" />
+        <Sparkles className="h-5 w-5" strokeWidth={2.2} aria-hidden="true" />
       </button>
       {isNoticeVisible && typeof document !== 'undefined' && createPortal(notice, document.body)}
     </>

@@ -58,11 +58,11 @@ export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPage
               />
             ))}
           </div>
+          <Pagination prefix="" currentPageNum={currentPageNum} totalPageNum={totalPageNum} />
           {isHome && shortPosts.length > 0 && <ShortPostsPreview posts={shortPosts} />}
           <div className="overflow-hidden w-full">
             <ResponsiveAd />
           </div>
-          <Pagination prefix="" currentPageNum={currentPageNum} totalPageNum={totalPageNum} />
         </main>
       </div>
     </div>

@@ -7,6 +7,8 @@ import { ROUTE_PATH } from '@/shared/constants/route';
 import HeaderVisibility from '@/widgets/Header/HeaderVisibility';
 import Logo from '@/widgets/Header/Logo';
 import NavLink from '@/widgets/Header/NavLink';
+import MobileSidebarMenu from '@/widgets/Sidebar/MobileSidebarMenu';
+import SidebarContent from '@/widgets/Sidebar/SidebarContent';
 
 export default function Header() {
   const shortPostsLength = getAllShortPosts().length;
@@ -14,6 +16,9 @@ export default function Header() {
     <HeaderVisibility>
       <nav className="w-full h-full mx-auto flex items-center justify-between gap-md">
         <Logo />
+        <MobileSidebarMenu>
+          <SidebarContent />
+        </MobileSidebarMenu>
         <ul className="flex-1 flex justify-end gap-xs">
           {[
             // { href: ROUTE_PATH.ABOUT, label: 'ABOUT' },

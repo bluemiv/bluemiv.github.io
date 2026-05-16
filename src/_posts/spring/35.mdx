@@ -1,0 +1,431 @@
+---
+title: '@Autowired와 의존성 주입 방법'
+description: '@Autowired를 사용한 의존성 주입과 생성자, 필드, setter 주입 방법을 비교합니다.'
+createdAt: 2025-08-20T15:16:29+09:00
+updatedAt: 2025-08-20T15:16:29+09:00
+tags: ['spring', 'springboot', 'java', 'autowired', 'dependency-injection']
+release: true
+author: Taehong Kim
+thumbnail: /r/i/spring/35/thumbnail.webp
+---
+
+## 1. 의존성 주입 방법을 왜 구분해야 할까?
+
+Spring을 사용하면 객체를 직접 `new`로 만들기보다 Spring 컨테이너가 관리하는 Bean을 주입받아 사용합니다. 이전 글인 [IoC와 DI 이해하기](/blog/spring/33)에서 다룬 것처럼, 이 방식은 객체 생성과 연결 책임을 애플리케이션 코드에서 Spring 컨테이너로 옮기는 구조입니다.
+
+그런데 의존성을 주입받는 방법은 하나만 있는 것이 아닙니다.
+
+```text
+Dependency Injection
+├── 생성자 주입
+├── 필드 주입
+└── Setter 주입
+```
+
+처음에는 어떤 방식이든 동작하는 것처럼 보입니다. 하지만 프로젝트가 커질수록 테스트하기 쉬운지, 객체가 안전하게 초기화되는지, 순환 참조 문제를 빨리 발견할 수 있는지가 중요해집니다.
+
+이 글에서는 `@Autowired`가 무엇인지 살펴보고, 생성자 주입, 필드 주입, Setter 주입을 비교해보겠습니다.
+
+## 2. @Autowired란?
+
+`@Autowired`는 Spring이 필요한 Bean을 찾아 주입하도록 요청하는 어노테이션입니다.
+
+예를 들어 `UserService`가 `UserRepository`를 필요로 한다고 해보겠습니다.
+
+```java
+public interface UserRepository {
+
+    void save(String name);
+}
+```
+
+```java
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class MemoryUserRepository implements UserRepository {
+
+    @Override
+    public void save(String name) {
+        System.out.println(name + " 저장");
+    }
+}
+```
+
+`MemoryUserRepository`는 `@Repository`가 붙어 있으므로 Spring Bean으로 등록됩니다. Bean 등록 방식은 [Bean과 Component 이해하기](/blog/spring/34)에서 다룬 내용과 연결됩니다.
+
+이제 `UserService`에서 `UserRepository`를 주입받을 수 있습니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+Spring은 `UserService` Bean을 만들 때 생성자 파라미터로 필요한 `UserRepository` Bean을 찾아 넣어줍니다.
+
+Spring 4.3부터는 생성자가 하나뿐인 경우 생성자에 `@Autowired`를 생략할 수 있습니다. 그래서 실무에서는 위 예제처럼 `@Autowired` 없이 생성자 주입을 사용하는 경우가 많습니다.
+
+## 3. 생성자 주입
+
+생성자 주입은 객체가 생성될 때 필요한 의존성을 생성자로 전달받는 방식입니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+```
+
+생성자 주입의 가장 큰 장점은 필요한 의존성을 빠뜨릴 수 없다는 점입니다. `OrderService`를 만들려면 반드시 `PaymentService`가 필요합니다.
+
+또한 `final` 키워드를 사용할 수 있어 객체가 생성된 뒤 의존성이 바뀌지 않는다는 점을 코드로 표현할 수 있습니다.
+
+```java
+private final PaymentService paymentService;
+```
+
+이런 특성 때문에 생성자 주입은 Spring 프로젝트에서 가장 권장되는 방식입니다.
+
+## 4. 생성자 주입이 테스트에 유리한 이유
+
+생성자 주입을 사용하면 Spring 컨테이너 없이도 테스트 코드를 작성하기 쉽습니다.
+
+```java
+class FakeUserRepository implements UserRepository {
+
+    private String savedName;
+
+    @Override
+    public void save(String name) {
+        this.savedName = name;
+    }
+
+    public String getSavedName() {
+        return savedName;
+    }
+}
+```
+
+```java
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class UserServiceTest {
+
+    @Test
+    void joinSavesUserName() {
+        FakeUserRepository userRepository = new FakeUserRepository();
+        UserService userService = new UserService(userRepository);
+
+        userService.join("kim");
+
+        assertThat(userRepository.getSavedName()).isEqualTo("kim");
+    }
+}
+```
+
+이 테스트는 Spring Boot 테스트 환경을 띄우지 않아도 됩니다. 필요한 의존성을 직접 넣어서 빠르게 검증할 수 있습니다.
+
+필드 주입을 사용하면 이런 테스트가 어려워집니다. private 필드에 Spring이 값을 넣어주는 구조라서, 테스트 코드에서 객체를 직접 만들었을 때 의존성이 비어 있을 수 있기 때문입니다.
+
+## 5. 필드 주입
+
+필드 주입은 필드에 직접 `@Autowired`를 붙이는 방식입니다.
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+코드가 짧아 보여서 처음에는 편해 보일 수 있습니다. 하지만 실무에서는 권장하지 않습니다.
+
+필드 주입의 문제는 다음과 같습니다.
+
+- 의존성이 반드시 필요한지 생성자만 봐서는 알기 어렵습니다.
+- `final`을 사용할 수 없습니다.
+- Spring 컨테이너 밖에서 객체를 직접 만들면 의존성이 주입되지 않습니다.
+- 테스트에서 대체 객체를 넣기 어렵습니다.
+- 순환 참조 같은 설계 문제를 늦게 발견할 수 있습니다.
+
+그래서 애플리케이션 코드에서는 필드 주입보다 생성자 주입을 기본으로 선택하는 것이 좋습니다.
+
+## 6. Setter 주입
+
+Setter 주입은 Setter 메서드를 통해 의존성을 주입받는 방식입니다.
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class NotificationService {
+
+    private MessageSender messageSender;
+
+    @Autowired
+    public void setMessageSender(MessageSender messageSender) {
+        this.messageSender = messageSender;
+    }
+}
+```
+
+Setter 주입은 의존성이 선택 사항일 때 사용할 수 있습니다. 하지만 대부분의 서비스 객체는 필요한 의존성이 없으면 정상적으로 동작할 수 없기 때문에, 기본 방식으로는 생성자 주입이 더 적합합니다.
+
+Setter 주입을 사용할 때는 객체가 생성된 뒤 의존성이 바뀔 수 있다는 점도 고려해야 합니다. 변경 가능한 상태가 늘어나면 코드 흐름을 추적하기 어려워질 수 있습니다.
+
+## 7. 주입 방식 비교
+
+세 가지 방식을 표로 정리하면 다음과 같습니다.
+
+| 방식 | 장점 | 단점 | 추천 |
+|------|------|------|------|
+| 생성자 주입 | 필수 의존성 표현, `final` 사용 가능, 테스트 쉬움 | 생성자 코드가 필요함 | 기본 선택 |
+| 필드 주입 | 코드가 짧음 | 테스트 어려움, 불변성 표현 불가 | 애플리케이션 코드에서는 지양 |
+| Setter 주입 | 선택 의존성 표현 가능 | 객체 생성 후 상태 변경 가능 | 선택 의존성에 제한적으로 사용 |
+
+실무에서는 대부분 생성자 주입을 사용하고, 정말 선택적인 의존성이 필요할 때만 Setter 주입을 고려합니다.
+
+## 8. @Autowired는 언제 생략할 수 있을까?
+
+생성자가 하나뿐이라면 `@Autowired`를 생략할 수 있습니다.
+
+```java
+@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+}
+```
+
+위 코드는 정상적으로 동작합니다. Spring이 생성자를 보고 `ProductRepository` Bean을 주입합니다.
+
+하지만 생성자가 여러 개라면 어떤 생성자를 사용할지 Spring이 판단할 수 없으므로 `@Autowired`를 명시해야 할 수 있습니다.
+
+```java
+@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    public ProductService() {
+        this.productRepository = null;
+    }
+
+    @Autowired
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+}
+```
+
+다만 이런 구조는 특별한 이유가 없다면 피하는 것이 좋습니다. 서비스 Bean은 필요한 의존성을 생성자 하나로 명확히 받는 편이 읽기 쉽습니다.
+
+## 9. 같은 타입의 Bean이 여러 개 있으면?
+
+의존성 주입은 타입을 기준으로 Bean을 찾습니다. 그런데 같은 타입의 Bean이 여러 개 있으면 Spring은 어떤 Bean을 넣어야 할지 모를 수 있습니다.
+
+```java
+public interface MessageSender {
+
+    void send(String message);
+}
+```
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+public class EmailMessageSender implements MessageSender {
+
+    @Override
+    public void send(String message) {
+        System.out.println("email: " + message);
+    }
+}
+```
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+public class SmsMessageSender implements MessageSender {
+
+    @Override
+    public void send(String message) {
+        System.out.println("sms: " + message);
+    }
+}
+```
+
+이 상태에서 아래처럼 주입하면 `MessageSender` 타입 Bean이 두 개라서 충돌할 수 있습니다.
+
+```java
+@Service
+public class NotificationService {
+
+    private final MessageSender messageSender;
+
+    public NotificationService(MessageSender messageSender) {
+        this.messageSender = messageSender;
+    }
+}
+```
+
+이때는 `@Qualifier`로 Bean 이름을 지정할 수 있습니다.
+
+```java
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class NotificationService {
+
+    private final MessageSender messageSender;
+
+    public NotificationService(
+        @Qualifier("emailMessageSender") MessageSender messageSender
+    ) {
+        this.messageSender = messageSender;
+    }
+}
+```
+
+또는 특정 Bean을 기본으로 사용하고 싶다면 `@Primary`를 사용할 수도 있습니다.
+
+```java
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
+
+@Primary
+@Component
+public class EmailMessageSender implements MessageSender {
+
+    @Override
+    public void send(String message) {
+        System.out.println("email: " + message);
+    }
+}
+```
+
+## 10. 실무에서 사용하는 기준
+
+제가 Spring 프로젝트에서 의존성 주입 방식을 고를 때는 아래 기준을 사용합니다.
+
+- 서비스, 컨트롤러, 레포지토리처럼 필수 의존성이 있는 Bean은 생성자 주입을 사용합니다.
+- 생성자 주입에서는 필드를 `final`로 선언합니다.
+- Lombok을 사용하는 프로젝트라면 `@RequiredArgsConstructor`를 사용해 생성자 코드를 줄일 수 있습니다.
+- 선택적인 의존성이 아니라면 Setter 주입은 피합니다.
+- 필드 주입은 테스트 코드나 일부 프레임워크 통합 상황이 아니면 사용하지 않습니다.
+- 같은 타입의 Bean이 여러 개라면 `@Qualifier`보다 먼저 설계상 역할을 분리할 수 있는지 검토합니다.
+
+예를 들어 Lombok을 사용하는 프로젝트에서는 다음처럼 작성할 수 있습니다.
+
+```java
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@RequiredArgsConstructor
+@Service
+public class OrderService {
+
+    private final PaymentService paymentService;
+}
+```
+
+`@RequiredArgsConstructor`는 `final` 필드를 파라미터로 받는 생성자를 만들어줍니다. 다만 Lombok을 사용하지 않는 프로젝트라면 생성자를 직접 작성해도 충분합니다.
+
+## 11. 자주 하는 실수
+
+의존성 주입을 처음 사용할 때 자주 만나는 실수는 다음과 같습니다.
+
+### 11.1. DTO나 Entity를 Bean으로 주입하려고 하는 경우
+
+요청 DTO, 응답 DTO, Entity는 보통 Spring Bean이 아닙니다.
+
+```java
+public class UserCreateRequest {
+
+    private String name;
+    private String email;
+}
+```
+
+이런 객체는 요청 데이터를 담거나 도메인 상태를 표현하기 위한 객체입니다. Spring 컨테이너가 생명주기를 관리해야 하는 서비스 객체가 아니므로 `@Autowired`로 주입하는 대상이 아닙니다.
+
+### 11.2. 주입되지 않는 객체를 new로 직접 만드는 경우
+
+아래 코드는 `UserService`를 직접 생성합니다.
+
+```java
+UserService userService = new UserService(userRepository);
+```
+
+생성자 주입이라면 테스트에서는 이런 방식이 유용할 수 있습니다. 하지만 애플리케이션 코드에서 Bean을 직접 `new`로 만들면 Spring이 관리하는 프록시, 트랜잭션, 설정 등이 적용되지 않을 수 있습니다.
+
+애플리케이션 흐름 안에서는 Spring이 관리하는 Bean을 주입받아 사용하는 것이 기본입니다.
+
+### 11.3. 순환 참조를 필드 주입으로 숨기는 경우
+
+`AService`가 `BService`를 필요로 하고, `BService`가 다시 `AService`를 필요로 하면 순환 참조가 생깁니다.
+
+```text
+AService → BService → AService
+```
+
+생성자 주입은 이런 문제를 애플리케이션 시작 시점에 비교적 빨리 드러냅니다. 반대로 필드 주입은 설계 문제를 늦게 발견하게 만들 수 있습니다.
+
+순환 참조가 생겼다면 주입 방식을 바꾸기보다 책임을 나누고 구조를 다시 보는 것이 좋습니다.
+
+## 12. 참고 자료
+
+- [Spring Framework - Using `@Autowired`](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired.html)
+- [Spring Framework - Fine-tuning Annotation-based Autowiring with `@Primary` or `@Fallback`](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-primary.html)
+- [Spring Framework - Fine-tuning Annotation-based Autowiring with Qualifiers](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired-qualifiers.html)
+
+## 13. 정리
+
+`@Autowired`는 Spring이 필요한 Bean을 찾아 의존성을 주입하도록 하는 어노테이션입니다. 하지만 최근 Spring 프로젝트에서는 생성자가 하나뿐인 경우 `@Autowired`를 생략하고 생성자 주입을 사용하는 경우가 많습니다.
+
+- 생성자 주입은 필수 의존성을 명확히 표현하고 테스트하기 쉽습니다.
+- 필드 주입은 코드가 짧지만 불변성과 테스트 측면에서 불리합니다.
+- Setter 주입은 선택적인 의존성이 있을 때 제한적으로 사용할 수 있습니다.
+- 같은 타입의 Bean이 여러 개 있으면 `@Qualifier`나 `@Primary`로 주입 대상을 명확히 할 수 있습니다.
+- 실무에서는 생성자 주입을 기본으로 두고, 필드는 `final`로 선언하는 방식을 추천합니다.
+
+의존성 주입 방식을 이해하면 Spring에서 객체 관계를 더 명확하게 설계할 수 있고, 테스트하기 쉬운 코드로 이어갈 수 있습니다.

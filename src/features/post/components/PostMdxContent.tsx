@@ -11,6 +11,12 @@ interface Props {
   content: string;
 }
 
+const linkClassName =
+  'font-semibold text-app-primary dark:text-app-dark-primary underline decoration-app-primary/30 dark:decoration-app-dark-primary/30 underline-offset-4 md:transition-colors md:ease-in-out md:duration-150 cursor-pointer hover:decoration-app-primary dark:hover:decoration-app-dark-primary';
+
+const isExternalHref = (href: unknown) =>
+  typeof href === 'string' && /^https?:\/\//.test(href);
+
 export default async function PostMdxContent({ content }: Props) {
   return (
     <MDXRemote
@@ -106,12 +112,18 @@ export default async function PostMdxContent({ content }: Props) {
           return <p className="break-all sm:break-words mb-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted" {...props} />;
         },
         img: (props) => <PostContentImage imageProps={props} />,
-        a: (props) => (
-          <Link
-            className="font-semibold text-app-primary dark:text-app-dark-primary underline decoration-app-primary/30 dark:decoration-app-dark-primary/30 underline-offset-4 md:transition-colors md:ease-in-out md:duration-150 cursor-pointer hover:decoration-app-primary dark:hover:decoration-app-dark-primary"
-            {...props}
-          />
-        ),
+        a: ({ href, ...props }) =>
+          isExternalHref(href) ? (
+            <a
+              className={linkClassName}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              {...props}
+            />
+          ) : (
+            <Link className={linkClassName} href={href ?? ''} {...props} />
+          ),
         em: (props) => <em className="italic" {...props} />,
         u: (props) => <em className="underline" {...props} />,
         table: (props) => (

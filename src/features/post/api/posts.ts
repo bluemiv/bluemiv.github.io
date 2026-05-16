@@ -51,11 +51,14 @@ const parseShortPost = (filePath: string): ShortPost => {
 };
 
 export const getAllPosts = (): Post[] => {
-  const categories = fs.readdirSync(postsDirectory);
+  const categories = fs
+    .readdirSync(postsDirectory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('_'))
+    .map((entry) => entry.name);
 
   const posts = categories.flatMap((category) => {
     const categoryPath = path.join(postsDirectory, category);
-    const slugs = fs.readdirSync(categoryPath);
+    const slugs = fs.readdirSync(categoryPath).filter((fileName) => fileName.endsWith('.mdx'));
     return slugs.map((fileName) => {
       const filePath = path.join(categoryPath, fileName);
       return parsePost(filePath, category);

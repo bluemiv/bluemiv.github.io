@@ -218,6 +218,24 @@ public class UserService {
 DI를 사용하면 필요한 객체를 외부에서 전달받습니다.
 
 ```java
+public interface UserRepository {
+
+    void save(String name);
+}
+```
+
+```java
+@Repository
+public class MemoryUserRepository implements UserRepository {
+
+    @Override
+    public void save(String name) {
+        System.out.println(name + " 저장");
+    }
+}
+```
+
+```java
 public class UserService {
 
     private final UserRepository userRepository;
@@ -237,7 +255,7 @@ public class UserService {
 테스트 코드에서는 가짜 구현체를 넣을 수도 있습니다.
 
 ```java
-public class FakeUserRepository extends UserRepository {
+public class FakeUserRepository implements UserRepository {
 
     @Override
     public void save(String name) {
@@ -252,6 +270,8 @@ UserService userService = new UserService(fakeRepository);
 ```
 
 이렇게 의존성을 외부에서 주입받으면 코드가 더 유연해집니다.
+
+실무에서는 이처럼 인터페이스를 사이에 두면 구현체를 교체하기 쉬워집니다. 처음부터 모든 클래스에 인터페이스를 만들 필요는 없지만, 저장소, 외부 API 클라이언트, 결제 모듈처럼 테스트 대역이나 구현체 교체 가능성이 높은 곳에서는 인터페이스 기반 설계가 도움이 됩니다.
 
 ## 8. 생성자 주입을 권장하는 이유
 
@@ -327,7 +347,23 @@ Spring은 DI를 통해 IoC를 실현합니다.
 
 개발자는 필요한 객체를 직접 만들지 않고, 생성자나 어노테이션을 통해 필요한 의존성을 선언합니다. Spring은 그 정보를 바탕으로 객체를 생성하고 연결합니다.
 
-## 10. 정리
+## 10. 실무에서 자주 하는 실수
+
+IoC와 DI를 처음 사용할 때는 “Spring이 알아서 해준다”는 점만 기억하고, 의존 관계가 어디서 생기는지 놓치기 쉽습니다.
+
+- 생성자 파라미터가 많아지면 클래스가 너무 많은 책임을 가진 것은 아닌지 확인합니다.
+- 필드 주입은 간단해 보여도 테스트가 어려워지므로 생성자 주입을 우선합니다.
+- Bean이 여러 개라면 어떤 구현체를 주입할지 명확히 정해야 합니다.
+- 순환 참조가 생긴다면 두 객체의 책임이 지나치게 얽혀 있는지 의심합니다.
+
+DI는 단순히 `new`를 없애는 기술이 아니라, 객체 간 책임과 협력 관계를 명확히 드러내는 설계 방식에 가깝습니다.
+
+## 11. 참고 자료
+
+- [Spring Framework Core Technologies](https://docs.spring.io/spring-framework/reference/core.html)
+- [Spring Framework Bean Overview](https://docs.spring.io/spring-framework/reference/core/beans.html)
+
+## 12. 정리
 
 IoC와 DI는 Spring의 핵심 개념입니다. 처음에는 용어가 어렵지만, 실제로는 객체 생성과 연결을 Spring에게 맡기는 방식이라고 이해하면 됩니다.
 

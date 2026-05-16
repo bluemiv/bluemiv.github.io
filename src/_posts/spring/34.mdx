@@ -1,0 +1,374 @@
+---
+title: Bean과 Component 이해하기
+description: Spring의 @Bean과 @Component 어노테이션의 차이점과 사용법을 알아봅니다.
+createdAt: 2025-08-17T03:49:56+09:00
+updatedAt: 2025-08-17T03:49:56+09:00
+tags: ['spring', 'springboot', 'java', 'bean', 'component']
+release: true
+author: Taehong Kim
+thumbnail: /r/i/spring/34/thumbnail.webp
+---
+
+## 1. Bean과 Component가 왜 중요할까?
+
+Spring을 사용하다 보면 `Bean`, `Component`, `@Bean`, `@Component`라는 용어를 자주 만나게 됩니다.
+
+이 개념을 이해해야 Spring이 객체를 어떻게 만들고, 어떻게 의존성을 주입하는지 자연스럽게 이해할 수 있습니다. 이전 글인 [IoC와 DI 이해하기](/blog/spring/33)에서 Spring 컨테이너가 객체를 생성하고 연결한다고 했는데, 이때 Spring 컨테이너가 관리하는 객체를 `Bean`이라고 부릅니다.
+
+```text
+Spring Container
+├── UserController Bean
+├── UserService Bean
+└── UserRepository Bean
+```
+
+즉, Bean은 Spring이 생성하고 관리하는 객체입니다.
+
+## 2. Bean이란?
+
+`Bean`은 Spring 컨테이너에 등록되어 관리되는 객체입니다.
+
+일반 Java 객체와 Bean의 차이는 “누가 객체를 생성하고 관리하느냐”에 있습니다.
+
+```java
+UserService userService = new UserService();
+```
+
+위 코드는 개발자가 직접 객체를 생성합니다. 이 객체는 단순한 Java 객체일 뿐, Spring 컨테이너가 관리하지 않습니다.
+
+반면 아래처럼 Spring이 객체를 생성하고 컨테이너에 등록하면 Bean이 됩니다.
+
+```java
+@Service
+public class UserService {
+}
+```
+
+Spring Boot 애플리케이션이 실행될 때 Spring은 `@Service`가 붙은 클래스를 찾아 객체를 생성하고 Bean으로 등록합니다.
+
+```text
+UserService class
+    ↓
+Spring Container
+    ↓
+UserService Bean
+```
+
+Bean으로 등록된 객체는 다른 Bean에 의존성으로 주입될 수 있습니다.
+
+```java
+@Service
+public class OrderService {
+
+    private final UserService userService;
+
+    public OrderService(UserService userService) {
+        this.userService = userService;
+    }
+}
+```
+
+위 코드에서 `OrderService`도 Bean이고, `UserService`도 Bean입니다. Spring은 `OrderService`를 만들 때 필요한 `UserService` Bean을 찾아 생성자에 넣어줍니다.
+
+## 3. @Component란?
+
+`@Component`는 클래스를 Spring Bean으로 등록하기 위한 가장 기본적인 어노테이션입니다.
+
+```java
+import org.springframework.stereotype.Component;
+
+@Component
+public class PasswordEncoder {
+
+    public String encode(String password) {
+        return "{encoded}" + password;
+    }
+}
+```
+
+위 클래스는 Spring의 컴포넌트 스캔 대상이 됩니다. 애플리케이션이 실행되면 Spring은 `PasswordEncoder` 객체를 생성하고 Bean으로 등록합니다.
+
+```java
+@Service
+public class UserService {
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+}
+```
+
+이후 다른 Bean에서 `PasswordEncoder`를 생성자 파라미터로 받으면 Spring이 자동으로 주입해줍니다.
+
+## 4. 컴포넌트 스캔이란?
+
+Spring은 모든 클래스를 무조건 Bean으로 등록하지 않습니다. 컴포넌트 스캔 대상이 되는 클래스를 찾아서 Bean으로 등록합니다.
+
+Spring Boot에서는 `@SpringBootApplication`이 붙은 메인 클래스의 패키지를 기준으로 하위 패키지를 스캔합니다. 프로젝트 구조와 메인 클래스 위치는 [Spring Boot 프로젝트 구조 이해하기](/blog/spring/31)에서 설명한 내용과 연결됩니다.
+
+```text
+com/example/demo/
+├── DemoApplication.java
+├── controller/
+│   └── UserController.java
+├── service/
+│   └── UserService.java
+└── repository/
+    └── UserRepository.java
+```
+
+`DemoApplication.java`가 `com.example.demo` 패키지에 있다면, Spring은 기본적으로 `com.example.demo` 아래의 클래스를 스캔합니다.
+
+```java
+package com.example.demo;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DemoApplication {
+}
+```
+
+그래서 특별한 이유가 없다면 메인 클래스는 프로젝트의 최상위 패키지에 두는 것이 좋습니다.
+
+## 5. @Component 계열 어노테이션
+
+실무에서는 `@Component`보다 `@Controller`, `@Service`, `@Repository`를 더 자주 사용합니다. 이 어노테이션들은 내부적으로 `@Component`를 포함하고 있습니다.
+
+| 어노테이션 | 역할 |
+|------------|------|
+| `@Component` | 일반적인 Spring Bean |
+| `@Controller` | 웹 요청을 처리하는 Controller 계층 |
+| `@RestController` | REST API 응답을 반환하는 Controller |
+| `@Service` | 비즈니스 로직을 처리하는 Service 계층 |
+| `@Repository` | 데이터 접근 계층 |
+
+예를 들어 `@Service`는 다음처럼 비즈니스 로직을 담당하는 클래스에 사용합니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    public void join(String name) {
+        System.out.println(name + " 가입 처리");
+    }
+}
+```
+
+`@Repository`는 데이터베이스 접근을 담당하는 클래스에 사용합니다.
+
+```java
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserRepository {
+
+    public void save(String name) {
+        System.out.println(name + " 저장");
+    }
+}
+```
+
+기능적으로는 둘 다 Bean으로 등록되지만, 역할을 드러내기 위해 계층에 맞는 어노테이션을 사용하는 것이 좋습니다.
+
+## 6. @Bean이란?
+
+`@Bean`은 메서드가 반환하는 객체를 Spring Bean으로 등록할 때 사용합니다.
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new PasswordEncoder();
+    }
+}
+```
+
+위 코드에서 `passwordEncoder()` 메서드가 반환하는 `PasswordEncoder` 객체가 Bean으로 등록됩니다.
+
+```text
+AppConfig.passwordEncoder()
+    ↓
+PasswordEncoder 객체 생성
+    ↓
+Spring Container에 Bean 등록
+```
+
+`@Bean`은 개발자가 직접 객체 생성 과정을 제어하고 싶을 때 사용합니다.
+
+## 7. @Component와 @Bean 차이
+
+`@Component`와 `@Bean`은 둘 다 Bean을 등록한다는 점에서는 같습니다. 하지만 사용하는 위치와 목적이 다릅니다.
+
+| 항목 | @Component | @Bean |
+|------|------------|-------|
+| 사용 위치 | 클래스 | 메서드 |
+| 등록 방식 | 컴포넌트 스캔 | 설정 클래스에서 직접 등록 |
+| 주로 쓰는 경우 | 내가 만든 클래스 | 외부 라이브러리 객체 또는 생성 로직이 필요한 객체 |
+| 객체 생성 제어 | Spring이 기본 생성 | 개발자가 메서드에서 직접 생성 |
+
+내가 직접 작성한 클래스라면 보통 `@Component`, `@Service`, `@Repository`를 사용합니다.
+
+```java
+@Service
+public class OrderService {
+}
+```
+
+반면 외부 라이브러리 클래스처럼 내가 어노테이션을 붙일 수 없는 객체는 `@Bean`으로 등록합니다.
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+}
+```
+
+`ObjectMapper`는 Jackson 라이브러리의 클래스이므로 클래스 선언부에 직접 `@Component`를 붙일 수 없습니다. 이런 경우 설정 클래스에서 `@Bean`으로 등록합니다.
+
+## 8. Bean 이름
+
+Spring Bean에는 이름이 있습니다. 기본적으로 클래스 이름의 첫 글자를 소문자로 바꾼 이름이 Bean 이름이 됩니다.
+
+```java
+@Service
+public class UserService {
+}
+```
+
+위 Bean의 기본 이름은 `userService`입니다.
+
+`@Bean`을 사용할 때는 메서드 이름이 Bean 이름이 됩니다.
+
+```java
+@Bean
+public PasswordEncoder passwordEncoder() {
+    return new PasswordEncoder();
+}
+```
+
+위 Bean의 이름은 `passwordEncoder`입니다.
+
+필요하다면 이름을 직접 지정할 수도 있습니다.
+
+```java
+@Bean("customPasswordEncoder")
+public PasswordEncoder passwordEncoder() {
+    return new PasswordEncoder();
+}
+```
+
+대부분의 경우 Bean 이름을 직접 사용할 일은 많지 않습니다. 하지만 같은 타입의 Bean이 여러 개 있을 때는 Bean 이름이 중요해질 수 있습니다.
+
+## 9. 실무에서 선택하는 기준
+
+제가 Spring 프로젝트에서 Bean 등록 방식을 고를 때는 아래 기준을 사용합니다.
+
+- 직접 만든 서비스/레포지토리/컨트롤러는 `@Service`, `@Repository`, `@RestController`를 사용합니다.
+- 역할이 특정 계층에 속하지 않는 공통 유틸성 객체는 `@Component`를 사용합니다.
+- 외부 라이브러리 객체는 `@Bean`으로 등록합니다.
+- 생성자 인자나 초기 설정이 복잡한 객체도 `@Bean`으로 등록합니다.
+- 테스트에서 교체할 가능성이 높은 객체는 인터페이스와 함께 설계합니다.
+
+예를 들어 결제 API 클라이언트를 만든다면 직접 작성한 클래스이므로 `@Component`로 등록할 수 있습니다.
+
+```java
+@Component
+public class PaymentClient {
+}
+```
+
+하지만 외부 SDK 객체를 생성해야 한다면 `@Bean`이 더 자연스럽습니다.
+
+```java
+@Configuration
+public class PaymentConfig {
+
+    @Bean
+    public PaymentSdkClient paymentSdkClient() {
+        return new PaymentSdkClient("api-key");
+    }
+}
+```
+
+운영 코드에서는 `"api-key"`처럼 민감한 값을 직접 넣지 말고, [application.yml과 application.properties 설정](/blog/spring/32)에서 다룬 것처럼 환경변수나 설정 파일을 통해 주입받는 것이 안전합니다.
+
+## 10. 자주 하는 실수
+
+Bean과 Component를 처음 사용할 때 자주 하는 실수는 다음과 같습니다.
+
+### 10.1. 메인 클래스 바깥 패키지에 Component를 만드는 경우
+
+```text
+com/example/demo/
+└── DemoApplication.java
+
+com/example/common/
+└── PasswordEncoder.java
+```
+
+`DemoApplication.java`가 `com.example.demo`에 있으면 `com.example.common`은 기본 컴포넌트 스캔 범위에 포함되지 않습니다. 이 경우 `@Component`를 붙여도 Bean으로 등록되지 않을 수 있습니다.
+
+가능하면 메인 클래스 하위 패키지에 클래스를 두거나, 스캔 범위를 명시적으로 설정해야 합니다.
+
+### 10.2. 같은 타입의 Bean을 여러 개 등록하는 경우
+
+```java
+@Bean
+public PasswordEncoder bcryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+
+@Bean
+public PasswordEncoder noopPasswordEncoder() {
+    return NoOpPasswordEncoder.getInstance();
+}
+```
+
+같은 `PasswordEncoder` 타입의 Bean이 여러 개 있으면 Spring은 어떤 Bean을 주입해야 할지 모를 수 있습니다. 이때는 `@Primary`, `@Qualifier` 같은 방법으로 사용할 Bean을 명확히 지정해야 합니다.
+
+### 10.3. 모든 클래스를 무조건 Bean으로 등록하는 경우
+
+모든 객체가 Bean이어야 하는 것은 아닙니다. 단순한 값 객체, DTO, Entity는 보통 Spring Bean으로 등록하지 않습니다.
+
+```java
+public class UserCreateRequest {
+
+    private String name;
+    private String email;
+}
+```
+
+DTO는 요청/응답 데이터를 담는 객체이지, Spring 컨테이너가 생명주기를 관리해야 하는 객체가 아닙니다.
+
+## 11. 참고 자료
+
+- [Spring Framework Bean Overview](https://docs.spring.io/spring-framework/reference/core/beans.html)
+- [Using the @Bean Annotation](https://docs.spring.io/spring-framework/reference/core/beans/java/bean-annotation.html)
+- [Spring Stereotype Annotations](https://docs.spring.io/spring-framework/reference/core/beans/classpath-scanning.html)
+
+## 12. 정리
+
+Bean과 Component는 Spring이 객체를 관리하는 방식을 이해하기 위한 핵심 개념입니다.
+
+- Bean은 Spring 컨테이너가 생성하고 관리하는 객체입니다.
+- `@Component`는 클래스를 컴포넌트 스캔으로 Bean 등록할 때 사용합니다.
+- `@Service`, `@Repository`, `@Controller`는 `@Component`를 포함한 계층별 어노테이션입니다.
+- `@Bean`은 메서드가 반환하는 객체를 Bean으로 등록할 때 사용합니다.
+- 직접 만든 클래스는 보통 `@Component` 계열을 사용하고, 외부 라이브러리 객체는 `@Bean`으로 등록합니다.
+- 모든 객체를 Bean으로 만들 필요는 없습니다. DTO, Entity, 단순 값 객체는 보통 Bean으로 등록하지 않습니다.
+
+Bean 등록 방식을 이해하면 이후에 `@Autowired`, 생성자 주입, Bean 생명주기, Scope 같은 개념도 훨씬 쉽게 이해할 수 있습니다.

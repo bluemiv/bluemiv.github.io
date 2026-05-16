@@ -22,6 +22,8 @@ Bluemiv Tech Blog는 개인 기술 블로그이면서 개발 지식 아카이브
 
 - 의미 없는 그라디언트 배경, 장식용 blob, 과한 glassmorphism
 - 카드 안의 카드 구조
+- 글 본문과 TOC를 습관적으로 카드/박스로 감싸는 구조
+- 날짜, 작성자, 수정일 같은 metadata를 의미 없이 pill badge로 만드는 패턴
 - 마케팅 사이트처럼 큰 hero만 강조하는 첫 화면
 - 블로그 본문보다 썸네일이 더 강한 레이아웃
 - 낮은 contrast의 회색 텍스트
@@ -292,16 +294,24 @@ Article detail:
   - description
   - author/date/updatedAt
   - tags
+- Metadata presentation
+  - 날짜, 작성자, 수정일은 액션 요소가 아니므로 pill/card로 감싸지 않는다.
+  - category/tag처럼 클릭 가능한 분류만 chip 형태를 쓴다.
+  - 메타 정보는 작은 아이콘 + muted text + 자연스러운 inline layout을 기본으로 한다.
 - Optional thumbnail
   - title 아래보다는 metadata 위/아래 중 한 위치로 통일
   - 16:9 또는 2.4:1 비율
 - Body
   - max width 760px
   - paragraph rhythm 일정
+  - 본문은 카드로 감싸지 않는다. article surface는 페이지 배경 위에 열려 있어야 한다.
+  - 구분이 필요하면 큰 박스보다 h2/h3, spacing, divider, code block, blockquote로 해결한다.
 - Right TOC
   - active heading 표시
   - max height with scroll
   - “맨 위로” action
+  - TOC는 보조 UI이므로 카드처럼 무겁게 감싸지 않는다.
+  - 얇은 vertical rail, active dot/text, subtle divider 중심으로 표현한다.
 - Bottom
   - related posts
   - prev/next
@@ -473,6 +483,8 @@ Keyboard:
 - H3+ indented by 12px steps
 - Use textContent instead of innerHTML for labels when possible
 - Include reading progress bar at article top or header bottom
+- Avoid card container by default. TOC should feel like a reading guide, not a separate widget.
+- Use a thin rail/progress line and subtle section dividers before using borders or surface boxes.
 
 ### 8.9 Code Blocks
 
@@ -701,4 +713,3 @@ Before shipping redesign:
 - Contrast spot-check for text, links, tags, code
 - Long title and long code block test
 - Reduced motion check
-

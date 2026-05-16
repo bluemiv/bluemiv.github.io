@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { ChevronRight, ListTree } from 'lucide-react';
 import { RSSLink } from '@/features/post/components';
@@ -8,6 +8,7 @@ import { RSSLink } from '@/features/post/components';
 type TocItem = { level: string; id: string; label: string };
 
 export default function TableOfContent() {
+  const tocListRef = useRef<HTMLUListElement>(null);
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [activeTocItemId, setActiveTocItemId] = useState<string | null>(null);
   const activeIndex = Math.max(
@@ -52,6 +53,25 @@ export default function TableOfContent() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!activeTocItemId) return;
+
+    const list = tocListRef.current;
+    const activeLink = list?.querySelector<HTMLAnchorElement>(
+      `[data-toc-id="${CSS.escape(activeTocItemId)}"]`,
+    );
+
+    if (!list || !activeLink) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const targetTop = activeLink.offsetTop - list.clientHeight / 2 + activeLink.clientHeight / 2;
+
+    list.scrollTo({
+      top: Math.max(targetTop, 0),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  }, [activeTocItemId]);
+
   return (
     <aside className="motion-enter hidden w-full sticky top-[72px] lg:inline-block lg:max-w-[250px] md:right-0 pt-md">
       <div className="pl-md">
@@ -73,13 +93,18 @@ export default function TableOfContent() {
               style={{ height: `${progress}%` }}
             />
           </div>
-          <ul className="motion-stagger flex flex-col gap-[3px] text-sm max-h-[58vh] overflow-hidden hover:overflow-y-auto pr-xs pb-xs">
+          <ul
+            ref={tocListRef}
+            aria-label="본문 목차"
+            className="motion-stagger flex flex-col gap-[3px] text-sm max-h-[58vh] overflow-hidden hover:overflow-y-auto pr-xs pb-xs"
+          >
             {tocItems.map((item) => {
               const isActive = activeTocItemId === item.id;
               return (
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
+                    data-toc-id={item.id}
                     onClick={(e) => {
                       e.preventDefault();
                       const targetElement = document.getElementById(item.id);

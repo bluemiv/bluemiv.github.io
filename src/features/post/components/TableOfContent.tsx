@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { RSSLink } from '@/features/post/components';
 
+type TocItem = { level: string; id: string; label: string };
+
 export default function TableOfContent() {
-  const [tocItems, setTocItems] = useState<{ level: string; id: string; label: string }[]>([]);
+  const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [activeTocItemId, setActiveTocItemId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function TableOfContent() {
     );
 
     const headingTags = article.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    const nextTocItems = [];
+    const nextTocItems: TocItem[] = [];
     for (const heading of headingTags) {
       nextTocItems.push({
         id: heading.id,
@@ -32,9 +34,14 @@ export default function TableOfContent() {
       });
       observer.observe(heading);
     }
-    setTocItems(nextTocItems);
-    setActiveTocItemId(nextTocItems[0]?.id);
+
+    const frameId = requestAnimationFrame(() => {
+      setTocItems(nextTocItems);
+      setActiveTocItemId(nextTocItems[0]?.id);
+    });
+
     return () => {
+      cancelAnimationFrame(frameId);
       observer.disconnect();
     };
   }, []);

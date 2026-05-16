@@ -157,12 +157,105 @@ html.dark {
     }
 }
 
+@keyframes articleHeroReveal {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+        filter: blur(0);
+    }
+}
+
+@keyframes articleTitleAccent {
+    from {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    to {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes articleThumbnailReveal {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0) scale(0.985);
+        clip-path: inset(8% 4% round 1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        clip-path: inset(0 round 1rem);
+    }
+}
+
 .motion-enter {
     animation: appRiseIn 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .motion-header {
     animation: appHeaderDrop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.article-hero-thumbnail {
+    animation: articleThumbnailReveal 0.78s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.article-hero-meta,
+.article-hero-title,
+.article-hero-description,
+.article-hero-detail,
+.article-hero-tags {
+    animation: articleHeroReveal 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.article-hero-title {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    text-wrap: balance;
+}
+
+.article-hero-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.16em;
+    width: min(9rem, 45%);
+    height: 0.08em;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, var(--color-app-primary), var(--color-app-accent), transparent);
+    transform-origin: left;
+    animation: articleTitleAccent 0.66s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.dark .article-hero-title::after {
+    background: linear-gradient(90deg, var(--color-app-dark-primary), var(--color-app-dark-accent), transparent);
+}
+
+.article-hero-meta {
+    animation-delay: 0.08s;
+}
+
+.article-hero-title {
+    animation-delay: 0.14s;
+}
+
+.article-hero-description {
+    animation-delay: 0.2s;
+}
+
+.article-hero-detail {
+    animation-delay: 0.26s;
+}
+
+.article-hero-tags {
+    animation-delay: 0.32s;
 }
 
 .motion-stagger > * {

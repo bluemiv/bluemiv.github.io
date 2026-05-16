@@ -1,10 +1,12 @@
 const CACHE_NAME = '__CACHE_NAME__';
+const BUILD_VERSION = '__BUILD_VERSION__';
+const CACHE_PREFIX = 'bluemiv-blog-';
 
 async function cleanupCaches() {
   const cacheNames = await caches.keys();
   await Promise.all(
     cacheNames.map(async (cacheName) => {
-      if (CACHE_NAME !== cacheName) {
+      if (cacheName.startsWith(CACHE_PREFIX) && CACHE_NAME !== cacheName) {
         console.log('[SW] 새로운 컨텐츠가 있음. 캐시 정리');
         await caches.delete(cacheName);
       }
@@ -14,7 +16,20 @@ async function cleanupCaches() {
 
 async function sendPostMessage() {
   const allClients = await self.clients.matchAll({ includeUncontrolled: true });
-  allClients.forEach((client) => client.postMessage({ type: 'NEW_VERSION_AVAILABLE' }));
+  allClients.forEach((client) =>
+    client.postMessage({ type: 'CONTENT_UPDATE_AVAILABLE', version: BUILD_VERSION }),
+  );
+}
+
+async function hasPreviousContentCache() {
+  const cacheNames = await caches.keys();
+  return cacheNames.some(
+    (cacheName) => cacheName.startsWith(CACHE_PREFIX) && CACHE_NAME !== cacheName,
+  );
+}
+
+function shouldCacheResponse(response) {
+  return response && response.ok && response.status === 200 && response.type === 'basic';
 }
 
 self.addEventListener('install', () => {
@@ -24,9 +39,10 @@ self.addEventListener('install', () => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
+      const hasUpdate = await hasPreviousContentCache();
       await cleanupCaches();
       await self.clients.claim();
-      await sendPostMessage();
+      if (hasUpdate) await sendPostMessage();
     })(),
   );
 });
@@ -83,7 +99,7 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   // chrome extension 등 제외
-  if (url.protocol !== 'https:') return;
+  if (!['http:', 'https:'].includes(url.protocol)) return;
 
   // 외부 도메인 (Google Ads 등)은 제외
   if (url.origin !== self.location.origin) return;
@@ -95,15 +111,25 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.open(CACHE_NAME).then((cache) =>
       cache.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request).then(async (networkResponse) => {
-          const clonedResponse = networkResponse.clone();
-          await cache.put(event.request, clonedResponse);
-          return networkResponse;
-        });
+        const fetchPromise = fetch(event.request)
+          .then(async (networkResponse) => {
+            if (shouldCacheResponse(networkResponse)) {
+              await cache.put(event.request, networkResponse.clone());
+            }
 
-        event.waitUntil(fetchPromise);
+            return networkResponse;
+          })
+          .catch((error) => {
+            if (cachedResponse) return cachedResponse;
+            throw error;
+          });
 
-        return cachedResponse || fetch(event.request);
+        if (cachedResponse) {
+          event.waitUntil(fetchPromise.catch(() => undefined));
+          return cachedResponse;
+        }
+
+        return fetchPromise;
       }),
     ),
   );

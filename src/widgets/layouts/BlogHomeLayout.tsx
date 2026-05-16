@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
-import { ArrowRight, BookOpen, CalendarDays, Folder, Rss } from 'lucide-react';
+import { ArrowRight, BookOpen, CalendarDays, Folder, Rss, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllShortPosts, getCategories } from '@/features/post/api';
@@ -71,7 +71,8 @@ export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPage
 
 const HomeIntro = () => {
   return (
-    <section className="w-full rounded-xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface p-lg md:p-xl flex flex-col lg:flex-row lg:items-end justify-between gap-lg">
+    <section className="relative w-full overflow-hidden rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-lg md:p-xl flex flex-col lg:flex-row lg:items-end justify-between gap-lg">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-app-primary via-app-accent to-transparent dark:from-app-dark-primary dark:via-app-dark-accent" />
       <div className="flex flex-col gap-md max-w-[760px]">
         <div className="flex items-center gap-sm">
           <BookOpen
@@ -91,6 +92,16 @@ const HomeIntro = () => {
             Java, Spring, React, Next.js, 알고리즘을 중심으로 실무에서 다시 찾게 되는 기술 기록을
             모읍니다.
           </p>
+        </div>
+        <div className="flex flex-wrap gap-sm pt-xs">
+          {['Java', 'Spring', 'React', 'Next.js', 'Algorithm'].map((label) => (
+            <span
+              key={label}
+              className="rounded-full border border-app-border dark:border-app-dark-border bg-app-surface-muted/70 dark:bg-app-dark-surface-muted/70 px-sm py-xs text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
+            >
+              {label}
+            </span>
+          ))}
         </div>
       </div>
       <div className="flex flex-col sm:flex-row lg:flex-col gap-sm lg:min-w-[240px]">
@@ -118,12 +129,13 @@ const FeaturedPostCard = ({ post }: { post: Post }) => {
   return (
     <Link
       href={[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}
-      className="group w-full overflow-hidden rounded-xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface transition-all duration-150 ease-out hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:-translate-y-0.5"
+      className="group w-full overflow-hidden rounded-2xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface transition-all duration-150 ease-out hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:-translate-y-0.5"
     >
       <article className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] min-h-[320px]">
         <div className="p-lg md:p-xl flex flex-col gap-lg">
           <div className="flex flex-wrap items-center gap-sm text-sm">
-            <span className="rounded-full bg-app-primary-soft dark:bg-app-dark-primary-soft px-sm py-xs font-semibold text-app-primary dark:text-app-dark-primary">
+            <span className="inline-flex items-center gap-xs rounded-full bg-app-primary-soft dark:bg-app-dark-primary-soft px-sm py-xs font-semibold text-app-primary dark:text-app-dark-primary">
+              <Sparkles size={14} strokeWidth={2.2} />
               최신 글
             </span>
             <span className="text-app-text-subtle dark:text-app-dark-text-subtle inline-flex items-center gap-xs">
@@ -143,7 +155,7 @@ const FeaturedPostCard = ({ post }: { post: Post }) => {
               {post.metadata.description}
             </p>
           </div>
-          <div className="mt-auto flex flex-wrap gap-sm">
+          <div className="mt-auto flex flex-wrap items-center gap-sm">
             {post.metadata.tags.slice(0, 5).map((tag) => (
               <span
                 key={tag}
@@ -152,6 +164,10 @@ const FeaturedPostCard = ({ post }: { post: Post }) => {
                 #{tag}
               </span>
             ))}
+            <span className="inline-flex items-center gap-xs text-sm font-semibold text-app-primary dark:text-app-dark-primary">
+              읽기
+              <ArrowRight size={15} strokeWidth={2.2} />
+            </span>
           </div>
         </div>
         <div className="relative min-h-[220px] bg-app-surface-muted dark:bg-app-dark-surface-muted overflow-hidden">
@@ -186,10 +202,10 @@ const CategoryStrip = ({ categories }: { categories: [string, number][] }) => {
           <Link
             key={category}
             href={[ROUTE_PATH.BLOG_CATEGORY, category.toLowerCase(), '1'].join('/')}
-            className="min-w-fit rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface px-md py-sm transition-colors hover:border-app-primary dark:hover:border-app-dark-primary"
+            className="min-w-fit rounded-full border border-app-border dark:border-app-dark-border bg-app-surface/80 dark:bg-app-dark-surface/80 px-md py-sm transition-colors hover:border-app-primary dark:hover:border-app-dark-primary hover:text-app-primary dark:hover:text-app-dark-primary"
           >
             <span className="font-semibold text-app-text dark:text-app-dark-text">{category}</span>
-            <span className="ml-sm text-sm text-app-text-subtle dark:text-app-dark-text-subtle">
+            <span className="ml-sm rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[1px] text-xs text-app-text-subtle dark:text-app-dark-text-subtle">
               {count}
             </span>
           </Link>
@@ -206,9 +222,10 @@ const ShortPostsPreview = ({ posts }: { posts: ShortPost[] }) => {
         <SectionHeader title="짧은 글" description="가볍게 남긴 생각과 작은 기록입니다." />
         <Link
           href={[ROUTE_PATH.BLOG_SHORT, posts[0].metadata.slug].join('/')}
-          className="hidden sm:inline-flex text-sm font-semibold text-app-primary dark:text-app-dark-primary hover:underline"
+          className="hidden sm:inline-flex items-center gap-xs text-sm font-semibold text-app-primary dark:text-app-dark-primary hover:underline"
         >
           모두 보기
+          <ArrowRight size={15} strokeWidth={2.2} />
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-md w-full">

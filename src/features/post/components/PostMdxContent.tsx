@@ -3,6 +3,7 @@ import Link from 'next/link';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import CodeBlock from '@/features/post/components/CodeBlock';
 import PostContentImage from '@/features/post/components/PostContentImage';
 import moonLightTheme from '../../../../assets/moonlight-ii.json' with { type: 'json' };
 
@@ -131,6 +132,7 @@ export default async function PostMdxContent({ content }: Props) {
         ),
         tr: (props) => <tr className="hover:bg-app-surface-muted/70 dark:hover:bg-app-dark-surface-muted/70" {...props} />,
         figure: (props) => <figure className="my-xl" {...props} />,
+        pre: (props) => <CodeBlock {...props} />,
         ul: (props) => (
           <ul className="list-disc pl-md md:pl-lg mb-lg marker:text-app-primary dark:marker:text-app-dark-primary" {...props} />
         ),

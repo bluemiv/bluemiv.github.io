@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import dayjs from 'dayjs';
+import { CalendarDays, Hash } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CategoryTag } from '@/features/post/components/CategoryTag';
@@ -35,7 +36,10 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
       <div className="flex-1 flex flex-col gap-md p-md">
         <div className="flex items-center justify-between gap-sm text-xs text-app-text-subtle dark:text-app-dark-text-subtle">
           <CategoryTag category={post.metadata.category} />
-          <span>{dayjs(post.metadata.createdAt).format('YYYY-MM-DD')}</span>
+          <span className="inline-flex items-center gap-[3px] whitespace-nowrap">
+            <CalendarDays size={12} strokeWidth={2.2} />
+            {dayjs(post.metadata.createdAt).format('YYYY-MM-DD')}
+          </span>
         </div>
         <div className="line-clamp-2 text-lg leading-7 font-bold group-hover:text-app-primary dark:group-hover:text-app-dark-primary break-all transition-colors">
           {post.metadata.title}
@@ -47,9 +51,10 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
           {post.metadata.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
+              className="inline-flex items-center gap-[2px] rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
             >
-              #{tag}
+              <Hash size={11} strokeWidth={2.4} />
+              {tag}
             </span>
           ))}
         </div>

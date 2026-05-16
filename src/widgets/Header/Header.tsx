@@ -1,3 +1,5 @@
+import { Home, NotebookText } from 'lucide-react';
+
 import { getAllShortPosts } from '@/features/post/api';
 import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/components/RefreshServiceWorkerCacheButton';
 import { ThemeToggleButton } from '@/features/theme/components';
@@ -14,12 +16,15 @@ export default function Header() {
         <ul className="flex-1 flex justify-end gap-xs">
           {[
             // { href: ROUTE_PATH.ABOUT, label: 'ABOUT' },
-            { href: ROUTE_PATH.ROOT, label: 'HOME' },
-            { href: [ROUTE_PATH.BLOG_SHORT, shortPostsLength].join('/'), label: '짧은 글' },
+            { href: ROUTE_PATH.ROOT, label: 'HOME', Icon: Home },
+            { href: [ROUTE_PATH.BLOG_SHORT, shortPostsLength].join('/'), label: '짧은 글', Icon: NotebookText },
             // { href: ROUTE_PATH.BLOG_TAGS, label: 'TAGS' },
-          ].map(({ href, label }) => (
+          ].map(({ href, label, Icon }) => (
             <li key={href}>
-              <NavLink href={href}>{label}</NavLink>
+              <NavLink href={href}>
+                <Icon size={15} strokeWidth={2.2} />
+                {label}
+              </NavLink>
             </li>
           ))}
         </ul>

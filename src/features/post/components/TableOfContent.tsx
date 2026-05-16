@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { ChevronRight, ListTree } from 'lucide-react';
-import { RSSLink } from '@/features/post/components';
 
 type TocItem = { level: string; id: string; label: string; sectionId: string };
 
@@ -165,12 +164,6 @@ export default function TableOfContent() {
               );
             })}
           </ul>
-        </div>
-        <div className="pt-md mt-md border-t border-app-border/80 dark:border-app-dark-border/80 flex items-center justify-between gap-sm">
-          <span className="text-[11px] font-semibold text-app-text-subtle dark:text-app-dark-text-subtle">
-            읽기 지도
-          </span>
-          <RSSLink />
         </div>
       </div>
     </aside>

@@ -11,16 +11,16 @@
     --spacing-2xl: 3rem;
     --spacing-3xl: 5rem;
 
-    --color-app-text: #212529;
-    --color-app-dark-text: #D1D7E0;
-    --color-app-sub-text: #59636E;
-    --color-app-dark-sub-text: #9198A1;
-    --color-app-bg: #ffffff;
-    --color-app-dark-bg: #121923;
-    --color-app-sub-bg: rgba(129, 139, 152, 0.1);
-    --color-app-dark-sub-bg: rgba(101, 108, 118, 0.2);
-    --color-app-primary: #4263eb;
-    --color-app-dark-primary: #4dabf7;
+    --color-app-text: #0F172A;
+    --color-app-dark-text: #E5E7EB;
+    --color-app-sub-text: #475569;
+    --color-app-dark-sub-text: #CBD5E1;
+    --color-app-bg: #F8FAFC;
+    --color-app-dark-bg: #0B1120;
+    --color-app-sub-bg: #F1F5F9;
+    --color-app-dark-sub-bg: #1E293B;
+    --color-app-primary: #2563EB;
+    --color-app-dark-primary: #60A5FA;
     --color-app-surface: #FFFFFF;
     --color-app-surface-muted: #F1F5F9;
     --color-app-surface-raised: #FFFFFF;
@@ -103,11 +103,11 @@ html, body, html body {
 }
 
 html {
-    scrollbar-color: #adb5bd #ffffff;
+    scrollbar-color: #CBD5E1 #F8FAFC;
 }
 
 html.dark {
-    scrollbar-color: #495057 #121923;
+    scrollbar-color: #334155 #0B1120;
 }
 
 ::selection {

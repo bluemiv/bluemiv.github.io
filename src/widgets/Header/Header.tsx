@@ -11,11 +11,16 @@ import NavLink from '@/widgets/Header/NavLink';
 import MobileSidebarMenu from '@/widgets/Sidebar/MobileSidebarMenu';
 import SidebarContent from '@/widgets/Sidebar/SidebarContent';
 
+const formatSearchPostCreatedAt = (createdAt: unknown) => {
+  if (createdAt instanceof Date) return createdAt.toISOString();
+  return String(createdAt);
+};
+
 export default function Header() {
   const shortPostsLength = getAllShortPosts().length;
   const searchPosts: HeaderSearchPost[] = getAllPosts().map((post) => ({
     category: post.metadata.category,
-    createdAt: post.metadata.createdAt,
+    createdAt: formatSearchPostCreatedAt(post.metadata.createdAt),
     description: post.metadata.description,
     slug: post.metadata.slug,
     tags: post.metadata.tags,

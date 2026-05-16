@@ -38,13 +38,21 @@ export default function Header() {
           {[
             // { href: ROUTE_PATH.ABOUT, label: 'ABOUT' },
             { href: ROUTE_PATH.ROOT, label: 'HOME', Icon: Home },
-            { href: [ROUTE_PATH.BLOG_SHORT, shortPostsLength].join('/'), label: '짧은 글', Icon: NotebookText },
+            {
+              href: [ROUTE_PATH.BLOG_SHORT, shortPostsLength].join('/'),
+              label: '짧은 글',
+              Icon: NotebookText,
+            },
             // { href: ROUTE_PATH.BLOG_TAGS, label: 'TAGS' },
           ].map(({ href, label, Icon }) => (
             <li key={href}>
-              <NavLink href={href}>
-                <Icon size={15} strokeWidth={2.2} />
-                {label}
+              <NavLink
+                ariaLabel={label === 'HOME' ? '홈으로 이동' : `${label} 보기`}
+                className="h-9 w-9 px-0 sm:px-0"
+                href={href}
+                title={label}
+              >
+                <Icon size={17} strokeWidth={2.2} />
               </NavLink>
             </li>
           ))}

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { CalendarDays, Clock3, Folder, PencilLine } from 'lucide-react';
+import { getAuthorDisplayName } from '@/features/post/author';
 import { TagLink } from '@/features/tag/components';
 import { Post } from '../model';
 import ArticleThumbnail from './ArticleThumbnail';
@@ -12,6 +13,7 @@ export default function ArticleMetadata({ post }: Props) {
   const createdAt = dayjs(post.metadata.createdAt);
   const updatedAt = dayjs(post.metadata.updatedAt);
   const isUpdated = post.metadata.updatedAt && !createdAt.isSame(updatedAt, 'minutes');
+  const author = getAuthorDisplayName(post.metadata.author);
 
   return (
     <header className="motion-enter flex flex-col gap-lg pb-2xl mb-lg">
@@ -26,7 +28,7 @@ export default function ArticleMetadata({ post }: Props) {
           </span>
           <span className="inline-flex items-center gap-xs">
             <PencilLine size={14} strokeWidth={2.2} />
-            {post.metadata.author}
+            {author}
           </span>
         </div>
         <h1 className="mt-md text-3xl md:text-5xl font-bold leading-tight tracking-normal text-app-text dark:text-app-dark-text">

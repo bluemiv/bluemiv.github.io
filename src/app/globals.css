@@ -126,6 +126,146 @@ html.dark {
     scrollbar-color: #334155 #0B1120;
 }
 
+@keyframes appRiseIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 14px, 0) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes appHeaderDrop {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -10px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes appShine {
+    from {
+        transform: translateX(-130%) skewX(-18deg);
+    }
+    to {
+        transform: translateX(230%) skewX(-18deg);
+    }
+}
+
+.motion-enter {
+    animation: appRiseIn 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-header {
+    animation: appHeaderDrop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-stagger > * {
+    animation: appRiseIn 0.52s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motion-stagger > *:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.motion-stagger > *:nth-child(2) {
+    animation-delay: 0.06s;
+}
+
+.motion-stagger > *:nth-child(3) {
+    animation-delay: 0.1s;
+}
+
+.motion-stagger > *:nth-child(4) {
+    animation-delay: 0.14s;
+}
+
+.motion-stagger > *:nth-child(5) {
+    animation-delay: 0.18s;
+}
+
+.motion-stagger > *:nth-child(6) {
+    animation-delay: 0.22s;
+}
+
+.motion-stagger > *:nth-child(7) {
+    animation-delay: 0.26s;
+}
+
+.motion-stagger > *:nth-child(8) {
+    animation-delay: 0.3s;
+}
+
+.motion-stagger > *:nth-child(n + 9) {
+    animation-delay: 0.34s;
+}
+
+.motion-card {
+    will-change: transform;
+    transition-property: transform, border-color, box-shadow, background-color, color;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-card:hover {
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 18px 48px rgb(15 23 42 / 0.08);
+}
+
+.dark .motion-card:hover {
+    box-shadow: 0 18px 48px rgb(0 0 0 / 0.24);
+}
+
+.motion-chip {
+    transition-property: transform, border-color, background-color, color;
+    transition-duration: 180ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-chip:hover {
+    transform: translate3d(0, -1px, 0);
+}
+
+.motion-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.motion-shine::after {
+    content: "";
+    position: absolute;
+    inset: -40% auto -40% 0;
+    width: 34%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.28), transparent);
+    transform: translateX(-130%) skewX(-18deg);
+}
+
+.motion-shine:hover::after {
+    animation: appShine 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .motion-card:hover,
+    .motion-chip:hover {
+        transform: none;
+    }
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation: none;

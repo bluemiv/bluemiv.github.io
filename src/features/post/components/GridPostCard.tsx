@@ -17,7 +17,7 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
     <Link
       href={[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}
       className={clsx(
-        'animate-fade-in flex flex-col rounded-xl overflow-hidden transition-all ease-out duration-150 group cursor-pointer border border-app-border dark:border-app-dark-border bg-app-surface/85 dark:bg-app-dark-surface/80 hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:-translate-y-0.5',
+        'motion-card animate-fade-in flex flex-col rounded-xl overflow-hidden transition-all ease-out duration-150 group cursor-pointer border border-app-border dark:border-app-dark-border bg-app-surface/85 dark:bg-app-dark-surface/80 hover:border-app-border-strong dark:hover:border-app-dark-border-strong',
         className,
       )}
     >
@@ -51,7 +51,7 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
           {post.metadata.tags.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center gap-[2px] rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
+              className="motion-chip inline-flex items-center gap-[2px] rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
             >
               <Hash size={11} strokeWidth={2.4} />
               {tag}

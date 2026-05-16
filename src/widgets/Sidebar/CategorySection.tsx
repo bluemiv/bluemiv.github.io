@@ -11,7 +11,7 @@ export const CategorySection = () => {
   return (
     <section className="px-xs">
       <SectionTitle>Category</SectionTitle>
-      <ul className="flex flex-col gap-[2px]">
+      <ul className="motion-stagger flex flex-col gap-[2px]">
         <CategoryItem
           label="Language"
           category="language"

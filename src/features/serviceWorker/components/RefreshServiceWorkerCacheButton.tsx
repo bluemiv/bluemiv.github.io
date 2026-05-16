@@ -24,7 +24,7 @@ export default function RefreshServiceWorkerCacheButton() {
   return (
     <div className="relative inline-block">
       <button
-        className="flex items-center justify-center w-8 h-8 rounded-full transition duration-150 ease-in-out cursor-pointer hover:bg-app-surface dark:hover:bg-app-dark-surface hover:text-app-primary dark:hover:text-app-dark-primary"
+        className="motion-chip flex items-center justify-center w-8 h-8 rounded-full transition duration-150 ease-in-out cursor-pointer hover:bg-app-surface dark:hover:bg-app-dark-surface hover:text-app-primary dark:hover:text-app-dark-primary"
         aria-label="새로고침"
         onClick={() => {
           window.location.reload();

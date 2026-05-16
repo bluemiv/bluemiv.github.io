@@ -12,7 +12,7 @@ export const TagSection = () => {
           Top {tags.length}
         </span>
       </div>
-      <ul className="flex gap-xs flex-wrap">
+      <ul className="motion-stagger flex gap-xs flex-wrap">
         {tags.map((entry) => {
           const tag = entry[0];
           const count = entry[1];

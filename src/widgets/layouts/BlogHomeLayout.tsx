@@ -49,7 +49,7 @@ export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPage
               />
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md lg:gap-lg w-full">
+          <div className="motion-stagger grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md lg:gap-lg w-full">
             {recentPosts.map((post) => (
               <GridPostCard
                 key={[post.metadata.category, post.metadata.slug].join('/')}
@@ -71,7 +71,7 @@ export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPage
 
 const HomeIntro = () => {
   return (
-    <section className="relative w-full overflow-hidden rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-lg md:p-xl flex flex-col lg:flex-row lg:items-end justify-between gap-lg">
+    <section className="motion-enter motion-shine relative w-full overflow-hidden rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-lg md:p-xl flex flex-col lg:flex-row lg:items-end justify-between gap-lg">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-app-primary via-app-accent to-transparent dark:from-app-dark-primary dark:via-app-dark-accent" />
       <div className="flex flex-col gap-md max-w-[760px]">
         <div className="flex items-center gap-sm">
@@ -97,7 +97,7 @@ const HomeIntro = () => {
           {['Java', 'Spring', 'React', 'Next.js', 'Algorithm'].map((label) => (
             <span
               key={label}
-              className="rounded-full border border-app-border dark:border-app-dark-border bg-app-surface-muted/70 dark:bg-app-dark-surface-muted/70 px-sm py-xs text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
+              className="motion-chip rounded-full border border-app-border dark:border-app-dark-border bg-app-surface-muted/70 dark:bg-app-dark-surface-muted/70 px-sm py-xs text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
             >
               {label}
             </span>
@@ -108,14 +108,14 @@ const HomeIntro = () => {
         <Link
           href={ROUTE_PATH.RSS}
           prefetch={false}
-          className="h-11 px-md rounded-lg bg-app-primary dark:bg-app-dark-primary text-white dark:text-[#020617] font-semibold flex items-center justify-center gap-sm transition-colors hover:bg-app-primary-hover dark:hover:bg-app-dark-primary-hover"
+          className="motion-chip motion-shine h-11 px-md rounded-lg bg-app-primary dark:bg-app-dark-primary text-white dark:text-[#020617] font-semibold flex items-center justify-center gap-sm transition-colors hover:bg-app-primary-hover dark:hover:bg-app-dark-primary-hover"
         >
           <Rss size={17} strokeWidth={2.2} />
           RSS 구독
         </Link>
         <Link
           href="#recent-posts"
-          className="h-11 px-md rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface-muted dark:bg-app-dark-surface-muted text-app-text-muted dark:text-app-dark-text-muted font-semibold flex items-center justify-center gap-sm transition-colors hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:text-app-text dark:hover:text-app-dark-text"
+          className="motion-chip h-11 px-md rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface-muted dark:bg-app-dark-surface-muted text-app-text-muted dark:text-app-dark-text-muted font-semibold flex items-center justify-center gap-sm transition-colors hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:text-app-text dark:hover:text-app-dark-text"
         >
           최근 글 보기
           <ArrowRight size={16} strokeWidth={2.2} />
@@ -129,7 +129,7 @@ const FeaturedPostCard = ({ post }: { post: Post }) => {
   return (
     <Link
       href={[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}
-      className="group w-full overflow-hidden rounded-2xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface transition-all duration-150 ease-out hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:-translate-y-0.5"
+      className="motion-enter motion-card group w-full overflow-hidden rounded-2xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface transition-all duration-150 ease-out hover:border-app-border-strong dark:hover:border-app-dark-border-strong"
     >
       <article className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] min-h-[320px]">
         <div className="p-lg md:p-xl flex flex-col gap-lg">
@@ -159,7 +159,7 @@ const FeaturedPostCard = ({ post }: { post: Post }) => {
             {post.metadata.tags.slice(0, 5).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-sm py-xs text-sm font-semibold text-app-text-muted dark:text-app-dark-text-muted"
+                className="motion-chip rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-sm py-xs text-sm font-semibold text-app-text-muted dark:text-app-dark-text-muted"
               >
                 #{tag}
               </span>
@@ -197,12 +197,12 @@ const CategoryStrip = ({ categories }: { categories: [string, number][] }) => {
   return (
     <section className="w-full flex flex-col gap-md">
       <SectionHeader title="카테고리" description="관심 있는 주제로 바로 이동하세요." />
-      <div className="w-full flex gap-sm overflow-x-auto pb-xs">
+      <div className="motion-stagger w-full flex gap-sm overflow-x-auto pb-xs">
         {categories.map(([category, count]) => (
           <Link
             key={category}
             href={[ROUTE_PATH.BLOG_CATEGORY, category.toLowerCase(), '1'].join('/')}
-            className="min-w-fit rounded-full border border-app-border dark:border-app-dark-border bg-app-surface/80 dark:bg-app-dark-surface/80 px-md py-sm transition-colors hover:border-app-primary dark:hover:border-app-dark-primary hover:text-app-primary dark:hover:text-app-dark-primary"
+            className="motion-chip min-w-fit rounded-full border border-app-border dark:border-app-dark-border bg-app-surface/80 dark:bg-app-dark-surface/80 px-md py-sm transition-colors hover:border-app-primary dark:hover:border-app-dark-primary hover:text-app-primary dark:hover:text-app-dark-primary"
           >
             <span className="font-semibold text-app-text dark:text-app-dark-text">{category}</span>
             <span className="ml-sm rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[1px] text-xs text-app-text-subtle dark:text-app-dark-text-subtle">
@@ -228,7 +228,7 @@ const ShortPostsPreview = ({ posts }: { posts: ShortPost[] }) => {
           <ArrowRight size={15} strokeWidth={2.2} />
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-md w-full">
+      <div className="motion-stagger grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-md w-full">
         {posts.map((post) => (
           <ShortPostPreviewCard key={post.metadata.slug} post={post} />
         ))}
@@ -241,7 +241,7 @@ const ShortPostPreviewCard = ({ post }: { post: ShortPost }) => {
   return (
     <Link
       href={[ROUTE_PATH.BLOG_SHORT, post.metadata.slug].join('/')}
-      className="rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface p-md flex flex-col gap-sm min-h-[180px] transition-all duration-150 ease-out hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:-translate-y-0.5"
+      className="motion-card rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface p-md flex flex-col gap-sm min-h-[180px] transition-all duration-150 ease-out hover:border-app-border-strong dark:hover:border-app-dark-border-strong"
     >
       <div className="text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle">
         {dayjs(post.metadata.createdAt).format('YYYY-MM-DD')}
@@ -256,7 +256,7 @@ const ShortPostPreviewCard = ({ post }: { post: ShortPost }) => {
         {post.metadata.tags.slice(0, 3).map((tag) => (
           <span
             key={tag}
-            className="rounded-md bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
+            className="motion-chip rounded-md bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
           >
             #{tag}
           </span>

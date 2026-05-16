@@ -26,7 +26,7 @@ export const CategoryItem = ({
       ) : (
         <Link
           className={clsx(
-            'group flex items-center justify-between h-9 rounded-lg px-sm text-sm font-semibold transition-colors',
+            'motion-chip group flex items-center justify-between h-9 rounded-lg px-sm text-sm font-semibold transition-colors',
             'text-app-text-muted dark:text-app-dark-text-muted hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft',
             'hover:text-app-primary dark:hover:text-app-dark-primary',
             isSubList

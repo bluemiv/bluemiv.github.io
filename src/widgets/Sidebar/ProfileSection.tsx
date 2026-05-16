@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 
 export const ProfileSection = () => {
   return (
-    <section className="w-full min-h-[188px] rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-md text-app-text-muted dark:text-app-dark-text-muted text-sm">
+    <section className="motion-card w-full min-h-[188px] rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-md text-app-text-muted dark:text-app-dark-text-muted text-sm">
       <div className="flex items-start gap-md">
         <div className="relative shrink-0">
           <div className="absolute inset-[-4px] rounded-2xl bg-gradient-to-br from-app-primary-soft via-app-accent-soft to-transparent dark:from-app-dark-primary-soft dark:via-app-dark-accent-soft opacity-90" />

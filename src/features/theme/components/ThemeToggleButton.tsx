@@ -104,7 +104,7 @@ export const ThemeToggleButton = () => {
   if (theme === null) return <div className="w-[34px] h-[34px]" />;
   return (
     <button
-      className="flex items-center justify-center w-8 h-8 rounded-full transition duration-150 ease-in-out cursor-pointer hover:bg-app-surface dark:hover:bg-app-dark-surface hover:text-app-primary dark:hover:text-app-dark-primary"
+      className="motion-chip flex items-center justify-center w-8 h-8 rounded-full transition duration-150 ease-in-out cursor-pointer hover:bg-app-surface dark:hover:bg-app-dark-surface hover:text-app-primary dark:hover:text-app-dark-primary"
       onClick={onClick}
       aria-label="테마 변경"
     >

@@ -80,7 +80,7 @@ export default function RefreshServiceWorkerCacheButton() {
     <>
       <button
         type="button"
-        className="relative flex h-8 items-center justify-center gap-1.5 rounded-full border border-app-primary/30 dark:border-app-dark-primary/40 bg-app-primary-soft/80 dark:bg-app-dark-primary-soft/70 px-2.5 text-xs font-semibold text-app-primary dark:text-app-dark-primary transition-colors duration-150 ease-in-out hover:border-app-primary/50 dark:hover:border-app-dark-primary/60 hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft"
+        className="relative flex h-8 w-8 items-center justify-center rounded-full border border-app-primary/30 bg-app-primary-soft/80 text-app-primary transition-colors duration-150 ease-in-out hover:border-app-primary/50 hover:bg-app-primary-soft dark:border-app-dark-primary/40 dark:bg-app-dark-primary-soft/70 dark:text-app-dark-primary dark:hover:border-app-dark-primary/60 dark:hover:bg-app-dark-primary-soft"
         aria-label="새 콘텐츠로 새로고침"
         title="새 콘텐츠로 새로고침"
         onClick={refreshContent}
@@ -90,7 +90,6 @@ export default function RefreshServiceWorkerCacheButton() {
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-app-primary dark:bg-app-dark-primary" />
         </span>
         <Sparkles size={14} strokeWidth={2.3} aria-hidden="true" />
-        <span className="hidden sm:inline">새 글</span>
       </button>
       {isNoticeVisible && typeof document !== 'undefined' && createPortal(notice, document.body)}
     </>

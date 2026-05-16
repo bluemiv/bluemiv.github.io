@@ -110,11 +110,11 @@ export default function HeaderSearch({ posts }: Props) {
       <button
         type="button"
         aria-label="글 검색"
+        title="글 검색"
         onClick={() => setIsOpen(true)}
-        className="motion-chip flex h-8 items-center justify-center gap-1.5 rounded-full px-2.5 text-sm font-semibold text-app-text-muted dark:text-app-dark-text-muted hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft hover:text-app-primary dark:hover:text-app-dark-primary"
+        className="motion-chip flex h-8 w-8 items-center justify-center rounded-full text-app-text-muted dark:text-app-dark-text-muted hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft hover:text-app-primary dark:hover:text-app-dark-primary"
       >
         <Search size={16} strokeWidth={2.2} aria-hidden="true" />
-        <span className="hidden sm:inline">검색</span>
       </button>
       {isOpen &&
         typeof document !== 'undefined' &&

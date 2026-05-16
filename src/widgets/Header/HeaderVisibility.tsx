@@ -48,7 +48,7 @@ export default function HeaderVisibility({ children }: Props) {
     <header
       onFocusCapture={() => setIsVisible(true)}
       className={clsx(
-        'motion-header sticky top-0 z-50 h-[56px] w-full px-md bg-app-surface-raised/85 dark:bg-app-dark-surface-raised/85 backdrop-blur-xl border-b border-app-border/80 dark:border-app-dark-border/80',
+        'motion-header sticky top-0 z-50 h-[60px] w-full px-md bg-app-surface-raised/85 dark:bg-app-dark-surface-raised/85 backdrop-blur-xl border-b border-app-border/80 dark:border-app-dark-border/80',
         'transition-transform duration-200 ease-out will-change-transform',
         isVisible ? 'translate-y-0' : '-translate-y-full',
       )}

@@ -37,7 +37,7 @@ export default function RefreshServiceWorkerCacheButton() {
   return (
     <button
       type="button"
-      className="motion-chip relative flex h-8 items-center justify-center gap-1.5 rounded-full border border-app-primary/30 dark:border-app-dark-primary/40 bg-app-primary-soft/80 dark:bg-app-dark-primary-soft/70 px-2.5 text-xs font-semibold text-app-primary dark:text-app-dark-primary transition duration-150 ease-in-out hover:-translate-y-0.5"
+      className="relative flex h-8 items-center justify-center gap-1.5 rounded-full border border-app-primary/30 dark:border-app-dark-primary/40 bg-app-primary-soft/80 dark:bg-app-dark-primary-soft/70 px-2.5 text-xs font-semibold text-app-primary dark:text-app-dark-primary transition-colors duration-150 ease-in-out hover:border-app-primary/50 dark:hover:border-app-dark-primary/60 hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft"
       aria-label="새 버전으로 새로고침"
       title="새 버전으로 새로고침"
       onClick={() => {

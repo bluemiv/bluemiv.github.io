@@ -1,10 +1,11 @@
 import { getAllPosts, getAllShortPosts } from '@/features/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
+import { SITE_METADATA } from '@/shared/constants/site';
 
 export async function GET() {
   const posts = getAllPosts();
-  const siteUrl = process.env.BASE_URL;
-  const author = `${process.env.METADATA_EMAIL} (${process.env.METADATA_AUTHOR})`;
+  const siteUrl = SITE_METADATA.baseUrl;
+  const author = `${SITE_METADATA.authorEmail} (${SITE_METADATA.author})`;
 
   const itemsXml = posts
     .filter((post) => post.metadata.release)
@@ -16,7 +17,7 @@ export async function GET() {
         .map((tag) => `<category><![CDATA[${tag}]]></category>`)
         .join('');
       const authorXml = `<author>${author}</author>`;
-      const dcCreatorXml = `<dc:creator><![CDATA[${process.env.METADATA_AUTHOR}]]></dc:creator>`;
+      const dcCreatorXml = `<dc:creator><![CDATA[${SITE_METADATA.author}]]></dc:creator>`;
       const thumbnailXml = metadata.thumbnail
         ? `<enclosure url="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
         : '';
@@ -45,7 +46,7 @@ export async function GET() {
         .map((tag) => `<category><![CDATA[${tag}]]></category>`)
         .join('');
       const authorXml = `<author>${author}</author>`;
-      const dcCreatorXml = `<dc:creator><![CDATA[${process.env.METADATA_AUTHOR}]]></dc:creator>`;
+      const dcCreatorXml = `<dc:creator><![CDATA[${SITE_METADATA.author}]]></dc:creator>`;
       const thumbnailXml = metadata.thumbnail
         ? `<enclosure url="${siteUrl}${metadata.thumbnail}" type="image/webp" />`
         : '';
@@ -69,9 +70,9 @@ export async function GET() {
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:dc="http://purl.org/dc/elements/1.1/">
 <channel>
-  <title>${process.env.METADATA_TITLE}</title>
+  <title>${SITE_METADATA.title}</title>
   <link>${siteUrl}</link>
-  <description>${process.env.METADATA_DESCRIPTION}</description>
+  <description>${SITE_METADATA.description}</description>
   <language>ko</language>
   <ttl>60</ttl>
   <managingEditor>${author}</managingEditor>

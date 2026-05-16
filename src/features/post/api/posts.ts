@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import path from 'path';
 import { Post, ShortPost } from '@/features/post/model';
 import { LIMIT } from '@/shared/constants/pagination';
+import { SITE_METADATA } from '@/shared/constants/site';
 
 const postsDirectory = path.join(process.cwd(), 'src', '_posts');
 const shortPostsDirectory = path.join(process.cwd(), 'src', '_short');
@@ -22,7 +23,7 @@ const parsePost = (filePath: string, category: string): Post => {
       updatedAt: data?.updatedAt ?? dayjs().utc().format(),
       tags: data?.tags ?? [],
       release: data?.release ?? false,
-      author: data?.author ?? '',
+      author: SITE_METADATA.author,
       thumbnail: data?.thumbnail,
     },
     content,
@@ -42,7 +43,7 @@ const parseShortPost = (filePath: string): ShortPost => {
       updatedAt: data?.updatedAt ?? dayjs().utc().format(),
       tags: data?.tags ?? [],
       release: data?.release ?? false,
-      author: data?.author ?? '',
+      author: SITE_METADATA.author,
       thumbnail: data?.thumbnail,
     },
     content,

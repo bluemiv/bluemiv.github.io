@@ -1,0 +1,390 @@
+---
+title: application.yml과 application.properties 설정
+description: Spring Boot의 환경 설정 파일인 application.yml과 application.properties 사용법을 알아봅니다.
+createdAt: 2025-08-12T18:55:03+09:00
+updatedAt: 2025-08-12T18:55:03+09:00
+tags: ['spring', 'springboot', 'java', 'configuration', 'yaml']
+release: true
+author: Taehong Kim
+thumbnail: /r/i/spring/32/thumbnail.webp
+---
+
+## 1. Spring Boot 설정 파일
+
+Spring Boot에서는 애플리케이션 설정을 `src/main/resources` 폴더 아래에 작성합니다. 이 폴더가 프로젝트 안에서 어떤 역할을 하는지는 [Spring Boot 프로젝트 구조 이해하기](/blog/spring/31)에서 먼저 확인할 수 있습니다.
+
+```text
+src/main/resources/
+├── application.properties
+└── application.yml
+```
+
+이 파일에는 서버 포트, 애플리케이션 이름, 데이터베이스 연결 정보, 로그 레벨 등 애플리케이션 실행에 필요한 설정을 작성할 수 있습니다.
+
+예를 들어 서버 포트를 `8081`로 변경하고 싶다면 설정 파일에 다음과 같이 작성하면 됩니다.
+
+```properties
+server.port=8081
+```
+
+이렇게 설정하면 애플리케이션은 기본 포트인 `8080`이 아니라 `8081` 포트로 실행됩니다.
+
+## 2. application.properties
+
+`application.properties`는 `key=value` 형태로 설정을 작성하는 방식입니다.
+
+```properties
+server.port=8080
+spring.application.name=demo
+logging.level.root=info
+```
+
+각 줄은 하나의 설정 값을 의미합니다.
+
+| 설정 | 설명 |
+|------|------|
+| `server.port` | 애플리케이션이 실행될 포트 |
+| `spring.application.name` | 애플리케이션 이름 |
+| `logging.level.root` | 전체 로그 레벨 |
+
+`properties` 방식은 단순하고 직관적이라는 장점이 있습니다. 설정이 적을 때는 읽기 쉽고, 처음 Spring Boot를 공부할 때도 이해하기 쉽습니다.
+
+하지만 설정이 많아지면 같은 접두사가 반복되는 단점이 있습니다.
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/demo
+spring.datasource.username=root
+spring.datasource.password=password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+`spring.datasource`, `spring.jpa`처럼 같은 구조가 계속 반복되는 것을 볼 수 있습니다.
+
+## 3. application.yml
+
+`application.yml`은 계층 구조로 설정을 작성하는 방식입니다.
+
+```yaml
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo
+
+logging:
+  level:
+    root: info
+```
+
+위 설정은 앞에서 작성한 `application.properties`와 같은 의미입니다.
+
+```properties
+server.port=8080
+spring.application.name=demo
+logging.level.root=info
+```
+
+`yml`은 들여쓰기를 사용해서 설정의 계층을 표현합니다. 그래서 설정이 많아질수록 `properties`보다 구조를 파악하기 쉽습니다.
+
+데이터베이스와 JPA 설정도 `yml`로 작성하면 다음과 같습니다.
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+```
+
+같은 그룹의 설정이 한 곳에 모이기 때문에 실무에서는 `application.yml`을 많이 사용합니다.
+
+## 4. properties와 yml 차이
+
+두 파일은 설정을 표현하는 문법만 다를 뿐, Spring Boot가 읽어들이는 설정 값은 동일합니다.
+
+| 항목 | application.properties | application.yml |
+|------|------------------------|-----------------|
+| 작성 방식 | `key=value` | 계층 구조 |
+| 장점 | 단순하고 명확함 | 설정 구조 파악이 쉬움 |
+| 단점 | 설정이 많으면 반복이 많음 | 들여쓰기 오류에 주의 필요 |
+| 추천 상황 | 간단한 예제, 설정이 적은 프로젝트 | 설정이 많거나 환경 분리가 필요한 프로젝트 |
+
+처음에는 `properties`가 더 편할 수 있지만, 프로젝트가 커지면 `yml`이 더 읽기 좋습니다.
+
+> 하나의 프로젝트에서 `application.properties`와 `application.yml`을 동시에 사용할 수도 있지만, 설정이 흩어져 헷갈릴 수 있으므로 하나의 방식을 정해서 사용하는 것을 권장합니다.
+
+## 5. 자주 사용하는 설정
+
+Spring Boot 프로젝트에서 자주 사용하는 설정들을 몇 가지 살펴보겠습니다.
+
+### 5.1. 서버 포트 설정
+
+```yaml
+server:
+  port: 8080
+```
+
+기본 포트는 `8080`입니다. 이미 다른 앱이 `8080` 포트를 사용하고 있다면 다른 포트로 변경할 수 있습니다.
+
+```yaml
+server:
+  port: 8081
+```
+
+### 5.2. 애플리케이션 이름 설정
+
+```yaml
+spring:
+  application:
+    name: demo
+```
+
+애플리케이션 이름은 로그, 모니터링, Spring Cloud 환경 등에서 사용될 수 있습니다.
+
+### 5.3. 로그 레벨 설정
+
+```yaml
+logging:
+  level:
+    root: info
+    com.example.demo: debug
+```
+
+`root`는 전체 로그 레벨을 의미하고, 특정 패키지의 로그 레벨만 따로 지정할 수도 있습니다.
+
+로그 레벨은 보통 다음 순서로 상세해집니다.
+
+```text
+trace > debug > info > warn > error
+```
+
+개발 환경에서는 `debug`를 사용하기도 하지만, 운영 환경에서는 너무 많은 로그가 출력되지 않도록 `info` 또는 `warn`을 많이 사용합니다.
+
+### 5.4. 데이터베이스 설정
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+```
+
+데이터베이스를 사용할 때는 접속 URL, 사용자 이름, 비밀번호, 드라이버 클래스를 설정합니다.
+
+실제 운영 환경에서는 비밀번호를 설정 파일에 그대로 적기보다 환경변수나 별도 Secret 관리 도구를 사용하는 것이 좋습니다.
+
+## 6. 환경별 설정 분리
+
+개발 환경과 운영 환경은 설정 값이 다를 수 있습니다.
+
+- 개발 환경: 로컬 데이터베이스 사용
+- 운영 환경: 운영 데이터베이스 사용
+- 테스트 환경: 테스트용 데이터베이스 사용
+
+Spring Boot에서는 프로필(Profile)을 사용해서 환경별 설정을 분리할 수 있습니다.
+
+```text
+src/main/resources/
+├── application.yml
+├── application-dev.yml
+└── application-prod.yml
+```
+
+기본 설정은 `application.yml`에 작성하고, 개발 환경 설정은 `application-dev.yml`, 운영 환경 설정은 `application-prod.yml`에 작성합니다.
+
+```yaml
+# application.yml
+spring:
+  application:
+    name: demo
+```
+
+```yaml
+# application-dev.yml
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo_dev
+```
+
+```yaml
+# application-prod.yml
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://prod-db:3306/demo
+```
+
+실행할 때는 사용할 프로필을 지정합니다.
+
+```bash
+java -jar demo.jar --spring.profiles.active=dev
+```
+
+또는 설정 파일에서 기본 활성 프로필을 지정할 수도 있습니다.
+
+```yaml
+spring:
+  profiles:
+    active: dev
+```
+
+다만 운영 환경에서는 설정 파일에 `prod`를 고정하기보다 실행 환경에서 프로필을 주입하는 방식이 더 안전합니다.
+
+## 7. 환경변수 사용하기
+
+데이터베이스 비밀번호나 API Key처럼 민감한 값은 코드 저장소에 올리면 안 됩니다. 이런 값은 환경변수로 분리하는 것이 좋습니다.
+
+Spring Boot 설정 파일에서는 다음과 같이 환경변수를 사용할 수 있습니다.
+
+```yaml
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+```
+
+기본값을 함께 지정할 수도 있습니다.
+
+```yaml
+server:
+  port: ${SERVER_PORT:8080}
+```
+
+위 설정은 `SERVER_PORT` 환경변수가 있으면 그 값을 사용하고, 없으면 `8080`을 사용합니다.
+
+터미널에서는 다음과 같이 환경변수를 지정하고 실행할 수 있습니다.
+
+```bash
+SERVER_PORT=8081 ./gradlew bootRun
+```
+
+## 8. 설정 값 사용하기
+
+설정 파일에 작성한 값은 Java 코드에서도 사용할 수 있습니다.
+
+가장 간단한 방법은 `@Value` 어노테이션을 사용하는 것입니다.
+
+```yaml
+app:
+  upload-dir: /tmp/uploads
+```
+
+```java
+package com.example.demo;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FileStorageProperties {
+
+    @Value("${app.upload-dir}")
+    private String uploadDir;
+
+    public String getUploadDir() {
+        return uploadDir;
+    }
+}
+```
+
+설정 값이 많아지면 `@ConfigurationProperties`를 사용하는 것이 더 좋습니다.
+
+```yaml
+app:
+  file:
+    upload-dir: /tmp/uploads
+    max-size: 10MB
+```
+
+```java
+package com.example.demo;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "app.file")
+public class FileProperties {
+
+    private String uploadDir;
+    private String maxSize;
+
+    public String getUploadDir() {
+        return uploadDir;
+    }
+
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
+    }
+
+    public String getMaxSize() {
+        return maxSize;
+    }
+
+    public void setMaxSize(String maxSize) {
+        this.maxSize = maxSize;
+    }
+}
+```
+
+`@ConfigurationProperties`는 관련 설정을 하나의 객체로 묶을 수 있어서, 설정이 많아질수록 관리하기 편합니다.
+
+## 9. yml 작성 시 주의할 점
+
+`application.yml`은 들여쓰기가 중요합니다. 보통 공백 2칸을 사용하고, 탭은 사용하지 않는 것이 좋습니다.
+
+잘못된 예시는 다음과 같습니다.
+
+```yaml
+spring:
+  datasource:
+  url: jdbc:mysql://localhost:3306/demo
+```
+
+위 설정은 `url`이 `datasource` 아래에 들어가지 않았기 때문에 의도한 설정이 적용되지 않습니다.
+
+올바른 예시는 다음과 같습니다.
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo
+```
+
+또한 문자열에 `:`가 포함되거나 특수한 값이 들어간다면 따옴표로 감싸는 것이 안전합니다.
+
+```yaml
+app:
+  message: "hello: spring boot"
+```
+
+## 10. 정리
+
+Spring Boot의 설정 파일은 애플리케이션 실행 방식을 바꾸는 중요한 역할을 합니다.
+
+- `application.properties`는 `key=value` 형태로 설정을 작성합니다.
+- `application.yml`은 계층 구조로 설정을 작성합니다.
+- 설정이 많아질수록 `yml`이 더 읽기 좋습니다.
+- 환경별 설정은 `application-dev.yml`, `application-prod.yml`처럼 프로필로 분리할 수 있습니다.
+- 비밀번호나 API Key 같은 민감한 값은 환경변수로 관리하는 것이 좋습니다.
+- Java 코드에서는 `@Value` 또는 `@ConfigurationProperties`로 설정 값을 사용할 수 있습니다.
+
+설정 파일을 잘 관리하면 개발 환경과 운영 환경을 안정적으로 분리할 수 있고, 코드 수정 없이 애플리케이션의 동작을 바꿀 수 있습니다. 다음 단계로는 Spring이 객체를 어떻게 생성하고 연결하는지 [IoC와 DI 이해하기](/blog/spring/33)를 보면 좋습니다.

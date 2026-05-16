@@ -1,0 +1,340 @@
+---
+title: IoC(제어의 역전)와 DI(의존성 주입) 이해하기
+description: Spring의 핵심 원리인 IoC(Inversion of Control)와 DI(Dependency Injection)를 이해합니다.
+createdAt: 2025-08-15T11:27:41+09:00
+updatedAt: 2025-08-15T11:27:41+09:00
+tags: ['spring', 'springboot', 'java', 'ioc', 'di', 'dependency-injection']
+release: true
+author: Taehong Kim
+thumbnail: /r/i/spring/33/thumbnail.webp
+---
+
+## 1. IoC와 DI가 왜 필요할까?
+
+Spring을 공부하다 보면 `IoC`, `DI`라는 용어를 자주 보게 됩니다. 아직 Spring과 Spring Boot의 차이가 헷갈린다면 [Spring vs Spring Boot 차이점](/blog/spring/28)을 먼저 보고 오면 좋습니다.
+
+- `IoC (Inversion of Control)`: 제어의 역전
+- `DI (Dependency Injection)`: 의존성 주입
+
+처음에는 용어가 어렵게 느껴지지만, 핵심은 간단합니다. 객체를 직접 생성하고 연결하던 책임을 개발자가 모두 가지는 것이 아니라, Spring 컨테이너가 대신 관리하도록 맡기는 것입니다.
+
+예를 들어 회원 가입 기능을 만든다고 가정해보겠습니다.
+
+```java
+public class UserService {
+
+    private final UserRepository userRepository = new UserRepository();
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+위 코드에서 `UserService`는 `UserRepository`를 직접 생성합니다. 작은 예제에서는 문제가 없어 보이지만, 프로젝트가 커지면 다음과 같은 문제가 생길 수 있습니다.
+
+- 구현체를 바꾸기 어렵다.
+- 테스트하기 어렵다.
+- 객체 생성 방식이 여러 곳에 흩어진다.
+- 클래스 간 결합도가 높아진다.
+
+Spring은 이런 문제를 줄이기 위해 객체의 생성과 의존 관계 연결을 컨테이너가 담당하도록 합니다.
+
+## 2. 의존성이란?
+
+먼저 의존성이라는 말부터 이해해보겠습니다.
+
+어떤 클래스가 다른 클래스를 사용한다면, 그 클래스에 의존한다고 말합니다.
+
+```java
+public class UserService {
+
+    private final UserRepository userRepository = new UserRepository();
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+위 코드에서 `UserService`는 `UserRepository`를 사용합니다. 즉, `UserService`는 `UserRepository`에 의존합니다.
+
+```text
+UserService ---> UserRepository
+```
+
+의존성 자체가 나쁜 것은 아닙니다. 대부분의 애플리케이션은 여러 객체가 서로 협력하면서 동작하기 때문에 의존성은 자연스럽게 생깁니다.
+
+문제는 의존성을 직접 만들고 강하게 붙잡는 코드입니다.
+
+```java
+private final UserRepository userRepository = new UserRepository();
+```
+
+이렇게 작성하면 `UserService`는 `UserRepository`의 생성 방식과 구체 클래스에 강하게 묶입니다.
+
+## 3. IoC(제어의 역전)란?
+
+`IoC`는 객체 생성과 흐름 제어의 주도권이 개발자 코드에서 프레임워크로 넘어가는 것을 의미합니다.
+
+일반적인 Java 코드에서는 개발자가 직접 객체를 생성하고 메서드를 호출합니다.
+
+```java
+public class Main {
+
+    public static void main(String[] args) {
+        UserRepository userRepository = new UserRepository();
+        UserService userService = new UserService(userRepository);
+
+        userService.join("bluemiv");
+    }
+}
+```
+
+이 방식에서는 개발자가 객체를 만들고, 필요한 객체를 연결하고, 실행 흐름도 직접 제어합니다.
+
+Spring에서는 이 흐름이 달라집니다.
+
+```java
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+```java
+@Repository
+public class UserRepository {
+
+    public void save(String name) {
+        System.out.println(name + " 저장");
+    }
+}
+```
+
+이제 `UserService`는 `UserRepository`를 직접 생성하지 않습니다. 필요한 객체를 생성하고 연결하는 일은 Spring 컨테이너가 담당합니다.
+
+```text
+개발자 코드
+  └─ 필요한 객체를 선언
+
+Spring 컨테이너
+  ├─ 객체 생성
+  ├─ 의존 관계 연결
+  └─ 객체 관리
+```
+
+이처럼 제어의 주도권이 개발자 코드에서 Spring으로 넘어갔기 때문에 `제어의 역전`이라고 부릅니다.
+
+## 4. Spring 컨테이너란?
+
+Spring 컨테이너는 애플리케이션에서 사용할 객체를 생성하고 관리하는 공간입니다.
+
+Spring에서는 컨테이너가 관리하는 객체를 `Bean`이라고 부릅니다.
+
+```text
+Spring Container
+├── UserController Bean
+├── UserService Bean
+└── UserRepository Bean
+```
+
+개발자가 `@Service`, `@Repository`, `@Controller`, `@Component` 같은 어노테이션을 붙이면 Spring은 해당 클래스를 Bean으로 등록할 수 있습니다.
+
+```java
+@Service
+public class UserService {
+}
+```
+
+```java
+@Repository
+public class UserRepository {
+}
+```
+
+Spring Boot 애플리케이션이 실행되면 Spring은 컴포넌트 스캔을 통해 이런 클래스를 찾고, 객체를 생성해서 컨테이너에 등록합니다. 컴포넌트 스캔이 시작되는 메인 클래스 위치는 [Spring Boot 프로젝트 구조 이해하기](/blog/spring/31)에서 설명한 패키지 구조와도 연결됩니다.
+
+## 5. DI(의존성 주입)란?
+
+`DI`는 필요한 의존성을 외부에서 넣어주는 것을 의미합니다.
+
+아래 코드를 다시 보겠습니다.
+
+```java
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+}
+```
+
+`UserService`는 `UserRepository`가 필요하지만 직접 만들지 않습니다. 생성자를 통해 외부에서 전달받습니다.
+
+```text
+Spring Container
+  ├─ UserRepository 생성
+  └─ UserService 생성 시 UserRepository 주입
+```
+
+이처럼 외부에서 필요한 객체를 넣어주는 것을 의존성 주입이라고 합니다.
+
+DI를 사용하면 객체를 직접 생성하지 않아도 되고, 클래스는 자신이 해야 할 일에 더 집중할 수 있습니다.
+
+## 6. DI를 사용하지 않은 코드
+
+DI를 사용하지 않으면 서비스 클래스가 레포지토리를 직접 생성하게 됩니다.
+
+```java
+public class UserService {
+
+    private final UserRepository userRepository = new UserRepository();
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+이 방식은 간단하지만 테스트나 확장에 불리합니다.
+
+예를 들어 테스트에서는 실제 데이터베이스에 저장하지 않고, 가짜 저장소를 사용하고 싶을 수 있습니다. 하지만 위 코드처럼 내부에서 직접 `new UserRepository()`를 호출하면 다른 구현체로 바꾸기 어렵습니다.
+
+## 7. DI를 사용한 코드
+
+DI를 사용하면 필요한 객체를 외부에서 전달받습니다.
+
+```java
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void join(String name) {
+        userRepository.save(name);
+    }
+}
+```
+
+이제 `UserService`는 `UserRepository`를 누가 만들었는지 신경 쓰지 않습니다. 그저 생성자를 통해 전달받은 객체를 사용합니다.
+
+테스트 코드에서는 가짜 구현체를 넣을 수도 있습니다.
+
+```java
+public class FakeUserRepository extends UserRepository {
+
+    @Override
+    public void save(String name) {
+        System.out.println("테스트 저장: " + name);
+    }
+}
+```
+
+```java
+UserRepository fakeRepository = new FakeUserRepository();
+UserService userService = new UserService(fakeRepository);
+```
+
+이렇게 의존성을 외부에서 주입받으면 코드가 더 유연해집니다.
+
+## 8. 생성자 주입을 권장하는 이유
+
+Spring에서는 여러 방식으로 의존성을 주입할 수 있습니다.
+
+- 생성자 주입
+- 필드 주입
+- Setter 주입
+
+이 중에서 가장 권장되는 방식은 생성자 주입입니다.
+
+```java
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+}
+```
+
+생성자 주입을 사용하면 다음과 같은 장점이 있습니다.
+
+- 필수 의존성을 누락하기 어렵다.
+- `final` 필드를 사용할 수 있다.
+- 객체 생성 이후 의존성이 바뀌지 않는다.
+- 테스트 코드에서 의존성을 직접 넣기 쉽다.
+
+반대로 필드 주입은 코드가 짧아 보이지만 테스트가 어렵고, 의존성이 숨겨지기 쉽습니다.
+
+```java
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+}
+```
+
+최근 Spring에서는 생성자가 하나만 있으면 `@Autowired`를 생략할 수 있습니다.
+
+```java
+@Service
+public class UserService {
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+}
+```
+
+## 9. IoC와 DI의 관계
+
+IoC와 DI는 같은 뜻은 아니지만 서로 밀접하게 연결되어 있습니다.
+
+| 개념 | 설명 |
+|------|------|
+| IoC | 객체 생성과 제어 흐름을 Spring에게 맡기는 원리 |
+| DI | 필요한 의존성을 외부에서 주입받는 방법 |
+
+즉, `IoC`는 더 큰 개념이고, `DI`는 IoC를 구현하는 대표적인 방법입니다.
+
+```text
+IoC
+└── DI
+```
+
+Spring은 DI를 통해 IoC를 실현합니다.
+
+개발자는 필요한 객체를 직접 만들지 않고, 생성자나 어노테이션을 통해 필요한 의존성을 선언합니다. Spring은 그 정보를 바탕으로 객체를 생성하고 연결합니다.
+
+## 10. 정리
+
+IoC와 DI는 Spring의 핵심 개념입니다. 처음에는 용어가 어렵지만, 실제로는 객체 생성과 연결을 Spring에게 맡기는 방식이라고 이해하면 됩니다.
+
+- 의존성은 어떤 클래스가 다른 클래스를 사용하는 관계입니다.
+- IoC는 객체 생성과 제어 흐름의 주도권이 Spring으로 넘어가는 것입니다.
+- DI는 필요한 의존성을 외부에서 주입받는 방식입니다.
+- Spring 컨테이너는 Bean을 생성하고 의존 관계를 연결합니다.
+- 생성자 주입은 필수 의존성을 명확하게 표현할 수 있어 가장 권장됩니다.
+
+이 개념을 이해하면 이후에 `@Component`, `@Bean`, `@Autowired`, Bean 생명주기 같은 Spring의 핵심 기능을 훨씬 쉽게 이해할 수 있습니다.

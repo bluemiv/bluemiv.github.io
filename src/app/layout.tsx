@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 import RegisterServiceWorker from '@/features/serviceWorker/components/RegisterServiceWorker';
+import { SITE_METADATA } from '@/shared/constants/site';
 import './globals.css';
 
 dayjs.extend(utc);
@@ -14,21 +15,19 @@ const pretendardFont = localFont({
   weight: '45 920',
 });
 
-const baseUrl = process.env.BASE_URL!;
-
 export const metadata: Metadata = {
-  title: process.env.METADATA_TITLE,
-  description: process.env.METADATA_DESCRIPTION,
+  title: SITE_METADATA.title,
+  description: SITE_METADATA.description,
   icons: {
     icon: '/favicon.ico',
   },
   manifest: '/manifest.webmanifest',
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(SITE_METADATA.baseUrl),
   alternates: { canonical: '/' },
-  authors: [{ name: process.env.METADATA_AUTHOR }],
+  authors: [{ name: SITE_METADATA.author }],
   openGraph: {
     type: 'website',
-    siteName: process.env.METADATA_TITLE,
+    siteName: SITE_METADATA.title,
     locale: 'ko_KR',
   },
   twitter: {

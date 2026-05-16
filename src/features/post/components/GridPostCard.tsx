@@ -16,11 +16,11 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
     <Link
       href={[ROUTE_PATH.BLOG, post.metadata.category, post.metadata.slug].join('/')}
       className={clsx(
-        'h-[380px] animate-fade-in flex flex-col rounded-lg overflow-hidden transition-all ease-in-out duration-300 group cursor-pointer border border-app-sub-bg dark:border-app-dark-sub-bg',
+        'animate-fade-in flex flex-col rounded-lg overflow-hidden transition-all ease-out duration-150 group cursor-pointer border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:-translate-y-0.5',
         className,
       )}
     >
-      <div className="w-full min-h-[180px] max-h-[180px] bg-app-sub-bg dark:bg-app-dark-sub-bg overflow-hidden">
+      <div className="w-full min-h-[168px] max-h-[168px] bg-app-surface-muted dark:bg-app-dark-surface-muted overflow-hidden">
         {!!post.metadata.thumbnail && (
           <Image
             loading="lazy"
@@ -33,17 +33,25 @@ export default function GridPostCard({ post, className }: PropsWithClassName<Pro
         )}
       </div>
       <div className="flex-1 flex flex-col gap-md p-md">
-        <div className="line-clamp-2 font-semibold group-hover:text-app-primary dark:group-hover:text-app-dark-primary break-all">
+        <div className="flex items-center justify-between gap-sm text-xs text-app-text-subtle dark:text-app-dark-text-subtle">
+          <CategoryTag category={post.metadata.category} />
+          <span>{dayjs(post.metadata.createdAt).format('YYYY-MM-DD')}</span>
+        </div>
+        <div className="line-clamp-2 text-lg leading-7 font-bold group-hover:text-app-primary dark:group-hover:text-app-dark-primary break-all transition-colors">
           {post.metadata.title}
         </div>
-        <div className="line-clamp-3 text-app-sub-text dark:text-app-dark-sub-text">
+        <div className="line-clamp-3 text-sm leading-6 text-app-text-muted dark:text-app-dark-text-muted">
           {post.metadata.description}
         </div>
-        <div className="flex-1 flex items-end justify-between gap-sm">
-          <CategoryTag category={post.metadata.category} />
-          <span className="text-app-sub-text dark:text-app-dark-sub-text text-sm">
-            {dayjs(post.metadata.createdAt).format('YYYY-MM-DD HH:mm')}
-          </span>
+        <div className="flex-1 flex items-end gap-xs flex-wrap">
+          {post.metadata.tags.slice(0, 3).map((tag) => (
+            <span
+              key={tag}
+              className="rounded-md bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
       </div>
     </Link>

@@ -32,6 +32,11 @@ export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPage
           {isHome && <HomeIntro />}
           {featuredPost && <FeaturedPostCard post={featuredPost} />}
           {isHome && categories.length > 0 && <CategoryStrip categories={categories} />}
+          {isHome && (
+            <div className="w-full overflow-hidden rounded-xl border border-app-border/80 dark:border-app-dark-border/80">
+              <ResponsiveAd />
+            </div>
+          )}
           {mainAreaTitle ? (
             <header className="w-full flex flex-col gap-xs">
               <p className="text-sm font-semibold text-app-primary dark:text-app-dark-primary">
@@ -60,9 +65,11 @@ export const BlogHomeLayout = ({ mainAreaTitle, posts, currentPageNum, totalPage
           </div>
           <Pagination prefix="" currentPageNum={currentPageNum} totalPageNum={totalPageNum} />
           {isHome && shortPosts.length > 0 && <ShortPostsPreview posts={shortPosts} />}
-          <div className="overflow-hidden w-full">
-            <ResponsiveAd />
-          </div>
+          {!isHome && (
+            <div className="overflow-hidden w-full">
+              <ResponsiveAd />
+            </div>
+          )}
         </main>
       </div>
     </div>

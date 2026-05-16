@@ -9,7 +9,7 @@ import { ROUTE_PATH } from '@/shared/constants/route';
 
 export type HeaderSearchPost = {
   category: string;
-  createdAt: string;
+  createdAt: string | Date;
   description: string;
   slug: string;
   tags: string[];
@@ -21,6 +21,13 @@ interface Props {
 }
 
 const normalize = (value: string) => value.trim().toLowerCase();
+
+const formatSearchDate = (value: HeaderSearchPost['createdAt']) => {
+  if (typeof value === 'string') return value.slice(0, 10);
+  if (value instanceof Date) return value.toISOString().slice(0, 10);
+
+  return '';
+};
 
 export default function HeaderSearch({ posts }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -163,7 +170,7 @@ export default function HeaderSearch({ posts }: Props) {
                             <span>{post.category}</span>
                             <span className="inline-flex items-center gap-[3px]">
                               <CalendarDays size={12} strokeWidth={2.2} aria-hidden="true" />
-                              {post.createdAt.slice(0, 10)}
+                              {formatSearchDate(post.createdAt)}
                             </span>
                           </div>
                           <strong className="line-clamp-1 text-base text-app-text dark:text-app-dark-text">

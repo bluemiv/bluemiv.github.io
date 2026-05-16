@@ -114,7 +114,7 @@ export default function HeaderSearch({ posts }: Props) {
         onClick={() => setIsOpen(true)}
         className="motion-chip flex h-10 w-10 items-center justify-center rounded-full text-app-text-muted hover:bg-app-primary-soft hover:text-app-primary dark:text-app-dark-text-muted dark:hover:bg-app-dark-primary-soft dark:hover:text-app-dark-primary"
       >
-        <Search className="h-[1.375rem] w-[1.375rem]" strokeWidth={2.4} aria-hidden="true" />
+        <Search className="h-5 w-5" strokeWidth={2.2} aria-hidden="true" />
       </button>
       {isOpen &&
         typeof document !== 'undefined' &&

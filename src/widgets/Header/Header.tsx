@@ -34,7 +34,7 @@ export default function Header() {
         <MobileSidebarMenu>
           <SidebarContent />
         </MobileSidebarMenu>
-        <ul className="flex-1 flex justify-end gap-[2px] sm:gap-xs">
+        <ul className="flex flex-1 items-center justify-end gap-[2px] sm:gap-xs">
           {[
             { href: ROUTE_PATH.ROOT, label: 'HOME', Icon: Home },
             { href: ROUTE_PATH.ABOUT, label: 'ABOUT', Icon: UserRound },
@@ -43,7 +43,6 @@ export default function Header() {
               label: '짧은 글',
               Icon: NotebookText,
             },
-            // { href: ROUTE_PATH.BLOG_TAGS, label: 'TAGS' },
           ].map(({ href, label, Icon }) => (
             <li key={href}>
               <NavLink
@@ -52,16 +51,20 @@ export default function Header() {
                 href={href}
                 title={label}
               >
-                <Icon className="h-[1.375rem] w-[1.375rem]" strokeWidth={2.4} />
+                <Icon className="h-5 w-5" strokeWidth={2.2} />
               </NavLink>
             </li>
           ))}
+          <li>
+            <HeaderSearch posts={searchPosts} />
+          </li>
+          <li>
+            <RefreshServiceWorkerCacheButton />
+          </li>
+          <li>
+            <ThemeToggleButton />
+          </li>
         </ul>
-        <div className="flex items-center gap-[2px] rounded-full border border-app-border bg-app-surface-muted/70 p-[3px] dark:border-app-dark-border dark:bg-app-dark-surface-muted/70 sm:gap-xs sm:p-1">
-          <HeaderSearch posts={searchPosts} />
-          <RefreshServiceWorkerCacheButton />
-          <ThemeToggleButton />
-        </div>
       </nav>
     </HeaderVisibility>
   );

@@ -1,47 +1,49 @@
 'use client';
 
-import { RotateCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function RefreshServiceWorkerCacheButton() {
-  const [showTooltip, setShowTooltip] = useState<boolean>(false);
+  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      const handleMessage = (event: MessageEvent) => {
-        if (event.data?.type === 'NEW_VERSION_AVAILABLE') {
-          console.log(`[APP] 새로운 컨텐츠가 있습니다.`);
-          setShowTooltip(true);
-        }
-      };
-      navigator.serviceWorker.addEventListener('message', handleMessage);
-      return () => {
-        navigator.serviceWorker.removeEventListener('message', handleMessage);
-      };
-    }
+    if (!('serviceWorker' in navigator)) return;
+
+    const handleMessage = (event: MessageEvent) => {
+      if (
+        event.data?.type === 'CONTENT_UPDATE_AVAILABLE' ||
+        event.data?.type === 'NEW_VERSION_AVAILABLE'
+      ) {
+        console.log('[APP] 새로운 콘텐츠가 있습니다.');
+        setIsUpdateAvailable(true);
+      }
+    };
+
+    navigator.serviceWorker.addEventListener('message', handleMessage);
+
+    return () => {
+      navigator.serviceWorker.removeEventListener('message', handleMessage);
+    };
   }, []);
 
+  if (!isUpdateAvailable) return null;
+
   return (
-    <div className="relative inline-block">
-      <button
-        className="motion-chip flex items-center justify-center w-8 h-8 rounded-full transition duration-150 ease-in-out cursor-pointer hover:bg-app-surface dark:hover:bg-app-dark-surface hover:text-app-primary dark:hover:text-app-dark-primary"
-        aria-label="새로고침"
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        <RotateCw size={16} strokeWidth={2.2} />
-      </button>
-      {showTooltip && (
-        <div className="absolute right-0 w-[150px] mt-sm">
-          <div className="animate-bounce flex flex-col items-center justify-center">
-            <div className="rotate-45 bg-app-surface-muted dark:bg-app-dark-surface-muted z-10 h-[1rem] w-[1rem] mb-[-0.75rem]" />
-            <div className="px-sm py-xs rounded-lg bg-app-surface-muted dark:bg-app-dark-surface-muted text-xs shadow-lg z-10 text-center font-semibold">
-              새로운 컨텐츠가 있습니다
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+    <button
+      type="button"
+      className="motion-chip relative flex h-8 items-center justify-center gap-1.5 rounded-full border border-app-primary/30 dark:border-app-dark-primary/40 bg-app-primary-soft/80 dark:bg-app-dark-primary-soft/70 px-2.5 text-xs font-semibold text-app-primary dark:text-app-dark-primary transition duration-150 ease-in-out hover:-translate-y-0.5"
+      aria-label="새 콘텐츠 보기"
+      title="새 콘텐츠 보기"
+      onClick={() => {
+        window.location.reload();
+      }}
+    >
+      <span className="absolute -right-0.5 -top-0.5 flex h-2.5 w-2.5">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-app-primary/70 dark:bg-app-dark-primary/70 opacity-75" />
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-app-primary dark:bg-app-dark-primary" />
+      </span>
+      <RefreshCw size={14} strokeWidth={2.3} aria-hidden="true" />
+      <span className="hidden sm:inline">새 콘텐츠</span>
+    </button>
   );
 }

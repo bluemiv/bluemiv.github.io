@@ -10,7 +10,7 @@ export default function NavLink({ href, children, className }: PropsWithComponen
   return (
     <Link
       className={clsx(
-        'hover:bg-app-sub-bg dark:hover:bg-app-dark-sub-bg px-[12px] h-[34px] rounded transition duration-150 ease-in-out flex items-center justify-center',
+        'hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft hover:text-app-primary dark:hover:text-app-dark-primary px-md h-9 rounded-full transition duration-150 ease-in-out flex items-center justify-center text-sm font-semibold text-app-text-muted dark:text-app-dark-text-muted',
         className,
       )}
       href={href}

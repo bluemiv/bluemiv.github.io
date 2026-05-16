@@ -18,7 +18,7 @@ export const ShortPostGroup = ({ slug }: Props) => {
   const currentPageNum = getShortPostCurrentPageNumber(slug);
 
   return (
-    <div className="w-full py-md sticky top-[50px] flex flex-col gap-md">
+    <div className="w-full py-md sticky top-[56px] flex flex-col gap-md">
       <div>
         {posts.map((post) => {
           const active = post.metadata.slug === slug;

@@ -72,46 +72,6 @@
         }
     }
 
-    --animate-theme-icon-fade-in: themeIconFadeIn 0.15s ease-in-out forwards;
-    @keyframes themeIconFadeIn {
-        from {
-            opacity: 0;
-            transform: translate(45%, 40%) rotate(45deg);
-        }
-        to {
-            opacity: 1;
-            transform: rotate(0deg)
-        }
-    }
-
-    --animate-theme-icon-fade-out: themeIconFadeOut 0.15s ease-in-out;
-    @keyframes themeIconFadeOut {
-        from {
-            opacity: 1;
-            transform: rotate(0deg)
-        }
-        to {
-            opacity: 0;
-            transform: translate(-45%, 40%) rotate(-45deg)
-        }
-    }
-
-    --animate-theme-reveal-fallback: themeRevealFallback 0.68s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    @keyframes themeRevealFallback {
-        0% {
-            clip-path: circle(0 at var(--theme-reveal-x) var(--theme-reveal-y));
-            opacity: 1;
-        }
-        70% {
-            clip-path: circle(var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y));
-            opacity: 1;
-        }
-        100% {
-            clip-path: circle(var(--theme-reveal-radius) at var(--theme-reveal-x) var(--theme-reveal-y));
-            opacity: 0;
-        }
-    }
-
 }
 
 html, body, html body {
@@ -357,20 +317,6 @@ html.dark {
     .motion-chip:hover {
         transform: none;
     }
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-    z-index: 1;
-}
-
-::view-transition-new(root) {
-    z-index: 2;
 }
 
 ::selection {

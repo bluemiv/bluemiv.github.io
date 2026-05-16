@@ -29,5 +29,7 @@
 ## 이미지와 공개 전 확인
 
 - `thumbnail` 경로에 실제 이미지 파일이 있는지 확인한다.
+- 썸네일은 현재 블로그 카드/OG 메타 기준인 1080x589 비율을 유지하고, 글 제목을 설명하는 장면으로 만든다.
 - 새 글을 공개할 때는 `pnpm build`로 MDX 파싱과 정적 경로 생성을 확인한다.
 - 날짜 메타데이터와 JSON-LD가 유효한 ISO 문자열로 출력되는지 확인한다.
+- 공개 전 대표 글 1개는 `og:title`, `og:description`, `og:image`, `twitter:image`, `BlogPosting`, `BreadcrumbList`가 출력되는지 확인한다.

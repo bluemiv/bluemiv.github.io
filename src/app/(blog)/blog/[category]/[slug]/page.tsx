@@ -11,19 +11,23 @@ import {
   TableOfContent,
 } from '@/features/post/components';
 import { ResponsiveAd } from '@/shared/components';
-import { getPublisherStructuredData } from '@/shared/constants/structuredData';
+import { SITE_METADATA } from '@/shared/constants/site';
+import {
+  getBlogPostingStructuredData,
+  getBreadcrumbStructuredData,
+  getSocialImages,
+  toISOString,
+} from '@/shared/constants/structuredData';
 import { Sidebar } from '@/widgets/Sidebar';
 
 interface Props {
   params: Promise<{ category: string; slug: string }>;
 }
 
-const toISOString = (date: string | Date) => new Date(date).toISOString();
-
 export async function generateMetadata({ params }: Props) {
   const { category, slug } = await params;
   const post = getPost(category, slug);
-  const baseUrl = process.env.BASE_URL!;
+  const baseUrl = process.env.BASE_URL ?? SITE_METADATA.baseUrl;
   const url = `${baseUrl}/blog/${category}/${slug}`;
   const publishedTime = toISOString(post.metadata.createdAt);
   const modifiedTime = toISOString(post.metadata.updatedAt);
@@ -37,17 +41,28 @@ export async function generateMetadata({ params }: Props) {
       title: post.metadata.title,
       description: post.metadata.description,
       url,
-      images: post.metadata.thumbnail ? [{ url: `${baseUrl}${post.metadata.thumbnail}` }] : [],
+      siteName: SITE_METADATA.title,
+      locale: 'ko_KR',
+      images: getSocialImages({
+        alt: post.metadata.title,
+        baseUrl,
+        thumbnail: post.metadata.thumbnail,
+      }),
       publishedTime,
       modifiedTime,
       authors: [post.metadata.author],
+      section: post.metadata.category,
       tags: post.metadata.tags,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.metadata.title,
       description: post.metadata.description,
-      images: post.metadata.thumbnail ? [`${baseUrl}${post.metadata.thumbnail}`] : [],
+      images: getSocialImages({
+        alt: post.metadata.title,
+        baseUrl,
+        thumbnail: post.metadata.thumbnail,
+      }),
     },
   };
 }
@@ -56,23 +71,29 @@ export default async function Page(props: Props) {
   const { category, slug } = await props.params;
   const post = getPost(category, slug);
   const { nextPost, prevPost } = getNextAndPrevPost(category, slug);
-  const baseUrl = process.env.BASE_URL!;
+  const baseUrl = process.env.BASE_URL ?? SITE_METADATA.baseUrl;
   const publishedTime = toISOString(post.metadata.createdAt);
   const modifiedTime = toISOString(post.metadata.updatedAt);
+  const url = `${baseUrl}/blog/${category}/${slug}`;
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.metadata.title,
-    description: post.metadata.description,
-    datePublished: publishedTime,
-    dateModified: modifiedTime,
-    author: { '@type': 'Person', name: post.metadata.author },
-    url: `${baseUrl}/blog/${category}/${slug}`,
-    ...(post.metadata.thumbnail && { image: `${baseUrl}${post.metadata.thumbnail}` }),
-    keywords: post.metadata.tags.join(', '),
-    publisher: getPublisherStructuredData(baseUrl),
-  };
+  const jsonLd = [
+    getBlogPostingStructuredData({
+      author: post.metadata.author,
+      baseUrl,
+      description: post.metadata.description,
+      modifiedTime,
+      publishedTime,
+      tags: post.metadata.tags,
+      thumbnail: post.metadata.thumbnail,
+      title: post.metadata.title,
+      url,
+    }),
+    getBreadcrumbStructuredData(baseUrl, [
+      { name: 'Home', path: '/' },
+      { name: post.metadata.category, path: `/blog/category/${post.metadata.category}/1` },
+      { name: post.metadata.title, path: `/blog/${category}/${slug}` },
+    ]),
+  ];
 
   return (
     <div className="flex items-start justify-start">

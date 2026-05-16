@@ -1,0 +1,335 @@
+---
+title: '@Configuration과 설정 클래스'
+description: '@Configuration이 필요한 이유와 @Bean을 조합해 외부 객체와 설정 코드를 관리하는 방법을 알아봅니다.'
+createdAt: 2025-08-22T22:31:14+09:00
+updatedAt: 2025-08-22T22:31:14+09:00
+tags: ['spring', 'springboot', 'java', 'configuration']
+release: true
+author: Taehong Kim
+thumbnail: /r/i/spring/36/thumbnail.webp
+---
+
+## 1. 설정 클래스는 왜 필요할까?
+
+Spring Boot를 사용하면 많은 설정이 자동으로 적용됩니다. 그래서 처음에는 `@Configuration`을 직접 작성할 일이 많지 않아 보일 수 있습니다.
+
+하지만 프로젝트를 만들다 보면 직접 설정해야 하는 객체가 생깁니다.
+
+```text
+직접 설정이 필요한 경우
+├── 외부 라이브러리 객체를 Bean으로 등록할 때
+├── 생성 과정이 복잡한 객체를 만들 때
+├── 환경별로 다른 설정을 적용할 때
+└── 공통 설정을 한곳에서 관리하고 싶을 때
+```
+
+이런 설정 코드를 모아두는 클래스에 사용하는 어노테이션이 `@Configuration`입니다.
+
+이전 글인 [Bean과 Component 이해하기](/blog/spring/34)에서 `@Bean`으로 객체를 Bean 등록하는 방법을 다뤘습니다. 이번 글에서는 그 `@Bean` 메서드를 어디에, 어떻게 모아두는지 살펴보겠습니다.
+
+## 2. @Configuration이란?
+
+`@Configuration`은 해당 클래스가 Spring 설정 클래스라는 것을 나타내는 어노테이션입니다.
+
+```java
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+}
+```
+
+이 클래스는 일반적인 비즈니스 로직을 처리하기 위한 클래스라기보다, 애플리케이션에 필요한 Bean과 설정을 정의하는 역할을 합니다.
+
+보통 `@Configuration` 클래스 안에는 `@Bean` 메서드를 함께 작성합니다.
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new PasswordEncoder();
+    }
+}
+```
+
+위 코드에서 `AppConfig`는 설정 클래스이고, `passwordEncoder()`가 반환하는 객체는 Spring Bean으로 등록됩니다.
+
+## 3. @Bean과 함께 사용하는 기본 형태
+
+`@Configuration`과 `@Bean`을 함께 쓰는 기본 구조는 다음과 같습니다.
+
+```java
+@Configuration
+public class ExternalClientConfig {
+
+    @Bean
+    public ExternalApiClient externalApiClient() {
+        return new ExternalApiClient();
+    }
+}
+```
+
+Spring은 애플리케이션이 시작될 때 `ExternalClientConfig`를 읽고, `externalApiClient()` 메서드를 호출해 반환된 객체를 Bean으로 등록합니다.
+
+```text
+ExternalClientConfig
+└── externalApiClient()
+        ↓
+    ExternalApiClient Bean
+```
+
+이후 다른 Bean은 생성자 주입으로 이 객체를 사용할 수 있습니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    private final ExternalApiClient externalApiClient;
+
+    public OrderService(ExternalApiClient externalApiClient) {
+        this.externalApiClient = externalApiClient;
+    }
+}
+```
+
+의존성을 주입받는 방식은 [@Autowired와 의존성 주입 방법](/blog/spring/35)에서 다룬 내용과 연결됩니다.
+
+## 4. 언제 @Configuration을 사용할까?
+
+직접 만든 서비스, 컨트롤러, 레포지토리 클래스는 보통 `@Service`, `@Controller`, `@Repository` 같은 `@Component` 계열 어노테이션을 붙입니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+}
+```
+
+반면 아래처럼 내가 직접 어노테이션을 붙일 수 없는 객체는 설정 클래스에서 `@Bean`으로 등록하는 편이 자연스럽습니다.
+
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class JacksonConfig {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+}
+```
+
+`ObjectMapper`는 외부 라이브러리 클래스입니다. 이 클래스 선언부에 직접 `@Component`를 붙일 수 없으므로, 설정 클래스에서 Bean으로 등록합니다.
+
+## 5. 설정값을 사용하는 Bean 만들기
+
+실무에서는 외부 API 주소, 타임아웃, 토큰 같은 설정값을 사용해 Bean을 만드는 경우가 많습니다.
+
+간단한 예제로 `application.yml`에 외부 API 주소를 작성해보겠습니다.
+
+```yaml
+external:
+  api:
+    base-url: https://api.example.com
+    timeout-millis: 3000
+```
+
+이 값을 설정 클래스에서 사용할 수 있습니다.
+
+```java
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ExternalApiConfig {
+
+    @Bean
+    public ExternalApiClient externalApiClient(
+        @Value("${external.api.base-url}") String baseUrl,
+        @Value("${external.api.timeout-millis}") int timeoutMillis
+    ) {
+        return new ExternalApiClient(baseUrl, timeoutMillis);
+    }
+}
+```
+
+이렇게 하면 설정값을 코드에 직접 박아두지 않고, 환경별 설정 파일이나 환경변수를 통해 바꿀 수 있습니다.
+
+설정 파일의 역할은 [application.yml과 application.properties 설정](/blog/spring/32)에서 더 자세히 다뤘습니다.
+
+## 6. @Configuration 클래스도 Bean이다
+
+`@Configuration`이 붙은 클래스도 Spring Bean으로 등록됩니다.
+
+```java
+@Configuration
+public class AppConfig {
+}
+```
+
+`@Configuration` 자체도 내부적으로 `@Component` 계열로 동작합니다. 그래서 Spring의 컴포넌트 스캔 대상에 포함되면 설정 클래스도 자동으로 Bean 등록됩니다.
+
+다만 설정 클래스는 일반 서비스 클래스처럼 비즈니스 로직을 담는 곳이 아닙니다. Bean 생성 방법, 라이브러리 설정, 애플리케이션 설정을 모아두는 용도로 사용하는 것이 좋습니다.
+
+## 7. @Configuration과 @Component의 차이
+
+`@Configuration`도 Bean으로 등록된다는 점만 보면 `@Component`와 비슷해 보입니다. 하지만 의도가 다릅니다.
+
+| 구분 | @Configuration | @Component |
+|------|----------------|------------|
+| 주요 목적 | Bean 정의와 설정 구성 | 일반 컴포넌트 등록 |
+| 주로 담는 내용 | `@Bean` 메서드, 설정 코드 | 서비스 로직, 유틸성 Bean |
+| 사용 예시 | 외부 라이브러리 객체 등록 | 직접 만든 공통 컴포넌트 |
+
+설정 클래스라면 `@Configuration`을 사용하고, 실제 기능을 수행하는 객체라면 역할에 맞게 `@Service`, `@Repository`, `@Component`를 사용하는 편이 읽기 쉽습니다.
+
+## 8. @Configuration의 proxyBeanMethods
+
+`@Configuration`에는 `proxyBeanMethods`라는 속성이 있습니다.
+
+```java
+@Configuration(proxyBeanMethods = false)
+public class AppConfig {
+}
+```
+
+기본값은 `true`입니다. 이 경우 Spring은 설정 클래스를 프록시로 감싸서 `@Bean` 메서드 호출을 관리합니다.
+
+예를 들어 아래 코드를 보겠습니다.
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public UserRepository userRepository() {
+        return new MemoryUserRepository();
+    }
+
+    @Bean
+    public UserService userService() {
+        return new UserService(userRepository());
+    }
+}
+```
+
+`userService()` 안에서 `userRepository()`를 직접 호출하고 있습니다. `proxyBeanMethods = true`이면 Spring은 이 호출이 새로운 객체를 계속 만들지 않고, 컨테이너가 관리하는 Bean을 반환하도록 처리합니다.
+
+반대로 `proxyBeanMethods = false`는 이런 프록시 처리를 줄입니다. 설정 클래스 안에서 다른 `@Bean` 메서드를 직접 호출하지 않는다면 성능과 단순성을 위해 사용할 수 있습니다.
+
+```java
+@Configuration(proxyBeanMethods = false)
+public class AppConfig {
+
+    @Bean
+    public UserService userService(UserRepository userRepository) {
+        return new UserService(userRepository);
+    }
+}
+```
+
+위처럼 필요한 Bean을 메서드 파라미터로 받으면 다른 `@Bean` 메서드를 직접 호출하지 않아도 됩니다.
+
+## 9. 실무에서 설정 클래스를 나누는 기준
+
+설정 클래스가 하나뿐이면 처음에는 단순하지만, 시간이 지나면 너무 많은 설정이 한 파일에 몰릴 수 있습니다.
+
+저는 보통 역할이나 외부 시스템 단위로 설정 클래스를 나눕니다.
+
+```text
+config/
+├── JacksonConfig.java
+├── SecurityConfig.java
+├── WebConfig.java
+├── ExternalApiConfig.java
+└── PersistenceConfig.java
+```
+
+예를 들어 JSON 직렬화 설정은 `JacksonConfig`, 웹 관련 설정은 `WebConfig`, 외부 API 클라이언트 설정은 `ExternalApiConfig`처럼 나눌 수 있습니다.
+
+중요한 기준은 “이 설정 클래스 이름만 보고 어떤 설정이 들어있는지 알 수 있는가?”입니다.
+
+## 10. 자주 하는 실수
+
+### 10.1. 설정 클래스에 비즈니스 로직을 넣는 경우
+
+설정 클래스는 객체를 만들고 설정하는 곳입니다. 주문 처리, 회원 가입, 결제 승인 같은 비즈니스 로직은 `@Service` 클래스에 두는 것이 좋습니다.
+
+```java
+@Configuration
+public class OrderConfig {
+
+    public void approveOrder(Long orderId) {
+        // 설정 클래스에 어울리지 않는 비즈니스 로직
+    }
+}
+```
+
+이런 코드는 역할이 섞여 읽기 어려워집니다.
+
+### 10.2. @Bean 메서드에서 직접 민감 정보를 넣는 경우
+
+아래처럼 API 키를 코드에 직접 넣으면 안 됩니다.
+
+```java
+@Bean
+public ExternalApiClient externalApiClient() {
+    return new ExternalApiClient("real-api-key");
+}
+```
+
+운영 환경에서는 환경변수, Secret Manager, 배포 환경의 Secret 설정을 사용해야 합니다.
+
+```java
+@Bean
+public ExternalApiClient externalApiClient(
+    @Value("${external.api.key}") String apiKey
+) {
+    return new ExternalApiClient(apiKey);
+}
+```
+
+### 10.3. 설정 클래스를 너무 크게 만드는 경우
+
+모든 설정을 `AppConfig` 하나에 넣으면 파일이 커지고 변경 이유가 섞입니다.
+
+```text
+AppConfig.java
+├── JSON 설정
+├── 보안 설정
+├── 외부 API 설정
+├── 데이터베이스 설정
+└── 웹 MVC 설정
+```
+
+이럴 때는 역할별로 설정 클래스를 분리하는 것이 좋습니다.
+
+## 11. 참고 자료
+
+- [Spring Framework - Java-based Container Configuration](https://docs.spring.io/spring-framework/reference/core/beans/java.html)
+- [Spring Framework - Using the @Bean Annotation](https://docs.spring.io/spring-framework/reference/core/beans/java/bean-annotation.html)
+- [Spring Boot - Externalized Configuration](https://docs.spring.io/spring-boot/reference/features/external-config.html)
+
+## 12. 정리
+
+`@Configuration`은 Spring 설정 클래스를 만들 때 사용하는 어노테이션입니다.
+
+- 설정 클래스는 Bean 생성 방법과 애플리케이션 설정을 모아두는 역할을 합니다.
+- `@Bean` 메서드와 함께 사용해 외부 라이브러리 객체나 생성 과정이 필요한 객체를 Bean으로 등록할 수 있습니다.
+- 직접 만든 서비스 클래스는 보통 `@Service`, 외부 객체 설정은 `@Configuration` + `@Bean`으로 나누면 읽기 쉽습니다.
+- 설정값은 코드에 직접 넣기보다 `application.yml`, 환경변수, Secret을 통해 관리해야 합니다.
+- 설정 클래스가 커지면 역할별로 분리하는 것이 좋습니다.
+
+`@Configuration`을 이해하면 Spring Boot가 자동으로 해주는 설정과 개발자가 직접 정의하는 설정의 경계를 더 명확히 볼 수 있습니다.

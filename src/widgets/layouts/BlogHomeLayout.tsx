@@ -93,11 +93,11 @@ const HomeIntro = () => {
         </div>
         <div className="flex flex-col gap-sm">
           <h1 className="text-3xl md:text-5xl font-bold leading-tight text-app-text dark:text-app-dark-text">
-            개발 문제를 오래 읽기 좋게 정리합니다.
+            개발하며 배운 내용을 기록합니다.
           </h1>
           <p className="text-base md:text-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted">
-            Java, Spring, React, Next.js, 알고리즘을 중심으로 실무에서 다시 찾게 되는 기술 기록을
-            모읍니다.
+            Java, Spring, React, Next.js, 알고리즘을 중심으로 문제 해결 과정과 학습 내용을
+            정리합니다.
           </p>
         </div>
         <div className="flex flex-wrap gap-sm pt-xs">

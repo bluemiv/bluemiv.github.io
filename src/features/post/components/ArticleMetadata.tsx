@@ -18,12 +18,12 @@ export default function ArticleMetadata({ post }: Props) {
   const readingTimeMinutes = calculateReadingTimeMinutes(post.content);
 
   return (
-    <header className="motion-enter flex flex-col gap-lg pb-2xl mb-lg">
+    <header className="article-hero motion-enter flex flex-col gap-lg pb-2xl mb-lg">
       {post.metadata.thumbnail && (
         <ArticleThumbnail thumbnail={post.metadata.thumbnail} alt={post.metadata.title} />
       )}
-      <div className="border-b border-app-border/80 dark:border-app-dark-border/80 pb-xl">
-        <div className="flex flex-wrap items-center gap-sm text-sm text-app-text-subtle dark:text-app-dark-text-subtle">
+      <div className="article-hero-panel border-b border-app-border/80 dark:border-app-dark-border/80 pb-xl">
+        <div className="article-hero-meta flex flex-wrap items-center gap-sm text-sm text-app-text-subtle dark:text-app-dark-text-subtle">
           <span className="inline-flex items-center gap-xs rounded-full bg-app-primary-soft dark:bg-app-dark-primary-soft px-sm py-xs font-semibold text-app-primary dark:text-app-dark-primary">
             <Folder size={14} strokeWidth={2.2} />
             {post.metadata.category}
@@ -33,13 +33,13 @@ export default function ArticleMetadata({ post }: Props) {
             {author}
           </span>
         </div>
-        <h1 className="mt-md text-3xl md:text-5xl font-bold leading-tight tracking-normal text-app-text dark:text-app-dark-text">
+        <h1 className="article-hero-title mt-md text-3xl md:text-5xl font-bold leading-tight tracking-normal text-app-text dark:text-app-dark-text">
           {post.metadata.title}
         </h1>
-        <p className="mt-md text-base md:text-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted">
+        <p className="article-hero-description mt-md text-base md:text-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted">
           {post.metadata.description}
         </p>
-        <div className="mt-lg flex flex-wrap gap-x-md gap-y-xs text-sm text-app-text-subtle dark:text-app-dark-text-subtle">
+        <div className="article-hero-detail mt-lg flex flex-wrap gap-x-md gap-y-xs text-sm text-app-text-subtle dark:text-app-dark-text-subtle">
           <time
             className="inline-flex items-center gap-xs"
             dateTime={createdAt.format('YYYY-MM-DD HH:mm:ss')}
@@ -61,7 +61,7 @@ export default function ArticleMetadata({ post }: Props) {
             {readingTimeMinutes} min read
           </span>
         </div>
-        <ul aria-label="tags" className="mt-lg flex flex-wrap gap-sm">
+        <ul aria-label="tags" className="article-hero-tags mt-lg flex flex-wrap gap-sm">
           {Array.from(new Set(post.metadata.tags))
             .filter((v) => !!v?.trim())
             .map((tag) => (

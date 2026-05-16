@@ -21,6 +21,26 @@
     --color-app-dark-sub-bg: rgba(101, 108, 118, 0.2);
     --color-app-primary: #4263eb;
     --color-app-dark-primary: #4dabf7;
+    --color-app-surface: #FFFFFF;
+    --color-app-surface-muted: #F1F5F9;
+    --color-app-surface-raised: #FFFFFF;
+    --color-app-border: #E2E8F0;
+    --color-app-border-strong: #CBD5E1;
+    --color-app-text-muted: #475569;
+    --color-app-text-subtle: #64748B;
+    --color-app-primary-soft: #DBEAFE;
+    --color-app-accent: #0891B2;
+    --color-app-accent-soft: #CFFAFE;
+    --color-app-dark-surface: #111827;
+    --color-app-dark-surface-muted: #1E293B;
+    --color-app-dark-surface-raised: #162033;
+    --color-app-dark-border: #253044;
+    --color-app-dark-border-strong: #334155;
+    --color-app-dark-text-muted: #CBD5E1;
+    --color-app-dark-text-subtle: #94A3B8;
+    --color-app-dark-primary-soft: #172554;
+    --color-app-dark-accent: #22D3EE;
+    --color-app-dark-accent-soft: #164E63;
 
     --animate-fade-in: fadeIn 0.2s ease-in-out forwards;
     @keyframes fadeIn {

@@ -80,7 +80,7 @@ export default function RefreshServiceWorkerCacheButton() {
     <>
       <button
         type="button"
-        className="relative flex h-8 w-8 items-center justify-center rounded-full border border-app-primary/30 bg-app-primary-soft/80 text-app-primary transition-colors duration-150 ease-in-out hover:border-app-primary/50 hover:bg-app-primary-soft dark:border-app-dark-primary/40 dark:bg-app-dark-primary-soft/70 dark:text-app-dark-primary dark:hover:border-app-dark-primary/60 dark:hover:bg-app-dark-primary-soft"
+        className="relative flex h-9 w-9 items-center justify-center rounded-full border border-app-primary/30 bg-app-primary-soft/80 text-app-primary transition-colors duration-150 ease-in-out hover:border-app-primary/50 hover:bg-app-primary-soft dark:border-app-dark-primary/40 dark:bg-app-dark-primary-soft/70 dark:text-app-dark-primary dark:hover:border-app-dark-primary/60 dark:hover:bg-app-dark-primary-soft sm:h-10 sm:w-10"
         aria-label="새 콘텐츠로 새로고침"
         title="새 콘텐츠로 새로고침"
         onClick={refreshContent}
@@ -89,7 +89,11 @@ export default function RefreshServiceWorkerCacheButton() {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-app-primary/70 dark:bg-app-dark-primary/70 opacity-75" />
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-app-primary dark:bg-app-dark-primary" />
         </span>
-        <Sparkles size={14} strokeWidth={2.3} aria-hidden="true" />
+        <Sparkles
+          className="h-[1.1875rem] w-[1.1875rem] sm:h-[1.25rem] sm:w-[1.25rem]"
+          strokeWidth={2.35}
+          aria-hidden="true"
+        />
       </button>
       {isNoticeVisible && typeof document !== 'undefined' && createPortal(notice, document.body)}
     </>

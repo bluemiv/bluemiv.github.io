@@ -1,4 +1,4 @@
-import { Home, NotebookText } from 'lucide-react';
+import { Home, NotebookText, UserRound } from 'lucide-react';
 
 import { getAllPosts, getAllShortPosts } from '@/features/post/api';
 import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/components/RefreshServiceWorkerCacheButton';
@@ -34,10 +34,10 @@ export default function Header() {
         <MobileSidebarMenu>
           <SidebarContent />
         </MobileSidebarMenu>
-        <ul className="flex-1 flex justify-end gap-xs">
+        <ul className="flex-1 flex justify-end gap-[2px] sm:gap-xs">
           {[
-            // { href: ROUTE_PATH.ABOUT, label: 'ABOUT' },
             { href: ROUTE_PATH.ROOT, label: 'HOME', Icon: Home },
+            { href: ROUTE_PATH.ABOUT, label: 'ABOUT', Icon: UserRound },
             {
               href: [ROUTE_PATH.BLOG_SHORT, shortPostsLength].join('/'),
               label: '짧은 글',
@@ -48,16 +48,19 @@ export default function Header() {
             <li key={href}>
               <NavLink
                 ariaLabel={label === 'HOME' ? '홈으로 이동' : `${label} 보기`}
-                className="h-9 w-9 px-0 sm:px-0"
+                className="h-9 w-9 px-0 sm:h-10 sm:w-10 sm:px-0"
                 href={href}
                 title={label}
               >
-                <Icon size={17} strokeWidth={2.2} />
+                <Icon
+                  className="h-[1.3125rem] w-[1.3125rem] sm:h-[1.375rem] sm:w-[1.375rem]"
+                  strokeWidth={2.35}
+                />
               </NavLink>
             </li>
           ))}
         </ul>
-        <div className="flex items-center gap-xs rounded-full border border-app-border dark:border-app-dark-border bg-app-surface-muted/70 dark:bg-app-dark-surface-muted/70 p-1">
+        <div className="flex items-center gap-[2px] rounded-full border border-app-border bg-app-surface-muted/70 p-[3px] dark:border-app-dark-border dark:bg-app-dark-surface-muted/70 sm:gap-xs sm:p-1">
           <HeaderSearch posts={searchPosts} />
           <RefreshServiceWorkerCacheButton />
           <ThemeToggleButton />

@@ -2,6 +2,7 @@ export { default as PostMdxContent } from './PostMdxContent';
 export { default as GridPostCard } from './GridPostCard';
 export { default as TableOfContent } from './TableOfContent';
 export { default as ArticleMetadata } from './ArticleMetadata';
+export { default as ScrollToTopButton } from './ScrollToTopButton';
 export * from './CategoryTag';
 export * from './NextOrPrevPostCard';
 export * from './Pagination';

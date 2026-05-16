@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { getShortPost } from '@/features/post/api';
+import { getAuthorDisplayName } from '@/features/post/author';
 import { PostMdxContent } from '@/features/post/components';
 import { ShortTagLink } from '@/features/tag/components';
 import { ShortPostGroup } from '@/widgets/ShortPostGroup';
@@ -12,6 +13,8 @@ interface Props {
 
 export const ShortPostsLayout = ({ slug }: Props) => {
   const post = getShortPost(slug);
+  const author = getAuthorDisplayName(post.metadata.author);
+
   return (
     <div className="flex items-start justify-start w-full">
       <Sidebar />
@@ -35,7 +38,7 @@ export const ShortPostsLayout = ({ slug }: Props) => {
                   <div className="text-app-text dark:text-app-dark-text font-semibold line-clamp-2 text-2xl">
                     {post.metadata.title}
                   </div>
-                  <div className="text-sm">{post.metadata.author}</div>
+                  <div className="text-sm">{author}</div>
                   <div className="text-sm flex items-center gap-md">
                     {post.metadata.updatedAt &&
                       !dayjs(post.metadata.createdAt).isSame(

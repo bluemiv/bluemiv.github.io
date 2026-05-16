@@ -17,7 +17,7 @@ async function cleanupCaches() {
 async function sendPostMessage() {
   const allClients = await self.clients.matchAll({ includeUncontrolled: true });
   allClients.forEach((client) =>
-    client.postMessage({ type: 'CONTENT_UPDATE_AVAILABLE', version: BUILD_VERSION }),
+    client.postMessage({ type: 'APP_UPDATE_AVAILABLE', version: BUILD_VERSION }),
   );
 }
 

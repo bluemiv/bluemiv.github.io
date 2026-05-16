@@ -77,10 +77,10 @@ export default async function Page(props: Props) {
       <Sidebar />
       <main className="relative w-full px-md md:max-w-[calc(100%-280px)]">
         <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">
-          <div className="animate-fade-in max-w-[1000px] lg:max-w-[770px] w-full min-w-0 py-md">
+          <div className="animate-fade-in max-w-[1000px] lg:max-w-[770px] w-full min-w-0 py-lg">
             <ArticleMetadata post={post} />
             <ResponsiveAd />
-            <article>
+            <article className="post-body px-1 md:px-0">
               <PostMdxContent content={post.content} />
             </article>
             <ResponsiveAd />

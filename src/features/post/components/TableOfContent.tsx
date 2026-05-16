@@ -54,15 +54,15 @@ export default function TableOfContent() {
 
   return (
     <aside className="motion-enter hidden w-full sticky top-[72px] lg:inline-block lg:max-w-[250px] md:right-0 pt-md">
-      <div className="motion-card rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 backdrop-blur-xl p-md">
-        <div className="flex items-center justify-between gap-sm pb-md mb-md border-b border-app-border dark:border-app-dark-border">
+      <div className="pl-md">
+        <div className="flex items-center justify-between gap-sm pb-md mb-md border-b border-app-border/80 dark:border-app-dark-border/80">
           <div className="inline-flex items-center gap-xs font-bold text-sm text-app-text dark:text-app-dark-text">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-app-primary-soft dark:bg-app-dark-primary-soft text-app-primary dark:text-app-dark-primary">
               <ListTree size={15} strokeWidth={2.3} />
             </span>
             목차
           </div>
-          <span className="rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[2px] text-[11px] font-semibold text-app-text-subtle dark:text-app-dark-text-subtle">
+          <span className="text-[11px] font-semibold text-app-text-subtle dark:text-app-dark-text-subtle">
             {tocItems.length}
           </span>
         </div>
@@ -89,9 +89,9 @@ export default function TableOfContent() {
                       }
                     }}
                     className={clsx(
-                      'motion-chip group relative flex min-h-8 items-center gap-xs rounded-lg py-xs pr-sm text-app-text-muted dark:text-app-dark-text-muted hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft hover:text-app-primary dark:hover:text-app-dark-primary',
+                      'motion-chip group relative flex min-h-8 items-center gap-xs rounded-lg py-xs pr-sm text-app-text-muted dark:text-app-dark-text-muted hover:text-app-primary dark:hover:text-app-dark-primary',
                       isActive
-                        ? 'bg-app-primary-soft dark:bg-app-dark-primary-soft text-app-primary dark:text-app-dark-primary font-semibold'
+                        ? 'text-app-primary dark:text-app-dark-primary font-semibold'
                         : '',
                       {
                         'pl-md': item.level === 'h1' || item.level === 'h2',
@@ -123,7 +123,7 @@ export default function TableOfContent() {
             })}
           </ul>
         </div>
-        <div className="pt-md mt-md border-t border-app-border dark:border-app-dark-border flex items-center justify-between gap-sm">
+        <div className="pt-md mt-md border-t border-app-border/80 dark:border-app-dark-border/80 flex items-center justify-between gap-sm">
           <span className="text-[11px] font-semibold text-app-text-subtle dark:text-app-dark-text-subtle">
             읽기 지도
           </span>

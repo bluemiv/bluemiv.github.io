@@ -6,9 +6,11 @@ export const RSSLink = () => {
   return (
     <Link
       href={ROUTE_PATH.RSS}
-      className="inline-block rounded p-xs hover:bg-app-sub-bg dark:hover:bg-app-dark-sub-bg hover:text-app-primary dark:hover:text-app-dark-primary duration-100 ease-in-out"
+      prefetch={false}
+      aria-label="RSS 구독"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft hover:text-app-primary dark:hover:text-app-dark-primary duration-100 ease-in-out"
     >
-      <RSSIcon className="w-[1.5rem]" />
+      <RSSIcon className="w-[1.15rem]" />
     </Link>
   );
 };

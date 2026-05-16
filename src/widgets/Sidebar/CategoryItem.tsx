@@ -16,25 +16,28 @@ export const CategoryItem = ({
   isNotLink?: boolean;
 }) => {
   return (
-    <li className="h-[36px]">
+    <li>
       {isNotLink ? (
-        <span className="flex items-center h-full cursor-not-allowed pl-[0.5rem]">{label}</span>
+        <span className="flex items-center justify-between h-8 rounded-md px-sm text-sm font-semibold text-app-text-muted dark:text-app-dark-text-muted">
+          {label}
+        </span>
       ) : (
         <Link
           className={clsx(
-            'flex items-center h-full hover:bg-app-sub-bg dark:hover:bg-app-dark-sub-bg',
-            'hover:text-app-primary dark:hover:text-app-dark-primary pl-[0.5rem]',
+            'flex items-center justify-between h-8 rounded-md px-sm text-sm font-medium transition-colors',
+            'text-app-text-muted dark:text-app-dark-text-muted hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft',
+            'hover:text-app-primary dark:hover:text-app-dark-primary',
             isSubList
-              ? 'hover:border-app-primary dark:hover:border-app-dark-primary border-app-sub-text dark:border-b-app-dark-sub-text border-l ml-[1rem]'
+              ? 'ml-md border-l border-app-border dark:border-app-dark-border rounded-l-none pl-sm'
               : '',
           )}
           href={[ROUTE_PATH.BLOG_CATEGORY, encodeURIComponent(category.toLowerCase()), '1'].join(
             '/',
           )}
         >
-          {label}
-          <span className="ml-sm text-sm text-app-sub-text dark:text-app-dark-sub-text">
-            ({count || 0})
+          <span className="truncate">{label}</span>
+          <span className="ml-sm text-xs text-app-text-subtle dark:text-app-dark-text-subtle">
+            {count || 0}
           </span>
         </Link>
       )}

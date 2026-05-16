@@ -4,6 +4,7 @@ import {
   Comments,
   NextOrPrevPostCard,
   PostMdxContent,
+  ReadingProgressBar,
   RelatedPosts,
   RSSSubscribeBanner,
   ScrollToTopButton,
@@ -75,6 +76,7 @@ export default async function Page(props: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <ReadingProgressBar />
       <Sidebar />
       <main className="relative w-full px-md md:max-w-[calc(100%-280px)]">
         <div className="mx-auto max-w-[1000px] w-full flex items-start justify-start gap-lg">

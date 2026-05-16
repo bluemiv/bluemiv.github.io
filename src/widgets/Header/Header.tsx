@@ -48,11 +48,11 @@ export default function Header() {
             <li key={href}>
               <NavLink
                 ariaLabel={label === 'HOME' ? '홈으로 이동' : `${label} 보기`}
-                className="h-9 w-9 px-0 sm:h-10 sm:w-10 sm:px-0"
+                className="h-10 w-10 px-0 sm:px-0"
                 href={href}
                 title={label}
               >
-                <Icon className="h-5 w-5" strokeWidth={2.4} />
+                <Icon className="h-[1.375rem] w-[1.375rem]" strokeWidth={2.4} />
               </NavLink>
             </li>
           ))}

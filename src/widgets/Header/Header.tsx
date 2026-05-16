@@ -4,13 +4,14 @@ import { getAllShortPosts } from '@/features/post/api';
 import RefreshServiceWorkerCacheButton from '@/features/serviceWorker/components/RefreshServiceWorkerCacheButton';
 import { ThemeToggleButton } from '@/features/theme/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
+import HeaderVisibility from '@/widgets/Header/HeaderVisibility';
 import Logo from '@/widgets/Header/Logo';
 import NavLink from '@/widgets/Header/NavLink';
 
 export default function Header() {
   const shortPostsLength = getAllShortPosts().length;
   return (
-    <header className="motion-header sticky top-0 z-50 h-[56px] w-full px-md bg-app-surface-raised/85 dark:bg-app-dark-surface-raised/85 backdrop-blur-xl border-b border-app-border/80 dark:border-app-dark-border/80">
+    <HeaderVisibility>
       <nav className="w-full h-full mx-auto flex items-center justify-between gap-md">
         <Logo />
         <ul className="flex-1 flex justify-end gap-xs">
@@ -33,6 +34,6 @@ export default function Header() {
           <ThemeToggleButton />
         </div>
       </nav>
-    </header>
+    </HeaderVisibility>
   );
 }

@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { ChevronRight, Folder } from 'lucide-react';
 import Link from 'next/link';
 import { ROUTE_PATH } from '@/shared/constants/route';
 
@@ -18,13 +19,14 @@ export const CategoryItem = ({
   return (
     <li>
       {isNotLink ? (
-        <span className="flex items-center justify-between h-8 rounded-md px-sm text-sm font-semibold text-app-text dark:text-app-dark-text">
-          {label}
+        <span className="flex items-center justify-between h-8 rounded-md px-sm text-xs font-bold uppercase text-app-text-subtle dark:text-app-dark-text-subtle">
+          <span>{label}</span>
+          <ChevronRight size={13} strokeWidth={2.4} className="opacity-50" />
         </span>
       ) : (
         <Link
           className={clsx(
-            'flex items-center justify-between h-8 rounded-md px-sm text-sm font-medium transition-colors',
+            'group flex items-center justify-between h-9 rounded-lg px-sm text-sm font-semibold transition-colors',
             'text-app-text-muted dark:text-app-dark-text-muted hover:bg-app-primary-soft dark:hover:bg-app-dark-primary-soft',
             'hover:text-app-primary dark:hover:text-app-dark-primary',
             isSubList
@@ -35,8 +37,11 @@ export const CategoryItem = ({
             '/',
           )}
         >
-          <span className="truncate">{label}</span>
-          <span className="ml-sm text-xs text-app-text-subtle dark:text-app-dark-text-subtle">
+          <span className="min-w-0 inline-flex items-center gap-xs">
+            {!isSubList && <Folder size={14} strokeWidth={2.2} className="shrink-0 opacity-70" />}
+            <span className="truncate">{label}</span>
+          </span>
+          <span className="ml-sm rounded-full bg-app-surface-muted dark:bg-app-dark-surface-muted px-xs py-[1px] text-xs text-app-text-subtle dark:text-app-dark-text-subtle group-hover:bg-app-surface dark:group-hover:bg-app-dark-surface">
             {count || 0}
           </span>
         </Link>

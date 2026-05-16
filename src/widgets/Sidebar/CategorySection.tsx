@@ -11,7 +11,7 @@ export const CategorySection = () => {
   return (
     <section className="px-xs">
       <SectionTitle>Category</SectionTitle>
-      <ul className="flex flex-col gap-xs">
+      <ul className="flex flex-col gap-[2px]">
         <CategoryItem
           label="Language"
           category="language"
@@ -19,7 +19,7 @@ export const CategorySection = () => {
           isNotLink
         />
         <li>
-          <ul className="flex flex-col gap-xs">
+          <ul className="flex flex-col gap-[2px]">
             {[
               { label: 'JavaScript', category: 'javascript' },
               { label: 'Go', category: 'go' },
@@ -36,7 +36,7 @@ export const CategorySection = () => {
         </li>
         <CategoryItem label="Front-end" category="frontend" count={categoriesMap['frontend']} />
         <li>
-          <ul className="flex flex-col gap-xs">
+          <ul className="flex flex-col gap-[2px]">
             {[
               { label: 'React', category: 'react' },
               { label: 'Next.js', category: 'nextjs' },
@@ -53,7 +53,7 @@ export const CategorySection = () => {
         </li>
         <CategoryItem label="Back-end" category="backend" count={categoriesMap['backend']} />
         <li>
-          <ul className="flex flex-col gap-xs">
+          <ul className="flex flex-col gap-[2px]">
             {[
               { label: 'Java', category: 'java' },
               { label: 'Kotlin', category: 'kotlin' },

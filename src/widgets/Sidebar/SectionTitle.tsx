@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 
 export default function SectionTitle({ children }: PropsWithChildren) {
   return (
-    <h6 className="text-sm text-app-sub-text dark:text-app-dark-sub-text font-semibold mb-md">
+    <h2 className="text-xs tracking-wide text-app-text-subtle dark:text-app-dark-text-subtle font-bold mb-sm">
       {children}
-    </h6>
+    </h2>
   );
 }

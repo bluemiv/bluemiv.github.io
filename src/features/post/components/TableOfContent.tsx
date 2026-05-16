@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { ChevronRight, ListTree } from 'lucide-react';
 import { RSSLink } from '@/features/post/components';
 
-type TocItem = { level: string; id: string; label: string };
+type TocItem = { level: string; id: string; label: string; sectionId: string };
+
+const isSectionHeading = (level: string) => level === 'h1' || level === 'h2';
 
 export default function TableOfContent() {
   const tocListRef = useRef<HTMLUListElement>(null);
@@ -16,6 +18,10 @@ export default function TableOfContent() {
     0,
   );
   const progress = tocItems.length > 1 ? (activeIndex / (tocItems.length - 1)) * 100 : 0;
+  const activeSectionId = useMemo(() => {
+    const activeItem = tocItems.find((item) => item.id === activeTocItemId);
+    return activeItem?.sectionId ?? null;
+  }, [activeTocItemId, tocItems]);
 
   useEffect(() => {
     const article = document.querySelector('article');
@@ -33,11 +39,19 @@ export default function TableOfContent() {
 
     const headingTags = article.querySelectorAll('h1, h2, h3, h4, h5, h6');
     const nextTocItems: TocItem[] = [];
+    let currentSectionId = '';
+
     for (const heading of headingTags) {
+      const level = heading.tagName.toLowerCase();
+      if (isSectionHeading(level) || !currentSectionId) {
+        currentSectionId = heading.id;
+      }
+
       nextTocItems.push({
         id: heading.id,
-        level: heading.tagName.toLowerCase(),
+        level,
         label: heading.textContent ?? '',
+        sectionId: currentSectionId,
       });
       observer.observe(heading);
     }
@@ -100,6 +114,10 @@ export default function TableOfContent() {
           >
             {tocItems.map((item) => {
               const isActive = activeTocItemId === item.id;
+              const isVisible = isSectionHeading(item.level) || item.sectionId === activeSectionId;
+
+              if (!isVisible) return null;
+
               return (
                 <li key={item.id}>
                   <a

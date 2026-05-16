@@ -1,5 +1,7 @@
 import { getPageNumberByTag, getPostsByTag, getTags } from '@/features/post/api';
 import { LIMIT } from '@/shared/constants/pagination';
+import { SITE_METADATA } from '@/shared/constants/site';
+import { MIN_INDEXABLE_TAG_POST_COUNT } from '@/shared/constants/structuredData';
 import { BlogHomeLayout } from '../../../../../../widgets/layouts';
 
 interface Props {
@@ -8,17 +10,36 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { tag, page } = await params;
-  const baseUrl = process.env.BASE_URL!;
+  const baseUrl = process.env.BASE_URL ?? SITE_METADATA.baseUrl;
   const decodedTag = decodeURIComponent(tag);
   const url = `${baseUrl}/blog/tags/${tag}/${page}`;
+  const tagCount = getTags().find(([currentTag]) => currentTag === decodedTag)?.[1] ?? 0;
+  const title = `#${decodedTag} 글 목록${page === '1' ? '' : ` (${page}페이지)`} | ${SITE_METADATA.title}`;
+  const description = `${SITE_METADATA.title}에서 #${decodedTag} 태그가 달린 기술 글을 모아봅니다.`;
+  const shouldNoIndex = page !== '1' || tagCount < MIN_INDEXABLE_TAG_POST_COUNT;
+
   return {
-    title: `'${decodedTag}'에 대한 글`,
-    description: `'${decodedTag}'에 대한 글 목록입니다.`,
+    title,
+    description,
     alternates: { canonical: url },
+    robots: shouldNoIndex
+      ? {
+          index: false,
+          follow: true,
+        }
+      : undefined,
     openGraph: {
-      title: `'${decodedTag}'에 대한 글`,
-      description: `'${decodedTag}'에 대한 글 목록입니다.`,
+      type: 'website',
+      title,
+      description,
       url,
+      siteName: SITE_METADATA.title,
+      locale: 'ko_KR',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
     },
   };
 }

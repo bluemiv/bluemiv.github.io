@@ -11,6 +11,8 @@ import {
   getTags,
 } from '@/features/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
+import { SITE_METADATA } from '@/shared/constants/site';
+import { MIN_INDEXABLE_TAG_POST_COUNT } from '@/shared/constants/structuredData';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -18,7 +20,7 @@ dayjs.extend(timezone);
 type ChangeFrequency = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = process.env.BASE_URL ?? SITE_METADATA.baseUrl;
 
   // 전체 글 sitemap
   const posts = getAllPosts();
@@ -95,7 +97,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   // Tag sitemap
-  const tags = getTags();
+  const tags = getTags().filter(([, count]) => count >= MIN_INDEXABLE_TAG_POST_COUNT);
   const tagsSitemapData = tags.reduce(
     (
       acc: {
@@ -120,7 +122,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: baseUrl!,
+      url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,

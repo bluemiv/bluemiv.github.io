@@ -15,15 +15,9 @@ export const ThemeToggleButton = () => {
       title="테마 변경"
     >
       {theme === 'dark' ? (
-        <Sun
-          className="h-[1.1875rem] w-[1.1875rem] sm:h-[1.25rem] sm:w-[1.25rem]"
-          strokeWidth={2.35}
-        />
+        <Sun className="h-5 w-5" strokeWidth={2.4} />
       ) : (
-        <Moon
-          className="h-[1.1875rem] w-[1.1875rem] sm:h-[1.25rem] sm:w-[1.25rem]"
-          strokeWidth={2.35}
-        />
+        <Moon className="h-5 w-5" strokeWidth={2.4} />
       )}
     </button>
   );

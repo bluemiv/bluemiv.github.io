@@ -8,10 +8,10 @@ import NavLink from '@/widgets/Header/NavLink';
 export default function Header() {
   const shortPostsLength = getAllShortPosts().length;
   return (
-    <header className="w-full px-md h-[50px] sticky inset-0 z-10 bg-white/30 dark:bg-app-dark-bg/30 backdrop-blur-sm border-b border-app-sub-bg dark:border-app-dark-sub-bg">
+    <header className="w-full px-md h-[56px] sticky inset-0 z-20 bg-app-surface-raised/85 dark:bg-app-dark-surface-raised/85 backdrop-blur-xl border-b border-app-border/80 dark:border-app-dark-border/80">
       <nav className="w-full h-full mx-auto flex items-center justify-between gap-md">
         <Logo />
-        <ul className="flex-1 flex justify-end gap-sm">
+        <ul className="flex-1 flex justify-end gap-xs">
           {[
             // { href: ROUTE_PATH.ABOUT, label: 'ABOUT' },
             { href: ROUTE_PATH.ROOT, label: 'HOME' },
@@ -23,7 +23,7 @@ export default function Header() {
             </li>
           ))}
         </ul>
-        <div className="flex items-center gap-sm">
+        <div className="flex items-center gap-xs rounded-full border border-app-border dark:border-app-dark-border bg-app-surface-muted/70 dark:bg-app-dark-surface-muted/70 p-1">
           <RefreshServiceWorkerCacheButton />
           <ThemeToggleButton />
         </div>

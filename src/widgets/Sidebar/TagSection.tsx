@@ -5,7 +5,7 @@ import SectionTitle from '@/widgets/Sidebar/SectionTitle';
 export const TagSection = () => {
   const tags = getTags().slice(0, 20);
   return (
-    <section className="rounded-xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface p-md">
+    <section className="px-xs">
       <SectionTitle>Tags</SectionTitle>
       <ul className="flex gap-xs flex-wrap">
         {tags.map((entry) => {

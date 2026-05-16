@@ -18,7 +18,7 @@ export const CategoryItem = ({
   return (
     <li>
       {isNotLink ? (
-        <span className="flex items-center justify-between h-8 rounded-md px-sm text-sm font-semibold text-app-text-muted dark:text-app-dark-text-muted">
+        <span className="flex items-center justify-between h-8 rounded-md px-sm text-sm font-semibold text-app-text dark:text-app-dark-text">
           {label}
         </span>
       ) : (

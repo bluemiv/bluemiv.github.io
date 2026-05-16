@@ -1,11 +1,10 @@
-import { ExternalLink, Rss, Shield } from 'lucide-react';
+import { ExternalLink, Rss } from 'lucide-react';
 import Link from 'next/link';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import { SITE_METADATA } from '@/shared/constants/site';
 
 const footerLinks = [
   { href: '/rss.xml', label: 'RSS', Icon: Rss },
-  { href: '/privacy', label: 'Privacy', Icon: Shield },
   { href: 'https://github.com/bluemiv', label: 'GitHub', Icon: ExternalLink, external: true },
 ];
 

@@ -10,7 +10,7 @@ import NavLink from '@/widgets/Header/NavLink';
 export default function Header() {
   const shortPostsLength = getAllShortPosts().length;
   return (
-    <header className="motion-header w-full px-md h-[56px] sticky inset-0 z-20 bg-app-surface-raised/85 dark:bg-app-dark-surface-raised/85 backdrop-blur-xl border-b border-app-border/80 dark:border-app-dark-border/80">
+    <header className="motion-header sticky top-0 z-50 h-[56px] w-full px-md bg-app-surface-raised/85 dark:bg-app-dark-surface-raised/85 backdrop-blur-xl border-b border-app-border/80 dark:border-app-dark-border/80">
       <nav className="w-full h-full mx-auto flex items-center justify-between gap-md">
         <Logo />
         <ul className="flex-1 flex justify-end gap-xs">

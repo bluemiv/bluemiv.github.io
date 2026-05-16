@@ -6,6 +6,7 @@ import {
   PostMdxContent,
   RelatedPosts,
   RSSSubscribeBanner,
+  ScrollToTopButton,
   TableOfContent,
 } from '@/features/post/components';
 import { ResponsiveAd } from '@/shared/components';
@@ -98,6 +99,7 @@ export default async function Page(props: Props) {
           </div>
           <TableOfContent />
         </div>
+        <ScrollToTopButton />
       </main>
     </div>
   );

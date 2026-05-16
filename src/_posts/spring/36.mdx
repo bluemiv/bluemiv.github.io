@@ -57,13 +57,16 @@ public class AppConfig {
 }
 ```
 
-위 코드에서 `AppConfig`는 설정 클래스이고, `passwordEncoder()`가 반환하는 객체는 Spring Bean으로 등록됩니다.
+위 코드에서 `AppConfig`는 설정 클래스이고, `passwordEncoder()`가 반환하는 객체는 Spring Bean으로 등록됩니다. 여기서 `PasswordEncoder`는 예시를 단순하게 보여주기 위한 클래스라고 보면 됩니다.
 
 ## 3. @Bean과 함께 사용하는 기본 형태
 
 `@Configuration`과 `@Bean`을 함께 쓰는 기본 구조는 다음과 같습니다.
 
 ```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 @Configuration
 public class ExternalClientConfig {
 
@@ -71,6 +74,13 @@ public class ExternalClientConfig {
     public ExternalApiClient externalApiClient() {
         return new ExternalApiClient();
     }
+}
+```
+
+`ExternalApiClient`는 외부 API를 호출하는 SDK 클라이언트라고 가정하겠습니다.
+
+```java
+public class ExternalApiClient {
 }
 ```
 
@@ -113,24 +123,27 @@ public class UserService {
 }
 ```
 
-반면 아래처럼 내가 직접 어노테이션을 붙일 수 없는 객체는 설정 클래스에서 `@Bean`으로 등록하는 편이 자연스럽습니다.
+반면 아래처럼 내가 직접 어노테이션을 붙일 수 없는 외부 SDK 객체는 설정 클래스에서 `@Bean`으로 등록하는 편이 자연스럽습니다.
 
 ```java
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JacksonConfig {
+public class ExternalApiConfig {
 
     @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+    public ExternalApiClient externalApiClient() {
+        return new ExternalApiClient();
     }
 }
 ```
 
-`ObjectMapper`는 외부 라이브러리 클래스입니다. 이 클래스 선언부에 직접 `@Component`를 붙일 수 없으므로, 설정 클래스에서 Bean으로 등록합니다.
+`ExternalApiClient`가 외부 라이브러리에서 제공하는 클래스라면, 클래스 선언부에 직접 `@Component`를 붙일 수 없습니다. 이런 경우 설정 클래스에서 Bean으로 등록합니다.
+
+반대로 Spring Boot가 이미 자동 설정으로 제공하는 Bean은 조심해야 합니다. 예를 들어 Jackson의 `ObjectMapper`는 Spring Boot가 기본 설정과 여러 커스터마이징을 적용해 자동 구성합니다. 이런 객체를 단순히 `new ObjectMapper()`로 다시 등록하면 Boot가 준비한 기본 설정을 의도치 않게 우회할 수 있습니다.
+
+이럴 때는 새 Bean을 덮어쓰기보다, Spring Boot가 제공하는 커스터마이징 지점을 먼저 찾는 것이 좋습니다.
 
 ## 5. 설정값을 사용하는 Bean 만들기
 
@@ -169,6 +182,58 @@ public class ExternalApiConfig {
 
 설정 파일의 역할은 [application.yml과 application.properties 설정](/blog/spring/32)에서 더 자세히 다뤘습니다.
 
+다만 설정값이 여러 개로 묶일 때는 `@Value`를 여러 번 쓰는 것보다 `@ConfigurationProperties`를 사용하는 편이 더 좋습니다. 설정을 하나의 타입으로 묶을 수 있고, 테스트나 검증도 쉬워지기 때문입니다.
+
+```java
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "external.api")
+public class ExternalApiProperties {
+
+    private String baseUrl;
+    private int timeoutMillis;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public int getTimeoutMillis() {
+        return timeoutMillis;
+    }
+
+    public void setTimeoutMillis(int timeoutMillis) {
+        this.timeoutMillis = timeoutMillis;
+    }
+}
+```
+
+그리고 설정 클래스에서 이 타입을 활성화해 사용할 수 있습니다.
+
+```java
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@EnableConfigurationProperties(ExternalApiProperties.class)
+@Configuration
+public class ExternalApiConfig {
+
+    @Bean
+    public ExternalApiClient externalApiClient(ExternalApiProperties properties) {
+        return new ExternalApiClient(
+            properties.getBaseUrl(),
+            properties.getTimeoutMillis()
+        );
+    }
+}
+```
+
+`@Value`는 간단한 값 하나를 주입받을 때는 편하지만, 관련 설정이 늘어나면 `@ConfigurationProperties`가 더 읽기 쉽고 변경에 강합니다.
+
 ## 6. @Configuration 클래스도 Bean이다
 
 `@Configuration`이 붙은 클래스도 Spring Bean으로 등록됩니다.
@@ -205,7 +270,7 @@ public class AppConfig {
 }
 ```
 
-기본값은 `true`입니다. 이 경우 Spring은 설정 클래스를 프록시로 감싸서 `@Bean` 메서드 호출을 관리합니다.
+기본값은 `true`입니다. 이 경우 Spring은 설정 클래스를 프록시로 감싸서 `@Bean` 메서드 호출을 관리합니다. 흔히 이 방식을 `full` 모드라고 부릅니다.
 
 예를 들어 아래 코드를 보겠습니다.
 
@@ -227,7 +292,7 @@ public class AppConfig {
 
 `userService()` 안에서 `userRepository()`를 직접 호출하고 있습니다. `proxyBeanMethods = true`이면 Spring은 이 호출이 새로운 객체를 계속 만들지 않고, 컨테이너가 관리하는 Bean을 반환하도록 처리합니다.
 
-반대로 `proxyBeanMethods = false`는 이런 프록시 처리를 줄입니다. 설정 클래스 안에서 다른 `@Bean` 메서드를 직접 호출하지 않는다면 성능과 단순성을 위해 사용할 수 있습니다.
+반대로 `proxyBeanMethods = false`는 이런 프록시 처리를 줄입니다. 흔히 `lite` 모드에 가깝게 동작한다고 이해하면 됩니다. 설정 클래스 안에서 다른 `@Bean` 메서드를 직접 호출하지 않는다면 성능과 단순성을 위해 사용할 수 있습니다.
 
 ```java
 @Configuration(proxyBeanMethods = false)
@@ -242,6 +307,8 @@ public class AppConfig {
 
 위처럼 필요한 Bean을 메서드 파라미터로 받으면 다른 `@Bean` 메서드를 직접 호출하지 않아도 됩니다.
 
+실무에서는 `proxyBeanMethods = false`를 쓸 때 “이 설정 클래스 안에서 `@Bean` 메서드를 직접 호출하고 있지 않은가?”를 먼저 확인하는 것이 좋습니다. 직접 호출이 필요하다면 기본값을 유지하고, 파라미터 주입으로 충분하다면 `false`를 고려할 수 있습니다.
+
 ## 9. 실무에서 설정 클래스를 나누는 기준
 
 설정 클래스가 하나뿐이면 처음에는 단순하지만, 시간이 지나면 너무 많은 설정이 한 파일에 몰릴 수 있습니다.
@@ -250,7 +317,7 @@ public class AppConfig {
 
 ```text
 config/
-├── JacksonConfig.java
+├── JsonConfig.java
 ├── SecurityConfig.java
 ├── WebConfig.java
 ├── ExternalApiConfig.java

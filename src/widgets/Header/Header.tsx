@@ -52,10 +52,7 @@ export default function Header() {
                 href={href}
                 title={label}
               >
-                <Icon
-                  className="h-[1.3125rem] w-[1.3125rem] sm:h-[1.375rem] sm:w-[1.375rem]"
-                  strokeWidth={2.35}
-                />
+                <Icon className="h-5 w-5" strokeWidth={2.4} />
               </NavLink>
             </li>
           ))}

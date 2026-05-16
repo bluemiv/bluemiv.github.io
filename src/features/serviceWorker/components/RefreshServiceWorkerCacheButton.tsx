@@ -89,11 +89,7 @@ export default function RefreshServiceWorkerCacheButton() {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-app-primary/70 dark:bg-app-dark-primary/70 opacity-75" />
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-app-primary dark:bg-app-dark-primary" />
         </span>
-        <Sparkles
-          className="h-[1.1875rem] w-[1.1875rem] sm:h-[1.25rem] sm:w-[1.25rem]"
-          strokeWidth={2.35}
-          aria-hidden="true"
-        />
+        <Sparkles className="h-5 w-5" strokeWidth={2.4} aria-hidden="true" />
       </button>
       {isNoticeVisible && typeof document !== 'undefined' && createPortal(notice, document.body)}
     </>

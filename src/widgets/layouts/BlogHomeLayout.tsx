@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import dayjs from 'dayjs';
+import { ArrowRight, BookOpen, CalendarDays, Folder, Rss } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllShortPosts, getCategories } from '@/features/post/api';
@@ -73,7 +74,11 @@ const HomeIntro = () => {
     <section className="w-full rounded-xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface p-lg md:p-xl flex flex-col lg:flex-row lg:items-end justify-between gap-lg">
       <div className="flex flex-col gap-md max-w-[760px]">
         <div className="flex items-center gap-sm">
-          <span className="h-2 w-2 rounded-full bg-app-primary dark:bg-app-dark-primary" />
+          <BookOpen
+            size={16}
+            strokeWidth={2.4}
+            className="text-app-primary dark:text-app-dark-primary"
+          />
           <span className="text-sm font-semibold text-app-primary dark:text-app-dark-primary">
             Bluemiv Tech Blog
           </span>
@@ -83,8 +88,8 @@ const HomeIntro = () => {
             개발 문제를 오래 읽기 좋게 정리합니다.
           </h1>
           <p className="text-base md:text-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted">
-            Java, Spring, React, Next.js, 알고리즘을 중심으로 실무에서 다시 찾게 되는
-            기술 기록을 모읍니다.
+            Java, Spring, React, Next.js, 알고리즘을 중심으로 실무에서 다시 찾게 되는 기술 기록을
+            모읍니다.
           </p>
         </div>
       </div>
@@ -92,15 +97,17 @@ const HomeIntro = () => {
         <Link
           href={ROUTE_PATH.RSS}
           prefetch={false}
-          className="h-11 px-md rounded-lg bg-app-primary dark:bg-app-dark-primary text-white dark:text-[#020617] font-semibold flex items-center justify-center transition-colors hover:bg-app-primary-hover dark:hover:bg-app-dark-primary-hover"
+          className="h-11 px-md rounded-lg bg-app-primary dark:bg-app-dark-primary text-white dark:text-[#020617] font-semibold flex items-center justify-center gap-sm transition-colors hover:bg-app-primary-hover dark:hover:bg-app-dark-primary-hover"
         >
+          <Rss size={17} strokeWidth={2.2} />
           RSS 구독
         </Link>
         <Link
           href="#recent-posts"
-          className="h-11 px-md rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface-muted dark:bg-app-dark-surface-muted text-app-text-muted dark:text-app-dark-text-muted font-semibold flex items-center justify-center transition-colors hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:text-app-text dark:hover:text-app-dark-text"
+          className="h-11 px-md rounded-lg border border-app-border dark:border-app-dark-border bg-app-surface-muted dark:bg-app-dark-surface-muted text-app-text-muted dark:text-app-dark-text-muted font-semibold flex items-center justify-center gap-sm transition-colors hover:border-app-border-strong dark:hover:border-app-dark-border-strong hover:text-app-text dark:hover:text-app-dark-text"
         >
           최근 글 보기
+          <ArrowRight size={16} strokeWidth={2.2} />
         </Link>
       </div>
     </section>
@@ -119,10 +126,12 @@ const FeaturedPostCard = ({ post }: { post: Post }) => {
             <span className="rounded-full bg-app-primary-soft dark:bg-app-dark-primary-soft px-sm py-xs font-semibold text-app-primary dark:text-app-dark-primary">
               최신 글
             </span>
-            <span className="text-app-text-subtle dark:text-app-dark-text-subtle">
+            <span className="text-app-text-subtle dark:text-app-dark-text-subtle inline-flex items-center gap-xs">
+              <Folder size={14} strokeWidth={2.2} />
               {post.metadata.category}
             </span>
-            <span className="text-app-text-subtle dark:text-app-dark-text-subtle">
+            <span className="text-app-text-subtle dark:text-app-dark-text-subtle inline-flex items-center gap-xs">
+              <CalendarDays size={14} strokeWidth={2.2} />
               {dayjs(post.metadata.createdAt).format('YYYY-MM-DD')}
             </span>
           </div>

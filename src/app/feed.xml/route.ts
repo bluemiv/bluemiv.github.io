@@ -1,12 +1,13 @@
 // app/feed.xml/route.ts
 import { getAllPosts, getAllShortPosts } from '@/features/post/api';
 import { ROUTE_PATH } from '@/shared/constants/route';
+import { SITE_METADATA } from '@/shared/constants/site';
 
 export async function GET() {
   const posts = getAllPosts();
-  const siteUrl = process.env.BASE_URL;
-  const authorName = process.env.METADATA_AUTHOR;
-  const authorEmail = process.env.METADATA_EMAIL;
+  const siteUrl = SITE_METADATA.baseUrl;
+  const authorName = SITE_METADATA.author;
+  const authorEmail = SITE_METADATA.authorEmail;
 
   const entriesXml = posts
     .map((post) => {
@@ -67,7 +68,7 @@ export async function GET() {
 
   const feedXml = `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>${process.env.METADATA_TITLE}</title>
+  <title>${SITE_METADATA.title}</title>
   <link href="${siteUrl}" />
   <updated>${new Date().toISOString()}</updated>
   <id>${siteUrl}/feed.xml</id>

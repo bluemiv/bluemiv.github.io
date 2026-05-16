@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import { CalendarDays, Clock3, Folder, PencilLine } from 'lucide-react';
+import { BookOpen, CalendarDays, Clock3, Folder, PencilLine } from 'lucide-react';
 import { getAuthorDisplayName } from '@/features/post/author';
+import { calculateReadingTimeMinutes } from '@/features/post/readingTime';
 import { TagLink } from '@/features/tag/components';
 import { Post } from '../model';
 import ArticleThumbnail from './ArticleThumbnail';
@@ -14,6 +15,7 @@ export default function ArticleMetadata({ post }: Props) {
   const updatedAt = dayjs(post.metadata.updatedAt);
   const isUpdated = post.metadata.updatedAt && !createdAt.isSame(updatedAt, 'minutes');
   const author = getAuthorDisplayName(post.metadata.author);
+  const readingTimeMinutes = calculateReadingTimeMinutes(post.content);
 
   return (
     <header className="motion-enter flex flex-col gap-lg pb-2xl mb-lg">
@@ -54,6 +56,10 @@ export default function ArticleMetadata({ post }: Props) {
               수정일 {updatedAt.format('YYYY.MM.DD HH:mm')}
             </time>
           )}
+          <span className="inline-flex items-center gap-xs">
+            <BookOpen size={14} strokeWidth={2.2} />
+            {readingTimeMinutes} min read
+          </span>
         </div>
         <ul aria-label="tags" className="mt-lg flex flex-wrap gap-sm">
           {Array.from(new Set(post.metadata.tags))

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { SITE_METADATA } from '@/shared/constants/site';
 
 export const ProfileSection = () => {
   return (
@@ -12,20 +13,20 @@ export const ProfileSection = () => {
               width={300}
               height={300}
               src="/r/i/profile.webp"
-              alt={process.env.METADATA_AUTHOR!}
+              alt={SITE_METADATA.author}
             />
           </div>
         </div>
         <div className="min-w-0 flex-1 pt-xs">
           <p className="font-bold leading-5 text-app-text dark:text-app-dark-text">
-            {process.env.METADATA_NICNAME}
+            {SITE_METADATA.nickname}
           </p>
           <p className="text-xs leading-5 text-app-text-subtle dark:text-app-dark-text-subtle">
-            {process.env.METADATA_AUTHOR}
+            {SITE_METADATA.author}
           </p>
         </div>
       </div>
-      <p className="mt-md text-xs leading-5">{process.env.METADATA_DESCRIPTION}</p>
+      <p className="mt-md text-xs leading-5">{SITE_METADATA.description}</p>
     </section>
   );
 };

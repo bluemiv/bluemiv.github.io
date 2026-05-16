@@ -1,4 +1,5 @@
 import { Header } from '@/widgets/Header';
+import { Footer } from '@/widgets/Footer';
 
 export default function BlogLayout({
   children,
@@ -9,6 +10,7 @@ export default function BlogLayout({
     <>
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

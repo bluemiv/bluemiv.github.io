@@ -1,15 +1,21 @@
 import { getAllShortPosts, getShortPost } from '@/features/post/api';
+import { getPublisherStructuredData } from '@/shared/constants/structuredData';
 import { ShortPostsLayout } from '@/widgets/layouts';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+const toISOString = (date: string | Date) => new Date(date).toISOString();
+
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const post = getShortPost(slug);
   const baseUrl = process.env.BASE_URL!;
   const url = `${baseUrl}/blog/short/${slug}`;
+  const publishedTime = toISOString(post.metadata.createdAt);
+  const modifiedTime = toISOString(post.metadata.updatedAt);
+
   return {
     title: post.metadata.title,
     description: post.metadata.description,
@@ -20,8 +26,8 @@ export async function generateMetadata({ params }: Props) {
       description: post.metadata.description,
       url,
       images: post.metadata.thumbnail ? [{ url: `${baseUrl}${post.metadata.thumbnail}` }] : [],
-      publishedTime: post.metadata.createdAt,
-      modifiedTime: post.metadata.updatedAt,
+      publishedTime,
+      modifiedTime,
       authors: [post.metadata.author],
       tags: post.metadata.tags,
     },
@@ -38,23 +44,21 @@ export default async function ShortPostsPage({ params }: Props) {
   const { slug } = await params;
   const post = getShortPost(slug);
   const baseUrl = process.env.BASE_URL!;
+  const publishedTime = toISOString(post.metadata.createdAt);
+  const modifiedTime = toISOString(post.metadata.updatedAt);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.metadata.title,
     description: post.metadata.description,
-    datePublished: post.metadata.createdAt,
-    dateModified: post.metadata.updatedAt,
+    datePublished: publishedTime,
+    dateModified: modifiedTime,
     author: { '@type': 'Person', name: post.metadata.author },
     url: `${baseUrl}/blog/short/${slug}`,
     ...(post.metadata.thumbnail && { image: `${baseUrl}${post.metadata.thumbnail}` }),
     keywords: post.metadata.tags.join(', '),
-    publisher: {
-      '@type': 'Organization',
-      name: process.env.METADATA_TITLE,
-      url: baseUrl,
-    },
+    publisher: getPublisherStructuredData(baseUrl),
   };
 
   return (

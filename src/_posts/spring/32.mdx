@@ -249,6 +249,20 @@ spring:
 
 다만 운영 환경에서는 설정 파일에 `prod`를 고정하기보다 실행 환경에서 프로필을 주입하는 방식이 더 안전합니다.
 
+### 6.1. 실무에서 프로필을 다룰 때 주의할 점
+
+운영 환경 설정 파일을 저장소에 그대로 올릴 때는 민감한 값이 포함되어 있지 않은지 반드시 확인해야 합니다. 특히 데이터베이스 비밀번호, 외부 API Key, OAuth Client Secret 같은 값은 `application-prod.yml`에 직접 적지 않는 것이 좋습니다.
+
+```yaml
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+```
+
+이런 방식으로 환경변수를 사용하면 같은 빌드 결과물을 개발, 스테이징, 운영 환경에서 재사용할 수 있습니다. 설정 파일은 “어떤 값이 필요한지”를 보여주고, 실제 값은 실행 환경이 주입하도록 분리하는 것이 안전합니다.
+
 ## 7. 환경변수 사용하기
 
 데이터베이스 비밀번호나 API Key처럼 민감한 값은 코드 저장소에 올리면 안 됩니다. 이런 값은 환경변수로 분리하는 것이 좋습니다.
@@ -376,7 +390,12 @@ app:
   message: "hello: spring boot"
 ```
 
-## 10. 정리
+## 10. 참고 자료
+
+- [Spring Boot Externalized Configuration](https://docs.spring.io/spring-boot/reference/features/external-config.html)
+- [Spring Boot Type-safe Configuration Properties](https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties)
+
+## 11. 정리
 
 Spring Boot의 설정 파일은 애플리케이션 실행 방식을 바꾸는 중요한 역할을 합니다.
 

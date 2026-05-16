@@ -312,7 +312,34 @@ Database
 - `Domain`: 비즈니스의 핵심 개념 표현
 - `DTO`: 외부로 주고받는 데이터 표현
 
-## 9. 정리
+### 8.1. 실무에서 패키지를 나눌 때의 기준
+
+처음부터 패키지를 너무 세밀하게 나누면 오히려 이동 비용이 커집니다. 작은 프로젝트에서는 `controller`, `service`, `repository`, `domain`, `dto` 정도로 시작하고, 기능이 커질 때 `user`, `order`, `payment`처럼 도메인 기준으로 한 번 더 나누는 편이 관리하기 쉽습니다.
+
+```text
+com/example/demo/
+├── user/
+│   ├── controller/
+│   ├── service/
+│   ├── repository/
+│   ├── domain/
+│   └── dto/
+└── order/
+    ├── controller/
+    ├── service/
+    ├── repository/
+    ├── domain/
+    └── dto/
+```
+
+제가 프로젝트를 시작할 때는 먼저 역할 기준으로 단순하게 나누고, 특정 도메인의 파일이 많아지기 시작하면 도메인 기준 구조로 옮기는 편입니다. 중요한 것은 처음부터 완벽한 구조를 만드는 것이 아니라, 팀이 파일 위치를 예측할 수 있게 일관성을 유지하는 것입니다.
+
+## 9. 참고 자료
+
+- [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/index.html)
+- [Spring Initializr](https://start.spring.io)
+
+## 10. 정리
 
 Spring Boot 프로젝트 구조는 처음에는 복잡해 보이지만, 역할을 기준으로 보면 어렵지 않습니다.
 

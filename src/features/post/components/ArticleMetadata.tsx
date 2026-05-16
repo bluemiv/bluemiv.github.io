@@ -45,7 +45,7 @@ export default function ArticleMetadata({ post }: Props) {
             dateTime={createdAt.format('YYYY-MM-DD HH:mm:ss')}
           >
             <CalendarDays size={14} strokeWidth={2.2} />
-            작성일 {createdAt.format('YYYY.MM.DD HH:mm')}
+            {createdAt.format('YYYY.MM.DD HH:mm')}
           </time>
           {isUpdated && (
             <time

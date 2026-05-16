@@ -50,3 +50,4 @@ next-env.d.ts
 
 **/*.md
 !README.md
+!src/_posts/_drafts/AGENTS.md

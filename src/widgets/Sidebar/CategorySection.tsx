@@ -9,7 +9,7 @@ export const CategorySection = () => {
     {},
   );
   return (
-    <section className="rounded-xl border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface p-md">
+    <section className="px-xs">
       <SectionTitle>Category</SectionTitle>
       <ul className="flex flex-col gap-xs">
         <CategoryItem

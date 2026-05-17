@@ -72,6 +72,28 @@
         }
     }
 
+    --animate-theme-reveal-fallback: themeRevealFallback 0.78s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    @keyframes themeRevealFallback {
+        0% {
+            --theme-reveal-size: 0px;
+            opacity: 1;
+        }
+        82% {
+            --theme-reveal-size: var(--theme-reveal-radius);
+            opacity: 1;
+        }
+        100% {
+            --theme-reveal-size: var(--theme-reveal-radius);
+            opacity: 0;
+        }
+    }
+
+}
+
+@property --theme-reveal-size {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
 }
 
 html, body, html body {
@@ -84,6 +106,20 @@ html {
 
 html.dark {
     scrollbar-color: #334155 #0B1120;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 2;
 }
 
 @keyframes appRiseIn {
@@ -282,6 +318,53 @@ html.dark {
 
 .motion-chip:hover {
     transform: translate3d(0, -1px, 0);
+}
+
+@keyframes themeIconIn {
+    from {
+        opacity: 0;
+        transform: rotate(-22deg) scale(0.72);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes themeIconOut {
+    from {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+        filter: blur(0);
+    }
+    to {
+        opacity: 0;
+        transform: rotate(22deg) scale(0.72);
+        filter: blur(4px);
+    }
+}
+
+.animate-theme-icon-in {
+    animation: themeIconIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-theme-icon-out {
+    animation: themeIconOut 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-theme-reveal-fallback {
+    -webkit-mask-image: radial-gradient(
+        circle at var(--theme-reveal-x) var(--theme-reveal-y),
+        transparent 0 var(--theme-reveal-size),
+        #000 calc(var(--theme-reveal-size) + 1px)
+    );
+    mask-image: radial-gradient(
+        circle at var(--theme-reveal-x) var(--theme-reveal-y),
+        transparent 0 var(--theme-reveal-size),
+        #000 calc(var(--theme-reveal-size) + 1px)
+    );
 }
 
 .motion-shine {

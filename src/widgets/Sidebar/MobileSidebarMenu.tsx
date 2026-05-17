@@ -1,9 +1,8 @@
 'use client';
 
 import { type ReactNode, useEffect, useState } from 'react';
-
-import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
+import { Menu, X } from 'lucide-react';
 
 interface Props {
   children: ReactNode;

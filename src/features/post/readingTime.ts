@@ -12,7 +12,8 @@ const stripMdxSyntax = (content: string) =>
 
 export const calculateReadingTimeMinutes = (content: string) => {
   const plainText = stripMdxSyntax(content);
-  const cjkCharCount = plainText.match(/[\u3131-\u318e\uac00-\ud7a3\u3040-\u30ff\u3400-\u9fff]/g)?.length ?? 0;
+  const cjkCharCount =
+    plainText.match(/[\u3131-\u318e\uac00-\ud7a3\u3040-\u30ff\u3400-\u9fff]/g)?.length ?? 0;
   const latinWordCount =
     plainText
       .replace(/[\u3131-\u318e\uac00-\ud7a3\u3040-\u30ff\u3400-\u9fff]/g, ' ')

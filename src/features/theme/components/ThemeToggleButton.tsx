@@ -15,7 +15,25 @@ type DocumentWithViewTransition = Document & {
   startViewTransition?: (callback: () => void) => ViewTransition;
 };
 
-export const ThemeToggleButton = () => {
+type ThemeToggleButtonProps = {
+  className?: string;
+  iconClassName?: string;
+  placeholderClassName?: string;
+  fallbackBackgroundColor?: {
+    light: string;
+    dark: string;
+  };
+};
+
+export const ThemeToggleButton = ({
+  className = 'motion-chip relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-app-text-muted transition-colors duration-150 ease-in-out hover:bg-app-primary-soft hover:text-app-primary dark:text-app-dark-text-muted dark:hover:bg-app-dark-primary-soft dark:hover:text-app-dark-primary',
+  iconClassName = 'h-5 w-5',
+  placeholderClassName = 'h-10 w-10',
+  fallbackBackgroundColor = {
+    dark: '#0B1120',
+    light: '#F8FAFC',
+  },
+}: ThemeToggleButtonProps) => {
   const { theme, toggleTheme } = useTheme();
   const [isIconHidden, setIsIconHidden] = useState(false);
   const [fallbackReveal, setFallbackReveal] = useState<{
@@ -114,10 +132,10 @@ export const ThemeToggleButton = () => {
     }
   };
 
-  if (theme === null) return <div className="h-10 w-10" />;
+  if (theme === null) return <div className={placeholderClassName} />;
   return (
     <>
-      {fallbackReveal && (
+      {fallbackReveal &&
         createPortal(
           <span
             className="pointer-events-none fixed inset-0 z-[999] animate-theme-reveal-fallback"
@@ -127,24 +145,21 @@ export const ThemeToggleButton = () => {
                 '--theme-reveal-y': `${fallbackReveal.y}px`,
                 '--theme-reveal-radius': `${fallbackReveal.radius}px`,
                 '--theme-reveal-size': '0px',
-                backgroundColor: fallbackReveal.currentTheme === 'dark' ? '#0B1120' : '#F8FAFC',
+                backgroundColor: fallbackBackgroundColor[fallbackReveal.currentTheme],
               } as CSSProperties
             }
           />,
           document.body,
-        )
-      )}
-      <button
-        className="motion-chip relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-app-text-muted transition-colors duration-150 ease-in-out hover:bg-app-primary-soft hover:text-app-primary dark:text-app-dark-text-muted dark:hover:bg-app-dark-primary-soft dark:hover:text-app-dark-primary"
-        onClick={onClick}
-        aria-label="테마 변경"
-        title="테마 변경"
-      >
-        <span key={theme} className={isIconHidden ? 'animate-theme-icon-out' : 'animate-theme-icon-in'}>
+        )}
+      <button className={className} onClick={onClick} aria-label="테마 변경" title="테마 변경">
+        <span
+          key={theme}
+          className={isIconHidden ? 'animate-theme-icon-out' : 'animate-theme-icon-in'}
+        >
           {theme === 'dark' ? (
-            <Sun className="h-5 w-5" strokeWidth={2.2} />
+            <Sun className={iconClassName} strokeWidth={2.2} />
           ) : (
-            <Moon className="h-5 w-5" strokeWidth={2.2} />
+            <Moon className={iconClassName} strokeWidth={2.2} />
           )}
         </span>
       </button>

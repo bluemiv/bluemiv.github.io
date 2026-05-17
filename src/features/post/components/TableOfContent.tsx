@@ -132,9 +132,7 @@ export default function TableOfContent() {
                     }}
                     className={clsx(
                       'motion-chip group relative flex min-h-8 items-center gap-xs rounded-lg py-xs pr-sm text-app-text-muted dark:text-app-dark-text-muted hover:text-app-primary dark:hover:text-app-dark-primary',
-                      isActive
-                        ? 'text-app-primary dark:text-app-dark-primary font-semibold'
-                        : '',
+                      isActive ? 'text-app-primary dark:text-app-dark-primary font-semibold' : '',
                       {
                         'pl-md': item.level === 'h1' || item.level === 'h2',
                         'pl-lg': item.level === 'h3',
@@ -147,7 +145,9 @@ export default function TableOfContent() {
                     <span
                       className={clsx(
                         'absolute left-[1px] h-2 w-2 rounded-full border border-app-border dark:border-app-dark-border bg-app-surface dark:bg-app-dark-surface transition-colors',
-                        isActive ? 'border-app-primary dark:border-app-dark-primary bg-app-primary dark:bg-app-dark-primary' : '',
+                        isActive
+                          ? 'border-app-primary dark:border-app-dark-primary bg-app-primary dark:bg-app-dark-primary'
+                          : '',
                       )}
                     />
                     <span className="line-clamp-2 leading-5">{item.label}</span>

@@ -35,8 +35,8 @@ export default function Page() {
               <span className="font-semibold">Subject: </span>[Blim] Account Deletion Request
             </p>
             <p className="mt-xs">
-              <span className="font-semibold">Required Info: </span>Sign-in method (Google/Guest) and
-              account identifier (email or user ID)
+              <span className="font-semibold">Required Info: </span>Sign-in method (Google/Guest)
+              and account identifier (email or user ID)
             </p>
           </div>
           <p className="mt-sm">Requests are processed within 3 business days.</p>
@@ -57,10 +57,16 @@ export default function Page() {
         <section>
           <h2 className="font-semibold text-xl mb-sm">4. Retention and Final Deletion</h2>
           <ul className="list-disc ml-xl">
-            <li>After a deletion request, the account is deactivated immediately and may be kept for up to 30 days for recovery.</li>
+            <li>
+              After a deletion request, the account is deactivated immediately and may be kept for
+              up to 30 days for recovery.
+            </li>
             <li>If you log in again within 30 days, the account may be restored.</li>
             <li>After 30 days, account and service data are deleted.</li>
-            <li>Certain records such as payment records may be retained as required by applicable law, then deleted.</li>
+            <li>
+              Certain records such as payment records may be retained as required by applicable law,
+              then deleted.
+            </li>
           </ul>
         </section>
 

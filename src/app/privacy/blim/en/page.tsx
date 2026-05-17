@@ -30,12 +30,16 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">Privacy Policy</h1>
         <p>Effective Date: {effectiveDate.format('YYYY-MM-DD')}</p>
         <p>
-          This Privacy Policy explains how {companyName} (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) processes
-          personal data when you use {appName}. We process personal data only as needed to provide, secure, and improve the service.
+          This Privacy Policy explains how {companyName} (&quot;we&quot;, &quot;us&quot;,
+          &quot;our&quot;) processes personal data when you use {appName}. We process personal data
+          only as needed to provide, secure, and improve the service.
         </p>
         <p>
           Website:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
         </p>
@@ -107,9 +111,13 @@ export default function Page() {
         <PrivacySection title="Article 3 (How We Collect Data)">
           <PrivacyList
             items={[
-              { text: 'From sign-in providers and app marketplaces when you authenticate or purchase.' },
+              {
+                text: 'From sign-in providers and app marketplaces when you authenticate or purchase.',
+              },
               { text: 'Automatically from your app usage, device environment, and service logs.' },
-              { text: 'From integrated processors/SDKs (for example, OpenAI, Supabase, Google Play, AdMob).' },
+              {
+                text: 'From integrated processors/SDKs (for example, OpenAI, Supabase, Google Play, AdMob).',
+              },
             ]}
           />
         </PrivacySection>
@@ -140,8 +148,8 @@ export default function Page() {
 
         <PrivacySection title="Article 5 (Third-Party Sharing)">
           <p>
-            We do not sell your personal data. We share data only when necessary to operate the service,
-            comply with law, protect rights/safety, or with your consent.
+            We do not sell your personal data. We share data only when necessary to operate the
+            service, comply with law, protect rights/safety, or with your consent.
           </p>
         </PrivacySection>
 
@@ -182,7 +190,9 @@ export default function Page() {
         <PrivacySection title="Article 8 (Your Rights)">
           <PrivacyList
             items={[
-              { text: 'You may request access, correction, deletion, and other rights available under applicable law.' },
+              {
+                text: 'You may request access, correction, deletion, and other rights available under applicable law.',
+              },
               {
                 text: (
                   <span>
@@ -203,15 +213,20 @@ export default function Page() {
 
         <PrivacySection title="Article 9 (Children)">
           <p>
-            If we learn an account belongs to a minor, we may suspend/delete related data as required by applicable law and policy.
+            If we learn an account belongs to a minor, we may suspend/delete related data as
+            required by applicable law and policy.
           </p>
         </PrivacySection>
 
         <PrivacySection title="Article 10 (Security)">
           <PrivacyList
             items={[
-              { text: 'TLS/HTTPS encryption in transit and strict access control for production systems.' },
-              { text: 'Server-side secret management and audit logging for security-sensitive operations.' },
+              {
+                text: 'TLS/HTTPS encryption in transit and strict access control for production systems.',
+              },
+              {
+                text: 'Server-side secret management and audit logging for security-sensitive operations.',
+              },
               { text: 'Role-based data access controls and monitoring for abnormal behavior.' },
             ]}
           />

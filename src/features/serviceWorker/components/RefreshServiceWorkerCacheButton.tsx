@@ -1,8 +1,8 @@
 'use client';
 
-import { RefreshCw, Sparkles, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { RefreshCw, Sparkles, X } from 'lucide-react';
 
 const CONFIRMED_VERSION_STORAGE_KEY = 'bluemiv:confirmed-app-version';
 

@@ -34,9 +34,9 @@ export function useTheme() {
   );
 
   const toggleTheme = useCallback(() => {
-    if (!theme) return;
-    setThemeValue(theme === 'dark' ? 'light' : 'dark');
-  }, [theme, setThemeValue]);
+    const isDark = document.documentElement.classList.contains('dark');
+    setThemeValue(isDark ? 'light' : 'dark');
+  }, [setThemeValue]);
 
   return { theme, setTheme: setThemeValue, toggleTheme };
 }

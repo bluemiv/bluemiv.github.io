@@ -1,7 +1,6 @@
 import { ExternalLink, Rss, Sparkles, Target, Wrench } from 'lucide-react';
 import Link from 'next/link';
 import AboutProfile from '@/app/(blog)/about/_components/AboutProfile';
-import { SplitText } from '@/shared/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import { SITE_METADATA } from '@/shared/constants/site';
 import { Sidebar } from '@/widgets/Sidebar';
@@ -32,11 +31,11 @@ export default function AboutPage() {
       <Sidebar />
       <div className="w-full md:w-[calc(100%-280px)]">
         <main className="max-w-[1000px] p-md lg:p-xl mx-auto w-full flex flex-col gap-xl justify-start items-start">
-          <section className="motion-enter motion-shine relative w-full overflow-hidden rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-lg md:p-xl flex flex-col lg:flex-row lg:items-center gap-xl">
+          <section className="article-hero motion-enter motion-shine relative w-full overflow-hidden rounded-2xl border border-app-border/80 dark:border-app-dark-border/80 bg-app-surface/80 dark:bg-app-dark-surface/70 p-lg md:p-xl flex flex-col lg:flex-row lg:items-center gap-xl">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-app-primary via-app-accent to-transparent dark:from-app-dark-primary dark:via-app-dark-accent" />
             <AboutProfile />
             <div className="flex flex-col gap-md min-w-0 flex-1">
-              <div className="flex items-center gap-sm">
+              <div className="article-hero-meta flex items-center gap-sm">
                 <Sparkles
                   size={16}
                   strokeWidth={2.4}
@@ -46,41 +45,32 @@ export default function AboutPage() {
                   About Me
                 </span>
               </div>
-              <div className="text-2xl md:text-3xl leading-tight font-bold text-app-text dark:text-app-dark-text">
-                <SplitText text="Front-End 개발자 " />
-                <SplitText className="text-app-primary dark:text-app-dark-primary" text="김태홍 " startIndex={2} />
-                <SplitText text="입니다." startIndex={3} />
-              </div>
-              <div className="text-base md:text-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted">
-                <div>
-                  <SplitText text="포기하지 않고 끊임없는 " startIndex={4} />
-                  <SplitText
-                    className="font-semibold text-app-text dark:text-app-dark-text"
-                    text="도전"
-                    startIndex={7}
-                  />
-                  <SplitText text="을 이어가며," startIndex={8} />
-                </div>
-                <div>
-                  <SplitText text="결과뿐 아니라 과정에서도 " startIndex={9} />
-                  <SplitText
-                    className="font-semibold text-app-text dark:text-app-dark-text"
-                    startIndex={12}
-                    text="높은 완성도"
-                  />
-                  <SplitText text="를 추구하는 개발자입니다." startIndex={13} />
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-sm pt-xs">
+              <h1 className="article-hero-title text-2xl md:text-3xl leading-tight font-bold text-app-text dark:text-app-dark-text">
+                Front-End 개발자{' '}
+                <span className="text-app-primary dark:text-app-dark-primary">김태홍</span>
+                입니다.
+              </h1>
+              <p className="article-hero-description text-base md:text-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted">
+                포기하지 않고 끊임없는{' '}
+                <strong className="font-semibold text-app-text dark:text-app-dark-text">
+                  도전
+                </strong>
+                을 이어가며, 결과뿐 아니라 과정에서도{' '}
+                <strong className="font-semibold text-app-text dark:text-app-dark-text">
+                  높은 완성도
+                </strong>
+                를 추구하는 개발자입니다.
+              </p>
+              <ul className="article-hero-tags motion-stagger flex flex-wrap gap-sm pt-xs">
                 {TECH_STACK.map((label) => (
-                  <span
+                  <li
                     key={label}
                     className="motion-chip rounded-full border border-app-border dark:border-app-dark-border bg-app-surface-muted/70 dark:bg-app-dark-surface-muted/70 px-sm py-xs text-xs font-semibold text-app-text-subtle dark:text-app-dark-text-subtle"
                   >
                     {label}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </section>
 

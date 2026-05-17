@@ -67,10 +67,22 @@ gtag('config', '${gaId}');`,
     const theme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isDark = theme === 'dark' || (!theme && prefersDark);
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+    function setTheme(nextTheme) {
+      localStorage.setItem('theme', nextTheme);
+      document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+      window.dispatchEvent(new CustomEvent('bluemiv-theme-change', { detail: { theme: nextTheme } }));
     }
+    window.__setBluemivTheme = setTheme;
+    window.__toggleBluemivTheme = function() {
+      setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+    };
+    if (isDark) setTheme('dark');
+    document.addEventListener('click', function(event) {
+      const target = event.target && event.target.closest ? event.target.closest('[data-theme-toggle]') : null;
+      if (!target) return;
+      event.preventDefault();
+      window.__toggleBluemivTheme();
+    });
   } catch (e) {
   console.warn('Failed to load theme');
   }

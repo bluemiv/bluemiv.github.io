@@ -30,12 +30,16 @@ export default function Page() {
         <h1 className="font-semibold text-2xl mb-md">개인정보 처리방침</h1>
         <p>시행일자: {effectiveDate.format('YYYY-MM-DD')}</p>
         <p>
-          본 개인정보 처리방침은 {companyName}(이하 &quot;회사&quot;)가 운영하는 {appName} 서비스에서
-          개인정보를 어떻게 처리하는지 설명합니다. 회사는 서비스 제공·보안·운영에 필요한 범위에서만 개인정보를 처리합니다.
+          본 개인정보 처리방침은 {companyName}(이하 &quot;회사&quot;)가 운영하는 {appName}{' '}
+          서비스에서 개인정보를 어떻게 처리하는지 설명합니다. 회사는 서비스 제공·보안·운영에 필요한
+          범위에서만 개인정보를 처리합니다.
         </p>
         <p>
           사이트 주소:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
         </p>
@@ -140,8 +144,8 @@ export default function Page() {
 
         <PrivacySection title="제5조(개인정보의 제3자 제공)">
           <p>
-            회사는 개인정보를 판매하지 않습니다. 다만 법령 근거, 정보주체 동의, 권리·안전 보호를 위한
-            경우 또는 서비스 운영에 필요한 범위에서만 제공합니다.
+            회사는 개인정보를 판매하지 않습니다. 다만 법령 근거, 정보주체 동의, 권리·안전 보호를
+            위한 경우 또는 서비스 운영에 필요한 범위에서만 제공합니다.
           </p>
         </PrivacySection>
 
@@ -182,7 +186,9 @@ export default function Page() {
         <PrivacySection title="제8조(정보주체의 권리 및 행사 방법)">
           <PrivacyList
             items={[
-              { text: '정보주체는 열람·정정·삭제·처리정지 등 관련 법령상 권리를 행사할 수 있습니다.' },
+              {
+                text: '정보주체는 열람·정정·삭제·처리정지 등 관련 법령상 권리를 행사할 수 있습니다.',
+              },
               {
                 text: (
                   <span>
@@ -203,7 +209,8 @@ export default function Page() {
 
         <PrivacySection title="제9조(아동의 개인정보 보호)">
           <p>
-            미성년자 이용이 확인되는 경우 관련 법령 및 정책에 따라 계정 제한 또는 삭제 조치를 할 수 있습니다.
+            미성년자 이용이 확인되는 경우 관련 법령 및 정책에 따라 계정 제한 또는 삭제 조치를 할 수
+            있습니다.
           </p>
         </PrivacySection>
 

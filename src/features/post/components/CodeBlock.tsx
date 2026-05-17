@@ -1,9 +1,8 @@
 'use client';
 
 import { Children, isValidElement, type ReactNode, useEffect, useRef, useState } from 'react';
-
-import { Check, Clipboard, X } from 'lucide-react';
 import clsx from 'clsx';
+import { Check, Clipboard, X } from 'lucide-react';
 
 interface Props {
   children?: ReactNode;

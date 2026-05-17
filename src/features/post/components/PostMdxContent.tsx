@@ -14,8 +14,7 @@ interface Props {
 const linkClassName =
   'font-semibold text-app-primary dark:text-app-dark-primary underline decoration-app-primary/30 dark:decoration-app-dark-primary/30 underline-offset-4 md:transition-colors md:ease-in-out md:duration-150 cursor-pointer hover:decoration-app-primary dark:hover:decoration-app-dark-primary';
 
-const isExternalHref = (href: unknown) =>
-  typeof href === 'string' && /^https?:\/\//.test(href);
+const isExternalHref = (href: unknown) => typeof href === 'string' && /^https?:\/\//.test(href);
 
 export default async function PostMdxContent({ content }: Props) {
   return (
@@ -109,7 +108,12 @@ export default async function PostMdxContent({ content }: Props) {
               return <>{props.children}</>;
             }
           }
-          return <p className="break-all sm:break-words mb-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted" {...props} />;
+          return (
+            <p
+              className="break-all sm:break-words mb-lg leading-8 text-app-text-muted dark:text-app-dark-text-muted"
+              {...props}
+            />
+          );
         },
         img: (props) => <PostContentImage imageProps={props} />,
         a: ({ href, ...props }) =>
@@ -132,7 +136,9 @@ export default async function PostMdxContent({ content }: Props) {
             {...props}
           />
         ),
-        thead: (props) => <thead className="bg-app-surface-muted dark:bg-app-dark-surface-muted" {...props} />,
+        thead: (props) => (
+          <thead className="bg-app-surface-muted dark:bg-app-dark-surface-muted" {...props} />
+        ),
         th: (props) => (
           <th
             className="px-md py-sm font-semibold border border-app-border dark:border-app-dark-border"
@@ -140,18 +146,37 @@ export default async function PostMdxContent({ content }: Props) {
           />
         ),
         td: (props) => (
-          <td className="px-md py-sm border border-app-border dark:border-app-dark-border text-app-text-muted dark:text-app-dark-text-muted" {...props} />
+          <td
+            className="px-md py-sm border border-app-border dark:border-app-dark-border text-app-text-muted dark:text-app-dark-text-muted"
+            {...props}
+          />
         ),
-        tr: (props) => <tr className="hover:bg-app-surface-muted/70 dark:hover:bg-app-dark-surface-muted/70" {...props} />,
+        tr: (props) => (
+          <tr
+            className="hover:bg-app-surface-muted/70 dark:hover:bg-app-dark-surface-muted/70"
+            {...props}
+          />
+        ),
         figure: (props) => <figure className="my-xl" {...props} />,
         pre: (props) => <CodeBlock {...props} />,
         ul: (props) => (
-          <ul className="list-disc pl-md md:pl-lg mb-lg marker:text-app-primary dark:marker:text-app-dark-primary" {...props} />
+          <ul
+            className="list-disc pl-md md:pl-lg mb-lg marker:text-app-primary dark:marker:text-app-dark-primary"
+            {...props}
+          />
         ),
         ol: (props) => (
-          <ol className="list-decimal pl-md md:pl-lg mb-lg marker:text-app-primary dark:marker:text-app-dark-primary" {...props} />
+          <ol
+            className="list-decimal pl-md md:pl-lg mb-lg marker:text-app-primary dark:marker:text-app-dark-primary"
+            {...props}
+          />
         ),
-        li: (props) => <li className="pl-sm mb-sm leading-7 text-app-text-muted dark:text-app-dark-text-muted" {...props} />,
+        li: (props) => (
+          <li
+            className="pl-sm mb-sm leading-7 text-app-text-muted dark:text-app-dark-text-muted"
+            {...props}
+          />
+        ),
         blockquote: (props) => (
           <blockquote
             className="my-xl break-all sm:break-words rounded-r-2xl border-l-4 border-app-primary dark:border-app-dark-primary bg-app-primary-soft/45 dark:bg-app-dark-primary-soft/45 px-md py-md italic text-app-text-muted dark:text-app-dark-text-muted"

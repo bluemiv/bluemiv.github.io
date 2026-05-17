@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import type { MetadataRoute } from 'next';
+import { LOTTOCAT645_APP } from '@/features/apps/lottocat645';
 import {
   getAllPosts,
   getAllShortPosts,
@@ -21,6 +22,27 @@ type ChangeFrequency = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'y
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.BASE_URL ?? SITE_METADATA.baseUrl;
+  const appPagesSitemapData = [
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as ChangeFrequency,
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_LOTTOCAT645}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as ChangeFrequency,
+      images: [`${baseUrl}${LOTTOCAT645_APP.icon}`],
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_LOTTOCAT645_PRIVACY}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      priority: 0.3,
+    },
+  ];
 
   // 전체 글 sitemap
   const posts = getAllPosts();
@@ -129,6 +151,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...postsSitemapData,
     ...shortPostsSitemapData,
+    ...appPagesSitemapData,
     ...categoriesSitemapData,
     ...tagsSitemapData,
   ];

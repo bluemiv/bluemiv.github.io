@@ -1,7 +1,6 @@
 'use client';
 
 import { type ReactNode, useEffect, useRef, useState } from 'react';
-
 import clsx from 'clsx';
 
 interface Props {

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-
 import { CalendarDays, FileText, Hash, Search, X } from 'lucide-react';
 import Link from 'next/link';
 import { ROUTE_PATH } from '@/shared/constants/route';
@@ -65,9 +64,7 @@ export default function HeaderSearch({ posts }: Props) {
     const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
       const isTyping =
-        target?.tagName === 'INPUT' ||
-        target?.tagName === 'TEXTAREA' ||
-        target?.isContentEditable;
+        target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable;
 
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();

@@ -62,6 +62,9 @@ self.addEventListener('fetch', (event) => {
     '/naver0b3c7144e2b65f42ae8194ba42c9f26c.html',
     '/google8ae0c2a16b4b1e23.html',
     '/app-ads.txt',
+    '/apps',
+    '/apps/lottocat645',
+    '/apps/lottocat645/privacy',
     '/privacy',
     '/privacy/easy-dots',
     '/privacy/easy-dots/en',
@@ -91,9 +94,12 @@ self.addEventListener('fetch', (event) => {
     '/privacy/luna',
     '/blim/account-deletion',
   ];
+  const excludedPathPrefixes = ['/apps/', '/r/apps/'];
 
-  // 소문자 처리 후 정확히 일치하는 경로 제외
-  if (excludedPaths.includes(url.pathname.toLowerCase())) return;
+  // 소문자 처리 후 제외 경로와 하위 리소스 제외
+  const normalizedPathname = url.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+  if (excludedPaths.includes(normalizedPathname)) return;
+  if (excludedPathPrefixes.some((prefix) => url.pathname.toLowerCase().startsWith(prefix))) return;
 
   // GET이 아닌 요청은 제외
   if (event.request.method !== 'GET') return;

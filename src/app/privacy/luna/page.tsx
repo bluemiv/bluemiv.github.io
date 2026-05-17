@@ -60,13 +60,13 @@ export default function Page() {
                 title: '앱 내 로컬 저장 항목(기기 내부 저장)',
                 children: [
                   {
-                    text: '프로필 선택값(닉네임, 생년, 별자리)'
+                    text: '프로필 선택값(닉네임, 생년, 별자리)',
                   },
                   {
-                    text: '타로 리딩 기록(카드, 방향, 해석 결과, 생성 시각)'
+                    text: '타로 리딩 기록(카드, 방향, 해석 결과, 생성 시각)',
                   },
                   {
-                    text: '스트릭/설정 정보(알림 설정 등)'
+                    text: '스트릭/설정 정보(알림 설정 등)',
                   },
                 ],
               },
@@ -74,13 +74,13 @@ export default function Page() {
                 title: '서버 처리 항목(Supabase/OpenAI 연계)',
                 children: [
                   {
-                    text: '익명 인증 식별자(Supabase Anonymous User ID)'
+                    text: '익명 인증 식별자(Supabase Anonymous User ID)',
                   },
                   {
-                    text: '리딩 요청 데이터(cardId, orientation, topic, userContext(선택))'
+                    text: '리딩 요청 데이터(cardId, orientation, topic, userContext(선택))',
                   },
                   {
-                    text: '리워드 검증 데이터(transaction_id, user_id, reward_amount, 광고 메타데이터)'
+                    text: '리워드 검증 데이터(transaction_id, user_id, reward_amount, 광고 메타데이터)',
                   },
                 ],
               },
@@ -88,18 +88,19 @@ export default function Page() {
                 title: '광고 SDK 자동 수집 항목(AdMob)',
                 children: [
                   {
-                    text: '광고 식별자(AAID/ADID 또는 iOS IDFA)'
+                    text: '광고 식별자(AAID/ADID 또는 iOS IDFA)',
                   },
                   {
-                    text: '광고 이벤트 로그(노출/클릭/보상 이벤트)'
+                    text: '광고 이벤트 로그(노출/클릭/보상 이벤트)',
                   },
                   {
-                    text: '기기/앱 정보(운영체제, 단말기 모델, 앱 버전 등)'
+                    text: '기기/앱 정보(운영체제, 단말기 모델, 앱 버전 등)',
                   },
                 ],
                 extra: (
                   <div className="border-l-4 border-app-sub-bg dark:border-app-sub-bg pl-md">
-                    광고 식별자는 단말기 설정에서 재설정/삭제하거나 맞춤형 광고를 제한할 수 있습니다.
+                    광고 식별자는 단말기 설정에서 재설정/삭제하거나 맞춤형 광고를 제한할 수
+                    있습니다.
                   </div>
                 ),
               },
@@ -107,7 +108,9 @@ export default function Page() {
                 title: '수집 방법',
                 children: [
                   { text: '앱 이용 과정에서 이용자 입력 및 기능 수행 시 자동/수동 수집' },
-                  { text: 'Google AdMob SDK 및 Supabase/OpenAI API 연동 과정에서 네트워크를 통한 처리' },
+                  {
+                    text: 'Google AdMob SDK 및 Supabase/OpenAI API 연동 과정에서 네트워크를 통한 처리',
+                  },
                 ],
               },
               {
@@ -383,9 +386,9 @@ export default function Page() {
         </PrivacySection>
 
         <PrivacySection title="제14조(개인정보 처리방침의 변경)">
-          본 방침은 {startDate.format('YYYY-MM-DD')}부터 적용됩니다. 법령, 서비스 내용 또는 처리 항목
-          변경이 있는 경우 본 페이지를 통해 공지합니다. 다만, 이용자 권리에 중대한 변경이 발생하는
-          경우 사전 안내 기간을 두고 고지할 수 있습니다.
+          본 방침은 {startDate.format('YYYY-MM-DD')}부터 적용됩니다. 법령, 서비스 내용 또는 처리
+          항목 변경이 있는 경우 본 페이지를 통해 공지합니다. 다만, 이용자 권리에 중대한 변경이
+          발생하는 경우 사전 안내 기간을 두고 고지할 수 있습니다.
         </PrivacySection>
       </div>
     </main>

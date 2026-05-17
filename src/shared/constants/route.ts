@@ -1,6 +1,9 @@
 export const ROUTE_PATH = {
   ROOT: '/',
   ABOUT: '/about',
+  APPS: '/apps',
+  APPS_LOTTOCAT645: '/apps/lottocat645',
+  APPS_LOTTOCAT645_PRIVACY: '/apps/lottocat645/privacy',
   BLOG: '/blog',
   BLOG_TAGS: '/blog/tags',
   BLOG_SHORT_TAGS: '/blog/short-tags',

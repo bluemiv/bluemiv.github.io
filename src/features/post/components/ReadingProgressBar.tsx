@@ -45,10 +45,7 @@ export default function ReadingProgressBar() {
   }, []);
 
   return (
-    <div
-      aria-hidden="true"
-      className="fixed left-0 top-0 z-[60] h-[3px] w-full bg-transparent"
-    >
+    <div aria-hidden="true" className="fixed left-0 top-0 z-[60] h-[3px] w-full bg-transparent">
       <div
         className="h-full origin-left bg-gradient-to-r from-app-primary via-app-accent to-app-primary dark:from-app-dark-primary dark:via-app-dark-accent dark:to-app-dark-primary shadow-[0_0_18px_rgb(37_99_235_/_0.35)] transition-transform duration-150 ease-out"
         style={{ transform: `scaleX(${progress})` }}

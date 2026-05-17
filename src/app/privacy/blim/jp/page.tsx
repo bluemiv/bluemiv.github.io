@@ -35,7 +35,10 @@ export default function Page() {
         </p>
         <p>
           サイト:{' '}
-          <Link className="text-app-primary dark:text-app-dark-primary underline" href={DEVELOPER.SITE_URL}>
+          <Link
+            className="text-app-primary dark:text-app-dark-primary underline"
+            href={DEVELOPER.SITE_URL}
+          >
             {DEVELOPER.SITE_URL}
           </Link>
         </p>

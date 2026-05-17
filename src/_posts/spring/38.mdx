@@ -1,0 +1,416 @@
+---
+title: Bean Scope 이해하기
+description: Spring Bean Scope의 의미와 Singleton, Prototype, 웹 Scope의 차이, 실무에서 선택하는 기준을 알아봅니다.
+createdAt: 2025-08-27T17:58:52+09:00
+updatedAt: 2025-08-27T17:58:52+09:00
+tags: ['spring', 'springboot', 'java', 'bean', 'scope', 'singleton', 'prototype']
+release: true
+author: Taehong Kim
+thumbnail: /r/i/spring/38/thumbnail.webp
+---
+
+## 1. Bean Scope는 왜 필요할까?
+
+Spring에서 Bean은 컨테이너가 만들고 관리하는 객체입니다. 그런데 모든 Bean이 같은 방식으로 관리되는 것은 아닙니다.
+
+어떤 Bean은 애플리케이션 전체에서 하나만 있으면 충분합니다.
+
+```text
+UserService
+OrderService
+ProductRepository
+ExternalApiClient
+```
+
+반대로 어떤 객체는 매번 새로 만들어야 안전한 경우도 있습니다.
+
+```text
+요청마다 달라지는 상태
+사용자 세션별 데이터
+짧게 쓰고 버리는 작업용 객체
+```
+
+Bean Scope는 Bean 인스턴스가 얼마나 오래 유지되고, 어디까지 공유되는지를 정하는 규칙입니다.
+
+이전 글인 [Bean 생명주기(Lifecycle) 이해하기](/blog/spring/37)에서는 Bean이 생성되고 초기화되고 정리되는 흐름을 살펴봤습니다. 이번 글에서는 그 Bean이 “하나만 만들어지는지”, “필요할 때마다 새로 만들어지는지”, “요청이나 세션 단위로 관리되는지”를 알아보겠습니다.
+
+## 2. Bean Scope 한눈에 보기
+
+Spring Framework가 제공하는 대표적인 Scope는 다음과 같습니다.
+
+| Scope | 의미 |
+|-------|------|
+| `singleton` | Spring 컨테이너 안에서 Bean을 하나만 만들어 공유 |
+| `prototype` | Bean을 요청할 때마다 새 인스턴스 생성 |
+| `request` | HTTP 요청 하나마다 Bean 인스턴스 생성 |
+| `session` | HTTP 세션 하나마다 Bean 인스턴스 생성 |
+| `application` | ServletContext 하나마다 Bean 인스턴스 생성 |
+| `websocket` | WebSocket 세션 하나마다 Bean 인스턴스 생성 |
+
+일반적인 Spring Boot 웹 애플리케이션에서 가장 자주 보는 것은 `singleton`입니다. 그다음으로 상황에 따라 `prototype`, `request`, `session`을 접하게 됩니다.
+
+아무 Scope도 지정하지 않으면 기본값은 `singleton`입니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+}
+```
+
+위 `UserService`는 별도 설정이 없으므로 Singleton Scope Bean입니다.
+
+## 3. Singleton Scope
+
+`singleton`은 Spring의 기본 Scope입니다.
+
+```text
+Spring Container
+└── userService Bean 1개
+    ├── Controller A에서 사용
+    ├── Service B에서 사용
+    └── Scheduler C에서 사용
+```
+
+같은 Bean을 여러 곳에서 주입받아도 Spring 컨테이너 안에서는 같은 인스턴스를 공유합니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+}
+```
+
+명시적으로 작성하면 다음과 같습니다.
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
+@Scope("singleton")
+@Service
+public class UserService {
+}
+```
+
+다만 `singleton`이 기본값이기 때문에 보통은 생략합니다.
+
+Spring의 Singleton Scope는 GoF 디자인 패턴의 Singleton과는 다릅니다. GoF Singleton은 클래스 차원에서 인스턴스가 하나만 만들어지도록 강제하는 패턴입니다. Spring Singleton은 “Spring 컨테이너 안에서 해당 Bean 정의에 대해 하나만 관리한다”는 의미에 가깝습니다.
+
+즉, 같은 클래스라도 Bean을 두 개로 등록하면 Bean 이름마다 별도의 인스턴스가 생길 수 있습니다.
+
+## 4. Singleton Bean에서 주의할 점
+
+Singleton Bean은 애플리케이션 전체에서 공유됩니다. 그래서 상태를 함부로 필드에 저장하면 문제가 생길 수 있습니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    private Long currentUserId;
+
+    public void order(Long userId) {
+        this.currentUserId = userId;
+        // 주문 처리
+    }
+}
+```
+
+위 코드는 위험합니다. 여러 요청이 동시에 들어오면 `currentUserId` 값이 서로 덮어써질 수 있습니다.
+
+Singleton Bean에는 보통 요청마다 달라지는 값을 필드에 저장하지 않습니다. 요청별 데이터는 메서드 파라미터, 지역 변수, DTO, 인증 컨텍스트처럼 요청 흐름 안에서 다루는 편이 안전합니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    public void order(Long userId) {
+        // userId는 요청 흐름 안에서만 사용
+    }
+}
+```
+
+Singleton Bean이 나쁘다는 뜻은 아닙니다. 대부분의 서비스, 레포지토리, 설정 Bean은 Singleton이 가장 자연스럽습니다. 중요한 것은 Singleton Bean을 무상태에 가깝게 유지하는 것입니다.
+
+## 5. Prototype Scope
+
+`prototype`은 Bean을 요청할 때마다 새 인스턴스를 만드는 Scope입니다.
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Scope("prototype")
+@Component
+public class SearchCondition {
+
+    private String keyword;
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+}
+```
+
+컨테이너에서 `SearchCondition` Bean을 요청할 때마다 새로운 객체가 만들어집니다.
+
+```text
+getBean(SearchCondition.class) → SearchCondition #1
+getBean(SearchCondition.class) → SearchCondition #2
+getBean(SearchCondition.class) → SearchCondition #3
+```
+
+Prototype Scope는 상태를 가진 객체를 짧게 쓰고 버리고 싶을 때 사용할 수 있습니다.
+
+하지만 실무에서 생각보다 자주 쓰지는 않습니다. 대부분의 요청별 데이터는 Bean으로 만들기보다 일반 객체, DTO, 메서드 지역 변수로 다루는 편이 단순합니다.
+
+## 6. Prototype Bean의 생명주기 주의점
+
+Prototype Bean은 Singleton Bean과 생명주기 관리 방식이 다릅니다.
+
+Spring은 Prototype Bean을 생성하고 의존성을 주입한 뒤, 그 객체를 사용하는 쪽에 넘겨줍니다. 이후의 생명주기를 계속 추적하지 않습니다.
+
+```text
+Prototype Bean
+├── 생성: Spring이 처리
+├── 의존성 주입: Spring이 처리
+└── 소멸: 사용하는 쪽이 책임
+```
+
+그래서 Prototype Bean에 종료 콜백을 기대하면 안 됩니다.
+
+```java
+import jakarta.annotation.PreDestroy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Scope("prototype")
+@Component
+public class TemporaryClient {
+
+    @PreDestroy
+    public void close() {
+        System.out.println("정리 작업");
+    }
+}
+```
+
+위 코드에서 `@PreDestroy`가 Singleton Bean처럼 자동으로 호출된다고 기대하면 안 됩니다.
+
+이 내용은 [Bean 생명주기(Lifecycle) 이해하기](/blog/spring/37)에서 다룬 종료 콜백과도 연결됩니다. Prototype Bean은 생성 이후의 책임이 사용하는 쪽으로 넘어간다는 점이 핵심입니다.
+
+## 7. Singleton Bean 안에서 Prototype Bean을 주입하면?
+
+초보자가 자주 헷갈리는 지점이 있습니다.
+
+```java
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    private final SearchCondition searchCondition;
+
+    public OrderService(SearchCondition searchCondition) {
+        this.searchCondition = searchCondition;
+    }
+}
+```
+
+`SearchCondition`이 Prototype Scope라면 `OrderService`에서 사용할 때마다 새로 만들어질까요?
+
+그렇지 않습니다.
+
+`OrderService`는 Singleton Bean입니다. Singleton Bean은 애플리케이션 시작 시 한 번 생성되고, 그때 의존성도 한 번 주입됩니다. 따라서 생성자에 주입된 `SearchCondition`도 그 시점의 인스턴스 하나가 계속 사용됩니다.
+
+```text
+OrderService 생성 시점
+└── SearchCondition #1 주입
+
+이후 OrderService를 계속 사용해도
+└── SearchCondition #1 그대로 사용
+```
+
+Prototype Bean을 “필요할 때마다 새로” 받아야 한다면 `ObjectProvider` 같은 지연 조회 방식을 사용할 수 있습니다.
+
+```java
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.stereotype.Service;
+
+@Service
+public class OrderService {
+
+    private final ObjectProvider<SearchCondition> searchConditionProvider;
+
+    public OrderService(ObjectProvider<SearchCondition> searchConditionProvider) {
+        this.searchConditionProvider = searchConditionProvider;
+    }
+
+    public void search(String keyword) {
+        SearchCondition condition = searchConditionProvider.getObject();
+        condition.setKeyword(keyword);
+    }
+}
+```
+
+이렇게 하면 `search()`가 호출될 때마다 컨테이너에서 `SearchCondition`을 새로 요청할 수 있습니다.
+
+다만 이 방식도 꼭 필요한 경우에만 사용합니다. 요청마다 달라지는 단순 데이터라면 Bean Scope보다 일반 객체 생성이 더 읽기 쉽습니다.
+
+## 8. Web Scope: request, session, application, websocket
+
+웹 애플리케이션에서는 HTTP 요청이나 세션 단위로 Bean을 관리할 수도 있습니다.
+
+| Scope | 유지 범위 |
+|-------|-----------|
+| `request` | HTTP 요청 하나 |
+| `session` | HTTP 세션 하나 |
+| `application` | 웹 애플리케이션의 ServletContext |
+| `websocket` | WebSocket 세션 |
+
+예를 들어 요청 하나 동안만 유지되는 Bean은 다음처럼 만들 수 있습니다.
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Scope("request")
+@Component
+public class RequestTrace {
+
+    private String traceId;
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+}
+```
+
+다만 `request`, `session`, `application`, `websocket` Scope는 웹 환경에서만 사용할 수 있습니다. 일반적인 콘솔 애플리케이션 컨텍스트에서는 사용할 수 없습니다.
+
+Spring MVC 요청 처리 안에서는 `DispatcherServlet`이 관련 요청 상태를 제공하므로 Web Scope를 사용할 수 있습니다.
+
+## 9. Request Scope를 Singleton Bean에 주입할 때
+
+Request Scope Bean을 Singleton Bean에 직접 주입하면 시점 문제가 생길 수 있습니다.
+
+Singleton Bean은 애플리케이션 시작 시 만들어지지만, Request Scope Bean은 HTTP 요청이 있어야 만들어질 수 있기 때문입니다.
+
+이럴 때는 프록시를 사용할 수 있습니다.
+
+```java
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Component
+public class RequestTrace {
+}
+```
+
+이렇게 하면 Singleton Bean에는 실제 `RequestTrace` 객체가 아니라 프록시 객체가 주입됩니다. 그리고 실제 메서드를 호출할 때 현재 HTTP 요청에 맞는 `RequestTrace` Bean으로 위임합니다.
+
+```text
+Singleton Service
+└── RequestTrace 프록시
+        ↓ 요청 처리 중 호출
+    현재 요청의 RequestTrace 실제 객체
+```
+
+프록시는 편리하지만, 너무 남용하면 실제 객체가 언제 만들어지는지 추적하기 어려워질 수 있습니다. 요청 데이터가 단순하다면 컨트롤러에서 값을 꺼내 서비스 메서드의 파라미터로 넘기는 방식이 더 명확할 때도 많습니다.
+
+## 10. 실무에서 선택하는 기준
+
+Bean Scope를 고를 때는 “이 객체가 상태를 가지는가?”, “그 상태는 누구와 공유되어야 하는가?”를 먼저 생각하면 됩니다.
+
+| 상황 | 선택 기준 |
+|------|-----------|
+| 일반 서비스, 레포지토리, 설정 Bean | 기본값인 `singleton` |
+| 요청마다 달라지는 값 | 메서드 파라미터, DTO, 지역 변수 우선 |
+| 매번 새 인스턴스가 필요한 Bean | `prototype` 고려 |
+| HTTP 요청 동안만 필요한 상태 | `request` 고려 |
+| 로그인 세션 동안 유지할 상태 | `session` 고려 |
+| 웹 애플리케이션 전체 공유 상태 | `application` 고려 |
+
+대부분의 Spring Boot 애플리케이션에서는 Singleton Bean을 기본으로 두고, 상태를 Bean 필드에 저장하지 않는 방식이 가장 단순합니다.
+
+Scope를 바꾸는 것은 객체의 공유 범위를 바꾸는 일이므로, 버그가 생겼을 때 원인을 찾기 어려워질 수 있습니다. 기본값으로 해결되지 않는 이유가 분명할 때만 다른 Scope를 선택하는 편이 좋습니다.
+
+## 11. 자주 하는 실수
+
+### 11.1. Singleton Bean 필드에 요청별 상태를 저장하는 경우
+
+가장 흔한 실수입니다.
+
+```java
+@Service
+public class LoginService {
+
+    private String currentEmail;
+
+    public void login(String email) {
+        this.currentEmail = email;
+    }
+}
+```
+
+`LoginService`는 Singleton Bean이므로 여러 요청이 같은 인스턴스를 공유합니다. 요청별 값은 필드가 아니라 파라미터나 지역 변수로 다루는 것이 안전합니다.
+
+### 11.2. Prototype이면 항상 새 객체가 주입된다고 생각하는 경우
+
+Prototype Bean은 “컨테이너에 요청할 때마다” 새로 만들어집니다. Singleton Bean에 생성자 주입된 Prototype Bean은 Singleton Bean 생성 시 한 번만 주입됩니다.
+
+필요할 때마다 새 인스턴스가 필요하다면 `ObjectProvider`, `Provider`, lookup method injection 같은 방식을 검토해야 합니다.
+
+### 11.3. Scope로 설계 문제를 해결하려는 경우
+
+요청별 데이터가 필요하다는 이유만으로 무조건 `request` Scope Bean을 만들 필요는 없습니다.
+
+```java
+public void createOrder(Long userId, OrderRequest request) {
+}
+```
+
+이처럼 파라미터로 명확히 전달하는 편이 더 단순한 경우가 많습니다.
+
+Scope는 편리한 도구지만, 상태를 숨기는 방식으로 사용하면 코드 흐름을 읽기 어려워질 수 있습니다.
+
+### 11.4. Session Scope에 너무 많은 데이터를 넣는 경우
+
+`session` Scope는 사용자 세션 동안 상태를 유지합니다. 편해 보이지만 세션 데이터가 커지면 메모리 사용량이 늘고, 서버 확장이나 세션 클러스터링이 복잡해질 수 있습니다.
+
+세션에는 꼭 필요한 최소한의 식별 정보만 두고, 상세 데이터는 데이터베이스나 캐시에서 조회하는 구조가 더 관리하기 쉽습니다.
+
+## 12. 참고 자료
+
+- [Spring Framework - Bean Scopes](https://docs.spring.io/spring-framework/reference/core/beans/factory-scopes.html)
+- [Spring Framework - Using the @Bean Annotation](https://docs.spring.io/spring-framework/reference/core/beans/java/bean-annotation.html)
+- [Spring Framework - Method Injection](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-method-injection.html)
+
+## 13. 정리
+
+Bean Scope는 Bean 인스턴스가 얼마나 오래 유지되고 어디까지 공유되는지 정하는 규칙입니다.
+
+- 기본 Scope는 `singleton`이고, 대부분의 서비스와 레포지토리는 Singleton으로 충분합니다.
+- Singleton Bean은 공유되므로 요청별 상태를 필드에 저장하면 안 됩니다.
+- `prototype`은 Bean을 요청할 때마다 새 인스턴스를 만들지만, Spring이 소멸까지 관리하지는 않습니다.
+- Singleton Bean에 Prototype Bean을 주입하면 생성 시점에 한 번만 주입됩니다.
+- `request`, `session`, `application`, `websocket`은 웹 환경에서 사용하는 Scope입니다.
+- Scope 변경은 객체의 공유 범위를 바꾸는 일이므로, 기본값으로 해결되지 않는 이유가 분명할 때 선택하는 것이 좋습니다.
+
+Bean Scope를 이해하면 Spring Bean을 더 안전하게 설계할 수 있습니다. 특히 Singleton Bean을 무상태로 유지해야 하는 이유를 알게 되면, 서비스 코드에서 어디에 상태를 두어야 하는지도 훨씬 선명해집니다.

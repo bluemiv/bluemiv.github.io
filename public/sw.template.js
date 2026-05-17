@@ -73,7 +73,6 @@ self.addEventListener('fetch', (event) => {
     '/privacy/kpop/ko',
     '/privacy/kpop/jp',
     '/privacy/kpop/cn',
-    '/privacy/lottocat645',
     '/privacy/ai-wallpaper/en',
     '/privacy/ai-wallpaper/ko',
     '/privacy/ai-wallpaper/jp',

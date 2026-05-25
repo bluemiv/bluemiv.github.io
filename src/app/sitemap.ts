@@ -3,6 +3,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import type { MetadataRoute } from 'next';
 import { LOTTOCAT645_APP } from '@/features/apps/lottocat645';
+import { POTION_SORT_QUEST_APP } from '@/features/apps/potion-sort-quest';
 import {
   getAllPosts,
   getAllShortPosts,
@@ -40,6 +41,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}${ROUTE_PATH.APPS_LOTTOCAT645_PRIVACY}`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as ChangeFrequency,
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      images: [`${baseUrl}${POTION_SORT_QUEST_APP.icon}`],
       priority: 0.3,
     },
   ];

@@ -2,6 +2,7 @@ import { Smartphone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LOTTOCAT645_APP } from '@/features/apps/lottocat645';
+import { POTION_SORT_QUEST_APP } from '@/features/apps/potion-sort-quest';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import { Sidebar } from '@/widgets/Sidebar';
 
@@ -11,6 +12,12 @@ const APPS = [
     description: LOTTOCAT645_APP.shortDescription,
     href: ROUTE_PATH.APPS_LOTTOCAT645,
     icon: LOTTOCAT645_APP.iconWebp,
+  },
+  {
+    name: POTION_SORT_QUEST_APP.name,
+    description: POTION_SORT_QUEST_APP.shortDescription,
+    href: ROUTE_PATH.APPS_POTION_SORT_QUEST,
+    icon: POTION_SORT_QUEST_APP.icon,
   },
   { name: 'Blim', description: '상세 소개를 준비 중입니다.' },
   { name: 'Musepiece', description: '상세 소개를 준비 중입니다.' },

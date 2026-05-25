@@ -65,6 +65,7 @@ self.addEventListener('fetch', (event) => {
     '/apps',
     '/apps/lottocat645',
     '/apps/lottocat645/privacy',
+    '/apps/potion-sort-quest',
     '/apps/potion-sort-quest/privacy',
     '/apps/potion-sort-quest/privacy/en',
     '/apps/potion-sort-quest/privacy/jp',

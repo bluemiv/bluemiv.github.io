@@ -44,6 +44,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      url: `${baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as ChangeFrequency,
+      images: [
+        `${baseUrl}${POTION_SORT_QUEST_APP.featureGraphic}`,
+        `${baseUrl}${POTION_SORT_QUEST_APP.icon}`,
+      ],
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY}`,
       lastModified: new Date(),
       changeFrequency: 'yearly' as ChangeFrequency,

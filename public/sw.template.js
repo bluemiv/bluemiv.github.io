@@ -67,6 +67,7 @@ self.addEventListener('fetch', (event) => {
     '/apps/lottocat645/privacy',
     '/apps/potion-sort-quest/privacy',
     '/apps/potion-sort-quest/privacy/en',
+    '/apps/potion-sort-quest/privacy/jp',
     '/privacy',
     '/privacy/easy-dots',
     '/privacy/easy-dots/en',

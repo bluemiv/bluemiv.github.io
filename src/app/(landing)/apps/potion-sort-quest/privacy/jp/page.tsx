@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   POTION_SORT_QUEST_APP,
-  PotionSortQuestPrivacyContent,
+  PotionSortQuestPrivacyContentJp,
 } from '@/features/apps/potion-sort-quest';
 import { DEVELOPER } from '@/features/privacy';
 import { ROUTE_PATH } from '@/shared/constants/route';
@@ -14,9 +14,9 @@ import { SITE_METADATA } from '@/shared/constants/site';
 
 const appName = POTION_SORT_QUEST_APP.name;
 const startDate = dayjs(POTION_SORT_QUEST_APP.privacyStartDate);
-const pageTitle = `${appName} 개인정보 처리방침`;
-const pageDescription = `${appName} 앱의 개인정보 처리방침입니다.`;
-const pageUrl = `${SITE_METADATA.baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY}`;
+const pageTitle = `${appName} プライバシーポリシー`;
+const pageDescription = `${appName}アプリのプライバシーポリシーです。`;
+const pageUrl = `${SITE_METADATA.baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_JP}`;
 const appIcon = POTION_SORT_QUEST_APP.icon;
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'article',
-    locale: 'ko_KR',
+    locale: 'ja_JP',
     siteName: SITE_METADATA.title,
     url: pageUrl,
     title: pageTitle,
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
         url: appIcon,
         width: 512,
         height: 512,
-        alt: `${appName} 앱 아이콘`,
+        alt: `${appName} app icon`,
       },
     ],
   },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: appIcon,
-        alt: `${appName} 앱 아이콘`,
+        alt: `${appName} app icon`,
       },
     ],
   },
@@ -99,7 +99,7 @@ export default function PotionSortQuestPrivacyPage() {
           >
             <Image
               src={appIcon}
-              alt={`${appName} 앱 아이콘`}
+              alt={`${appName} app icon`}
               width={36}
               height={36}
               className="h-9 w-9 rounded-xl"
@@ -111,7 +111,8 @@ export default function PotionSortQuestPrivacyPage() {
             href={ROUTE_PATH.APPS}
             className="inline-flex h-9 items-center gap-xs rounded-lg px-sm text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
           >
-            <ChevronLeft size={16} strokeWidth={2.3} />앱 목록으로 돌아가기
+            <ChevronLeft size={16} strokeWidth={2.3} />
+            アプリ一覧へ戻る
           </Link>
         </nav>
       </header>
@@ -127,16 +128,17 @@ export default function PotionSortQuestPrivacyPage() {
             </div>
             <div className="flex flex-col gap-sm">
               <h1 className="text-4xl font-bold leading-tight text-slate-950 dark:text-white md:text-5xl">
-                개인정보 처리방침
+                プライバシーポリシー
               </h1>
               <p className="text-base leading-8 text-slate-600 dark:text-slate-300">
-                {appName} 앱이 처리하는 정보, 광고 SDK 이용 범위, 앱 안에 저장되는 데이터와 이용자의
-                권리를 안내합니다.
+                {appName}
+                が取り扱うデータ、広告SDKの利用範囲、端末内に保存されるデータ、お問い合わせ方法について
+                説明します。
               </p>
             </div>
           </div>
           <div className="rounded-lg border border-slate-200 bg-white p-md text-sm text-slate-600 shadow-sm dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-            시행일자
+            施行日
             <div className="mt-xs text-lg font-bold text-slate-950 dark:text-white">
               {startDate.format('YYYY-MM-DD')}
             </div>
@@ -146,21 +148,21 @@ export default function PotionSortQuestPrivacyPage() {
         <div className="flex justify-end pt-md">
           <div className="flex gap-xs">
             <Link
+              href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY}
+              className="inline-flex rounded-lg bg-slate-100 px-sm py-xs text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              한국어
+            </Link>
+            <Link
               href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_EN}
               className="inline-flex rounded-lg bg-slate-100 px-sm py-xs text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               English
             </Link>
-            <Link
-              href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_JP}
-              className="inline-flex rounded-lg bg-slate-100 px-sm py-xs text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-            >
-              日本語
-            </Link>
           </div>
         </div>
 
-        <PotionSortQuestPrivacyContent
+        <PotionSortQuestPrivacyContentJp
           components={{ Section, List, Notice, PolicyLink }}
           effectiveDate={startDate.format('YYYY-MM-DD')}
           externalSiteLink={

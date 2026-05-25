@@ -11,6 +11,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { POTION_SORT_QUEST_APP } from '@/features/apps/potion-sort-quest';
+import { ThemeToggleButton } from '@/features/theme/components';
 import { ROUTE_PATH } from '@/shared/constants/route';
 import { SITE_METADATA } from '@/shared/constants/site';
 
@@ -148,13 +149,13 @@ export default function PotionSortQuestPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#15091f] text-white">
+    <main className="min-h-screen bg-[#fff8ed] text-slate-950 dark:bg-[#15091f] dark:text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#15091f]/88 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-amber-950/10 bg-[#fff8ed]/88 backdrop-blur-xl dark:border-white/10 dark:bg-[#15091f]/88">
         <nav className="mx-auto flex h-16 w-full max-w-[1120px] items-center justify-between px-md">
           <Link href={ROUTE_PATH.APPS_POTION_SORT_QUEST} className="flex items-center gap-sm">
             <Image
@@ -173,36 +174,42 @@ export default function PotionSortQuestPage() {
           <div className="flex items-center gap-xs text-sm font-semibold">
             <Link
               href={ROUTE_PATH.APPS}
-              className="hidden rounded-lg px-sm py-xs text-white/72 transition-colors hover:bg-white/10 hover:text-white sm:inline-flex"
+              className="hidden rounded-lg px-sm py-xs text-slate-700 transition-colors hover:bg-amber-950/10 hover:text-slate-950 dark:text-white/72 dark:hover:bg-white/10 dark:hover:text-white sm:inline-flex"
             >
               Apps
             </Link>
             <Link
               href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_EN}
-              className="rounded-lg px-sm py-xs text-white/72 transition-colors hover:bg-white/10 hover:text-white"
+              className="rounded-lg px-sm py-xs text-slate-700 transition-colors hover:bg-amber-950/10 hover:text-slate-950 dark:text-white/72 dark:hover:bg-white/10 dark:hover:text-white"
             >
               Privacy
             </Link>
+            <ThemeToggleButton
+              className="relative inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-slate-700 transition-colors hover:bg-amber-950/10 hover:text-slate-950 dark:text-white/72 dark:hover:bg-white/10 dark:hover:text-white"
+              fallbackBackgroundColor={{ light: '#FFF8ED', dark: '#15091F' }}
+              iconClassName="h-[17px] w-[17px]"
+              placeholderClassName="h-9 w-9"
+            />
           </div>
         </nav>
       </header>
 
-      <section className="relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_30%,rgba(20,184,166,0.34),transparent_36%),radial-gradient(circle_at_78%_16%,rgba(250,204,21,0.13),transparent_28%),linear-gradient(135deg,#15091f_0%,#10243a_55%,#12091c_100%)]" />
-        <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.09)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.09)_1px,transparent_1px)] [background-size:72px_72px]" />
+      <section className="relative overflow-hidden border-b border-amber-950/10 dark:border-white/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_30%,rgba(20,184,166,0.18),transparent_36%),radial-gradient(circle_at_78%_16%,rgba(251,191,36,0.2),transparent_28%),linear-gradient(135deg,#fff8ed_0%,#eefbf7_55%,#fdf2f8_100%)] dark:bg-[radial-gradient(circle_at_24%_30%,rgba(20,184,166,0.34),transparent_36%),radial-gradient(circle_at_78%_16%,rgba(250,204,21,0.13),transparent_28%),linear-gradient(135deg,#15091f_0%,#10243a_55%,#12091c_100%)]" />
+        <div className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(15,23,42,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,.08)_1px,transparent_1px)] [background-size:72px_72px] dark:opacity-20 dark:[background-image:linear-gradient(rgba(255,255,255,.09)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.09)_1px,transparent_1px)]" />
 
         <div className="relative mx-auto grid w-full max-w-[1120px] gap-xl px-md py-2xl lg:grid-cols-[minmax(0,0.95fr)_minmax(340px,0.72fr)] lg:items-center">
           <div className="flex flex-col gap-lg">
-            <div className="flex w-fit items-center gap-xs rounded-full border border-emerald-300/30 bg-emerald-300/10 px-sm py-xs text-sm font-semibold text-emerald-100">
+            <div className="flex w-fit items-center gap-xs rounded-full border border-emerald-700/20 bg-emerald-100/80 px-sm py-xs text-sm font-semibold text-emerald-800 dark:border-emerald-300/30 dark:bg-emerald-300/10 dark:text-emerald-100">
               <Sparkles size={16} strokeWidth={2.3} />
               Offline water sort puzzle
             </div>
 
             <div className="flex flex-col gap-md">
-              <h1 className="max-w-[760px] text-5xl font-black leading-[1.02] tracking-normal text-white md:text-7xl">
+              <h1 className="max-w-[760px] text-5xl font-black leading-[1.02] tracking-normal text-slate-950 dark:text-white md:text-7xl">
                 Sort magical potions into matching bottles.
               </h1>
-              <p className="max-w-[640px] text-lg leading-8 text-white/72 md:text-xl md:leading-9">
+              <p className="max-w-[640px] text-lg leading-8 text-slate-700 dark:text-white/72 md:text-xl md:leading-9">
                 Potion Sort Quest is a relaxing Android puzzle game where every move is about
                 planning, pouring, and finishing each bottle cleanly by color.
               </p>
@@ -220,7 +227,7 @@ export default function PotionSortQuestPage() {
               </Link>
               <Link
                 href="#screenshots"
-                className="inline-flex h-12 items-center justify-center rounded-lg border border-white/16 px-lg text-sm font-bold text-white transition-colors hover:bg-white/10"
+                className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-950/15 px-lg text-sm font-bold text-slate-950 transition-colors hover:bg-slate-950/10 dark:border-white/16 dark:text-white dark:hover:bg-white/10"
               >
                 View screenshots
               </Link>
@@ -228,14 +235,14 @@ export default function PotionSortQuestPage() {
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-8 rounded-[2rem] bg-cyan-400/20 blur-3xl" />
+            <div className="absolute -inset-8 rounded-[2rem] bg-cyan-300/30 blur-3xl dark:bg-cyan-400/20" />
             <Image
               src={POTION_SORT_QUEST_APP.featureGraphic}
               alt="Potion Sort Quest potion sorting gameplay artwork"
               width={1024}
               height={500}
               priority
-              className="relative w-full rounded-2xl border border-white/16 shadow-2xl shadow-black/30"
+              className="relative w-full rounded-2xl border border-slate-950/10 shadow-2xl shadow-amber-950/15 dark:border-white/16 dark:shadow-black/30"
             />
           </div>
         </div>
@@ -245,29 +252,31 @@ export default function PotionSortQuestPage() {
         {features.map(({ title: featureTitle, description: featureDescription, Icon }) => (
           <article
             key={featureTitle}
-            className="rounded-lg border border-white/10 bg-white/[0.045] p-md"
+            className="rounded-lg border border-amber-950/10 bg-white/70 p-md shadow-sm shadow-amber-950/5 dark:border-white/10 dark:bg-white/[0.045] dark:shadow-none"
           >
-            <Icon className="mb-md text-emerald-300" size={24} strokeWidth={2.2} />
+            <Icon className="mb-md text-emerald-700 dark:text-emerald-300" size={24} strokeWidth={2.2} />
             <h2 className="text-lg font-bold">{featureTitle}</h2>
-            <p className="mt-xs text-sm leading-7 text-white/64">{featureDescription}</p>
+            <p className="mt-xs text-sm leading-7 text-slate-600 dark:text-white/64">
+              {featureDescription}
+            </p>
           </article>
         ))}
       </section>
 
       <section
         id="screenshots"
-        className="border-y border-white/10 bg-white/[0.035] py-2xl"
+        className="border-y border-amber-950/10 bg-white/55 py-2xl dark:border-white/10 dark:bg-white/[0.035]"
       >
         <div className="mx-auto flex w-full max-w-[1120px] flex-col gap-xl px-md">
           <div className="flex max-w-[700px] flex-col gap-sm">
-            <div className="flex items-center gap-xs text-sm font-semibold text-emerald-200">
+            <div className="flex items-center gap-xs text-sm font-semibold text-emerald-800 dark:text-emerald-200">
               <Music size={16} strokeWidth={2.4} />
               Calm puzzle sessions
             </div>
             <h2 className="text-3xl font-black leading-tight md:text-5xl">
               Simple rules, clean decisions, colorful progress.
             </h2>
-            <p className="text-base leading-8 text-white/64">
+            <p className="text-base leading-8 text-slate-600 dark:text-white/64">
               Start a level, choose a bottle, pour matching colors, and use empty bottles wisely.
               There are no timers or account requirements for normal gameplay.
             </p>
@@ -277,7 +286,7 @@ export default function PotionSortQuestPage() {
             {screenshots.map((screenshot, index) => (
               <div
                 key={screenshot.src}
-                className="overflow-hidden rounded-[1.5rem] border border-white/12 bg-black p-1.5 shadow-2xl shadow-black/25"
+                className="overflow-hidden rounded-[1.5rem] border border-slate-950/10 bg-slate-950 p-1.5 shadow-2xl shadow-amber-950/10 dark:border-white/12 dark:bg-black dark:shadow-black/25"
               >
                 <Image
                   src={screenshot.src}
@@ -298,7 +307,7 @@ export default function PotionSortQuestPage() {
           <h2 className="text-3xl font-black leading-tight md:text-5xl">
             Ready for a quiet bottle puzzle?
           </h2>
-          <p className="mt-sm text-base leading-8 text-white/64">
+          <p className="mt-sm text-base leading-8 text-slate-600 dark:text-white/64">
             Download Potion Sort Quest for Android and enjoy offline potion sorting with undo,
             hints, coins, language settings, and optional music.
           </p>
@@ -315,7 +324,7 @@ export default function PotionSortQuestPage() {
           </Link>
           <Link
             href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_EN}
-            className="inline-flex h-12 items-center justify-center rounded-lg border border-white/16 px-lg text-sm font-bold text-white transition-colors hover:bg-white/10"
+            className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-950/15 px-lg text-sm font-bold text-slate-950 transition-colors hover:bg-slate-950/10 dark:border-white/16 dark:text-white dark:hover:bg-white/10"
           >
             Privacy Policy
           </Link>

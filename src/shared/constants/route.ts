@@ -5,6 +5,7 @@ export const ROUTE_PATH = {
   APPS_LOTTOCAT645: '/apps/lottocat645',
   APPS_LOTTOCAT645_PRIVACY: '/apps/lottocat645/privacy',
   APPS_POTION_SORT_QUEST_PRIVACY_EN: '/apps/potion-sort-quest/privacy/en',
+  APPS_POTION_SORT_QUEST_PRIVACY_JP: '/apps/potion-sort-quest/privacy/jp',
   APPS_POTION_SORT_QUEST_PRIVACY: '/apps/potion-sort-quest/privacy',
   BLOG: '/blog',
   BLOG_TAGS: '/blog/tags',

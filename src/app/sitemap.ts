@@ -57,6 +57,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [`${baseUrl}${POTION_SORT_QUEST_APP.icon}`],
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_JP}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      images: [`${baseUrl}${POTION_SORT_QUEST_APP.icon}`],
+      priority: 0.3,
+    },
   ];
 
   // 전체 글 sitemap

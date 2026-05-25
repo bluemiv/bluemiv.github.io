@@ -145,12 +145,20 @@ export default function PotionSortQuestPrivacyPage() {
         </section>
 
         <div className="flex justify-end pt-md">
-          <Link
-            href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY}
-            className="inline-flex rounded-lg bg-slate-100 px-sm py-xs text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-          >
-            한국어
-          </Link>
+          <div className="flex gap-xs">
+            <Link
+              href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY}
+              className="inline-flex rounded-lg bg-slate-100 px-sm py-xs text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              한국어
+            </Link>
+            <Link
+              href={ROUTE_PATH.APPS_POTION_SORT_QUEST_PRIVACY_JP}
+              className="inline-flex rounded-lg bg-slate-100 px-sm py-xs text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              日本語
+            </Link>
+          </div>
         </div>
 
         <PotionSortQuestPrivacyContentEn

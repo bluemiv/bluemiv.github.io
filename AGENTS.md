@@ -1,12 +1,21 @@
 # AGENTS.md
 
-이 파일은 Codex가 이 프로젝트에서 효과적으로 작업할 수 있도록 돕는 가이드입니다.
+이 파일은 AI 에이전트(Claude Code, Codex, Gemini CLI 등)가 본 저장소에서 작업하기 위한 가이드입니다.
+
+## ⚠️ 중요 — 본 저장소는 PUBLIC repo입니다 (GitHub Pages)
+
+- **어떤 시크릿·민감 정보도 커밋 금지.** API key, 내부 토큰, 분석 secret, 내부 URL 등.
+- `.env` 실제값 커밋 금지. 필요 시 `.env.example`만 두고 실제값은 gitignore + 빌드 환경 변수로 주입.
+- 일반적으로 GA tracking ID(`G-XXXX`), 공개 폼 ID, 공개 페이지 URL 등은 클라이언트 코드에 노출되는 값이라 PUBLIC commit 가능.
+- 커밋 전 `git diff`로 민감 정보 노출 여부를 확인합니다.
 
 ## 프로젝트 개요
 
-**Bluemiv Tech Blog** - Next.js 16 기반의 정적 기술 블로그
+**Bluemiv Tech Blog + 앱 랜딩 / 개인정보처리방침 호스팅** — Next.js 16 기반의 정적 사이트.
 - 배포: GitHub Pages (`bluemiv.github.io`)
-- 콘텐츠: MDX 기반 마크다운 포스트
+- 콘텐츠:
+  - 기술 블로그 포스트 (MDX)
+  - 개인 Android 앱 랜딩 페이지 + 개인정보처리방침
 - 출력: Static Export (SSG)
 
 ## 기술 스택
@@ -26,23 +35,33 @@
 
 ```
 src/
-├── _posts/          # 블로그 포스트 (MDX)
-│   ├── algorithm/   # 카테고리별 폴더
+├── _posts/                          # 블로그 포스트 (MDX)
+│   ├── algorithm/                   # 카테고리별 폴더
 │   ├── javascript/
 │   ├── react/
-│   └── _drafts/     # 초안 (빌드 제외)
-├── _short/          # 짧은 글 (MDX)
-├── app/             # Next.js App Router
-│   ├── (blog)/      # 블로그 라우트 그룹
-│   └── privacy/     # 개인정보처리방침
-├── features/        # 도메인별 기능 모듈
-│   ├── post/        #   포스트 (api, model, components)
-│   ├── tag/         #   태그 (components)
-│   ├── privacy/     #   개인정보 (constants, components)
-│   ├── theme/       #   테마 (store, hooks, components)
+│   └── _drafts/                     # 초안 (빌드 제외)
+├── _short/                          # 짧은 글 (MDX)
+├── app/                             # Next.js App Router
+│   ├── (blog)/                      # 블로그 라우트 그룹
+│   ├── (landing)/                   # 앱 랜딩 라우트 그룹
+│   │   └── apps/<app-name>/
+│   │       ├── page.tsx             # 앱 랜딩
+│   │       └── privacy/             # 신규 패턴 개인정보처리방침
+│   │           ├── page.tsx
+│   │           ├── en/page.tsx      # 다국어 분기 (선택)
+│   │           └── jp/page.tsx
+│   └── privacy/                     # ⚠️ 레거시 개인정보처리방침 (이관 대상)
+│       ├── <app-name>/<lang>/page.tsx
+│       └── ...
+├── features/                        # 도메인별 기능 모듈
+│   ├── post/                        #   포스트 (api, model, components)
+│   ├── tag/                         #   태그 (components)
+│   ├── privacy/                     #   개인정보 (constants, components)
+│   ├── apps/                        #   앱 랜딩 (constants, components)
+│   ├── theme/                       #   테마 (store, hooks, components)
 │   └── serviceWorker/
-├── shared/          # 공용 유틸, 타입, 컴포넌트
-└── widgets/         # 페이지 조합 컴포넌트
+├── shared/                          # 공용 유틸, 타입, 컴포넌트
+└── widgets/                         # 페이지 조합 컴포넌트
 ```
 
 ## 개발 명령어
@@ -191,3 +210,31 @@ NEXT_PUBLIC_COMMENTS_REPO=bluemiv/githubblog-comment
 - 개발서버: `http://localhost:3333`
 - 빌드 결과: `out/` 폴더
 - Service Worker: `scripts/build-sw.js`에서 생성
+
+## 개인정보처리방침 (Privacy Policy) URL 정책
+
+개인 Android 앱이 Play Store 등록 시 사용할 Privacy Policy URL을 본 저장소가 발급합니다.
+
+### 신규 패턴 (유지)
+- **`https://bluemiv.github.io/apps/<app-name>/privacy[/<lang>]/`** (kebab-case).
+- 라우트: `src/app/(landing)/apps/<app-name>/privacy/page.tsx` (+ `<lang>/page.tsx` 다국어).
+- 신규 앱은 반드시 이 패턴만 사용합니다.
+
+### 레거시 패턴 (이관 대상)
+- `https://bluemiv.github.io/privacy/<app-name>/<lang>/`
+- 라우트: `src/app/privacy/<app-name>/<lang>/page.tsx`
+- 더 이상 신규 추가하지 않습니다. 기존 페이지는 점진적으로 신규 패턴으로 이관합니다.
+
+### 이관 절차
+1. `src/app/(landing)/apps/<app-name>/privacy/` 하위에 신규 페이지 생성(콘텐츠 복사).
+2. `src/shared/constants/route.ts`에 신규 라우트 추가.
+3. 레거시 페이지에서 신규 URL로 redirect 처리 (정적 export 환경에서는 `Metadata.alternates` + meta refresh, 또는 신규 페이지로 콘텐츠 통합 후 레거시 파일 삭제).
+4. Play Console에 등록된 기존 URL이 있다면 신규 URL로 변경.
+
+### 현재 매핑
+각 앱별 신규/레거시 URL 매핑은 `src/shared/constants/route.ts`를 단일 원천으로 사용합니다.
+
+## 변경 시 체크
+- 시크릿이 staging에 섞이지 않는지 `git diff --cached` 확인.
+- privacy URL 변경 시 `route.ts` 및 관련 페이지를 함께 갱신.
+- 빌드/배포 환경 변수(GA 등)는 `.env.example`에만 키 이름 두고 실제값은 외부 주입.

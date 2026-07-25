@@ -44,6 +44,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
+      url: `${baseUrl}${ROUTE_PATH.APPS_KPOP_TUBE_PRIVACY}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_KPOP_TUBE_PRIVACY_EN}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_KPOP_TUBE_ACCOUNT_DELETION}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      priority: 0.3,
+    },
+    {
       url: `${baseUrl}${ROUTE_PATH.APPS_POTION_SORT_QUEST}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as ChangeFrequency,

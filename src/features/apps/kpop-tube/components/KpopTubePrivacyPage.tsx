@@ -90,8 +90,8 @@ export const KpopTubePrivacyPage = ({ language }: KpopTubePrivacyPageProps) => {
             </li>
             <li>
               {korean
-                ? '커뮤니티 활동: 글과 댓글 본문, 공개 사진·YouTube 영상 참조, 좋아요, 작성 시각'
-                : 'Community activity: post and comment text, references to public photos or YouTube videos, likes, and timestamps'}
+                ? '커뮤니티 활동: 글과 댓글 본문, 공개 사진·YouTube 영상 참조, 좋아요, 신고 사유, 익명 작성자 식별값, 작성·신고 시각'
+                : 'Community activity: post and comment text, references to public photos or YouTube videos, likes, report reasons, a pseudonymous public author identifier, and posting/report timestamps'}
             </li>
             <li>
               {korean
@@ -170,11 +170,14 @@ export const KpopTubePrivacyPage = ({ language }: KpopTubePrivacyPageProps) => {
                 : 'We verify app recognition, licensing, device integrity, and recent request activity to reduce abuse.'}
             </li>
             <li>
-              <strong>YouTube:</strong>{' '}
+              <strong>YouTube API Services:</strong>{' '}
               {korean
-                ? '앱 내 YouTube 플레이어 사용 시 Google/YouTube가 IP 주소, 기기 정보, 쿠키 또는 서비스 이용 정보를 자체 정책에 따라 처리할 수 있습니다.'
-                : 'When you use the embedded YouTube player, Google/YouTube may process IP address, device data, cookies, or service interactions under its own policies.'}{' '}
-              <PolicyLink href="https://www.youtube.com/t/terms">YouTube Terms</PolicyLink>
+                ? '이 앱은 YouTube Data API와 임베디드 YouTube 플레이어를 사용합니다. 공개 영상·채널·플레이리스트 메타데이터를 표시하며, Google/YouTube가 IP 주소, 기기 정보, 쿠키 또는 서비스 이용 정보를 자체 정책에 따라 처리할 수 있습니다.'
+                : 'This app uses the YouTube Data API and embedded YouTube player to display public video, channel, and playlist metadata. Google/YouTube may process IP address, device data, cookies, or service interactions under its own policies.'}{' '}
+              <PolicyLink href="https://www.youtube.com/t/terms">YouTube Terms</PolicyLink>{' '}
+              <PolicyLink href="https://policies.google.com/privacy">
+                Google Privacy Policy
+              </PolicyLink>
             </li>
           </List>
           <p>
@@ -193,8 +196,13 @@ export const KpopTubePrivacyPage = ({ language }: KpopTubePrivacyPageProps) => {
             </li>
             <li>
               {korean
-                ? '앱 내 계정 삭제 시 D1의 프로필, 글·댓글, 좋아요, 첨부 참조와 광고 보상 기록을 영구 삭제합니다.'
-                : 'In-app account deletion permanently removes the D1 profile, posts/comments, likes, attachment references, and ad reward records.'}
+                ? '앱 내 계정 삭제 시 D1 프로필, 본인 글·댓글, 좋아요와 첨부 참조를 삭제합니다. 다른 사용자의 답글이 있는 원글은 작성자·본문·첨부를 제거한 익명 자리표시자로 남을 수 있습니다.'
+                : 'In-app account deletion removes the D1 profile, your posts/comments, likes, and attachment references. A root post with replies from other users may remain as an anonymous placeholder with its author, body, and attachments removed.'}
+            </li>
+            <li>
+              {korean
+                ? '광고 보상 transaction ID는 계정 연결을 제거한 뒤 중복 지급과 서명 재사용을 막는 보안 기록으로만 유지합니다.'
+                : 'Ad reward transaction IDs are de-linked from the account and retained only as a security ledger to prevent duplicate rewards and signed callback replay.'}
             </li>
             <li>
               {korean
@@ -220,6 +228,11 @@ export const KpopTubePrivacyPage = ({ language }: KpopTubePrivacyPageProps) => {
             {korean
               ? '앱에서 프로필을 수정하고 계정과 연결 데이터를 즉시 삭제할 수 있습니다. 앱에 접근할 수 없는 경우 삭제 안내 페이지의 이메일 절차로 열람·정정·삭제를 요청할 수 있습니다.'
               : 'You can edit your profile and immediately delete the account and linked data in the app. If you cannot access the app, use the email process on the deletion guide to request access, correction, or deletion.'}
+          </p>
+          <p>
+            {korean
+              ? '관련 지역에서 광고 동의가 필요한 경우 앱은 Google의 동의 메시지를 먼저 표시하며, 앱 정보의 광고 개인정보 설정에서 선택을 다시 확인하거나 변경할 수 있습니다. 동의하지 않으면 맞춤형 광고가 제한되거나 광고가 제공되지 않을 수 있습니다.'
+              : 'Where ad consent is required, the app presents Google’s consent message before requesting ads. You can review or change eligible choices from Ad privacy options in App info. Declining may limit personalized ads or prevent ad delivery.'}
           </p>
         </Section>
 

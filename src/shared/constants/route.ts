@@ -7,6 +7,8 @@ export const ROUTE_PATH = {
   APPS_KPOP_TUBE_PRIVACY: '/apps/kpop-tube/privacy',
   APPS_KPOP_TUBE_PRIVACY_EN: '/apps/kpop-tube/privacy/en',
   APPS_KPOP_TUBE_ACCOUNT_DELETION: '/apps/kpop-tube/account-deletion',
+  APPS_KPOP_TUBE_TERMS: '/apps/kpop-tube/terms',
+  APPS_KPOP_TUBE_TERMS_EN: '/apps/kpop-tube/terms/en',
   APPS_POTION_SORT_QUEST: '/apps/potion-sort-quest',
   APPS_POTION_SORT_QUEST_PRIVACY_EN: '/apps/potion-sort-quest/privacy/en',
   APPS_POTION_SORT_QUEST_PRIVACY_JP: '/apps/potion-sort-quest/privacy/jp',

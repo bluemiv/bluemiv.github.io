@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import type { MetadataRoute } from 'next';
+import { BERRY_VOCA_STARTER_APP } from '@/features/apps/berry-voca-starter';
 import { LOTTOCAT645_APP } from '@/features/apps/lottocat645';
 import { POTION_SORT_QUEST_APP } from '@/features/apps/potion-sort-quest';
 import {
@@ -29,6 +30,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'monthly' as ChangeFrequency,
       priority: 0.5,
+    },
+    {
+      url: `${baseUrl}${ROUTE_PATH.APPS_BERRY_VOCA_STARTER_PRIVACY}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as ChangeFrequency,
+      images: [`${baseUrl}${BERRY_VOCA_STARTER_APP.icon}`],
+      priority: 0.3,
     },
     {
       url: `${baseUrl}${ROUTE_PATH.APPS_LOTTOCAT645}`,

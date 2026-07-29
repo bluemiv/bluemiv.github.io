@@ -2,6 +2,7 @@ export const ROUTE_PATH = {
   ROOT: '/',
   ABOUT: '/about',
   APPS: '/apps',
+  APPS_BERRY_VOCA_STARTER_PRIVACY: '/apps/berry-voca-starter/privacy',
   APPS_LOTTOCAT645: '/apps/lottocat645',
   APPS_LOTTOCAT645_PRIVACY: '/apps/lottocat645/privacy',
   APPS_KPOP_TUBE_PRIVACY: '/apps/kpop-tube/privacy',

@@ -17,11 +17,15 @@ async function deleteLegacyCaches() {
     LEGACY_CACHE_PREFIXES.some((prefix) => cacheName.startsWith(prefix)),
   );
 
-  await Promise.all(
+  const deletionResults = await Promise.allSettled(
     legacyCacheNames.map((cacheName) => caches.delete(cacheName)),
   );
 
-  return legacyCacheNames;
+  return legacyCacheNames.filter(
+    (_, index) =>
+      deletionResults[index].status === "fulfilled" &&
+      deletionResults[index].value,
+  );
 }
 
 async function releaseLegacyClients(deletedCacheNames) {
@@ -30,18 +34,26 @@ async function releaseLegacyClients(deletedCacheNames) {
     includeUncontrolled: true,
   });
 
-  windowClients.forEach((client) => {
-    client.postMessage({
-      type: CLEANUP_MESSAGE,
-      deletedCacheNames,
-    });
-  });
-
-  await self.registration.unregister();
+  const unregistered = await self.registration.unregister();
 
   await Promise.allSettled(
-    windowClients.map((client) => client.navigate(client.url)),
+    windowClients.map(async (client) => {
+      try {
+        client.postMessage({
+          type: CLEANUP_MESSAGE,
+          deletedCacheNames,
+        });
+      } catch {
+        // A stale client must not prevent the remaining pages from reloading.
+      }
+
+      await client.navigate(client.url);
+    }),
   );
+
+  if (!unregistered) {
+    throw new Error("Service worker unregister returned false");
+  }
 }
 
 self.addEventListener("install", (event) => {

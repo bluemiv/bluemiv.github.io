@@ -3,4 +3,7 @@ out/
 node_modules/
 .idea/
 pnpm-lock.yaml
+pnpm-workspace.yaml
 next-env.d.ts
+src/articles/**/*.mdx
+src/notes/**/*.mdx

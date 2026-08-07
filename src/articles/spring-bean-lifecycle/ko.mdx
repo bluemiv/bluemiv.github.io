@@ -1,0 +1,343 @@
+---
+id: article-037
+slug: spring-bean-lifecycle
+locale: ko
+topic: spring
+legacyPaths:
+  - /blog/spring/37/
+title: Bean 생명주기(Lifecycle) 이해하기
+description: Spring Bean이 생성되고 초기화되며 종료될 때 정리되는 흐름과 생명주기 콜백 사용법을 알아봅니다.
+publishedAt: 2025-08-25T08:42:37+09:00
+modifiedAt: 2025-08-25T08:42:37+09:00
+tags: ['spring', 'springboot', 'java', 'bean', 'lifecycle']
+isPublished: true
+author: Bluemiv
+coverImage: /r/i/spring/37/thumbnail.webp
+---
+
+## 1. Bean 생명주기는 왜 알아야 할까?
+
+Spring을 처음 배울 때는 `@Service`, `@Component`, `@Bean`을 붙이면 객체가 알아서 만들어지고 주입된다고 이해해도 충분합니다.
+
+하지만 실무에서는 객체를 “만드는 것”만으로 끝나지 않는 경우가 많습니다.
+
+```text
+Bean 생성 전후에 필요한 작업
+├── 외부 API 클라이언트 연결 준비
+├── 캐시나 설정 데이터 미리 로딩
+├── 스케줄러, 워커, 리소스 초기화
+├── 애플리케이션 종료 시 연결 정리
+└── 임시 파일, 네트워크 연결, 스레드 자원 해제
+```
+
+이런 작업을 아무 곳에나 넣으면 코드의 실행 시점이 불명확해집니다. “이 객체가 완전히 준비된 뒤 실행되는가?”, “애플리케이션이 종료될 때 정말 정리되는가?” 같은 질문에 답하기 어려워집니다.
+
+Spring Bean 생명주기는 Bean이 만들어지고, 의존성이 주입되고, 초기화되고, 종료될 때 정리되는 전체 흐름을 말합니다.
+
+이전 글인 [@Configuration과 설정 클래스](/blog/spring/36)에서 `@Bean`으로 객체를 등록하는 방법을 살펴봤습니다. 이번 글에서는 등록된 Bean이 Spring 컨테이너 안에서 어떤 순서로 준비되고 정리되는지 알아보겠습니다.
+
+## 2. Bean 생명주기 한눈에 보기
+
+Spring Bean의 기본 흐름은 다음처럼 이해할 수 있습니다.
+
+```text
+1. Bean 정의 읽기
+2. Bean 객체 생성
+3. 의존성 주입
+4. 초기화 콜백 실행
+5. 애플리케이션에서 Bean 사용
+6. 종료 콜백 실행
+7. Bean 소멸
+```
+
+조금 더 실무적인 표현으로 바꾸면 이렇습니다.
+
+```text
+Spring Container 시작
+        ↓
+Bean 생성자 호출
+        ↓
+필드, 생성자, setter 등을 통한 의존성 주입
+        ↓
+초기화 콜백
+        ↓
+애플리케이션 로직에서 사용
+        ↓
+컨테이너 종료
+        ↓
+소멸 콜백
+```
+
+중요한 점은 초기화 콜백이 “객체가 만들어진 직후”가 아니라, 보통 의존성 주입이 끝난 뒤 실행된다는 것입니다.
+
+그래서 초기화 콜백에서는 주입받은 의존성을 사용할 수 있습니다. 반대로 생성자 안에서는 아직 모든 의존성이나 프록시 구성이 완료되지 않은 상태일 수 있으므로, 복잡한 초기화 작업을 넣을 때 주의해야 합니다.
+
+## 3. 생성자와 초기화 콜백의 차이
+
+가장 먼저 헷갈리는 지점은 생성자와 초기화 콜백의 역할입니다.
+
+생성자는 객체 자체를 만드는 곳입니다.
+
+```java
+public class ExternalClient {
+
+    public ExternalClient() {
+        System.out.println("객체 생성");
+    }
+}
+```
+
+반면 초기화 콜백은 Spring이 Bean을 만들고 필요한 의존성을 주입한 뒤, “이제 사용할 준비를 해도 된다”고 알려주는 시점에 실행됩니다.
+
+```java
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ExternalClient {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("초기화 작업 실행");
+    }
+}
+```
+
+단순히 필드 값을 세팅하는 정도라면 생성자에서 처리해도 됩니다. 하지만 외부 연결 준비, 캐시 로딩, 상태 점검처럼 Spring 컨테이너와 의존성 주입이 끝난 뒤 실행되어야 하는 작업이라면 초기화 콜백을 고려할 수 있습니다.
+
+## 4. @PostConstruct로 초기화 작업하기
+
+`@PostConstruct`는 Bean 생성과 의존성 주입이 끝난 뒤 실행할 메서드에 붙이는 어노테이션입니다.
+
+```java
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProductCache {
+
+    @PostConstruct
+    public void load() {
+        System.out.println("상품 캐시를 미리 로딩합니다.");
+    }
+}
+```
+
+이 Bean은 Spring 컨테이너가 시작될 때 생성되고, 의존성 주입이 끝난 뒤 `load()` 메서드가 호출됩니다.
+
+의존성을 주입받은 뒤 사용할 수도 있습니다.
+
+```java
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProductCache {
+
+    private final ProductRepository productRepository;
+
+    public ProductCache(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @PostConstruct
+    public void load() {
+        productRepository.findAll();
+        System.out.println("상품 데이터를 캐시에 올립니다.");
+    }
+}
+```
+
+위 코드에서 `productRepository`는 생성자 주입으로 먼저 전달되고, 이후 `@PostConstruct` 메서드에서 사용할 수 있습니다.
+
+의존성 주입 방식은 [@Autowired와 의존성 주입 방법](/blog/spring/35)에서 다룬 내용과 이어집니다.
+
+## 5. @PreDestroy로 종료 작업하기
+
+`@PreDestroy`는 Bean이 제거되기 전에 정리 작업을 실행할 때 사용합니다.
+
+```java
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ExternalConnection {
+
+    @PreDestroy
+    public void close() {
+        System.out.println("외부 연결을 종료합니다.");
+    }
+}
+```
+
+예를 들어 직접 만든 네트워크 연결, 파일 핸들, 백그라운드 작업 등을 종료해야 한다면 `@PreDestroy`에서 정리할 수 있습니다.
+
+다만 Spring Boot에서 많이 사용하는 데이터베이스 커넥션 풀, 웹 서버, 메시징 클라이언트 등은 이미 라이브러리나 자동 설정이 종료 처리를 제공하는 경우가 많습니다. 이런 객체는 직접 정리 코드를 추가하기 전에 해당 라이브러리의 Spring 연동 방식이 무엇을 제공하는지 먼저 확인하는 편이 좋습니다.
+
+## 6. @Bean에서 initMethod와 destroyMethod 사용하기
+
+직접 만든 클래스에는 `@PostConstruct`와 `@PreDestroy`를 붙일 수 있습니다. 하지만 외부 라이브러리 클래스에는 어노테이션을 직접 붙일 수 없습니다.
+
+이럴 때는 `@Bean`의 `initMethod`, `destroyMethod`를 사용할 수 있습니다.
+
+```java
+public class ExternalApiClient {
+
+    public void connect() {
+        System.out.println("외부 API 연결을 준비합니다.");
+    }
+
+    public void disconnect() {
+        System.out.println("외부 API 연결을 정리합니다.");
+    }
+}
+```
+
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class ExternalApiConfig {
+
+    @Bean(initMethod = "connect", destroyMethod = "disconnect")
+    public ExternalApiClient externalApiClient() {
+        return new ExternalApiClient();
+    }
+}
+```
+
+Spring은 `externalApiClient` Bean을 만든 뒤 `connect()`를 호출하고, 컨테이너가 종료될 때 `disconnect()`를 호출합니다.
+
+이 방식은 [@Configuration과 설정 클래스](/blog/spring/36)에서 다룬 외부 SDK 객체 등록과 함께 자주 사용됩니다. 직접 수정할 수 없는 외부 객체를 Spring Bean으로 등록하면서 초기화와 정리 시점까지 지정할 수 있기 때문입니다.
+
+## 7. InitializingBean과 DisposableBean
+
+Spring은 생명주기 콜백을 위한 인터페이스도 제공합니다.
+
+```java
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+public class ReportClient implements InitializingBean, DisposableBean {
+
+    @Override
+    public void afterPropertiesSet() {
+        System.out.println("초기화 작업");
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("정리 작업");
+    }
+}
+```
+
+`InitializingBean`을 구현하면 의존성 주입이 끝난 뒤 `afterPropertiesSet()`이 호출됩니다. `DisposableBean`을 구현하면 Bean이 제거될 때 `destroy()`가 호출됩니다.
+
+다만 이 방식은 클래스가 Spring 전용 인터페이스에 의존합니다. 그래서 일반적인 애플리케이션 코드에서는 `@PostConstruct`, `@PreDestroy`나 `@Bean(initMethod, destroyMethod)`를 먼저 고려하는 편이 좋습니다.
+
+Spring의 기능을 확장하는 인프라 코드나 프레임워크 성격의 코드라면 인터페이스 방식이 어울릴 수 있지만, 일반 서비스 코드에서는 Spring 의존성이 과하게 드러날 수 있습니다.
+
+## 8. 여러 콜백을 함께 쓰면 어떤 순서로 실행될까?
+
+하나의 Bean에 여러 생명주기 콜백을 섞어 쓰는 것은 권장하지 않습니다. 그래도 기존 코드나 라이브러리 연동 과정에서 마주칠 수 있으므로 순서를 알아두면 디버깅에 도움이 됩니다.
+
+초기화 콜백은 보통 다음 순서로 실행됩니다.
+
+```text
+1. @PostConstruct
+2. InitializingBean.afterPropertiesSet()
+3. @Bean(initMethod = "...")
+```
+
+소멸 콜백도 비슷한 순서로 실행됩니다.
+
+```text
+1. @PreDestroy
+2. DisposableBean.destroy()
+3. @Bean(destroyMethod = "...")
+```
+
+실무에서는 이 순서를 외워서 여러 방식을 섞기보다, 한 Bean에서는 한 가지 방식으로 의도를 명확히 표현하는 편이 좋습니다.
+
+## 9. 실무에서 선택하는 기준
+
+Bean 생명주기 콜백은 방법이 여러 가지라서 처음에는 무엇을 써야 할지 헷갈릴 수 있습니다.
+
+아래 기준으로 선택하면 대부분의 상황에서 충분합니다.
+
+| 상황 | 추천 방식 |
+|------|-----------|
+| 직접 만든 Bean에서 간단한 초기화, 정리 작업 | `@PostConstruct`, `@PreDestroy` |
+| 외부 라이브러리 객체를 `@Bean`으로 등록 | `initMethod`, `destroyMethod` |
+| Spring 인프라 성격의 코드 작성 | `InitializingBean`, `DisposableBean` 고려 |
+| 단순 필드 값 세팅 | 생성자 |
+| 애플리케이션 시작 후 별도 로직 실행 | `ApplicationRunner`, `CommandLineRunner` 고려 |
+
+특히 초기화 콜백에 너무 많은 일을 넣는 것은 피하는 것이 좋습니다. 초기화가 오래 걸리면 애플리케이션 시작 시간이 길어지고, 실패했을 때 전체 애플리케이션이 뜨지 않을 수 있습니다.
+
+초기화 시 반드시 필요한 작업인지, 애플리케이션이 뜬 뒤 비동기적으로 처리해도 되는 작업인지 구분해야 합니다.
+
+## 10. 자주 하는 실수
+
+### 10.1. 생성자에서 무거운 초기화 작업을 하는 경우
+
+생성자에는 객체를 만드는 데 필요한 최소한의 작업만 두는 편이 좋습니다.
+
+```java
+@Component
+public class ProductCache {
+
+    public ProductCache(ProductRepository productRepository) {
+        productRepository.findAll(); // 생성자에서 무거운 조회 실행
+    }
+}
+```
+
+이렇게 작성하면 객체 생성 시점과 초기화 작업 시점이 섞입니다. 외부 호출, 대량 조회, 파일 접근처럼 실패 가능성이 있는 작업은 생성자보다 초기화 콜백이나 별도 시작 로직으로 분리하는 것이 읽기 쉽습니다.
+
+### 10.2. @PostConstruct에서 너무 많은 비즈니스 로직을 실행하는 경우
+
+`@PostConstruct`는 Bean을 사용할 준비를 하는 곳입니다. 주문을 생성하거나 사용자에게 알림을 보내거나 정산을 실행하는 식의 비즈니스 이벤트를 넣는 곳은 아닙니다.
+
+```java
+@PostConstruct
+public void init() {
+    orderService.createMonthlyOrders();
+}
+```
+
+이런 코드는 애플리케이션이 시작될 때마다 실행될 수 있어 위험합니다. 시작 시 한 번 실행해야 하는 작업이라도 재실행 가능성, 실패 복구, 중복 실행 방지 기준을 따로 설계해야 합니다.
+
+### 10.3. 종료 콜백이 항상 실행된다고 가정하는 경우
+
+`@PreDestroy`는 정상적으로 Spring 컨테이너가 종료될 때 실행됩니다. 하지만 프로세스가 강제로 종료되거나 시스템이 비정상 종료되면 실행되지 않을 수 있습니다.
+
+그래서 중요한 데이터 저장이나 결제 상태 변경 같은 작업을 종료 콜백에 의존해서 처리하면 안 됩니다. 종료 콜백은 리소스 정리처럼 실패해도 데이터 정합성을 크게 해치지 않는 작업에 사용하는 편이 안전합니다.
+
+### 10.4. Prototype Bean의 소멸 콜백을 기대하는 경우
+
+기본 Bean Scope인 Singleton Bean은 컨테이너가 생성부터 소멸까지 관리합니다.
+
+하지만 Prototype Bean은 Spring이 생성과 의존성 주입까지만 처리하고, 이후의 생명주기를 계속 추적하지 않습니다. 따라서 Prototype Bean의 소멸 콜백은 일반적인 Singleton Bean처럼 자동 호출된다고 기대하면 안 됩니다.
+
+Bean Scope는 다음 글인 `Bean Scope 이해하기`에서 자세히 다루겠습니다.
+
+## 11. 참고 자료
+
+- [Spring Framework - Customizing the Nature of a Bean](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html)
+- [Spring Framework - Using @PostConstruct and @PreDestroy](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/postconstruct-and-predestroy-annotations.html)
+- [Spring Framework - Using the @Bean Annotation](https://docs.spring.io/spring-framework/reference/core/beans/java/bean-annotation.html)
+
+## 12. 정리
+
+Bean 생명주기는 Spring Bean이 생성되고, 의존성이 주입되고, 초기화되고, 사용되다가, 컨테이너 종료 시 정리되는 흐름입니다.
+
+- 생성자는 객체를 만드는 역할에 집중하는 것이 좋습니다.
+- 초기화 콜백은 의존성 주입이 끝난 뒤 Bean을 사용할 준비를 하는 시점입니다.
+- 직접 만든 Bean은 `@PostConstruct`, `@PreDestroy`를 사용하기 쉽습니다.
+- 외부 라이브러리 객체를 `@Bean`으로 등록할 때는 `initMethod`, `destroyMethod`가 유용합니다.
+- 종료 콜백은 정상 종료 시 리소스를 정리하는 용도로 사용하고, 중요한 비즈니스 처리를 맡기지 않는 것이 좋습니다.
+
+Bean 생명주기를 이해하면 Spring이 객체를 “언제 만들고 언제 준비시키는지”를 더 분명하게 볼 수 있습니다. 이 감각이 있어야 초기화 위치, 리소스 정리 위치, 다음 글에서 다룰 Bean Scope의 차이도 자연스럽게 이해할 수 있습니다.

@@ -1,4 +1,6 @@
-const THEME_SCRIPT = `(function(){try{var theme=localStorage.getItem("theme");var dark=theme==="dark"||(!theme&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",dark);}catch(e){}})();`;
+import { getThemeInitializerScript } from "./themeConfig";
+
+const THEME_SCRIPT = getThemeInitializerScript();
 
 export function ThemeInitializer() {
   return <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />;

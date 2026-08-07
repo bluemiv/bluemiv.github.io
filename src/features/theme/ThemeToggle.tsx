@@ -2,6 +2,8 @@
 
 import { useSyncExternalStore } from "react";
 
+import { resolveTheme, THEME_STORAGE_KEY } from "./themeConfig";
+
 const THEME_CHANGE_EVENT = "bluemiv:theme-change";
 
 type ThemeToggleProps = {
@@ -22,10 +24,10 @@ const DEFAULT_LABELS = {
 
 function subscribeToTheme(onStoreChange: () => void) {
   function handleStorage(event: StorageEvent) {
-    if (event.key !== "theme") return;
+    if (event.key !== THEME_STORAGE_KEY) return;
 
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const nextIsDark = event.newValue === "dark" || (event.newValue === null && prefersDark);
+    const nextIsDark = resolveTheme(event.newValue, prefersDark) === "dark";
     document.documentElement.classList.toggle("dark", nextIsDark);
     onStoreChange();
   }
@@ -54,7 +56,7 @@ export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
     const nextIsDark = document.documentElement.classList.toggle("dark");
 
     try {
-      window.localStorage.setItem("theme", nextIsDark ? "dark" : "light");
+      window.localStorage.setItem(THEME_STORAGE_KEY, nextIsDark ? "dark" : "light");
     } catch {
       // The selected theme still applies when storage is unavailable.
     }

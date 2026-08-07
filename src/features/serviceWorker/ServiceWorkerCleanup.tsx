@@ -2,14 +2,12 @@
 
 import { useEffect } from "react";
 
-const CACHE_PREFIX = "bluemiv-blog-";
-const LEGACY_SCRIPT_PATH = "/sw.js";
+import { isLegacyCacheName, isLegacyServiceWorkerUrl } from "./serviceWorkerConfig";
 
 function isLegacyWorker(worker: ServiceWorker | null): boolean {
   if (!worker) return false;
 
-  const scriptUrl = new URL(worker.scriptURL);
-  return scriptUrl.origin === window.location.origin && scriptUrl.pathname === LEGACY_SCRIPT_PATH;
+  return isLegacyServiceWorkerUrl(worker.scriptURL, window.location.origin);
 }
 
 export function ServiceWorkerCleanup() {
@@ -32,9 +30,7 @@ export function ServiceWorkerCleanup() {
       if ("caches" in window) {
         const cacheNames = await caches.keys();
         await Promise.allSettled(
-          cacheNames
-            .filter((cacheName) => cacheName.startsWith(CACHE_PREFIX))
-            .map((cacheName) => caches.delete(cacheName)),
+          cacheNames.filter(isLegacyCacheName).map((cacheName) => caches.delete(cacheName)),
         );
       }
 

@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { addMigrationMetadata, normalizeMetadataNames } from "./migrationMetadata.mjs";
+
 const projectRoot = process.cwd();
 const legacyRoot = path.resolve(projectRoot, "../bluemiv.github.io");
 const articlesRoot = path.join(projectRoot, "src/articles");
@@ -62,23 +64,6 @@ function listMdxFiles(directory) {
     .readdirSync(directory, { recursive: true })
     .map(String)
     .filter((file) => file.endsWith(".mdx") && !file.includes("_drafts/"));
-}
-
-function addMigrationMetadata(sourceMdx, metadataLines) {
-  if (!sourceMdx.startsWith("---\n")) {
-    throw new Error("Frontmatter must start on the first line");
-  }
-
-  return sourceMdx.replace("---\n", `---\n${metadataLines.join("\n")}\n`);
-}
-
-function normalizeMetadataNames(sourceMdx) {
-  return sourceMdx
-    .replace(/^createdAt:/m, "publishedAt:")
-    .replace(/^updatedAt:/m, "modifiedAt:")
-    .replace(/^release:/m, "isPublished:")
-    .replace(/^thumbnail:/m, "coverImage:")
-    .replace(/^author:.*\n/m, "");
 }
 
 function writeMdxFile(target, mdx) {

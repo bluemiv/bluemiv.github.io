@@ -4,50 +4,18 @@ import { notFound } from "next/navigation";
 import { StaticRedirectPage } from "@/components/widgets/StaticRedirectPage";
 import { getPublishedArticles } from "@/features/article/articleRepository";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import {
+  createLegacyRedirects,
+  findLegacyRedirect,
+} from "@/features/legacyRedirect/legacyRedirects";
 import { getPublishedNotes } from "@/features/note/noteRepository";
 
-type LegacyRedirect = {
-  legacySection: string;
-  legacyId: string;
-  destination: string;
-};
-
-const LEGACY_PATH_PATTERN = /^\/blog\/([^/]+)\/([^/]+)\/$/;
-
-function createLegacyRedirects(): LegacyRedirect[] {
-  const articleRedirects = getPublishedArticles("ko").flatMap((article) =>
-    article.legacyPaths.map((legacyPath) => ({
-      legacyPath,
-      destination: getLocalizedPath("ko", `articles/${article.slug}`),
-    })),
-  );
-  const noteRedirects = getPublishedNotes("ko").flatMap((note) =>
-    note.legacyPaths.map((legacyPath) => ({
-      legacyPath,
-      destination: getLocalizedPath("ko", `notes/${note.slug}`),
-    })),
-  );
-
-  return [...articleRedirects, ...noteRedirects].map(({ legacyPath, destination }) => {
-    const match = legacyPath.match(LEGACY_PATH_PATTERN);
-
-    if (!match) throw new Error(`Unsupported legacy path: ${legacyPath}`);
-
-    return {
-      legacySection: match[1],
-      legacyId: match[2],
-      destination,
-    };
-  });
-}
-
-const LEGACY_REDIRECTS = createLegacyRedirects();
-
-function findLegacyRedirect(legacySection: string, legacyId: string) {
-  return LEGACY_REDIRECTS.find(
-    (redirect) => redirect.legacySection === legacySection && redirect.legacyId === legacyId,
-  );
-}
+const LEGACY_REDIRECTS = createLegacyRedirects(
+  getPublishedArticles("ko"),
+  getPublishedNotes("ko"),
+  (slug) => getLocalizedPath("ko", `articles/${slug}`),
+  (slug) => getLocalizedPath("ko", `notes/${slug}`),
+);
 
 export const dynamicParams = false;
 
@@ -62,7 +30,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/blog/[legacySection]/[legacyId]">): Promise<Metadata> {
   const { legacySection, legacyId } = await params;
-  const redirect = findLegacyRedirect(legacySection, legacyId);
+  const redirect = findLegacyRedirect(LEGACY_REDIRECTS, legacySection, legacyId);
 
   if (!redirect) notFound();
 
@@ -82,7 +50,7 @@ export default async function LegacyRedirectPage({
   params,
 }: PageProps<"/blog/[legacySection]/[legacyId]">) {
   const { legacySection, legacyId } = await params;
-  const redirect = findLegacyRedirect(legacySection, legacyId);
+  const redirect = findLegacyRedirect(LEGACY_REDIRECTS, legacySection, legacyId);
 
   if (!redirect) notFound();
 

@@ -111,8 +111,11 @@ coverImage: /r/i/example/cover.webp
 ```bash
 pnpm lint
 pnpm typecheck
+pnpm test
+pnpm test:coverage
 pnpm build
 pnpm format:check
 ```
 
+- 비즈니스 로직 추가·변경 시 성공·실패·경계 조건 테스트를 함께 갱신한다.
 - 커밋 전 `git diff --cached`로 secret과 불필요 파일 확인.

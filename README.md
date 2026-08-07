@@ -17,6 +17,8 @@ pnpm start    # SSG build 후 out/ 정적 서버, port 4000
 ```bash
 pnpm lint
 pnpm typecheck
+pnpm test
+pnpm test:coverage
 pnpm format
 pnpm format:check
 pnpm build

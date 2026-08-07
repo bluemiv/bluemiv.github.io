@@ -29,6 +29,7 @@
   --color-blueprint-950: #142452;
 
   --font-sans: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-display: Georgia, "Noto Serif KR", "Nanum Myeongjo", serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -109,6 +110,9 @@ body {
   margin: 0;
   background: var(--theme-canvas);
   color: var(--theme-foreground);
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 a {
@@ -131,6 +135,22 @@ select {
 :focus-visible {
   outline: 2px solid var(--theme-accent);
   outline-offset: 3px;
+}
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--theme-accent) 13%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--theme-accent) 13%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, black 35%, transparent 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

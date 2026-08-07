@@ -18,9 +18,18 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "error";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var theme=localStorage.getItem("theme");var dark=theme==="dark"||(!theme&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",dark);}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body>
         {children}
         <ServiceWorkerCleanup />

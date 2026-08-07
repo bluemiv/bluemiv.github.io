@@ -633,7 +633,7 @@ Latest articles:
 Theme transition:
 
 - 지원 브라우저에서는 View Transition API로 오른쪽에서 왼쪽으로 새 theme을 드러내는 **Blueprint Wipe**를 사용한다.
-- wipe 경계는 `2px` accent rail이며 reveal과 같은 `360ms` timing으로 이동한다.
+- wipe 경계는 viewport 안쪽의 `2px` accent rail이며 horizontal overflow 없이 reveal과 같은 `360ms` timing으로 이동한다.
 - snapshot을 만들 때 기존 color transition을 잠시 제거해 중간색이 캡처되지 않게 한다.
 - View Transition API 미지원 환경에서는 기존 `180ms` color transition을 사용한다.
 

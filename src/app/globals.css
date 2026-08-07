@@ -128,7 +128,7 @@ body {
   position: fixed;
   z-index: 60;
   top: 0;
-  right: -2px;
+  right: 0;
   width: 2px;
   height: 100dvh;
   pointer-events: none;
@@ -192,7 +192,7 @@ body {
   }
 
   to {
-    transform: translateX(calc(-100vw - 2px));
+    transform: translateX(calc(-100vw + 2px));
   }
 }
 

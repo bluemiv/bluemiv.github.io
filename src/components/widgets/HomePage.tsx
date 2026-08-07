@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import { selectHomeArticles, summarizeArticleTopics } from "@/features/article/articleCollection";
@@ -10,6 +11,7 @@ import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 import { getPublishedNotes } from "@/features/note/noteRepository";
+import { calculateCareerMonthOrdinal, formatYearMonth } from "@/features/profile/careerDuration";
 
 type PropsWithHomePage = {
   locale: Locale;
@@ -44,7 +46,7 @@ function formatDate(dateTime: string, locale: Locale): string {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    timeZone: "Asia/Seoul",
+    timeZone: SITE_CONFIG.timeZone,
   }).format(new Date(dateTime));
 }
 
@@ -107,6 +109,10 @@ export function HomePage({ locale }: PropsWithHomePage) {
   const hasArticles = articles.length > 0;
   const hasNotes = notes.length > 0;
   const showHomeAd = locale === "ko" && latestArticles.length >= 4;
+  const careerMonthOrdinal = calculateCareerMonthOrdinal(
+    SITE_CONFIG.careerStartMonth,
+    formatYearMonth(new Date(), SITE_CONFIG.timeZone),
+  );
 
   return (
     <>
@@ -130,7 +136,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               {copy.hero.lineThreeSuffix}
             </h1>
             <p className="text-muted mt-6 max-w-[650px] text-base leading-8 md:text-lg md:leading-9">
-              {copy.hero.description}
+              {copy.hero.description(careerMonthOrdinal)}
             </p>
             <a
               className="text-accent hover:text-accent-hover mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold transition-colors duration-150 motion-reduce:transition-none"

@@ -18,6 +18,7 @@ export default defineConfig({
       reporter: ["text", "json-summary", "html"],
       include: [
         "src/features/adsense/adSenseConfig.ts",
+        "src/features/article/articleCollection.ts",
         "src/features/article/articleMetadata.ts",
         "src/features/article/articleDocument.ts",
         "src/features/article/articleImage.ts",
@@ -29,6 +30,7 @@ export default defineConfig({
         "src/features/navigation/siteNavigation.ts",
         "src/features/note/noteMetadata.ts",
         "src/features/note/noteRepository.ts",
+        "src/features/profile/careerDuration.ts",
         "src/features/serviceWorker/serviceWorkerConfig.ts",
         "src/features/theme/themeConfig.ts",
         "scripts/migrationMetadata.mjs",

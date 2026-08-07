@@ -36,7 +36,7 @@ type HomeCopy = {
     lineThreePrefix: string;
     accent: string;
     lineThreeSuffix: string;
-    description: string;
+    description: (careerMonthOrdinal: number) => string;
     cta: string;
     statusLabel: string;
     status: string;
@@ -146,8 +146,8 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       lineThreePrefix: "",
       accent: "기록",
       lineThreeSuffix: "으로 남깁니다.",
-      description:
-        "Java, Spring, React, Next.js를 다루며 만난 문제와 선택의 이유를 오래 읽을 수 있는 기술 기록으로 정리합니다.",
+      description: (careerMonthOrdinal) =>
+        `${careerMonthOrdinal}개월째 개발과 설계를 하며 만난 문제와 경험을 정리합니다.`,
       cta: "최근 글 살펴보기",
       statusLabel: "상태",
       status: "기록 중",
@@ -192,8 +192,8 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       lineThreePrefix: "Keep a ",
       accent: "record",
       lineThreeSuffix: ".",
-      description:
-        "Long-lived notes on the problems I meet while working with Java, Spring, React, and Next.js—and the reasoning behind each decision.",
+      description: (careerMonthOrdinal) =>
+        `For ${careerMonthOrdinal} months, I have documented the problems and experience I encounter while developing and designing software.`,
       cta: "Browse recent writing",
       statusLabel: "Status",
       status: "Translating",
@@ -238,8 +238,8 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       lineThreePrefix: "",
       accent: "記録",
       lineThreeSuffix: "として残します。",
-      description:
-        "Java、Spring、React、Next.jsを扱う中で出会った課題と、選択に至った理由を長く読める技術記事としてまとめます。",
+      description: (careerMonthOrdinal) =>
+        `開発と設計を続けて${careerMonthOrdinal}か月目。そこで出会った課題と経験を記録しています。`,
       cta: "最近の記事を見る",
       statusLabel: "状態",
       status: "翻訳中",

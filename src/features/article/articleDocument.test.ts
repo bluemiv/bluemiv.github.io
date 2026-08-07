@@ -5,16 +5,16 @@ import { extractArticleHeadings, getArticleReadingTime } from "./articleDocument
 describe("articleDocument", () => {
   it("h2와 h3만 TOC heading으로 변환하고 중복 id를 구분한다", () => {
     const source = `# 제외
-## 설치하기
-### [설정](https://example.com) \`옵션\`
+## 1. 설치하기
+### 1.1. [설정](https://example.com) \`옵션\`
 #### 제외
 ## 설치하기
 `;
 
     expect(extractArticleHeadings(source)).toEqual([
-      { id: "설치하기", title: "설치하기", depth: 2 },
-      { id: "설정-옵션", title: "설정 옵션", depth: 3 },
-      { id: "설치하기-1", title: "설치하기", depth: 2 },
+      { id: "1-설치하기", number: "01", title: "설치하기", depth: 2 },
+      { id: "11-설정-옵션", number: "01.01", title: "설정 옵션", depth: 3 },
+      { id: "설치하기", number: "02", title: "설치하기", depth: 2 },
     ]);
   });
 
@@ -31,7 +31,7 @@ describe("articleDocument", () => {
 `;
 
     expect(extractArticleHeadings(source)).toEqual([
-      { id: "실제-제목", title: "실제 제목", depth: 2 },
+      { id: "실제-제목", number: "01", title: "실제 제목", depth: 2 },
     ]);
   });
 

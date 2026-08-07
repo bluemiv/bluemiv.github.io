@@ -174,23 +174,11 @@ select {
 }
 
 .article-body h2 {
-  position: relative;
   margin-top: 5rem;
-  padding-top: 1.5rem;
   scroll-margin-top: 7rem;
   font-size: clamp(1.75rem, 4vw, 2.125rem);
   line-height: 1.32;
   letter-spacing: -0.035em;
-}
-
-.article-body h2::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2rem;
-  height: 1px;
-  background: var(--theme-accent);
-  content: "";
 }
 
 .article-body h3 {
@@ -207,6 +195,23 @@ select {
   font-size: 1.125rem;
   line-height: 1.55;
   font-weight: 700;
+}
+
+.article-heading-number {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--theme-accent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.article-body h4 .article-heading-number {
+  display: inline-block;
+  min-width: 4.75rem;
+  margin: 0 0.5rem 0 0;
 }
 
 .article-body h2 + *,
@@ -322,13 +327,16 @@ select {
   tab-size: 2;
 }
 
+.article-body pre[data-language] {
+  display: grid;
+  grid-template-rows: 2.25rem minmax(0, auto);
+}
+
 .article-body > pre:not([data-language]) {
   padding: 1.25rem;
 }
 
 .article-code-language {
-  position: sticky;
-  left: 0;
   display: flex;
   align-items: center;
   width: 100%;
@@ -355,7 +363,7 @@ select {
 
 .article-body [data-highlighted-line] {
   border-left: 2px solid var(--theme-accent);
-  background: color-mix(in srgb, var(--theme-accent-soft) 70%, transparent);
+  background: color-mix(in srgb, var(--theme-accent) 24%, var(--theme-code));
   padding-left: calc(1.25rem - 2px);
 }
 

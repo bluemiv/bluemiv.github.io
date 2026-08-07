@@ -5,3 +5,4 @@
 - `ads.txt`, `.nojekyll`, `sw.js` 경로를 바꾸지 않는다.
 - `sw.js`는 cache 제거용 tombstone으로 유지한다.
 - `r/`는 기존 article asset URL 호환 경로다.
+- 신규 article cover는 `32:17`, 권장 `1600×850px` WebP로 만든다.

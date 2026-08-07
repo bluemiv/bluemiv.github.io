@@ -419,6 +419,9 @@ Latest articles:
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
 - 본문 뒤에는 tag, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
 - code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
+- article `h2`–`h4` 번호는 문서 순서로 build time에 자동 생성한다. `01`, `01.01`, `01.01.01` 형식을 사용한다.
+- 이관 article의 기존 heading 번호는 anchor 호환을 위해 source에 남기되 화면에서는 자동 번호로 대체한다.
+- highlighted code line은 code surface와 accent를 혼합한 어두운 배경을 사용해 두 theme에서 token 대비를 유지한다.
 
 ### 9.4 Notes
 
@@ -574,7 +577,9 @@ Latest articles:
 - 이미지가 없다고 빈 placeholder card를 만들지 않는다.
 - topic cover는 typography, 번호, 간단한 code/diagram을 조합한다.
 - grid motif는 cover마다 같은 밀도로 반복하지 않는다.
-- 이미지 aspect ratio를 page별로 고정한다.
+- article cover 비율은 `32:17`로 고정한다.
+- 신규 cover 권장 크기는 `1600×850px` WebP다.
+- 핵심 요소는 잘림과 반응형 축소를 고려해 가장자리에서 충분히 띄운다.
 - 의미 있는 이미지는 구체적인 alt 제공.
 - 장식 이미지는 빈 alt.
 - 과도한 hover zoom 금지. 최대 `scale(1.02)`.

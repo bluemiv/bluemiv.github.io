@@ -55,7 +55,15 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
                   : `py-2 ${isActive ? "text-accent font-semibold" : "text-muted"}`
               }`}
             >
-              {heading.title}
+              <span className="flex items-start gap-3">
+                <span
+                  aria-hidden="true"
+                  className="text-subtle min-w-9 pt-px font-mono text-[9px] leading-6"
+                >
+                  {heading.number}
+                </span>
+                <span>{heading.title}</span>
+              </span>
             </a>
           </li>
         );

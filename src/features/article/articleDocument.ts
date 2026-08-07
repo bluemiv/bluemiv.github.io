@@ -2,6 +2,7 @@ import GithubSlugger from "github-slugger";
 
 export type ArticleHeading = {
   id: string;
+  number: string;
   title: string;
   depth: 2 | 3;
 };
@@ -9,6 +10,7 @@ export type ArticleHeading = {
 const KOREAN_CHARACTERS_PER_MINUTE = 500;
 const LATIN_WORDS_PER_MINUTE = 220;
 const CODE_LINES_PER_MINUTE = 12;
+const HEADING_NUMBER_PATTERN = /^\s*\d+(?:\.\d+)*\.?\s+/;
 
 function splitMarkdown(source: string) {
   const proseLines: string[] = [];
@@ -56,20 +58,38 @@ function getPlainHeadingTitle(markdown: string): string {
 export function extractArticleHeadings(source: string): ArticleHeading[] {
   const { prose } = splitMarkdown(source);
   const slugger = new GithubSlugger();
+  let sectionNumber = 0;
+  let subsectionNumber = 0;
 
   return prose.split("\n").flatMap((line) => {
     const match = line.match(/^(#{2,3})[\t ]+(.+?)[\t ]*#*[\t ]*$/);
 
     if (!match) return [];
 
-    const title = getPlainHeadingTitle(match[2]);
+    const rawTitle = getPlainHeadingTitle(match[2]);
+    const title = rawTitle.replace(HEADING_NUMBER_PATTERN, "");
     if (!title) return [];
+
+    const depth = match[1].length as 2 | 3;
+
+    if (depth === 2) {
+      sectionNumber += 1;
+      subsectionNumber = 0;
+    } else {
+      subsectionNumber += 1;
+    }
+
+    const number =
+      depth === 2
+        ? String(sectionNumber).padStart(2, "0")
+        : `${String(sectionNumber).padStart(2, "0")}.${String(subsectionNumber).padStart(2, "0")}`;
 
     return [
       {
-        id: slugger.slug(title),
+        id: slugger.slug(rawTitle),
+        number,
         title,
-        depth: match[1].length as 2 | 3,
+        depth,
       },
     ];
   });

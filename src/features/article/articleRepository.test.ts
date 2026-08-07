@@ -35,7 +35,8 @@ describe("articleRepository", () => {
 
     expect(article?.headings[0]).toEqual({
       id: "1-github-블로그를-만든-이유",
-      title: "1. Github 블로그를 만든 이유",
+      number: "01",
+      title: "Github 블로그를 만든 이유",
       depth: 2,
     });
     expect(article?.headings.length).toBeGreaterThan(5);

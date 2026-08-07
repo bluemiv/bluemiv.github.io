@@ -7,7 +7,6 @@ type SiteCopy = {
     articles: string;
     notes: string;
     apps: string;
-    about: string;
   };
   mobileMenu: {
     open: string;
@@ -84,7 +83,6 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       articles: "Articles",
       notes: "Notes",
       apps: "Apps",
-      about: "About",
     },
     mobileMenu: { open: "메뉴 열기", close: "메뉴 닫기" },
     languageLabel: "언어 선택",
@@ -102,7 +100,6 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       articles: "Articles",
       notes: "Notes",
       apps: "Apps",
-      about: "About",
     },
     mobileMenu: { open: "Open menu", close: "Close menu" },
     languageLabel: "Choose language",
@@ -120,7 +117,6 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       articles: "Articles",
       notes: "Notes",
       apps: "Apps",
-      about: "About",
     },
     mobileMenu: { open: "メニューを開く", close: "メニューを閉じる" },
     languageLabel: "言語を選択",

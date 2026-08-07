@@ -36,7 +36,6 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
     { href: href("articles"), label: copy.nav.articles },
     { href: href("notes"), label: copy.nav.notes },
     { href: href("apps"), label: copy.nav.apps },
-    { href: href("about"), label: copy.nav.about },
   ] as const;
   const shouldUseCompactHeader = isCompact && !isMobileMenuOpen;
 

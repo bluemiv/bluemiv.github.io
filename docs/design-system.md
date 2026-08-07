@@ -94,7 +94,7 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 ### 3.2 언어
 
 - 본문과 주요 안내는 한국어.
-- `Articles`, `Notes`, `Apps`, `About`처럼 짧고 익숙한 구조명은 모든 locale에서 영어를 유지한다.
+- `Articles`, `Notes`, `Apps`처럼 짧고 익숙한 구조명은 모든 locale에서 영어를 유지한다.
 - `Featured`, `Latest`, `Status` 같은 쉬운 단어는 짧은 분류·장식 label일 때 영어를 우선한다.
 - 문장, CTA, 오류, 도움말, 접근성 label은 사용자가 자연스럽게 이해하도록 각 locale 언어로 번역한다.
 - 해당 언어권에서 현지어 표기가 일반적인 용어는 쉬운 영어라도 자연스러운 현지어를 우선한다.
@@ -480,13 +480,6 @@ Short notes:
 - privacy/terms 페이지는 장식보다 법적 내용과 언어 탐색 우선.
 - 기존 public URL을 유지한다.
 
-### 9.6 About
-
-- profile card보다 editorial biography 우선.
-- 사진은 1장.
-- 경력, 관심 기술, 운영 원칙을 section으로 구분.
-- social link는 compact text link.
-
 ## 10. 컴포넌트 규칙
 
 ### 10.1 Header
@@ -590,7 +583,7 @@ Short notes:
 ### 10.11 Blog sidebar
 
 - 적용 페이지: article archive, topic archive, article detail, 충분한 결과가 있는 search page.
-- 제외 페이지: home, notes, about, app landing, privacy/policy, 404.
+- 제외 페이지: home, notes, app landing, privacy/policy, 404.
 - width는 `300px`로 고정하고 main column을 `720px` 아래로 줄이지 않는다.
 - archive 기본 순서는 topic index, 광고, 추천 글이다.
 - article detail에서는 topic, 광고, TOC, 같은 topic article 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
@@ -613,7 +606,7 @@ Short notes:
 - 빈 광고 슬롯의 collapse는 below-the-fold에서만 허용하고 visible article을 밀지 않는지 확인한다.
 - placeholder는 layout 검토용으로만 quiet surface를 사용할 수 있다. production 광고를 자체 card처럼 꾸미지 않는다.
 - home 최대 1개, archive 최대 1개, article은 읽기 시간에 따라 0–2개를 기준으로 한다.
-- notes, about, app landing, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
+- notes, app landing, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
 
 현재 구현 기준:
 

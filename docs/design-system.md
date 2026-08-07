@@ -460,7 +460,8 @@ Latest articles:
 - active navigation은 text와 1px accent rail을 함께 사용한다.
 - 아래로 `32px` 이상 scroll하면 compact, 위로 `16px` 이상 scroll하면 기본 높이로 전환한다.
 - mobile menu에서 모든 primary navigation을 제공한다.
-- mobile menu surface는 `canvas 90%`와 `backdrop-blur-2xl`을 사용해 가독성을 유지하면서 header보다 넓은 면적에서도 blur가 인식되게 한다.
+- header 상단과 mobile menu는 서로 독립된 blur surface로 구성해 중첩 `backdrop-filter`를 만들지 않는다.
+- mobile menu surface는 `canvas 92%`와 `backdrop-blur-2xl`을 사용해 배경 글자를 흐리면서 navigation 대비를 유지한다.
 - 크기와 menu transition은 `200ms ease-out`, reduced motion에서는 제거한다.
 - 모든 touch target 최소 `44×44px`.
 

@@ -146,7 +146,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
       <div
         id={MOBILE_NAVIGATION_ID}
         aria-hidden={!isMobileMenuOpen}
-        className={`border-border bg-canvas absolute inset-x-0 top-full border-b transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none md:hidden ${
+        className={`border-border bg-canvas/90 absolute inset-x-0 top-full border-b backdrop-blur-2xl transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none md:hidden ${
           isMobileMenuOpen
             ? "visible translate-y-0 opacity-100"
             : "pointer-events-none invisible -translate-y-2 opacity-0"

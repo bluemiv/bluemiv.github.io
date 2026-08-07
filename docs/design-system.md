@@ -199,13 +199,16 @@ Tailwind 예:
 
 ### 5.1 Font roles
 
-| Role          | Font                   | Weight  | 용도                                          |
-| ------------- | ---------------------- | ------- | --------------------------------------------- |
-| Sans          | Wanted Sans Variable   | 400–700 | 본문, navigation, UI, 기본 제목               |
-| Display serif | Noto Serif KR Variable | 400–600 | hero 강조어, 인용문, 제한된 editorial heading |
-| Mono          | IBM Plex Mono          | 400/600 | 번호, 날짜, topic, code                       |
+| Role          | Korean / English       | Japanese               | Weight  | 용도                                          |
+| ------------- | ---------------------- | ---------------------- | ------- | --------------------------------------------- |
+| Sans          | Wanted Sans Variable   | Noto Sans JP Variable  | 400–700 | 본문, navigation, UI, 기본 제목               |
+| Display serif | Noto Serif KR Variable | Noto Serif JP Variable | 400–600 | hero 강조어, 인용문, 제한된 editorial heading |
+| Mono          | IBM Plex Mono          | IBM Plex Mono          | 400/600 | 번호, 날짜, topic, code                       |
 
-세 폰트는 모두 OFL 라이선스이며 npm package에 버전을 고정한다. Wanted Sans와 Noto Serif KR은 `unicode-range`로 분할된 WOFF2를 번들링하고, IBM Plex Mono는 `next/font/local`로 Regular와 SemiBold WOFF2만 포함한다. 브라우저가 외부 CDN에 요청하지 않도록 모든 폰트 asset은 static export 결과물에서 self-host한다.
+모든 폰트는 OFL 라이선스이며 npm package에 버전을 고정한다. Wanted Sans와 Noto CJK 계열은 `unicode-range`로 분할된 WOFF2를 번들링하고, IBM Plex Mono는 `next/font/local`로 Regular와 SemiBold WOFF2만 포함한다. 브라우저가 외부 CDN에 요청하지 않도록 모든 폰트 asset은 static export 결과물에서 self-host한다.
+
+- `lang="ja"`에서는 sans와 display serif를 각각 Noto Sans JP와 Noto Serif JP로 교체해 일본어 고유 glyph를 사용한다.
+- 일본어 폰트도 기존 역할과 weight 범위를 유지한다. locale 변경이 정보 계층이나 브랜드 강도를 바꾸면 안 된다.
 
 ### 5.2 사용 비율
 

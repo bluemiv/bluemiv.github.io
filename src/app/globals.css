@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.css";
 @import "@fontsource-variable/noto-serif-kr";
+@import "@fontsource-variable/noto-sans-jp/wght.css";
+@import "@fontsource-variable/noto-serif-jp/wght.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -59,6 +61,11 @@
   font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
+}
+
+:root:lang(ja) {
+  --font-sans: "Noto Sans JP Variable", "Noto Sans JP", sans-serif;
+  --font-display: "Noto Serif JP Variable", "Noto Serif JP", serif;
 }
 
 .dark {

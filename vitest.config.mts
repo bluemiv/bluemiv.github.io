@@ -18,6 +18,7 @@ export default defineConfig({
       reporter: ["text", "json-summary", "html"],
       include: [
         "src/features/adsense/adSenseConfig.ts",
+        "src/features/app/appProfiles.ts",
         "src/features/article/articleCollection.ts",
         "src/features/article/articleMetadata.ts",
         "src/features/article/articleDocument.ts",
@@ -33,10 +34,13 @@ export default defineConfig({
         "src/features/note/noteNavigation.ts",
         "src/features/note/noteRepository.ts",
         "src/features/note/noteSeo.ts",
+        "src/features/policy/policyDocuments.ts",
+        "src/features/policy/policyRedirects.ts",
         "src/features/profile/careerDuration.ts",
         "src/features/serviceWorker/serviceWorkerConfig.ts",
         "src/features/theme/themeConfig.ts",
         "scripts/migrationMetadata.mjs",
+        "scripts/policyMigration.mjs",
       ],
       thresholds: {
         branches: 90,

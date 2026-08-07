@@ -2,17 +2,19 @@
 
 ## 도메인 용어
 
-| 의미        | 표준 용어     | 쓰지 않는 용어              |
-| ----------- | ------------- | --------------------------- |
-| 긴 글       | `article`     | `post`, `content`           |
-| 짧은 글     | `note`        | `shortPost`, `shortContent` |
-| 주 분류     | `topic`       | `category`                  |
-| 보조 키워드 | `tag`         | `keyword`                   |
-| 발행일      | `publishedAt` | `createdAt`                 |
-| 수정일      | `modifiedAt`  | `updatedAt`                 |
-| 공개 여부   | `isPublished` | `release`                   |
-| 대표 이미지 | `coverImage`  | `thumbnail`                 |
-| 작성자      | `author`      | 실명                        |
+| 의미        | 표준 용어        | 쓰지 않는 용어               |
+| ----------- | ---------------- | ---------------------------- |
+| 긴 글       | `article`        | `post`, `content`            |
+| 짧은 글     | `note`           | `shortPost`, `shortContent`  |
+| 주 분류     | `topic`          | `category`                   |
+| 보조 키워드 | `tag`            | `keyword`                    |
+| 발행일      | `publishedAt`    | `createdAt`                  |
+| 수정일      | `modifiedAt`     | `updatedAt`                  |
+| 공개 여부   | `isPublished`    | `release`                    |
+| 대표 이미지 | `coverImage`     | `thumbnail`                  |
+| 작성자      | `author`         | 실명                         |
+| 개별 앱     | `app`            | `application`, `product`     |
+| 법적 문서   | `policyDocument` | `legalContent`, `policyPage` |
 
 - `author`는 선택값이다. 생략하면 SSG build에서 `SITE_CONFIG.author`를 사용한다.
 - 공개 author 기본값은 `Bluemiv`다.
@@ -55,6 +57,8 @@
 /topics/{topic}/
 /tags/{tag}/
 /notes/{slug}/
+/apps/{appSlug}/
+/apps/{appSlug}/{documentType}/
 /en/...
 /ja/...
 ```
@@ -62,6 +66,8 @@
 - 한국어는 prefix가 없다.
 - URL 끝 `/`를 유지한다.
 - 번역 article은 모든 locale에서 같은 slug를 쓴다.
+- `/apps/`는 app 목록 없이 `/`로 이동한다.
+- 기존 policy의 `/privacy/.../`, `/blim/account-deletion/`, URL 내부 언어 코드는 호환을 위해 유지한다.
 
 ## 변경 규칙
 

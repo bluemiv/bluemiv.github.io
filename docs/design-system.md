@@ -26,7 +26,7 @@ Warm Editorial 40
 - 글을 찾고 읽는 흐름이 장식보다 먼저 보인다.
 - 기술 블로그라는 정체성이 첫 화면에서 인식된다.
 - 카드형 SaaS 템플릿과 구분되는 고유한 시각 언어를 가진다.
-- 글, 짧은 기록, 앱, 정책 페이지가 같은 브랜드 안에서 역할별로 구분된다.
+- 글, 짧은 기록, 개별 앱, 정책 페이지가 같은 브랜드 안에서 역할별로 구분된다.
 - 라이트/다크 테마 모두 별도 설계된 화면처럼 자연스럽다.
 - 정적 사이트의 빠른 로딩과 접근성을 해치지 않는다.
 
@@ -94,7 +94,7 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 ### 3.2 언어
 
 - 본문과 주요 안내는 한국어.
-- `Articles`, `Notes`, `Apps`처럼 짧고 익숙한 구조명은 모든 locale에서 영어를 유지한다.
+- `Articles`, `Notes`처럼 짧고 익숙한 구조명은 모든 locale에서 영어를 유지한다.
 - `Featured`, `Latest`, `Status` 같은 쉬운 단어는 짧은 분류·장식 label일 때 영어를 우선한다.
 - 문장, CTA, 오류, 도움말, 접근성 label은 사용자가 자연스럽게 이해하도록 각 locale 언어로 번역한다.
 - 해당 언어권에서 현지어 표기가 일반적인 용어는 쉬운 영어라도 자연스러운 현지어를 우선한다.
@@ -209,6 +209,7 @@ Tailwind 예:
 
 - `lang="ja"`에서는 sans와 display serif를 각각 Noto Sans JP와 Noto Serif JP로 교체해 일본어 고유 glyph를 사용한다.
 - `lang="en"`에서는 sans와 display serif를 각각 Instrument Sans와 Newsreader로 교체한다. Newsreader의 optical sizing은 browser에 맡긴다.
+- 한국어 root 아래의 영문 app 상세와 영문·일문 policy는 콘텐츠 `lang`에 맞춰 각각 Instrument Sans와 Noto Sans JP를 적용한다.
 - 모든 locale 폰트는 같은 역할과 weight 범위를 유지한다. locale 변경이 정보 계층이나 브랜드 강도를 바꾸면 안 된다.
 
 ### 5.2 사용 비율
@@ -472,13 +473,16 @@ Short notes:
 - 본문 뒤에는 tag와 더 이전·더 최근 note 탐색을 둔다.
 - `coverImage`는 상세의 Open Graph, Twitter Card, 구조화 데이터에 사용하고 화면 상단에는 반복 노출하지 않는다.
 
-### 9.5 Apps
+### 9.5 App detail과 policy
 
-- app은 명확한 반복 item이므로 제한적으로 card 허용.
-- 앱 아이콘, 이름, 한 줄 설명, 상태, CTA 순서.
-- blog visual motif를 강제로 app landing에 덮지 않는다.
-- privacy/terms 페이지는 장식보다 법적 내용과 언어 탐색 우선.
-- 기존 public URL을 유지한다.
+- `/apps/`는 목록을 렌더링하지 않고 `/`로 정적 이동한다.
+- primary navigation에 Apps 항목을 두지 않는다.
+- 기존 개별 app, privacy, terms, account deletion public URL은 유지한다.
+- 개별 app 상세는 이름, 설명, Google Play, 핵심 기능, 법적 문서 순서의 단일 column을 사용한다.
+- app 상세의 기능은 card grid가 아닌 divider list로 표현한다.
+- policy는 최대 `820px` reading column에서 heading, paragraph, list, link만 명확하게 표현한다.
+- policy 본문은 기존 법적 문구를 유지하고 실명과 개인 전화번호는 공개하지 않는다.
+- policy에는 sidebar, 광고, app 목록 navigation, 장식용 cover를 두지 않는다.
 
 ## 10. 컴포넌트 규칙
 
@@ -529,7 +533,6 @@ Short notes:
 
 허용:
 
-- app item
 - related article
 - modal/search result
 - 명확한 CTA
@@ -583,7 +586,7 @@ Short notes:
 ### 10.11 Blog sidebar
 
 - 적용 페이지: article archive, topic archive, article detail, 충분한 결과가 있는 search page.
-- 제외 페이지: home, notes, app landing, privacy/policy, 404.
+- 제외 페이지: home, notes, app detail, privacy/policy, 404.
 - width는 `300px`로 고정하고 main column을 `720px` 아래로 줄이지 않는다.
 - archive 기본 순서는 topic index, 광고, 추천 글이다.
 - article detail에서는 topic, 광고, TOC, 같은 topic article 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
@@ -606,7 +609,7 @@ Short notes:
 - 빈 광고 슬롯의 collapse는 below-the-fold에서만 허용하고 visible article을 밀지 않는지 확인한다.
 - placeholder는 layout 검토용으로만 quiet surface를 사용할 수 있다. production 광고를 자체 card처럼 꾸미지 않는다.
 - home 최대 1개, archive 최대 1개, article은 읽기 시간에 따라 0–2개를 기준으로 한다.
-- notes, app landing, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
+- notes, app detail, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
 
 현재 구현 기준:
 
@@ -823,12 +826,14 @@ text-accent / bg-accent / border-accent
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?
 
-### 17.4 Apps와 policy
+### 17.4 App detail과 policy
 
 - [ ] 기존 URL이 유지되는가?
 - [ ] policy 언어 navigation이 명확한가?
 - [ ] 법적 내용을 장식이 방해하지 않는가?
-- [ ] app card가 article card처럼 보이지 않는가?
+- [ ] `/apps/`가 목록 없이 home으로 이동하는가?
+- [ ] primary navigation에 Apps 항목이 없는가?
+- [ ] app 상세가 핵심 기능과 법적 문서로 바로 이어지는가?
 
 ## 18. 금지 패턴
 

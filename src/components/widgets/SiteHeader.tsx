@@ -35,7 +35,6 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
   const navItems = [
     { href: href("articles"), label: copy.nav.articles },
     { href: href("notes"), label: copy.nav.notes },
-    { href: href("apps"), label: copy.nav.apps },
   ] as const;
   const shouldUseCompactHeader = isCompact && !isMobileMenuOpen;
 

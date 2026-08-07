@@ -3,11 +3,13 @@
 | 디렉토리         | 책임                               |
 | ---------------- | ---------------------------------- |
 | `adsense`        | 광고 script, slot, local preview   |
+| `app`            | 개별 app 공개 정보와 상세 경로     |
 | `article`        | article metadata 검증과 SSG 조회   |
 | `i18n`           | locale 판별, locale URL, 번역 문구 |
 | `legacyRedirect` | 기존 URL과 canonical URL 매핑      |
 | `navigation`     | site navigation과 header scroll    |
 | `note`           | note metadata, SSG 조회, 탐색, SEO |
+| `policy`         | 법적 문서, 기존 URL, 정적 이관     |
 | `profile`        | 공개 경력 기간 계산                |
 | `serviceWorker`  | 구형 worker와 cache 제거           |
 | `theme`          | 초기 theme 적용과 전환             |

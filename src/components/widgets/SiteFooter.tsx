@@ -34,12 +34,6 @@ export function SiteFooter({ locale }: SiteFooterProps) {
           >
             Articles
           </Link>
-          <Link
-            className="hover:text-foreground inline-flex min-h-11 items-center"
-            href={href("apps")}
-          >
-            Apps
-          </Link>
           <a
             className="hover:text-foreground inline-flex min-h-11 items-center"
             href="https://github.com/bluemiv"

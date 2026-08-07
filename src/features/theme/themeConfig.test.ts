@@ -2,7 +2,12 @@ import vm from "node:vm";
 
 import { describe, expect, it, vi } from "vitest";
 
-import { getThemeInitializerScript, isTheme, resolveTheme } from "./themeConfig";
+import {
+  getThemeInitializerScript,
+  isTheme,
+  resolveTheme,
+  shouldAnimateThemeTransition,
+} from "./themeConfig";
 
 describe("themeConfig", () => {
   it.each(["light", "dark"])("저장 가능한 theme을 판별한다: %s", (theme) => {
@@ -22,6 +27,13 @@ describe("themeConfig", () => {
     expect(resolveTheme(null, true)).toBe("dark");
     expect(resolveTheme(null, false)).toBe("light");
     expect(resolveTheme("invalid", true)).toBe("dark");
+  });
+
+  it("View Transition을 지원하고 motion 감소 설정이 없을 때만 전환을 실행한다", () => {
+    expect(shouldAnimateThemeTransition(true, false)).toBe(true);
+    expect(shouldAnimateThemeTransition(false, false)).toBe(false);
+    expect(shouldAnimateThemeTransition(true, true)).toBe(false);
+    expect(shouldAnimateThemeTransition(false, true)).toBe(false);
   });
 
   it.each([

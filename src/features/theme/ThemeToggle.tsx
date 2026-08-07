@@ -1,13 +1,13 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { Moon, Sun, SunMoon } from "lucide-react";
 
-import { resolveTheme, THEME_STORAGE_KEY } from "./themeConfig";
+import { resolveTheme, shouldAnimateThemeTransition, THEME_STORAGE_KEY } from "./themeConfig";
 
 const THEME_CHANGE_EVENT = "bluemiv:theme-change";
 
-type ThemeToggleProps = {
+type PropsWithThemeToggle = {
   labels?: {
     toggle: string;
     light: string;
@@ -48,11 +48,12 @@ function getServerThemeSnapshot(): boolean | null {
   return null;
 }
 
-export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
+export function ThemeToggle({ labels = DEFAULT_LABELS }: PropsWithThemeToggle) {
   const isDark = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
+  const isTransitioningRef = useRef(false);
 
-  function toggleTheme() {
-    const nextIsDark = document.documentElement.classList.toggle("dark");
+  function applyTheme(nextIsDark: boolean) {
+    document.documentElement.classList.toggle("dark", nextIsDark);
 
     try {
       window.localStorage.setItem(THEME_STORAGE_KEY, nextIsDark ? "dark" : "light");
@@ -63,6 +64,30 @@ export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
     window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   }
 
+  function toggleTheme() {
+    if (isTransitioningRef.current) return;
+
+    const nextIsDark = !document.documentElement.classList.contains("dark");
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const supportsViewTransition = typeof document.startViewTransition === "function";
+
+    if (!shouldAnimateThemeTransition(supportsViewTransition, prefersReducedMotion)) {
+      applyTheme(nextIsDark);
+      return;
+    }
+
+    isTransitioningRef.current = true;
+    document.documentElement.dataset.themeTransition = "wipe";
+
+    const transition = document.startViewTransition(() => applyTheme(nextIsDark));
+    const finishTransition = () => {
+      delete document.documentElement.dataset.themeTransition;
+      isTransitioningRef.current = false;
+    };
+
+    void transition.finished.then(finishTransition, finishTransition);
+  }
+
   return (
     <button
       type="button"
@@ -71,6 +96,7 @@ export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
       aria-pressed={isDark ?? undefined}
       className="text-muted hover:text-foreground inline-flex size-11 items-center justify-center transition-colors"
     >
+      <span className="theme-wipe-rail" aria-hidden="true" />
       {isDark === null ? (
         <SunMoon aria-hidden="true" size={16} />
       ) : isDark ? (

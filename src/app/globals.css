@@ -124,6 +124,78 @@ body {
     color 180ms ease;
 }
 
+.theme-wipe-rail {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  right: -2px;
+  width: 2px;
+  height: 100dvh;
+  pointer-events: none;
+  background: var(--theme-accent);
+  opacity: 0;
+}
+
+:root[data-theme-transition="wipe"] *,
+:root[data-theme-transition="wipe"] *::before,
+:root[data-theme-transition="wipe"] *::after {
+  transition: none !important;
+}
+
+:root[data-theme-transition="wipe"] .theme-wipe-rail {
+  opacity: 1;
+  view-transition-name: theme-wipe-rail;
+}
+
+:root[data-theme-transition="wipe"]::view-transition-old(root),
+:root[data-theme-transition="wipe"]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root[data-theme-transition="wipe"]::view-transition-old(root) {
+  z-index: 1;
+}
+
+:root[data-theme-transition="wipe"]::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-wipe-reveal 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root[data-theme-transition="wipe"]::view-transition-group(theme-wipe-rail) {
+  z-index: 3;
+  animation: theme-wipe-rail 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root[data-theme-transition="wipe"]::view-transition-old(theme-wipe-rail) {
+  display: none;
+}
+
+:root[data-theme-transition="wipe"]::view-transition-new(theme-wipe-rail) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@keyframes theme-wipe-reveal {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes theme-wipe-rail {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-100vw - 2px));
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;

@@ -618,7 +618,8 @@ Latest articles:
 | hover color     | 120–160ms | ease-out                       |
 | small transform | 160–200ms | ease-out                       |
 | dialog enter    | 200–260ms | cubic-bezier(0.22, 1, 0.36, 1) |
-| theme color     | 160–200ms | ease                           |
+| theme fallback  | 160–200ms | ease                           |
+| theme wipe      |     360ms | cubic-bezier(0.22, 1, 0.36, 1) |
 
 ### 12.3 허용 예
 
@@ -629,9 +630,16 @@ Latest articles:
 - reading progress
 - theme transition
 
+Theme transition:
+
+- 지원 브라우저에서는 View Transition API로 오른쪽에서 왼쪽으로 새 theme을 드러내는 **Blueprint Wipe**를 사용한다.
+- wipe 경계는 `2px` accent rail이며 reveal과 같은 `360ms` timing으로 이동한다.
+- snapshot을 만들 때 기존 color transition을 잠시 제거해 중간색이 캡처되지 않게 한다.
+- View Transition API 미지원 환경에서는 기존 `180ms` color transition을 사용한다.
+
 ### 12.4 Reduced motion
 
-`prefers-reduced-motion: reduce`에서 animation과 smooth scroll을 사실상 제거한다. 기능과 정보는 motion 없이 동일해야 한다.
+`prefers-reduced-motion: reduce`에서 animation과 smooth scroll을 사실상 제거한다. theme wipe도 실행하지 않으며 기능과 정보는 motion 없이 동일해야 한다.
 
 ## 13. Dark mode
 

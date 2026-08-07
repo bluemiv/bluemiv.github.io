@@ -62,11 +62,96 @@ app ────────────────────→ shared
 - 개발 서버 포트는 4000.
 - 정적 export 제약 유지. 서버 전용 기능 사용 금지.
 - 기존 프로젝트는 `../bluemiv.github.io`에서 참고.
-- 기존 블로그 글, 앱, 개인정보처리방침 URL 호환성 유지.
+- 기존 블로그 글 URL은 아래 URL 정책에 따라 새 canonical URL로 1:1 이동한다. 앱과 개인정보처리방침처럼 외부에 등록된 URL도 삭제하지 않고 영구 호환 경로를 유지한다.
 - `/sw.js`는 기존 캐시를 제거하기 위한 영구 tombstone service worker다. 삭제하거나 이름을 바꾸지 않고, `fetch` handler나 cache write 로직을 추가하지 않는다.
 - 글 본문은 카드로 감싸지 않음. 타이포그래피와 여백 우선.
 - 커밋 형식: `feat:`, `docs:`, `chore:`, `style:`, `fix:` + 한국어 내용.
 - push 금지. 사용자가 별도 요청할 때만 push.
+
+## URL·다국어·SEO 정책
+
+### 기본 원칙
+
+- 지원 locale은 한국어 `ko`, 영어 `en`, 일본어 `ja`다. 일본어 경로에 국가 코드인 `jp`를 사용하지 않는다.
+- 모든 사용자용 canonical page는 locale을 첫 path segment로 사용한다. 언어마다 구조를 다르게 만들지 않는다.
+- `/`는 `x-default` 언어 선택 화면이다. IP, `Accept-Language`, browser locale을 근거로 자동 이동시키지 않는다.
+- 언어 전환은 현재 페이지의 실제 번역 URL을 가리키는 일반 `<a>` 링크로 제공한다.
+- 번역이 없는 locale route는 생성하지 않는다. 다른 언어 본문이나 홈으로 조용히 대체하지 않는다.
+- `ads.txt`, `robots.txt`, `sitemap.xml`, `sw.js`, favicon과 정적 asset은 locale prefix를 붙이지 않는다.
+- `trailingSlash: true`를 유지하고 canonical, sitemap, 내부 링크에서도 끝 `/` 표기를 통일한다.
+
+### Canonical route
+
+```text
+/                                      x-default 언어 선택
+/{locale}/                             locale 홈
+
+/{locale}/articles/                    글 목록
+/{locale}/articles/page/{page}/        글 목록 2페이지 이상
+/{locale}/articles/{slug}/             글 상세
+
+/{locale}/topics/                      전체 주제
+/{locale}/topics/{topic}/              주제별 글 목록
+/{locale}/topics/{topic}/page/{page}/  주제별 글 2페이지 이상
+
+/{locale}/tags/                        전체 태그
+/{locale}/tags/{tag}/                  태그별 글 목록
+/{locale}/tags/{tag}/page/{page}/      태그별 글 2페이지 이상
+
+/{locale}/notes/                       짧은 글 목록
+/{locale}/notes/page/{page}/           짧은 글 목록 2페이지 이상
+/{locale}/notes/{slug}/                짧은 글 상세
+
+/{locale}/apps/                        앱 목록
+/{locale}/apps/{app-name}/             앱 상세
+/{locale}/apps/{app-name}/privacy/     개인정보처리방침
+/{locale}/apps/{app-name}/terms/       이용약관
+/{locale}/apps/{app-name}/account-deletion/ 계정 삭제 안내
+
+/{locale}/about/                       소개
+/{locale}/rss.xml                      locale별 RSS
+```
+
+- 첫 목록 페이지는 `/page/1/`을 만들지 않고 목록 root를 canonical로 사용한다.
+- `topic`은 글마다 하나인 주 분류다. `tag`는 여러 개를 허용하는 보조 키워드다.
+- 상세 URL에 topic을 넣지 않는다. topic을 바꿔도 글 URL은 유지되어야 한다.
+- `slug`, `topic`, `tag`, `app-name`은 소문자 ASCII kebab-case를 사용한다.
+- 글 slug는 frontmatter에 명시하고 발행 뒤 바꾸지 않는다. 제목으로부터 build 시점마다 자동 생성하지 않는다.
+- 번역본은 같은 콘텐츠 식별자와 slug를 공유한다. locale마다 slug를 따로 번역하지 않는다.
+- `page`, `topics`, `tags`는 article과 note slug 예약어다. slug는 콘텐츠 종류 안에서 유일해야 한다.
+
+### 번역 metadata
+
+- 각 언어 페이지의 canonical은 자기 자신의 locale URL이다. 영어·일본어 페이지의 canonical을 한국어 페이지로 지정하지 않는다.
+- 실제로 존재하는 번역만 `hreflang`에 넣고 각 번역 페이지에서 자기 자신을 포함한 동일한 언어 집합을 상호 참조한다.
+- 언어 코드는 `ko`, `en`, `ja`를 사용한다. 콘텐츠 페이지의 `x-default`는 대응하는 한국어 URL을 사용한다.
+- root 언어 선택 페이지는 자기 자신을 `x-default`로 사용하고 각 locale 홈을 alternate로 제공한다.
+- page의 `<html lang>`, Open Graph locale, 구조화 데이터의 `inLanguage`를 실제 언어와 일치시킨다.
+- 제목, 설명, 본문만이 아니라 navigation과 접근성 문구까지 해당 locale로 제공한다.
+- sitemap에는 canonical URL만 넣고 사용 가능한 언어 alternate 관계를 함께 표현한다. 내부 링크도 canonical URL만 사용한다.
+
+### 기존 URL 이전
+
+- 기존 URL을 404로 만들거나 모든 글을 하나의 목록 페이지로 보내지 않는다. 반드시 의미가 같은 새 URL로 1:1 대응한다.
+- GitHub Pages 정적 export에서는 기존 경로에 0초 `meta refresh`, `location.replace()`, 새 URL canonical을 가진 정적 이동 페이지를 생성한다.
+- 기존 이동 페이지는 검색엔진 이전과 외부 링크 호환성을 위해 장기 유지한다.
+- 기존 URL은 sitemap과 새 내부 링크에서 제외한다.
+
+```text
+/blog/{category}/{slug}/              → /ko/articles/{new-slug}/
+/blog/short/{slug}/                   → /ko/notes/{new-slug}/
+/blog/category/{category}/1/          → /ko/topics/{topic}/
+/blog/category/{category}/{page}/     → /ko/topics/{topic}/page/{page}/
+/blog/tags/{tag}/1/                   → /ko/tags/{tag}/
+/blog/tags/{tag}/{page}/              → /ko/tags/{tag}/page/{page}/
+/1/                                   → /ko/articles/
+/{page}/                              → /ko/articles/page/{page}/
+/articles/...                         → /ko/articles/...
+/notes/...                            → /ko/notes/...
+```
+
+- 앱 랜딩, 개인정보처리방침, 이용약관, 계정 삭제처럼 Play Console이나 외부 서비스에 등록된 기존 URL도 새 locale-first URL로 1:1 연결하며 삭제하지 않는다.
+- route를 추가하거나 바꿀 때 canonical, alternate, sitemap, breadcrumb, RSS, legacy mapping을 함께 검토한다.
 
 ## 디자인 작업 필수 절차
 

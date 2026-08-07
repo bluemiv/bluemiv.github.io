@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
+
 import { PlaceholderPage } from "@/shared/ui/PlaceholderPage";
+
+export const metadata: Metadata = {
+  title: "소개",
+  description: "Bluemiv와 기술 블로그의 운영 방향을 소개합니다.",
+  alternates: {
+    canonical: "/about/",
+  },
+};
 
 export default function AboutPage() {
   return (

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { AdSlotPlaceholder } from "@/shared/ui/AdSlotPlaceholder";
 import { BlogGrid } from "@/shared/ui/BlogGrid";
 import { Container } from "@/shared/ui/Container";
@@ -5,6 +7,15 @@ import {
   BlogSidebar,
   MobileCategoryIndex,
 } from "@/widgets/blog-sidebar/BlogSidebar";
+
+export const metadata: Metadata = {
+  title: "기술 글",
+  description:
+    "개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류한 기록입니다.",
+  alternates: {
+    canonical: "/articles/",
+  },
+};
 
 const ARTICLES = [
   {
@@ -14,6 +25,7 @@ const ARTICLES = [
     description:
       "Java 생태계를 활용하면서 더 간결하고 안전하게 코드를 작성하는 언어를 살펴봅니다.",
     date: "2025.12.28",
+    dateTime: "2025-12-28",
     readTime: "8 MIN",
   },
   {
@@ -23,6 +35,7 @@ const ARTICLES = [
     description:
       "프레임워크에 종속되지 않는 객체의 의미와 Spring 생태계에서의 활용을 정리합니다.",
     date: "2025.12.26",
+    dateTime: "2025-12-26",
     readTime: "6 MIN",
   },
   {
@@ -32,6 +45,7 @@ const ARTICLES = [
     description:
       "Query string과 경로 변수를 구분하고 API에 맞는 방식을 선택하는 기준을 알아봅니다.",
     date: "2025.09.04",
+    dateTime: "2025-09-04",
     readTime: "7 MIN",
   },
   {
@@ -41,6 +55,7 @@ const ARTICLES = [
     description:
       "REST API의 HTTP 메서드와 Spring 매핑 어노테이션을 연결해 이해합니다.",
     date: "2025.09.01",
+    dateTime: "2025-09-01",
     readTime: "9 MIN",
   },
   {
@@ -50,6 +65,7 @@ const ARTICLES = [
     description:
       "상태의 소유권을 기준으로 컴포넌트 경계를 나누는 과정을 기록합니다.",
     date: "2025.08.18",
+    dateTime: "2025-08-18",
     readTime: "10 MIN",
   },
   {
@@ -59,6 +75,7 @@ const ARTICLES = [
     description:
       "App Router에서 정적 경로와 콘텐츠를 빌드 시점에 생성하는 구조를 살펴봅니다.",
     date: "2025.08.02",
+    dateTime: "2025-08-02",
     readTime: "12 MIN",
   },
 ] as const;
@@ -66,8 +83,8 @@ const ARTICLES = [
 export default function ArticlesPage() {
   return (
     <Container className="py-16 md:py-24">
-      <header className="max-w-[760px] border-b border-border pb-12 md:pb-16">
-        <p className="mb-5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+      <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
+        <p className="text-accent mb-5 font-mono text-[10px] font-bold tracking-[0.18em] uppercase">
           Articles / Archive
         </p>
         <div className="flex items-end justify-between gap-6">
@@ -75,12 +92,12 @@ export default function ArticlesPage() {
             <h1 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl">
               기술 글
             </h1>
-            <p className="mt-6 max-w-[620px] text-base leading-8 text-muted md:text-lg">
+            <p className="text-muted mt-6 max-w-[620px] text-base leading-8 md:text-lg">
               개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류해
               기록합니다.
             </p>
           </div>
-          <span className="hidden pb-2 font-mono text-[10px] text-subtle sm:block">
+          <span className="text-subtle hidden pb-2 font-mono text-[10px] sm:block">
             087 ENTRIES
           </span>
         </div>
@@ -94,19 +111,19 @@ export default function ArticlesPage() {
             className="mt-10 xl:mt-0"
             aria-labelledby="article-list-title"
           >
-            <div className="grid gap-3 border-b border-border pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
+            <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-accent">
+                <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
                   Latest first
                 </p>
                 <h2
                   id="article-list-title"
-                  className="mt-2 text-sm font-bold uppercase tracking-[0.08em]"
+                  className="mt-2 text-sm font-bold tracking-[0.08em] uppercase"
                 >
                   All articles
                 </h2>
               </div>
-              <p className="text-xs text-muted">
+              <p className="text-muted text-xs">
                 콘텐츠 이관 전 레이아웃 미리보기
               </p>
             </div>
@@ -114,23 +131,25 @@ export default function ArticlesPage() {
             <ol>
               {ARTICLES.map((article, index) => (
                 <li key={article.number}>
-                  <article className="grid grid-cols-[44px_minmax(0,1fr)] gap-3 border-b border-border py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_88px] md:items-start">
-                    <span className="font-mono text-[10px] text-subtle">
+                  <article className="border-border grid grid-cols-[44px_minmax(0,1fr)] gap-3 border-b py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_88px] md:items-start">
+                    <span className="text-subtle font-mono text-[10px]">
                       {article.number}
                     </span>
-                    <span className="font-mono text-[10px] uppercase text-accent">
+                    <span className="text-accent font-mono text-[10px] uppercase">
                       {article.category}
                     </span>
                     <div className="col-span-2 md:col-span-1">
                       <h3 className="text-lg font-semibold tracking-[-0.025em] md:text-xl">
                         {article.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-6 text-muted">
+                      <p className="text-muted mt-2 text-sm leading-6">
                         {article.description}
                       </p>
                     </div>
-                    <div className="col-span-2 flex gap-3 font-mono text-[10px] text-subtle md:col-span-1 md:block md:text-right">
-                      <time className="block">{article.date}</time>
+                    <div className="text-subtle col-span-2 flex gap-3 font-mono text-[10px] md:col-span-1 md:block md:text-right">
+                      <time dateTime={article.dateTime} className="block">
+                        {article.date}
+                      </time>
                       <span className="mt-1 block">{article.readTime}</span>
                     </div>
                   </article>
@@ -144,7 +163,7 @@ export default function ArticlesPage() {
               ))}
             </ol>
 
-            <footer className="flex items-center justify-between border-b border-border py-6 font-mono text-[10px] text-subtle">
+            <footer className="border-border text-subtle flex items-center justify-between border-b py-6 font-mono text-[10px]">
               <span>PAGE 01 / 15</span>
               <span>페이지 이동은 콘텐츠 이관 후 연결</span>
             </footer>

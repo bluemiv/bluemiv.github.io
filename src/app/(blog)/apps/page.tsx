@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
+
 import { PlaceholderPage } from "@/shared/ui/PlaceholderPage";
+
+export const metadata: Metadata = {
+  title: "앱",
+  description: "Bluemiv가 만들고 운영하는 앱과 정책 페이지를 소개합니다.",
+  alternates: {
+    canonical: "/apps/",
+  },
+};
 
 export default function AppsPage() {
   return (

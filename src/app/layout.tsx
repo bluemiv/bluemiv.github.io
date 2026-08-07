@@ -13,9 +13,6 @@ export const metadata: Metadata = {
   },
   description: SITE_CONFIG.description,
   authors: [{ name: SITE_CONFIG.author }],
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export const dynamic = "error";

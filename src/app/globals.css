@@ -315,37 +315,37 @@ select {
 .article-body > pre {
   position: relative;
   overflow-x: auto;
-  padding: 1.25rem 0;
+  padding: 0;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   line-height: 1.75;
   tab-size: 2;
 }
 
-.article-body pre[data-language] {
-  padding-top: 3.25rem;
+.article-body > pre:not([data-language]) {
+  padding: 1.25rem;
 }
 
-.article-body pre[data-language]::before {
-  position: absolute;
-  top: 0;
-  right: 0;
+.article-code-language {
+  position: sticky;
   left: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
   height: 2.25rem;
   border-bottom: 1px solid var(--theme-border);
-  padding: 0.65rem 1rem;
+  padding: 0 1rem;
   color: var(--theme-subtle);
   font-family: var(--font-mono);
   font-size: 0.625rem;
-  line-height: 1;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  content: attr(data-language);
 }
 
 .article-body figure[data-rehype-pretty-code-figure] code {
   display: grid;
   min-width: max-content;
+  padding: 1rem 0;
 }
 
 .article-body [data-line] {

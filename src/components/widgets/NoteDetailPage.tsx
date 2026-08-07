@@ -108,7 +108,7 @@ export function NoteDetailPage({ note, navigation, children }: PropsWithNoteDeta
                 <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
                   ← 더 이전 기록
                 </span>
-                <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold transition-colors">
+                <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold break-keep transition-colors">
                   {navigation.olderNote.title}
                 </span>
               </Link>
@@ -123,7 +123,7 @@ export function NoteDetailPage({ note, navigation, children }: PropsWithNoteDeta
                 <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
                   더 최근 기록 →
                 </span>
-                <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold transition-colors">
+                <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold break-keep transition-colors">
                   {navigation.newerNote.title}
                 </span>
               </Link>

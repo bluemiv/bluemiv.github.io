@@ -1,6 +1,6 @@
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 
-const CATEGORIES = [
+const TOPIC_FILTERS = [
   { name: "All articles", count: 87, active: true },
   { name: "Spring", count: 24, active: false },
   { name: "Java", count: 19, active: false },
@@ -16,29 +16,29 @@ const RECOMMENDED_ARTICLES = [
   { number: "03", title: "정적 블로그를 다시 설계하며 정한 것들" },
 ] as const;
 
-export function MobileCategoryIndex() {
+export function MobileTopicIndex() {
   return (
     <section
       className="border-border border-b pb-6 xl:hidden"
-      aria-labelledby="mobile-category-title"
+      aria-labelledby="mobile-topic-title"
     >
       <h2
-        id="mobile-category-title"
+        id="mobile-topic-title"
         className="text-subtle mb-4 font-mono text-[10px] tracking-[0.16em] uppercase"
       >
         Browse by topic
       </h2>
       <ul className="flex [scrollbar-width:none] gap-6 overflow-x-auto pb-2 text-sm [&::-webkit-scrollbar]:hidden">
-        {CATEGORIES.map((category) => (
+        {TOPIC_FILTERS.map((topic) => (
           <li
-            key={category.name}
+            key={topic.name}
             className={`flex shrink-0 items-center gap-2 whitespace-nowrap ${
-              category.active ? "text-accent font-semibold" : "text-muted"
+              topic.active ? "text-accent font-semibold" : "text-muted"
             }`}
           >
-            <span>{category.name}</span>
+            <span>{topic.name}</span>
             <span className="text-subtle font-mono text-[10px]">
-              {category.count}
+              {topic.count}
             </span>
           </li>
         ))}
@@ -47,13 +47,13 @@ export function MobileCategoryIndex() {
   );
 }
 
-export function BlogSidebar() {
+export function ArticleSidebar() {
   return (
     <aside className="hidden w-[300px] xl:block" aria-label="글 탐색과 광고">
-      <section aria-labelledby="category-title">
+      <section aria-labelledby="topic-title">
         <div className="border-border flex items-end justify-between border-b pb-4">
           <h2
-            id="category-title"
+            id="topic-title"
             className="text-xs font-bold tracking-[0.08em] uppercase"
           >
             Browse by topic
@@ -61,11 +61,11 @@ export function BlogSidebar() {
           <span className="text-subtle font-mono text-[9px]">07 TOPICS</span>
         </div>
         <ol>
-          {CATEGORIES.map((category, index) => (
+          {TOPIC_FILTERS.map((topic, index) => (
             <li
-              key={category.name}
+              key={topic.name}
               className={`border-border grid grid-cols-[28px_1fr_auto] items-center gap-3 border-b py-4 text-sm ${
-                category.active
+                topic.active
                   ? "border-l-accent text-accent border-l pl-3"
                   : "text-muted"
               }`}
@@ -73,11 +73,11 @@ export function BlogSidebar() {
               <span className="text-subtle font-mono text-[10px]">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className={category.active ? "font-semibold" : undefined}>
-                {category.name}
+              <span className={topic.active ? "font-semibold" : undefined}>
+                {topic.name}
               </span>
               <span className="text-subtle font-mono text-[10px]">
-                {category.count}
+                {topic.count}
               </span>
             </li>
           ))}

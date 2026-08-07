@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 
+import { Container } from "@/components/atoms/Container";
+import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout";
+import {
+  ArticleSidebar,
+  MobileTopicIndex,
+} from "@/components/widgets/ArticleSidebar";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
-import { BlogGrid } from "@/shared/ui/BlogGrid";
-import { Container } from "@/shared/ui/Container";
-import {
-  BlogSidebar,
-  MobileCategoryIndex,
-} from "@/widgets/blog-sidebar/BlogSidebar";
 
 export const metadata: Metadata = {
   title: "기술 글",
@@ -18,10 +18,10 @@ export const metadata: Metadata = {
   },
 };
 
-const ARTICLES = [
+const ARTICLE_PREVIEWS = [
   {
     number: "01",
-    category: "Kotlin",
+    topic: "Kotlin",
     title: "Kotlin이란?",
     description:
       "Java 생태계를 활용하면서 더 간결하고 안전하게 코드를 작성하는 언어를 살펴봅니다.",
@@ -31,7 +31,7 @@ const ARTICLES = [
   },
   {
     number: "02",
-    category: "Java",
+    topic: "Java",
     title: "POJO(Plain Old Java Object)란?",
     description:
       "프레임워크에 종속되지 않는 객체의 의미와 Spring 생태계에서의 활용을 정리합니다.",
@@ -41,7 +41,7 @@ const ARTICLES = [
   },
   {
     number: "03",
-    category: "Spring",
+    topic: "Spring",
     title: "@RequestParam과 @PathVariable 사용법",
     description:
       "Query string과 경로 변수를 구분하고 API에 맞는 방식을 선택하는 기준을 알아봅니다.",
@@ -51,7 +51,7 @@ const ARTICLES = [
   },
   {
     number: "04",
-    category: "Spring",
+    topic: "Spring",
     title: "HTTP 메서드와 매핑 어노테이션",
     description:
       "REST API의 HTTP 메서드와 Spring 매핑 어노테이션을 연결해 이해합니다.",
@@ -61,7 +61,7 @@ const ARTICLES = [
   },
   {
     number: "05",
-    category: "React",
+    topic: "React",
     title: "컴포넌트의 책임과 상태 배치",
     description:
       "상태의 소유권을 기준으로 컴포넌트 경계를 나누는 과정을 기록합니다.",
@@ -71,7 +71,7 @@ const ARTICLES = [
   },
   {
     number: "06",
-    category: "Next.js",
+    topic: "Next.js",
     title: "정적 내보내기로 블로그 구성하기",
     description:
       "App Router에서 정적 경로와 콘텐츠를 빌드 시점에 생성하는 구조를 살펴봅니다.",
@@ -107,8 +107,8 @@ export default function ArticlesPage() {
         </header>
 
         <div className="mt-10 xl:mt-16">
-          <BlogGrid sidebar={<BlogSidebar />}>
-            <MobileCategoryIndex />
+          <ArticleArchiveLayout sidebar={<ArticleSidebar />}>
+            <MobileTopicIndex />
 
             <section
               className="mt-10 xl:mt-0"
@@ -132,14 +132,14 @@ export default function ArticlesPage() {
               </div>
 
               <ol>
-                {ARTICLES.map((article, index) => (
+                {ARTICLE_PREVIEWS.map((article, index) => (
                   <li key={article.number}>
                     <article className="border-border grid grid-cols-[44px_minmax(0,1fr)] gap-3 border-b py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_88px] md:items-start">
                       <span className="text-subtle font-mono text-[10px]">
                         {article.number}
                       </span>
                       <span className="text-accent font-mono text-[10px] uppercase">
-                        {article.category}
+                        {article.topic}
                       </span>
                       <div className="col-span-2 md:col-span-1">
                         <h3 className="text-lg font-semibold tracking-[-0.025em] md:text-xl">
@@ -171,7 +171,7 @@ export default function ArticlesPage() {
                 <span>페이지 이동은 콘텐츠 이관 후 연결</span>
               </footer>
             </section>
-          </BlogGrid>
+          </ArticleArchiveLayout>
         </div>
       </Container>
     </>

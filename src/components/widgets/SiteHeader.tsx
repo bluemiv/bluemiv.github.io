@@ -1,21 +1,31 @@
 import Link from "next/link";
 
+import { LocaleSwitcher } from "@/features/i18n/LocaleSwitcher";
+import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { SITE_COPY } from "@/features/i18n/translations";
 import { ThemeToggle } from "@/features/theme/ThemeToggle";
-import { Container } from "@/shared/ui/Container";
+import { Container } from "@/components/atoms/Container";
 
-const NAV_ITEMS = [
-  { href: "/articles", label: "Articles", mobile: true },
-  { href: "/notes", label: "Notes", mobile: true },
-  { href: "/apps", label: "Apps", mobile: false },
-  { href: "/about", label: "About", mobile: false },
-] as const;
+type SiteHeaderProps = {
+  locale: Locale;
+};
 
-export function SiteHeader() {
+export function SiteHeader({ locale }: SiteHeaderProps) {
+  const copy = SITE_COPY[locale];
+  const href = (path: string) => getLocalizedPath(locale, path);
+  const homeHref = getLocalizedPath(locale);
+  const navItems = [
+    { href: href("articles"), label: copy.nav.articles, mobile: true },
+    { href: href("notes"), label: copy.nav.notes, mobile: true },
+    { href: href("apps"), label: copy.nav.apps, mobile: false },
+    { href: href("about"), label: copy.nav.about, mobile: false },
+  ] as const;
+
   return (
     <header className="border-border bg-canvas/95 sticky top-0 z-50 border-b backdrop-blur-md">
       <Container className="flex min-h-[68px] items-center justify-between gap-2">
         <Link
-          href="/"
+          href={homeHref}
           className="group flex min-h-11 items-center gap-3 text-sm font-bold tracking-[-0.02em]"
         >
           <span className="border-accent relative block size-4 border">
@@ -27,9 +37,9 @@ export function SiteHeader() {
           </span>
         </Link>
         <div className="flex items-center gap-1 sm:gap-4 md:gap-6">
-          <nav aria-label="주요 메뉴">
+          <nav aria-label={copy.navigationLabel}>
             <ul className="text-muted flex items-center text-xs font-semibold sm:gap-1 md:gap-2">
-              {NAV_ITEMS.map((item) => (
+              {navItems.map((item) => (
                 <li
                   key={item.href}
                   className={item.mobile ? undefined : "hidden sm:block"}
@@ -44,7 +54,8 @@ export function SiteHeader() {
               ))}
             </ul>
           </nav>
-          <ThemeToggle />
+          <LocaleSwitcher locale={locale} />
+          <ThemeToggle labels={copy.theme} />
         </div>
       </Container>
     </header>

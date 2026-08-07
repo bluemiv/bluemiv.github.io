@@ -1,6 +1,6 @@
 import Script from "next/script";
 
-import { ADSENSE_CONFIG } from "./config";
+import { ADSENSE_CONFIG } from "./adSenseConfig";
 
 export function AdSenseScript() {
   if (!ADSENSE_CONFIG.enabled) return null;

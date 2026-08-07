@@ -4,6 +4,22 @@ import { useSyncExternalStore } from "react";
 
 const THEME_CHANGE_EVENT = "bluemiv:theme-change";
 
+type ThemeToggleProps = {
+  labels?: {
+    toggle: string;
+    light: string;
+    dark: string;
+    visible: string;
+  };
+};
+
+const DEFAULT_LABELS = {
+  toggle: "색상 테마 전환",
+  light: "라이트 테마로 전환",
+  dark: "다크 테마로 전환",
+  visible: "Theme",
+};
+
 function subscribeToTheme(onStoreChange: () => void) {
   function handleStorage(event: StorageEvent) {
     if (event.key !== "theme") return;
@@ -34,7 +50,7 @@ function getServerThemeSnapshot(): boolean | null {
   return null;
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
   const isDark = useSyncExternalStore(
     subscribeToTheme,
     getThemeSnapshot,
@@ -58,11 +74,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggleTheme}
       aria-label={
-        isDark === null
-          ? "색상 테마 전환"
-          : isDark
-            ? "라이트 테마로 전환"
-            : "다크 테마로 전환"
+        isDark === null ? labels.toggle : isDark ? labels.light : labels.dark
       }
       aria-pressed={isDark ?? undefined}
       className="border-border text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-l pl-3 text-xs font-bold tracking-[0.12em] uppercase transition-colors md:pl-6"
@@ -71,7 +83,7 @@ export function ThemeToggle() {
         aria-hidden="true"
         className="block size-3 rounded-full border border-current bg-[linear-gradient(90deg,currentColor_50%,transparent_50%)]"
       />
-      <span className="hidden sm:inline">Theme</span>
+      <span className="hidden sm:inline">{labels.visible}</span>
     </button>
   );
 }

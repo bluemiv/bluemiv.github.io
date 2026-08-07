@@ -1,16 +1,16 @@
-import { Container } from "@/shared/ui/Container";
+import { Container } from "@/components/atoms/Container";
 
-type PlaceholderPageProps = {
+type ComingSoonPageProps = {
   eyebrow: string;
   title: string;
   description: string;
 };
 
-export function PlaceholderPage({
+export function ComingSoonPage({
   eyebrow,
   title,
   description,
-}: PlaceholderPageProps) {
+}: ComingSoonPageProps) {
   return (
     <Container className="py-20 md:py-28">
       <section className="border-border max-w-[760px] border-b pb-16">

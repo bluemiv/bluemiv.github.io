@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 
-import { AdSlotPlaceholder } from "@/shared/ui/AdSlotPlaceholder";
-
-import { ADSENSE_CONFIG } from "./config";
+import { ADSENSE_CONFIG } from "./adSenseConfig";
+import { AdSlotPlaceholder } from "./AdSlotPlaceholder";
 
 type AdSenseSlotProps = {
   format: "banner" | "sidebar";

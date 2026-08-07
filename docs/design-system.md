@@ -457,6 +457,7 @@ Latest articles:
 - active navigation은 text와 1px accent rail을 함께 사용한다.
 - 아래로 `32px` 이상 scroll하면 compact, 위로 `16px` 이상 scroll하면 기본 높이로 전환한다.
 - mobile menu에서 모든 primary navigation을 제공한다.
+- mobile menu surface는 배경 콘텐츠가 비치지 않는 불투명 `canvas`를 사용한다.
 - 크기와 menu transition은 `200ms ease-out`, reduced motion에서는 제거한다.
 - 모든 touch target 최소 `44×44px`.
 

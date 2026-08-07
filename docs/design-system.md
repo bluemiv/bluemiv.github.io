@@ -460,6 +460,10 @@ Short notes:
 - `N01` index 허용.
 - `coverImage` 필수 아님.
 - note를 큰 article card로 부풀리지 않는다.
+- 목록 페이지는 sidebar, 광고, thumbnail 없이 최대 `920px`의 단일 column을 사용한다.
+- 목록 header에는 실제 공개 note 수와 최신순 정렬 상태만 간결하게 표시한다.
+- note row는 번호, tag, 제목, 설명, 발행일 순서의 divider list로 구성한다.
+- mobile에서는 날짜를 본문 아래로 옮기고 설명은 최대 3행으로 제한한다.
 
 ### 9.5 Apps
 

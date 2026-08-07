@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { BrandMark } from "@/components/atoms/BrandMark";
 import { Container } from "@/components/atoms/Container";
 import { LocaleSwitcher } from "@/features/i18n/LocaleSwitcher";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
@@ -88,9 +89,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
           className="group flex min-h-11 items-center gap-3 justify-self-start tracking-[-0.02em]"
           aria-label={copy.homeLabel}
         >
-          <span className="border-accent relative block size-[18px] border" aria-hidden="true">
-            <span className="bg-accent absolute bottom-[3px] left-[3px] size-1.5 transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1 motion-reduce:transition-none" />
-          </span>
+          <BrandMark className="text-accent size-5 shrink-0" />
           <span className="flex items-baseline gap-2.5">
             <span className="text-[15px] font-bold">Bluemiv</span>
             <span className="text-subtle hidden font-mono text-[9px] font-medium tracking-[0.14em] uppercase lg:inline">

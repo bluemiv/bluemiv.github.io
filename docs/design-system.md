@@ -82,7 +82,7 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 - `01`, `02`, `N01` 같은 index 번호
 - `EDITION`, `FORMAT`, `STATUS` 같은 짧은 기술 표기
 - 1px cobalt rail 또는 1px neutral divider
-- 작은 정사각형과 내부 offset square로 구성한 로고
+- 열린 두 개의 frame rail과 세로로 정렬한 두 개의 active cell로 구성한 로고
 
 사용 기준:
 
@@ -462,8 +462,14 @@ Latest articles:
 
 ### 10.2 Logo
 
-- square + offset square motif 유지.
-- animation은 hover 시 `1–4px` transform만.
+- 로고 이름은 **Active Field Mark**다.
+- 좌상단과 우하단의 열린 frame rail은 기술 문서의 좌표계와 확장 가능한 기록 영역을 뜻한다.
+- 중앙의 두 active cell은 축적되는 기록과 계속 움직이는 관점을 뜻한다.
+- `64×64` viewBox와 `8px` 기본 module을 유지해 작은 favicon에서도 형태가 뭉개지지 않게 한다.
+- symbol은 wordmark 없이 단독 사용 가능하며, header에서는 `20×20px`로 사용한다.
+- light theme은 `blueprint-700`, dark theme은 `blueprint-400`을 사용한다.
+- 공개 원본은 `/bluemiv-mark.svg`, app icon은 `src/app/icon.svg`를 사용하고 geometry를 동일하게 유지한다.
+- animation은 hover 시 active cell에만 `1–4px` transform을 허용한다.
 - glow, rotate loop 금지.
 
 ### 10.3 Link와 button
@@ -611,7 +617,7 @@ Latest articles:
 - link underline 확장
 - title color 변경
 - arrow 2–4px 이동
-- logo 내부 square 2–4px 이동
+- logo active cell 2–4px 이동
 - reading progress
 - theme transition
 

@@ -26,3 +26,8 @@ pnpm build
 - 기존 글, 앱 URL, 개인정보처리방침 URL 보존
 - 서비스 워커 캐시 미사용
 - `/sw.js`는 기존 클라이언트 정리용으로 영구 유지
+
+## 문서
+
+- [디자인 시스템](docs/design-system.md)
+- [에이전트 작업 규칙](AGENTS.md)

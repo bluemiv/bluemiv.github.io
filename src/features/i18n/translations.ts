@@ -70,10 +70,7 @@ type HomeCopy = {
   };
 };
 
-export const LANGUAGE_NAMES: Record<
-  Locale,
-  { native: string; english: string }
-> = {
+export const LANGUAGE_NAMES: Record<Locale, { native: string; english: string }> = {
   ko: { native: "한국어", english: "Korean" },
   en: { native: "English", english: "English" },
   ja: { native: "日本語", english: "Japanese" },
@@ -137,8 +134,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
   ko: {
     metadata: {
       title: "기술을 배우고 기록하는 개발 블로그",
-      description:
-        "Java, Spring, React, Next.js를 다루며 만난 문제와 선택의 이유를 기록합니다.",
+      description: "Java, Spring, React, Next.js를 다루며 만난 문제와 선택의 이유를 기록합니다.",
     },
     hero: {
       eyebrow: "Software · Architecture · Learning",
@@ -182,8 +178,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "02",
           topic: "Java",
           title: "POJO(Plain Old Java Object)란?",
-          description:
-            "프레임워크에 종속되지 않는 객체와 Spring에서의 활용 방식을 정리합니다.",
+          description: "프레임워크에 종속되지 않는 객체와 Spring에서의 활용 방식을 정리합니다.",
           date: "2025.12.26",
           dateTime: "2025-12-26",
         },
@@ -191,8 +186,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "03",
           topic: "Spring",
           title: "@RequestParam과 @PathVariable 사용법",
-          description:
-            "Query string과 경로 변수를 구분하고 선택하는 기준을 알아봅니다.",
+          description: "Query string과 경로 변수를 구분하고 선택하는 기준을 알아봅니다.",
           date: "2025.09.04",
           dateTime: "2025-09-04",
         },
@@ -200,8 +194,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "04",
           topic: "Spring",
           title: "HTTP 메서드와 매핑 어노테이션",
-          description:
-            "REST API의 HTTP 메서드와 Spring 매핑 어노테이션을 연결합니다.",
+          description: "REST API의 HTTP 메서드와 Spring 매핑 어노테이션을 연결합니다.",
           date: "2025.09.01",
           dateTime: "2025-09-01",
         },
@@ -220,8 +213,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
   en: {
     metadata: {
       title: "A developer blog for learning in public",
-      description:
-        "Notes on software, architecture, and the reasoning behind technical decisions.",
+      description: "Notes on software, architecture, and the reasoning behind technical decisions.",
     },
     hero: {
       eyebrow: "Software · Architecture · Learning",
@@ -283,8 +275,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "04",
           topic: "Spring",
           title: "HTTP methods and mapping annotations",
-          description:
-            "Connecting RESTful HTTP methods to Spring's request mapping annotations.",
+          description: "Connecting RESTful HTTP methods to Spring's request mapping annotations.",
           date: "2025.09.01",
           dateTime: "2025-09-01",
         },
@@ -303,8 +294,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
   ja: {
     metadata: {
       title: "学びと問題解決を記録する技術ブログ",
-      description:
-        "ソフトウェア、アーキテクチャ、技術選定の背景を丁寧に記録します。",
+      description: "ソフトウェア、アーキテクチャ、技術選定の背景を丁寧に記録します。",
     },
     hero: {
       eyebrow: "Software · Architecture · Learning",
@@ -348,8 +338,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "02",
           topic: "Java",
           title: "POJO（Plain Old Java Object）とは？",
-          description:
-            "フレームワークに依存しないオブジェクトと、Springでの活用方法を整理します。",
+          description: "フレームワークに依存しないオブジェクトと、Springでの活用方法を整理します。",
           date: "2025.12.26",
           dateTime: "2025-12-26",
         },
@@ -357,8 +346,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "03",
           topic: "Spring",
           title: "@RequestParamと@PathVariableの使い分け",
-          description:
-            "クエリ文字列とパス変数の違い、選択するときの基準を解説します。",
+          description: "クエリ文字列とパス変数の違い、選択するときの基準を解説します。",
           date: "2025.09.04",
           dateTime: "2025-09-04",
         },
@@ -366,8 +354,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
           number: "04",
           topic: "Spring",
           title: "HTTPメソッドとマッピングアノテーション",
-          description:
-            "REST APIのHTTPメソッドとSpringのマッピングアノテーションを結び付けます。",
+          description: "REST APIのHTTPメソッドとSpringのマッピングアノテーションを結び付けます。",
           date: "2025.09.01",
           dateTime: "2025-09-01",
         },

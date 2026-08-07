@@ -16,10 +16,7 @@ export function HomePage({ locale }: HomePageProps) {
   return (
     <>
       <section className="border-border relative overflow-hidden border-b">
-        <div
-          className="blueprint-grid pointer-events-none absolute inset-0"
-          aria-hidden="true"
-        />
+        <div className="blueprint-grid pointer-events-none absolute inset-0" aria-hidden="true" />
         <Container className="relative grid min-h-[560px] gap-12 py-14 md:grid-cols-[minmax(0,1fr)_240px] md:items-end md:py-16">
           <div className="max-w-[820px]">
             <p className="text-accent mb-8 flex items-center gap-3 font-mono text-[10px] font-semibold tracking-[0.16em] uppercase md:text-xs">
@@ -32,9 +29,7 @@ export function HomePage({ locale }: HomePageProps) {
               {copy.hero.lineTwo}
               <br />
               {copy.hero.lineThreePrefix}
-              <span className="font-display text-accent font-normal">
-                {copy.hero.accent}
-              </span>
+              <span className="font-display text-accent font-normal">{copy.hero.accent}</span>
               {copy.hero.lineThreeSuffix}
             </h1>
             <p className="text-muted mt-8 max-w-[660px] text-base leading-8 md:text-lg md:leading-9">
@@ -88,18 +83,11 @@ export function HomePage({ locale }: HomePageProps) {
             className="group border-border grid gap-8 border-b pb-14 md:grid-cols-[1fr_1.1fr] md:items-stretch"
           >
             <div className="border-border bg-accent-soft relative min-h-[280px] overflow-hidden border p-7 md:min-h-[360px]">
-              <div
-                className="blueprint-grid absolute inset-0"
-                aria-hidden="true"
-              />
+              <div className="blueprint-grid absolute inset-0" aria-hidden="true" />
               <div className="relative flex h-full flex-col justify-between">
-                <span className="text-accent font-mono text-xs">
-                  LANG / JVM / 087
-                </span>
+                <span className="text-accent font-mono text-xs">LANG / JVM / 087</span>
                 <div>
-                  <span className="font-display text-accent block text-7xl md:text-8xl">
-                    K
-                  </span>
+                  <span className="font-display text-accent block text-7xl md:text-8xl">K</span>
                   <span className="text-muted font-mono text-xs tracking-[0.18em] uppercase">
                     {copy.featured.topic}
                   </span>
@@ -121,23 +109,14 @@ export function HomePage({ locale }: HomePageProps) {
                 <span>#JVM</span>
                 <span>#Java</span>
               </div>
-              <span className="text-accent mt-9 text-sm font-bold">
-                {copy.featured.action} →
-              </span>
+              <span className="text-accent mt-9 text-sm font-bold">{copy.featured.action} →</span>
             </article>
           </Link>
         </section>
 
-        <section
-          id="latest-articles"
-          className="mt-24 scroll-mt-24"
-          aria-labelledby="latest-title"
-        >
+        <section id="latest-articles" className="mt-24 scroll-mt-24" aria-labelledby="latest-title">
           <div className="border-border grid gap-4 border-b pb-5 md:grid-cols-[1fr_2fr]">
-            <h2
-              id="latest-title"
-              className="text-sm font-bold tracking-[0.08em] uppercase"
-            >
+            <h2 id="latest-title" className="text-sm font-bold tracking-[0.08em] uppercase">
               {copy.latest.heading}
             </h2>
             <div className="flex items-center justify-between gap-4">
@@ -158,12 +137,8 @@ export function HomePage({ locale }: HomePageProps) {
                   href={articlesHref}
                   className="group hover:bg-surface grid grid-cols-[40px_minmax(0,1fr)] gap-x-3 gap-y-2 py-7 transition-colors md:grid-cols-[56px_120px_minmax(0,1fr)_100px] md:items-start md:px-3"
                 >
-                  <span className="text-subtle font-mono text-xs">
-                    {article.number}
-                  </span>
-                  <span className="text-accent font-mono text-xs uppercase">
-                    {article.topic}
-                  </span>
+                  <span className="text-subtle font-mono text-xs">{article.number}</span>
+                  <span className="text-accent font-mono text-xs uppercase">{article.topic}</span>
                   <span className="col-start-2 md:col-start-3 md:row-start-1">
                     <strong className="group-hover:text-accent block text-lg font-semibold tracking-[-0.02em] transition-colors md:text-xl">
                       {article.title}
@@ -191,9 +166,7 @@ export function HomePage({ locale }: HomePageProps) {
             <p className="text-blueprint-400 font-mono text-[10px] tracking-[0.16em] uppercase">
               {copy.notes.eyebrow}
             </p>
-            <h2 className="font-display mt-4 text-4xl md:text-5xl">
-              {copy.notes.heading}
-            </h2>
+            <h2 className="font-display mt-4 text-4xl md:text-5xl">{copy.notes.heading}</h2>
             <Link
               href={notesHref}
               className="text-blueprint-400 mt-6 inline-flex min-h-11 items-center text-xs font-bold"
@@ -208,9 +181,7 @@ export function HomePage({ locale }: HomePageProps) {
                   href={notesHref}
                   className="group grid min-h-20 grid-cols-[48px_1fr_24px] items-center gap-4 py-4 text-sm md:text-base"
                 >
-                  <span className="text-blueprint-400 font-mono text-xs">
-                    N{number}
-                  </span>
+                  <span className="text-blueprint-400 font-mono text-xs">N{number}</span>
                   <span>{title}</span>
                   <span
                     aria-hidden="true"

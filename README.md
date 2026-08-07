@@ -6,7 +6,8 @@ Bluemiv Tech Blog의 새 구조를 만드는 로컬 작업 브랜치입니다.
 
 ```bash
 pnpm install
-pnpm dev
+pnpm dev      # 개발 서버, port 4000
+pnpm start    # SSG build 후 out/ 정적 서버, port 4000
 ```
 
 개발 서버: `http://localhost:4000`
@@ -16,6 +17,7 @@ pnpm dev
 ```bash
 pnpm lint
 pnpm typecheck
+pnpm format
 pnpm format:check
 pnpm build
 ```
@@ -31,6 +33,7 @@ pnpm build
 ## 문서
 
 - [디자인 시스템](docs/design-system.md)
+- [명명 규칙](docs/naming-conventions.md)
 - [에이전트 작업 규칙](AGENTS.md)
 - [Feature 작업 규칙](src/features/AGENTS.md)
 - [오픈소스 폰트 고지](THIRD_PARTY_NOTICES.md)

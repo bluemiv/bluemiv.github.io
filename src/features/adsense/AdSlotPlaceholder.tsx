@@ -7,11 +7,7 @@ export function AdSlotPlaceholder({ format }: AdSlotPlaceholderProps) {
 
   return (
     <section
-      className={
-        isSidebar
-          ? "border-border border-t pt-8"
-          : "border-border border-y py-10"
-      }
+      className={isSidebar ? "border-border border-t pt-8" : "border-border border-y py-10"}
       aria-label="광고 영역 미리보기"
     >
       <p className="text-subtle mb-3 text-center font-mono text-[9px] tracking-[0.16em] uppercase">

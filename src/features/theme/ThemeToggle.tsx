@@ -24,11 +24,8 @@ function subscribeToTheme(onStoreChange: () => void) {
   function handleStorage(event: StorageEvent) {
     if (event.key !== "theme") return;
 
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-    const nextIsDark =
-      event.newValue === "dark" || (event.newValue === null && prefersDark);
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const nextIsDark = event.newValue === "dark" || (event.newValue === null && prefersDark);
     document.documentElement.classList.toggle("dark", nextIsDark);
     onStoreChange();
   }
@@ -51,11 +48,7 @@ function getServerThemeSnapshot(): boolean | null {
 }
 
 export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
-  const isDark = useSyncExternalStore(
-    subscribeToTheme,
-    getThemeSnapshot,
-    getServerThemeSnapshot,
-  );
+  const isDark = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   function toggleTheme() {
     const nextIsDark = document.documentElement.classList.toggle("dark");
@@ -73,9 +66,7 @@ export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
     <button
       type="button"
       onClick={toggleTheme}
-      aria-label={
-        isDark === null ? labels.toggle : isDark ? labels.light : labels.dark
-      }
+      aria-label={isDark === null ? labels.toggle : isDark ? labels.light : labels.dark}
       aria-pressed={isDark ?? undefined}
       className="border-border text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-l pl-3 text-xs font-bold tracking-[0.12em] uppercase transition-colors md:pl-6"
     >

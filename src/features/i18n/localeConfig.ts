@@ -3,10 +3,7 @@ export const SUPPORTED_LOCALES = ["ko", "en", "ja"] as const;
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "ko";
-export const PREFIXED_LOCALES = [
-  "en",
-  "ja",
-] as const satisfies readonly Locale[];
+export const PREFIXED_LOCALES = ["en", "ja"] as const satisfies readonly Locale[];
 
 export type PrefixedLocale = (typeof PREFIXED_LOCALES)[number];
 
@@ -22,9 +19,7 @@ export function getLocalizedPath(locale: Locale, path = ""): string {
   const normalizedPath = path.replace(/^\/+|\/+$/g, "");
   const localePrefix = locale === DEFAULT_LOCALE ? "" : `/${locale}`;
 
-  return normalizedPath
-    ? `${localePrefix}/${normalizedPath}/`
-    : `${localePrefix}/`;
+  return normalizedPath ? `${localePrefix}/${normalizedPath}/` : `${localePrefix}/`;
 }
 
 export function getLanguageAlternates(path = "") {

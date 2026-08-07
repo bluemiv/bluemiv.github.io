@@ -22,9 +22,7 @@ async function deleteLegacyCaches() {
   );
 
   return legacyCacheNames.filter(
-    (_, index) =>
-      deletionResults[index].status === "fulfilled" &&
-      deletionResults[index].value,
+    (_, index) => deletionResults[index].status === "fulfilled" && deletionResults[index].value,
   );
 }
 

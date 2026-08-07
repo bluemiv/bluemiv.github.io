@@ -40,10 +40,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
           <nav aria-label={copy.navigationLabel}>
             <ul className="text-muted flex items-center text-xs font-semibold sm:gap-1 md:gap-2">
               {navItems.map((item) => (
-                <li
-                  key={item.href}
-                  className={item.mobile ? undefined : "hidden sm:block"}
-                >
+                <li key={item.href} className={item.mobile ? undefined : "hidden sm:block"}>
                   <Link
                     className="hover:text-foreground inline-flex min-h-11 items-center px-2 transition-colors"
                     href={item.href}

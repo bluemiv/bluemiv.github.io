@@ -18,10 +18,7 @@ const RECOMMENDED_ARTICLES = [
 
 export function MobileTopicIndex() {
   return (
-    <section
-      className="border-border border-b pb-6 xl:hidden"
-      aria-labelledby="mobile-topic-title"
-    >
+    <section className="border-border border-b pb-6 xl:hidden" aria-labelledby="mobile-topic-title">
       <h2
         id="mobile-topic-title"
         className="text-subtle mb-4 font-mono text-[10px] tracking-[0.16em] uppercase"
@@ -37,9 +34,7 @@ export function MobileTopicIndex() {
             }`}
           >
             <span>{topic.name}</span>
-            <span className="text-subtle font-mono text-[10px]">
-              {topic.count}
-            </span>
+            <span className="text-subtle font-mono text-[10px]">{topic.count}</span>
           </li>
         ))}
       </ul>
@@ -52,10 +47,7 @@ export function ArticleSidebar() {
     <aside className="hidden w-[300px] xl:block" aria-label="글 탐색과 광고">
       <section aria-labelledby="topic-title">
         <div className="border-border flex items-end justify-between border-b pb-4">
-          <h2
-            id="topic-title"
-            className="text-xs font-bold tracking-[0.08em] uppercase"
-          >
+          <h2 id="topic-title" className="text-xs font-bold tracking-[0.08em] uppercase">
             Browse by topic
           </h2>
           <span className="text-subtle font-mono text-[9px]">07 TOPICS</span>
@@ -65,20 +57,14 @@ export function ArticleSidebar() {
             <li
               key={topic.name}
               className={`border-border grid grid-cols-[28px_1fr_auto] items-center gap-3 border-b py-4 text-sm ${
-                topic.active
-                  ? "border-l-accent text-accent border-l pl-3"
-                  : "text-muted"
+                topic.active ? "border-l-accent text-accent border-l pl-3" : "text-muted"
               }`}
             >
               <span className="text-subtle font-mono text-[10px]">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className={topic.active ? "font-semibold" : undefined}>
-                {topic.name}
-              </span>
-              <span className="text-subtle font-mono text-[10px]">
-                {topic.count}
-              </span>
+              <span className={topic.active ? "font-semibold" : undefined}>{topic.name}</span>
+              <span className="text-subtle font-mono text-[10px]">{topic.count}</span>
             </li>
           ))}
         </ol>
@@ -93,10 +79,7 @@ export function ArticleSidebar() {
           <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
             Next reading
           </p>
-          <h2
-            id="recommended-title"
-            className="mt-2 text-xs font-bold tracking-[0.08em] uppercase"
-          >
+          <h2 id="recommended-title" className="mt-2 text-xs font-bold tracking-[0.08em] uppercase">
             추천 글
           </h2>
         </div>
@@ -106,18 +89,12 @@ export function ArticleSidebar() {
               key={article.number}
               className="border-border grid grid-cols-[28px_1fr] gap-3 border-b py-4"
             >
-              <span className="text-accent font-mono text-[10px]">
-                {article.number}
-              </span>
-              <span className="text-muted text-sm leading-6">
-                {article.title}
-              </span>
+              <span className="text-accent font-mono text-[10px]">{article.number}</span>
+              <span className="text-muted text-sm leading-6">{article.title}</span>
             </li>
           ))}
         </ol>
-        <p className="text-subtle mt-4 font-mono text-[9px] leading-5">
-          콘텐츠 이관 후 링크 연결
-        </p>
+        <p className="text-subtle mt-4 font-mono text-[9px] leading-5">콘텐츠 이관 후 링크 연결</p>
       </section>
     </aside>
   );

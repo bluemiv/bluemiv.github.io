@@ -1,11 +1,7 @@
 import Link from "next/link";
 
 import { LANGUAGE_NAMES, SITE_COPY } from "./translations";
-import {
-  getLocalizedPath,
-  SUPPORTED_LOCALES,
-  type Locale,
-} from "./localeConfig";
+import { getLocalizedPath, SUPPORTED_LOCALES, type Locale } from "./localeConfig";
 
 type LocaleSwitcherProps = {
   locale: Locale;
@@ -20,10 +16,7 @@ export function LocaleSwitcher({ locale, path = "" }: LocaleSwitcherProps) {
         aria-label={SITE_COPY[locale].languageLabel}
       >
         <span>{locale.toUpperCase()}</span>
-        <span
-          aria-hidden="true"
-          className="text-subtle transition-transform group-open:rotate-180"
-        >
+        <span aria-hidden="true" className="text-subtle transition-transform group-open:rotate-180">
           ↓
         </span>
       </summary>

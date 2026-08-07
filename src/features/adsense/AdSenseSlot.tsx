@@ -28,23 +28,14 @@ function useMediaQuery(query: string): boolean | null {
     },
     [query],
   );
-  const getSnapshot = useCallback(
-    () => window.matchMedia(query).matches,
-    [query],
-  );
+  const getSnapshot = useCallback(() => window.matchMedia(query).matches, [query]);
 
-  return useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    getServerViewportSnapshot,
-  );
+  return useSyncExternalStore(subscribe, getSnapshot, getServerViewportSnapshot);
 }
 
 export function AdSenseSlot({ format }: AdSenseSlotProps) {
   const isSidebar = format === "sidebar";
-  const matchesViewport = useMediaQuery(
-    isSidebar ? "(min-width: 1280px)" : "(max-width: 1279px)",
-  );
+  const matchesViewport = useMediaQuery(isSidebar ? "(min-width: 1280px)" : "(max-width: 1279px)");
   const adRef = useRef<HTMLModElement>(null);
 
   useEffect(() => {
@@ -74,11 +65,7 @@ export function AdSenseSlot({ format }: AdSenseSlotProps) {
 
   return (
     <section
-      className={
-        isSidebar
-          ? "border-border border-t pt-8"
-          : "border-border border-y py-10"
-      }
+      className={isSidebar ? "border-border border-t pt-8" : "border-border border-y py-10"}
       aria-label="광고"
     >
       <p className="text-subtle mb-3 text-center font-mono text-[9px] tracking-[0.16em] uppercase">

@@ -94,7 +94,10 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 ### 3.2 언어
 
 - 본문과 주요 안내는 한국어.
-- `Articles`, `Notes`, `Apps`, `About` 같은 짧은 navigation label은 영어 허용.
+- `Articles`, `Notes`, `Apps`, `About`처럼 짧고 익숙한 구조명은 모든 locale에서 영어를 유지한다.
+- `Featured`, `Latest`, `Status` 같은 쉬운 단어는 짧은 분류·장식 label일 때 영어를 우선한다.
+- 문장, CTA, 오류, 도움말, 접근성 label은 사용자가 자연스럽게 이해하도록 각 locale 언어로 번역한다.
+- 해당 언어권에서 현지어 표기가 일반적인 용어는 쉬운 영어라도 자연스러운 현지어를 우선한다.
 - `FIELD NOTES`, `EDITION` 같은 영어 표기는 장식 또는 분류에만 제한.
 - 한 문장 안에서 한국어와 영어를 불필요하게 섞지 않는다.
 - hero copy는 2~4행, 설명은 2문장 이하.

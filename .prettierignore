@@ -1,0 +1,6 @@
+.next/
+out/
+node_modules/
+.idea/
+pnpm-lock.yaml
+next-env.d.ts

@@ -169,7 +169,7 @@ Tailwind 예:
 <main className="bg-canvas text-foreground">
   <p className="text-muted">설명</p>
   <a className="text-accent hover:text-accent-hover">링크</a>
-  <section className="border border-border bg-surface">...</section>
+  <section className="border-border bg-surface border">...</section>
 </main>
 ```
 

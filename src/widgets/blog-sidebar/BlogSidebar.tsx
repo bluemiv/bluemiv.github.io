@@ -19,25 +19,25 @@ const RECOMMENDED_ARTICLES = [
 export function MobileCategoryIndex() {
   return (
     <section
-      className="border-b border-border pb-6 xl:hidden"
+      className="border-border border-b pb-6 xl:hidden"
       aria-labelledby="mobile-category-title"
     >
       <h2
         id="mobile-category-title"
-        className="mb-4 font-mono text-[10px] uppercase tracking-[0.16em] text-subtle"
+        className="text-subtle mb-4 font-mono text-[10px] tracking-[0.16em] uppercase"
       >
         Browse by topic
       </h2>
-      <ul className="flex gap-6 overflow-x-auto pb-2 text-sm [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <ul className="flex [scrollbar-width:none] gap-6 overflow-x-auto pb-2 text-sm [&::-webkit-scrollbar]:hidden">
         {CATEGORIES.map((category) => (
           <li
             key={category.name}
             className={`flex shrink-0 items-center gap-2 whitespace-nowrap ${
-              category.active ? "font-semibold text-accent" : "text-muted"
+              category.active ? "text-accent font-semibold" : "text-muted"
             }`}
           >
             <span>{category.name}</span>
-            <span className="font-mono text-[10px] text-subtle">
+            <span className="text-subtle font-mono text-[10px]">
               {category.count}
             </span>
           </li>
@@ -51,32 +51,32 @@ export function BlogSidebar() {
   return (
     <aside className="hidden w-[300px] xl:block" aria-label="글 탐색과 광고">
       <section aria-labelledby="category-title">
-        <div className="flex items-end justify-between border-b border-border pb-4">
+        <div className="border-border flex items-end justify-between border-b pb-4">
           <h2
             id="category-title"
-            className="text-xs font-bold uppercase tracking-[0.08em]"
+            className="text-xs font-bold tracking-[0.08em] uppercase"
           >
             Browse by topic
           </h2>
-          <span className="font-mono text-[9px] text-subtle">07 TOPICS</span>
+          <span className="text-subtle font-mono text-[9px]">07 TOPICS</span>
         </div>
         <ol>
           {CATEGORIES.map((category, index) => (
             <li
               key={category.name}
-              className={`grid grid-cols-[28px_1fr_auto] items-center gap-3 border-b border-border py-4 text-sm ${
+              className={`border-border grid grid-cols-[28px_1fr_auto] items-center gap-3 border-b py-4 text-sm ${
                 category.active
-                  ? "border-l border-l-accent pl-3 text-accent"
+                  ? "border-l-accent text-accent border-l pl-3"
                   : "text-muted"
               }`}
             >
-              <span className="font-mono text-[10px] text-subtle">
+              <span className="text-subtle font-mono text-[10px]">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className={category.active ? "font-semibold" : undefined}>
                 {category.name}
               </span>
-              <span className="font-mono text-[10px] text-subtle">
+              <span className="text-subtle font-mono text-[10px]">
                 {category.count}
               </span>
             </li>
@@ -89,13 +89,13 @@ export function BlogSidebar() {
       </div>
 
       <section className="mt-14" aria-labelledby="recommended-title">
-        <div className="border-b border-border pb-4">
-          <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-accent">
+        <div className="border-border border-b pb-4">
+          <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
             Next reading
           </p>
           <h2
             id="recommended-title"
-            className="mt-2 text-xs font-bold uppercase tracking-[0.08em]"
+            className="mt-2 text-xs font-bold tracking-[0.08em] uppercase"
           >
             추천 글
           </h2>
@@ -104,18 +104,18 @@ export function BlogSidebar() {
           {RECOMMENDED_ARTICLES.map((article) => (
             <li
               key={article.number}
-              className="grid grid-cols-[28px_1fr] gap-3 border-b border-border py-4"
+              className="border-border grid grid-cols-[28px_1fr] gap-3 border-b py-4"
             >
-              <span className="font-mono text-[10px] text-accent">
+              <span className="text-accent font-mono text-[10px]">
                 {article.number}
               </span>
-              <span className="text-sm leading-6 text-muted">
+              <span className="text-muted text-sm leading-6">
                 {article.title}
               </span>
             </li>
           ))}
         </ol>
-        <p className="mt-4 font-mono text-[9px] leading-5 text-subtle">
+        <p className="text-subtle mt-4 font-mono text-[9px] leading-5">
           콘텐츠 이관 후 링크 연결
         </p>
       </section>

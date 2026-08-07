@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/atoms/Container";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 
 type PropsWithNotesIndexPage = {
@@ -28,12 +29,6 @@ function formatDate(dateTime: string, locale: Locale): string {
     day: "2-digit",
     timeZone: SITE_CONFIG.timeZone,
   }).format(new Date(dateTime));
-}
-
-function getNoteNumber(id: string): string {
-  const number = Number(id.split("-").at(-1));
-
-  return Number.isInteger(number) ? String(number).padStart(2, "0") : "00";
 }
 
 function NoteRow({ locale, note }: PropsWithNoteRow) {

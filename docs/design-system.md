@@ -464,6 +464,12 @@ Short notes:
 - 목록 header에는 실제 공개 note 수와 최신순 정렬 상태만 간결하게 표시한다.
 - note row는 번호, tag, 제목, 설명, 발행일 순서의 divider list로 구성한다.
 - mobile에서는 날짜를 본문 아래로 옮기고 설명은 최대 3행으로 제한한다.
+- 상세 페이지는 최대 `760px` 단일 reading column을 사용하고 sidebar, 광고, TOC, 큰 cover를 두지 않는다.
+- 상세 header는 목록 복귀, `Note / N01`, 제목, 설명, 작성·발행·수정 정보 순서로 구성한다.
+- article 본문 스타일을 공유하되 heading 간격은 짧은 호흡에 맞게 줄인다.
+- 한국어 제목, 설명, 본문은 어절 우선으로 줄바꿈하고 긴 code와 URL은 `overflow-wrap` fallback을 유지한다.
+- 본문 뒤에는 tag와 더 이전·더 최근 note 탐색을 둔다.
+- `coverImage`는 상세의 Open Graph, Twitter Card, 구조화 데이터에 사용하고 화면 상단에는 반복 노출하지 않는다.
 
 ### 9.5 Apps
 

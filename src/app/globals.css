@@ -501,6 +501,18 @@ select {
   border-top: 1px solid var(--theme-border);
 }
 
+.note-body h2 {
+  margin-top: 3.75rem;
+}
+
+.note-body {
+  word-break: keep-all;
+}
+
+.note-body h3 {
+  margin-top: 2.75rem;
+}
+
 @media (max-width: 639px) {
   .article-body {
     font-size: 1rem;
@@ -513,6 +525,14 @@ select {
 
   .article-body h3 {
     margin-top: 2.75rem;
+  }
+
+  .note-body h2 {
+    margin-top: 3.25rem;
+  }
+
+  .note-body h3 {
+    margin-top: 2.25rem;
   }
 
   .article-body figure[data-rehype-pretty-code-figure] {

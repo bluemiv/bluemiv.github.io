@@ -1,44 +1,135 @@
-import { Container } from "@/components/atoms/Container";
-import type { NoteMetadata } from "@/features/note/noteMetadata";
+import type { PropsWithChildren } from "react";
 
-type NoteDetailPageProps = {
+import Link from "next/link";
+
+import { Container } from "@/components/atoms/Container";
+import { SITE_CONFIG } from "@/config/siteConfig";
+import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { getNoteNumber } from "@/features/note/noteIdentifier";
+import type { NoteMetadata } from "@/features/note/noteMetadata";
+import type { NoteNavigation } from "@/features/note/noteNavigation";
+
+type PropsWithNoteDetailPage = PropsWithChildren<{
+  navigation: NoteNavigation;
   note: NoteMetadata;
-};
+}>;
 
 const DATE_FORMATTER = new Intl.DateTimeFormat("ko-KR", {
   year: "numeric",
   month: "long",
   day: "numeric",
-  timeZone: "Asia/Seoul",
+  timeZone: SITE_CONFIG.timeZone,
 });
 
-export function NoteDetailPage({ note }: NoteDetailPageProps) {
+function getNotePath(slug: string): string {
+  return getLocalizedPath("ko", `notes/${slug}`);
+}
+
+export function NoteDetailPage({ note, navigation, children }: PropsWithNoteDetailPage) {
+  const hasModifiedDate = note.modifiedAt !== note.publishedAt;
+
   return (
-    <Container className="py-16 md:py-24">
-      <article className="max-w-[760px]">
-        <header className="border-border border-b pb-12 md:pb-16">
-          <p className="text-accent font-mono text-[10px] font-semibold tracking-[0.16em] uppercase">
-            Note
-          </p>
-          <h1 className="mt-5 text-4xl font-semibold tracking-[-0.045em] text-balance md:text-6xl">
+    <Container className="py-12 md:py-20">
+      <article className="max-w-[760px]" aria-labelledby="note-title">
+        <header>
+          <Link
+            href={getLocalizedPath("ko", "notes")}
+            className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-[10px] tracking-[0.12em] uppercase transition-colors"
+          >
+            <span aria-hidden="true">←</span>
+            <span className="ml-2">All notes</span>
+          </Link>
+
+          <div className="mt-8 flex items-center gap-4">
+            <span className="bg-accent h-px w-8" aria-hidden="true" />
+            <p className="text-accent font-mono text-[10px] font-semibold tracking-[0.16em] uppercase">
+              Note / N{getNoteNumber(note.id)}
+            </p>
+          </div>
+
+          <h1
+            id="note-title"
+            className="mt-6 text-[2.5rem] leading-[1.14] font-semibold tracking-[-0.05em] text-balance break-keep md:text-[3.5rem]"
+          >
             {note.title}
           </h1>
-          <p className="text-muted mt-6 text-lg leading-9">{note.description}</p>
-          <dl className="text-muted mt-8 flex flex-wrap gap-x-5 gap-y-2 text-xs">
+          <p className="text-muted mt-7 text-lg leading-8 text-pretty break-keep md:text-xl md:leading-9">
+            {note.description}
+          </p>
+
+          <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-xs">
             <div className="flex gap-2">
-              <dt>작성</dt>
+              <dt className="text-subtle">작성</dt>
               <dd>{note.author}</dd>
             </div>
             <div className="flex gap-2">
-              <dt>발행</dt>
+              <dt className="text-subtle">발행</dt>
               <dd>
                 <time dateTime={note.publishedAt}>
                   {DATE_FORMATTER.format(new Date(note.publishedAt))}
                 </time>
               </dd>
             </div>
+            {hasModifiedDate ? (
+              <div className="flex gap-2">
+                <dt className="text-subtle">수정</dt>
+                <dd>
+                  <time dateTime={note.modifiedAt}>
+                    {DATE_FORMATTER.format(new Date(note.modifiedAt))}
+                  </time>
+                </dd>
+              </div>
+            ) : null}
           </dl>
         </header>
+
+        <div className="article-body note-body mt-12 md:mt-16">{children}</div>
+
+        {note.tags.length ? (
+          <footer className="border-border mt-14 border-t pt-7">
+            <p className="text-subtle font-mono text-[9px] tracking-[0.16em] uppercase">
+              Filed under
+            </p>
+            <ul className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+              {note.tags.map((tag) => (
+                <li key={tag}>#{tag}</li>
+              ))}
+            </ul>
+          </footer>
+        ) : null}
+
+        {navigation.olderNote || navigation.newerNote ? (
+          <nav
+            className="border-border mt-14 grid border-y sm:grid-cols-2"
+            aria-label="더 이전 기록과 더 최근 기록"
+          >
+            {navigation.olderNote ? (
+              <Link href={getNotePath(navigation.olderNote.slug)} className="group py-7 sm:pr-7">
+                <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
+                  ← 더 이전 기록
+                </span>
+                <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold transition-colors">
+                  {navigation.olderNote.title}
+                </span>
+              </Link>
+            ) : null}
+            {navigation.newerNote ? (
+              <Link
+                href={getNotePath(navigation.newerNote.slug)}
+                className={`border-border group py-7 sm:border-l sm:pl-7 sm:text-right ${
+                  navigation.olderNote ? "border-t sm:border-t-0" : "sm:col-start-2"
+                }`}
+              >
+                <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
+                  더 최근 기록 →
+                </span>
+                <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold transition-colors">
+                  {navigation.newerNote.title}
+                </span>
+              </Link>
+            ) : null}
+          </nav>
+        ) : null}
       </article>
     </Container>
   );

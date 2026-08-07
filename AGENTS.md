@@ -101,6 +101,18 @@ coverImage: /r/i/example/cover.webp
 - semantic color token과 Tailwind CSS 사용.
 - light/dark, mobile/desktop, keyboard, reduced motion 확인.
 
+## locale별 폰트
+
+| locale | Sans            | Display serif | Mono          |
+| ------ | --------------- | ------------- | ------------- |
+| `ko`   | Wanted Sans     | Noto Serif KR | IBM Plex Mono |
+| `en`   | Instrument Sans | Newsreader    | IBM Plex Mono |
+| `ja`   | Noto Sans JP    | Noto Serif JP | IBM Plex Mono |
+
+- `src/app/globals.css`의 `:root:lang(...)`에서 locale별 font token을 교체한다.
+- 폰트는 npm version을 고정하고 self-host한다. 외부 CDN을 사용하지 않는다.
+- 폰트 변경 시 `docs/design-system.md`와 `THIRD_PARTY_NOTICES.md`를 함께 갱신한다.
+
 ## Service Worker
 
 - `public/sw.js`는 구형 캐시 제거용 tombstone이다.

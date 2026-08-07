@@ -1,1 +1,0 @@
-export { ShortPostGroup } from './ShortPostGroup';

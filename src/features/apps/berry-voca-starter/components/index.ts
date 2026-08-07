@@ -1,1 +1,0 @@
-export { BerryVocaStarterPrivacyContent } from './BerryVocaStarterPrivacyContent';

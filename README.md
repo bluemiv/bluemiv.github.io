@@ -1,21 +1,28 @@
-# bluemiv.github.io
+# Bluemiv Tech Blog V2
 
-> Bluemiv Tech Blog — 프론트엔드·백엔드·알고리즘 등을 다루는 개인 기술 블로그.
+Bluemiv Tech Blog의 새 구조를 만드는 로컬 작업 브랜치입니다.
 
-- 라이브: https://bluemiv.github.io
-- 스택: Next.js 16 (App Router, Turbopack), React 19, TypeScript 5, Tailwind CSS v4, MDX.
-- 배포: GitHub Pages (Static Export).
-
-## 개발
+## 실행
 
 ```bash
 pnpm install
-pnpm dev      # http://localhost:3333
-pnpm build    # 정적 export → out/
-pnpm lint
-pnpm format
+pnpm dev
 ```
 
-## License
+개발 서버: `http://localhost:4000`
 
-이 저장소의 코드는 개인 학습/포트폴리오 용도이며, 블로그 콘텐츠(`src/_posts`, `src/_short`)의 저작권은 작성자에게 있습니다.
+## 검증
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm build
+```
+
+## 원칙
+
+- GitHub Pages용 static export
+- 읽기 중심 UI
+- 기존 글, 앱 URL, 개인정보처리방침 URL 보존
+- 서비스 워커 캐시 미사용
+- `/sw.js`는 기존 클라이언트 정리용으로 영구 유지

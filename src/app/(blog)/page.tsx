@@ -18,24 +18,24 @@ export default function HomePage() {
         <h1 className="text-5xl font-semibold leading-[1.08] tracking-[-0.055em] md:text-7xl">
           배운 것을 오래 남기는 기술 기록.
         </h1>
-        <p className="mt-7 max-w-[680px] text-lg leading-8 text-ink-muted md:text-xl md:leading-9">
+        <p className="mt-7 max-w-[680px] text-lg leading-8 text-muted md:text-xl md:leading-9">
           Java, Spring, React, Next.js를 다루며 만난 문제와 해결 과정을 읽기 좋은 형태로
           정리합니다.
         </p>
         <Link
           href="/articles"
-          className="mt-9 inline-flex border-b border-ink pb-1 text-sm font-bold transition-colors hover:border-accent hover:text-accent"
+          className="mt-9 inline-flex border-b border-foreground pb-1 text-sm font-bold transition-colors hover:border-accent hover:text-accent"
         >
           글 보러 가기 →
         </Link>
       </section>
 
-      <section className="mt-20 border-t border-line" aria-labelledby="foundation-title">
+      <section className="mt-20 border-t border-border" aria-labelledby="foundation-title">
         <div className="grid gap-4 py-7 md:grid-cols-[1fr_2fr]">
           <h2 id="foundation-title" className="text-sm font-bold">
             V2 Foundation
           </h2>
-          <p className="max-w-[620px] text-sm leading-7 text-ink-muted">
+          <p className="max-w-[620px] text-sm leading-7 text-muted">
             장식보다 정보 계층, 타이포그래피, 여백을 먼저 설계합니다.
           </p>
         </div>
@@ -43,11 +43,11 @@ export default function HomePage() {
           {FOUNDATIONS.map(([number, title, description]) => (
             <li
               key={number}
-              className="grid gap-3 border-t border-line py-7 md:grid-cols-[1fr_1fr_2fr] md:items-baseline"
+              className="grid gap-3 border-t border-border py-7 md:grid-cols-[1fr_1fr_2fr] md:items-baseline"
             >
-              <span className="font-mono text-xs text-ink-muted">{number}</span>
+              <span className="font-mono text-xs text-muted">{number}</span>
               <h3 className="font-semibold">{title}</h3>
-              <p className="text-sm leading-7 text-ink-muted">{description}</p>
+              <p className="text-sm leading-7 text-muted">{description}</p>
             </li>
           ))}
         </ol>

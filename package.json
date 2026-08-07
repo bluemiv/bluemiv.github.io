@@ -11,6 +11,8 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@fontsource-variable/noto-serif-kr": "5.3.0",
+    "@ibm/plex-mono": "2.5.0",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "16.3.0",
@@ -26,6 +28,7 @@
     "remark-gfm": "^4.0.1",
     "shiki": "^4.4.2",
     "tailwind-merge": "^3.6.0",
+    "wanted-sans": "1.0.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {

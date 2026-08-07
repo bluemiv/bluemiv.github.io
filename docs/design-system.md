@@ -196,13 +196,13 @@ Tailwind 예:
 
 ### 5.1 Font roles
 
-| Role          | Font                 | 용도                                          |
-| ------------- | -------------------- | --------------------------------------------- |
-| Sans          | Pretendard Variable  | 본문, navigation, UI, 기본 제목               |
-| Display serif | Noto Serif KR        | hero 강조어, 인용문, 제한된 editorial heading |
-| Mono          | SFMono/Consolas 계열 | 번호, 날짜, category, code                    |
+| Role          | Font                   | Weight  | 용도                                          |
+| ------------- | ---------------------- | ------- | --------------------------------------------- |
+| Sans          | Wanted Sans Variable   | 400–700 | 본문, navigation, UI, 기본 제목               |
+| Display serif | Noto Serif KR Variable | 400–600 | hero 강조어, 인용문, 제한된 editorial heading |
+| Mono          | IBM Plex Mono          | 400/600 | 번호, 날짜, category, code                    |
 
-현재 sans/display는 시스템 fallback 상태다. production 이전에 한국어 glyph를 포함한 font를 self-host해야 한다. OS별 fallback 결과를 최종 디자인으로 간주하지 않는다.
+세 폰트는 모두 OFL 라이선스이며 npm package에 버전을 고정한다. Wanted Sans와 Noto Serif KR은 `unicode-range`로 분할된 WOFF2를 번들링하고, IBM Plex Mono는 `next/font/local`로 Regular와 SemiBold WOFF2만 포함한다. 브라우저가 외부 CDN에 요청하지 않도록 모든 폰트 asset은 static export 결과물에서 self-host한다.
 
 ### 5.2 사용 비율
 
@@ -210,6 +210,9 @@ Tailwind 예:
 - hero 전체를 serif로 만들지 않는다.
 - display serif는 한 heading 안의 강조어 또는 짧은 문장에만 사용한다.
 - mono는 metadata와 code에만 사용한다. 긴 설명에 사용하지 않는다.
+- 한글에 synthetic italic을 적용하지 않는다. 실제 italic face를 추가하기 전까지 display serif는 normal style만 사용한다.
+- 분할된 한글 폰트는 필요한 glyph asset만 브라우저가 선택하게 하며, 전체 한글 폰트 파일을 수동 preload하지 않는다.
+- Mono는 주요 콘텐츠 렌더링을 막지 않도록 preload하지 않는다.
 
 ### 5.3 Type scale
 
@@ -763,18 +766,13 @@ text-accent / bg-accent / border-accent
 
 다음 항목은 V2 production 전 해결한다.
 
-1. Pretendard Variable self-host
-2. 한국어 display serif 확정 및 self-host
-3. mobile navigation 구현
-4. theme toggle 현재 상태 접근성 제공
-5. article detail 실제 MDX 시안
-6. category별 cover system
-7. search interaction
-8. responsive visual QA
-9. `theme-color` 동기화 검토
-10. hero 높이 `540–580px` 범위로 최종 조정
-11. category와 추천 글을 실제 콘텐츠 route에 연결
-12. AdSense ID, consent, 실제 광고 슬롯 연동
+1. article detail 실제 MDX 시안
+2. category별 cover system
+3. search interaction
+4. responsive visual QA
+5. `theme-color` 동기화 검토
+6. category와 추천 글을 실제 콘텐츠 route에 연결
+7. AdSense ID, consent, 실제 광고 슬롯 연동
 
 ## 20. 변경 관리
 

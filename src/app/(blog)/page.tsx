@@ -72,9 +72,7 @@ export default function HomePage() {
               <br />
               문제를 풀고,
               <br />
-              <span className="font-display text-accent font-normal italic">
-                기록
-              </span>
+              <span className="font-display text-accent font-normal">기록</span>
               으로 남깁니다.
             </h1>
             <p className="text-muted mt-9 max-w-[660px] text-base leading-8 md:text-lg md:leading-9">
@@ -131,7 +129,7 @@ export default function HomePage() {
                   LANG / JVM / 087
                 </span>
                 <div>
-                  <span className="font-display text-accent block text-7xl italic md:text-8xl">
+                  <span className="font-display text-accent block text-7xl md:text-8xl">
                     K
                   </span>
                   <span className="text-muted font-mono text-xs tracking-[0.18em] uppercase">
@@ -225,7 +223,7 @@ export default function HomePage() {
             <p className="text-blueprint-400 font-mono text-[10px] tracking-[0.16em] uppercase">
               Short Notes
             </p>
-            <h2 className="font-display mt-4 text-4xl italic md:text-5xl">
+            <h2 className="font-display mt-4 text-4xl md:text-5xl">
               짧게 남긴 생각.
             </h2>
           </div>

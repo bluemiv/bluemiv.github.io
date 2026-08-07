@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.css";
+@import "@fontsource-variable/noto-serif-kr";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -28,9 +30,9 @@
   --color-blueprint-900: #1e3a82;
   --color-blueprint-950: #142452;
 
-  --font-sans: Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-  --font-display: Georgia, "Noto Serif KR", "Nanum Myeongjo", serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-sans: "Wanted Sans Variable", "Wanted Sans", system-ui, sans-serif;
+  --font-display: "Noto Serif KR Variable", "Noto Serif KR", serif;
+  --font-mono: var(--font-ibm-plex-mono), "SFMono-Regular", Consolas, monospace;
 }
 
 :root {

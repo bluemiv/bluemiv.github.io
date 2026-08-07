@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ServiceWorkerCleanup } from "@/features/service-worker/ServiceWorkerCleanup";
 import { SITE_CONFIG } from "@/shared/config/site";
 
+import { ibmPlexMono } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export const dynamic = "error";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang="ko" className={ibmPlexMono.variable} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{

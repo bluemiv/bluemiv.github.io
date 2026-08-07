@@ -53,6 +53,10 @@ app ────────────────────→ shared
 - `shared`: 여러 도메인에서 재사용 가능한 UI, config, utility만 둔다. `features`, `widgets`, `app`을 import하지 않는다.
 - 의존은 위 방향으로만 흐른다. `features`가 `widgets` 또는 `app`을 import하거나, `widgets`가 `app`을 import하지 않는다.
 - route 전용이며 재사용되지 않는 작은 표현은 `app`에 둘 수 있다. 두 곳 이상에서 재사용되거나 독립 책임을 가지면 알맞은 계층으로 이동한다.
+- header, footer, locale switcher, site shell처럼 여러 route에서 반복되는 layout과 상호작용은 반드시 독립 컴포넌트로 분리한다.
+- route `layout.tsx`와 `page.tsx`는 document 구조, metadata, route parameter 처리, 큰 화면 조합에 집중한다. 반복 UI의 세부 markup을 쌓지 않는다.
+- locale마다 같은 JSX를 복사하지 않는다. 공통 컴포넌트에 locale과 번역 data를 전달하여 구조와 동작을 공유한다.
+- 두 곳 이상에서 재사용되거나 독립된 이름·책임·검증 기준이 있는 UI를 컴포넌트로 추출한다. 한 번만 쓰는 단순 wrapper까지 의미 없이 분리하지 않는다.
 - 새 최상위 계층을 임의로 만들지 않는다. 현재 계층으로 표현하기 어려울 때 구조 변경 이유와 경계를 먼저 문서화한다.
 
 # 저장소 작업 규칙
@@ -73,8 +77,10 @@ app ────────────────────→ shared
 ### 기본 원칙
 
 - 지원 locale은 한국어 `ko`, 영어 `en`, 일본어 `ja`다. 일본어 경로에 국가 코드인 `jp`를 사용하지 않는다.
-- 모든 사용자용 canonical page는 locale을 첫 path segment로 사용한다. 언어마다 구조를 다르게 만들지 않는다.
-- `/`는 `x-default` 언어 선택 화면이다. IP, `Accept-Language`, browser locale을 근거로 자동 이동시키지 않는다.
+- 한국어 `ko`는 기본 언어이며 locale prefix를 사용하지 않는다. 영어는 `/en`, 일본어는 `/ja`를 첫 path segment로 사용한다.
+- `/`는 한국어 canonical 홈이자 `x-default`다. `/ko/`를 별도 canonical로 만들지 않는다.
+- 영어·일본어는 한국어와 locale prefix만 다르고 나머지 route 구조는 동일하게 유지한다.
+- IP, `Accept-Language`, browser locale을 근거로 사용자를 자동 이동시키지 않는다. 필요하면 현재 언어를 유지한 채 다른 언어를 제안한다.
 - 언어 전환은 현재 페이지의 실제 번역 URL을 가리키는 일반 `<a>` 링크로 제공한다.
 - 번역이 없는 locale route는 생성하지 않는다. 다른 언어 본문이나 홈으로 조용히 대체하지 않는다.
 - `ads.txt`, `robots.txt`, `sitemap.xml`, `sw.js`, favicon과 정적 asset은 locale prefix를 붙이지 않는다.
@@ -83,34 +89,39 @@ app ────────────────────→ shared
 ### Canonical route
 
 ```text
-/                                      x-default 언어 선택
-/{locale}/                             locale 홈
+/                                      한국어 홈 / x-default
+/{locale}/                             영어·일본어 홈 (`en`, `ja`만 사용)
 
-/{locale}/articles/                    글 목록
-/{locale}/articles/page/{page}/        글 목록 2페이지 이상
-/{locale}/articles/{slug}/             글 상세
+/articles/                             한국어 글 목록
+/articles/page/{page}/                 한국어 글 목록 2페이지 이상
+/articles/{slug}/                      한국어 글 상세
+/{locale}/articles/                    영어·일본어 글 목록
+/{locale}/articles/page/{page}/        영어·일본어 글 목록 2페이지 이상
+/{locale}/articles/{slug}/             영어·일본어 글 상세
 
-/{locale}/topics/                      전체 주제
+/{locale}/topics/                      영어·일본어 전체 주제
 /{locale}/topics/{topic}/              주제별 글 목록
 /{locale}/topics/{topic}/page/{page}/  주제별 글 2페이지 이상
 
-/{locale}/tags/                        전체 태그
+/{locale}/tags/                        영어·일본어 전체 태그
 /{locale}/tags/{tag}/                  태그별 글 목록
 /{locale}/tags/{tag}/page/{page}/      태그별 글 2페이지 이상
 
-/{locale}/notes/                       짧은 글 목록
+/{locale}/notes/                       영어·일본어 짧은 글 목록
 /{locale}/notes/page/{page}/           짧은 글 목록 2페이지 이상
 /{locale}/notes/{slug}/                짧은 글 상세
 
-/{locale}/apps/                        앱 목록
+/{locale}/apps/                        영어·일본어 앱 목록
 /{locale}/apps/{app-name}/             앱 상세
 /{locale}/apps/{app-name}/privacy/     개인정보처리방침
 /{locale}/apps/{app-name}/terms/       이용약관
 /{locale}/apps/{app-name}/account-deletion/ 계정 삭제 안내
 
-/{locale}/about/                       소개
-/{locale}/rss.xml                      locale별 RSS
+/{locale}/about/                       영어·일본어 소개
+/{locale}/rss.xml                      영어·일본어 RSS
 ```
+
+- 위 영어·일본어 route에서 locale prefix를 제거한 동일 구조를 한국어 canonical route로 사용한다. 예: `/topics/react/`, `/notes/{slug}/`, `/apps/{app-name}/`, `/about/`, `/rss.xml`.
 
 - 첫 목록 페이지는 `/page/1/`을 만들지 않고 목록 root를 canonical로 사용한다.
 - `topic`은 글마다 하나인 주 분류다. `tag`는 여러 개를 허용하는 보조 키워드다.
@@ -125,7 +136,7 @@ app ────────────────────→ shared
 - 각 언어 페이지의 canonical은 자기 자신의 locale URL이다. 영어·일본어 페이지의 canonical을 한국어 페이지로 지정하지 않는다.
 - 실제로 존재하는 번역만 `hreflang`에 넣고 각 번역 페이지에서 자기 자신을 포함한 동일한 언어 집합을 상호 참조한다.
 - 언어 코드는 `ko`, `en`, `ja`를 사용한다. 콘텐츠 페이지의 `x-default`는 대응하는 한국어 URL을 사용한다.
-- root 언어 선택 페이지는 자기 자신을 `x-default`로 사용하고 각 locale 홈을 alternate로 제공한다.
+- 한국어 페이지는 대응하는 영어·일본어 번역과 자기 자신을 alternate로 제공하며 자기 자신을 `x-default`로 사용한다.
 - page의 `<html lang>`, Open Graph locale, 구조화 데이터의 `inLanguage`를 실제 언어와 일치시킨다.
 - 제목, 설명, 본문만이 아니라 navigation과 접근성 문구까지 해당 locale로 제공한다.
 - sitemap에는 canonical URL만 넣고 사용 가능한 언어 alternate 관계를 함께 표현한다. 내부 링크도 canonical URL만 사용한다.
@@ -138,19 +149,18 @@ app ────────────────────→ shared
 - 기존 URL은 sitemap과 새 내부 링크에서 제외한다.
 
 ```text
-/blog/{category}/{slug}/              → /ko/articles/{new-slug}/
-/blog/short/{slug}/                   → /ko/notes/{new-slug}/
-/blog/category/{category}/1/          → /ko/topics/{topic}/
-/blog/category/{category}/{page}/     → /ko/topics/{topic}/page/{page}/
-/blog/tags/{tag}/1/                   → /ko/tags/{tag}/
-/blog/tags/{tag}/{page}/              → /ko/tags/{tag}/page/{page}/
-/1/                                   → /ko/articles/
-/{page}/                              → /ko/articles/page/{page}/
-/articles/...                         → /ko/articles/...
-/notes/...                            → /ko/notes/...
+/blog/{category}/{slug}/              → /articles/{new-slug}/
+/blog/short/{slug}/                   → /notes/{new-slug}/
+/blog/category/{category}/1/          → /topics/{topic}/
+/blog/category/{category}/{page}/     → /topics/{topic}/page/{page}/
+/blog/tags/{tag}/1/                   → /tags/{tag}/
+/blog/tags/{tag}/{page}/              → /tags/{tag}/page/{page}/
+/1/                                   → /articles/
+/{page}/                              → /articles/page/{page}/
+/ko/...                               → 대응하는 한국어 prefix 없는 URL
 ```
 
-- 앱 랜딩, 개인정보처리방침, 이용약관, 계정 삭제처럼 Play Console이나 외부 서비스에 등록된 기존 URL도 새 locale-first URL로 1:1 연결하며 삭제하지 않는다.
+- 앱 랜딩, 개인정보처리방침, 이용약관, 계정 삭제처럼 Play Console이나 외부 서비스에 등록된 기존 URL도 대응하는 새 canonical URL로 1:1 연결하며 삭제하지 않는다.
 - route를 추가하거나 바꿀 때 canonical, alternate, sitemap, breadcrumb, RSS, legacy mapping을 함께 검토한다.
 
 ## 디자인 작업 필수 절차

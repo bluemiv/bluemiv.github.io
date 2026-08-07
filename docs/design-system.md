@@ -411,6 +411,15 @@ Latest articles:
 - 광고는 sticky로 만들지 않는다.
 - mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
 
+현재 구현 기준:
+
+- `@next/mdx`로 article MDX를 build time에 컴파일하고 GFM, heading anchor, syntax highlighting을 적용한다.
+- header는 넓은 editorial 영역, 본문은 최대 `760px`, desktop sidebar는 `300px`로 구성한다.
+- desktop은 광고 다음에 thin rail TOC를 두고 TOC만 sticky 처리한다.
+- mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
+- 본문 뒤에는 tag, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
+- code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
+
 ### 9.4 Notes
 
 - 짧은 기록은 본문보다 조밀한 list 사용.
@@ -776,12 +785,12 @@ text-accent / bg-accent / border-accent
 
 다음 항목은 V2 production 전 해결한다.
 
-1. article detail 실제 MDX 시안
-2. topic별 cover system
-3. search interaction
-4. responsive visual QA
-5. `theme-color` 동기화 검토
-6. topic과 추천 article을 실제 route에 연결
+1. topic별 cover system
+2. search interaction
+3. 전체 페이지 responsive visual QA
+4. `theme-color` 동기화 검토
+5. topic archive route 연결
+6. article comments 서비스 연결
 7. 지역별 consent/CMP 운영 설정 최종 확인
 
 ## 20. 변경 관리

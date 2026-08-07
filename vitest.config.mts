@@ -19,7 +19,11 @@ export default defineConfig({
       include: [
         "src/features/adsense/adSenseConfig.ts",
         "src/features/article/articleMetadata.ts",
+        "src/features/article/articleDocument.ts",
+        "src/features/article/articleImage.ts",
+        "src/features/article/articleNavigation.ts",
         "src/features/article/articleRepository.ts",
+        "src/features/article/articleSeo.ts",
         "src/features/i18n/localeConfig.ts",
         "src/features/legacyRedirect/legacyRedirects.ts",
         "src/features/note/noteMetadata.ts",

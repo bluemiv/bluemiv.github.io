@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { SITE_CONFIG } from "@/config/siteConfig";
 
-import { getArticleMetadata, getPublishedArticles } from "./articleRepository";
+import { getArticleDocument, getArticleMetadata, getPublishedArticles } from "./articleRepository";
 
 describe("articleRepository", () => {
   it("한국어 공개 article을 최신 발행순으로 조회한다", () => {
@@ -28,6 +28,19 @@ describe("articleRepository", () => {
       topic: "kotlin",
       author: "Bluemiv",
     });
+  });
+
+  it("본문에서 TOC와 읽기 시간을 계산한다", () => {
+    const article = getArticleDocument("build-github-pages-blog-with-nextjs", "ko");
+
+    expect(article?.headings[0]).toEqual({
+      id: "1-github-블로그를-만든-이유",
+      title: "1. Github 블로그를 만든 이유",
+      depth: 2,
+    });
+    expect(article?.headings.length).toBeGreaterThan(5);
+    expect(article?.readingTimeMinutes).toBeGreaterThan(1);
+    expect(article?.source).toContain("## 1. Github 블로그를 만든 이유");
   });
 
   it("없는 article이나 번역은 null 또는 빈 목록을 반환한다", () => {

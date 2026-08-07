@@ -200,7 +200,7 @@ Tailwind 예:
 | ------------- | ---------------------- | ------- | --------------------------------------------- |
 | Sans          | Wanted Sans Variable   | 400–700 | 본문, navigation, UI, 기본 제목               |
 | Display serif | Noto Serif KR Variable | 400–600 | hero 강조어, 인용문, 제한된 editorial heading |
-| Mono          | IBM Plex Mono          | 400/600 | 번호, 날짜, category, code                    |
+| Mono          | IBM Plex Mono          | 400/600 | 번호, 날짜, topic, code                       |
 
 세 폰트는 모두 OFL 라이선스이며 npm package에 버전을 고정한다. Wanted Sans와 Noto Serif KR은 `unicode-range`로 분할된 WOFF2를 번들링하고, IBM Plex Mono는 `next/font/local`로 Regular와 SemiBold WOFF2만 포함한다. 브라우저가 외부 CDN에 요청하지 않도록 모든 폰트 asset은 static export 결과물에서 self-host한다.
 
@@ -249,7 +249,7 @@ Tailwind 예:
 | `md`  |  16px | component internal gap   |
 | `lg`  |  24px | compact section gap      |
 | `xl`  |  32px | component separation     |
-| `2xl` |  48px | content block separation |
+| `2xl` |  48px | section block separation |
 | `3xl` |  64px | mobile section padding   |
 | `4xl` |  80px | desktop section padding  |
 | `5xl` | 112px | major section separation |
@@ -304,7 +304,7 @@ shadow는 낮은 opacity의 단일 soft shadow만 사용한다.
 
 ### 8.1 Global container
 
-- shell content max width: `1120px`.
+- shell inner max width: `1120px`.
 - `Container` outer max width는 desktop `32px` 좌우 padding을 포함해 `1184px`로 둔다.
 - article max width: `760px`.
 - blog main + sidebar 전체 max width: `1120px`.
@@ -331,8 +331,8 @@ viewport별 별도 디자인으로 검토한다. desktop 축소판을 mobile에 
 
 - 홈은 12-column 사고방식을 사용하되 실제 구현은 단순 CSS Grid를 우선한다.
 - featured 영역은 대략 `1fr / 1.1fr`.
-- article 목록은 번호, category, content, date 순서로 정렬한다.
-- mobile에서는 category와 date를 title 위/아래로 재배치한다.
+- article 목록은 번호, topic, article, date 순서로 정렬한다.
+- mobile에서는 topic과 date를 title 위/아래로 재배치한다.
 
 ## 9. 페이지 패턴
 
@@ -359,8 +359,8 @@ Featured article:
 
 - 화면당 하나.
 - cover와 text를 2-column으로 배치 가능.
-- cover는 category별 typographic/diagram 문법을 사용한다.
-- 일반 post 목록보다 명확히 크되 hero와 경쟁하지 않는다.
+- cover는 topic별 typographic/diagram 문법을 사용한다.
+- 일반 article 목록보다 명확히 크되 hero와 경쟁하지 않는다.
 
 Latest articles:
 
@@ -373,14 +373,14 @@ Latest articles:
 ### 9.2 Articles archive
 
 - 상단에 짧은 H1과 전체 글 수.
-- category/tag filter는 text tab 또는 compact chip.
+- topic/tag filter는 text tab 또는 compact chip.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
 - 글 목록은 home latest pattern과 동일한 문법 사용.
 - pagination은 페이지 번호와 이전/다음 관계가 명확해야 한다.
 - `xl` 이상에서는 `760px` 글 목록과 `300px` sidebar를 `60px` 간격으로 배치한다.
-- archive sidebar 순서는 category index, `300×250` 광고, 추천 글이다.
-- category와 추천 글은 카드가 아니라 divider 기반 text list로 표현한다.
-- `xl` 미만에서는 sidebar를 제거하고 category index를 목록 위 horizontal scroll로 옮긴다.
+- archive sidebar 순서는 topic index, `300×250` 광고, 추천 글이다.
+- topic과 추천 글은 카드가 아니라 divider 기반 text list로 표현한다.
+- `xl` 미만에서는 sidebar를 제거하고 topic index를 목록 위 horizontal scroll로 옮긴다.
 - mobile/tablet 광고는 글 목록의 세 번째 또는 네 번째 항목 뒤에 가로 슬롯으로 배치한다.
 
 ### 9.3 Article detail
@@ -389,13 +389,13 @@ Latest articles:
 
 구조:
 
-1. category
+1. topic
 2. H1
 3. description
 4. author/date/updated/read time
 5. optional cover
 6. article body
-7. related posts
+7. related articles
 8. comments
 9. previous/next
 
@@ -403,10 +403,10 @@ Latest articles:
 
 - article 자체를 card로 감싸지 않는다.
 - metadata는 조용한 inline text.
-- 클릭 가능한 category/tag만 chip 허용.
+- 클릭 가능한 topic/tag만 chip 허용.
 - author/date/read time을 pill로 만들지 않는다.
 - cover는 최대 폭을 넓힐 수 있지만 본문 rhythm을 깨지 않는다.
-- desktop sidebar는 category 탐색, 광고, TOC, 관련 글을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
+- desktop sidebar는 topic 탐색, 광고, TOC, 관련 article을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
 - desktop TOC는 sidebar 내부 thin rail이며 TOC만 sticky를 허용한다. 별도 heavy card 금지.
 - 광고는 sticky로 만들지 않는다.
 - mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
@@ -415,8 +415,8 @@ Latest articles:
 
 - 짧은 기록은 본문보다 조밀한 list 사용.
 - `N01` index 허용.
-- thumbnail 필수 아님.
-- 짧은 글을 큰 post card로 부풀리지 않는다.
+- `coverImage` 필수 아님.
+- note를 큰 article card로 부풀리지 않는다.
 
 ### 9.5 Apps
 
@@ -460,9 +460,9 @@ Latest articles:
 - link에 button처럼 과도한 padding/radius를 주지 않는다.
 - hover만으로 상태를 전달하지 않는다.
 
-### 10.4 Tag와 category
+### 10.4 Tag와 topic
 
-- category는 탐색 기능이 있을 때만 interactive.
+- topic은 탐색 기능이 있을 때만 interactive.
 - tag는 실제 filter route가 있을 때 link.
 - decoration-only 기술명 나열은 plain text 사용.
 - chip 사용 시 radius와 background 대비를 낮춘다.
@@ -472,13 +472,13 @@ Latest articles:
 허용:
 
 - app item
-- related post
+- related article
 - modal/search result
 - 명확한 CTA
 
 비권장:
 
-- 일반 post archive 전체
+- 일반 article archive 전체
 - profile
 - metadata
 - article body
@@ -486,8 +486,8 @@ Latest articles:
 
 ### 10.6 Search
 
-- post 수가 늘면 command palette 또는 full-width dialog.
-- title, description, category, tag 검색.
+- article 수가 늘면 command palette 또는 full-width dialog.
+- title, description, topic, tag 검색.
 - keyboard focus trap, Escape close, focus restore 필수.
 - 검색 결과는 compact list.
 
@@ -524,27 +524,27 @@ Latest articles:
 
 ### 10.11 Blog sidebar
 
-- 적용 페이지: article archive, category archive, article detail, 충분한 결과가 있는 search page.
+- 적용 페이지: article archive, topic archive, article detail, 충분한 결과가 있는 search page.
 - 제외 페이지: home, notes, about, app landing, privacy/policy, 404.
 - width는 `300px`로 고정하고 main column을 `720px` 아래로 줄이지 않는다.
-- archive 기본 순서는 category index, 광고, 추천 글이다.
-- article detail에서는 category, 광고, TOC, 같은 category 글 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
-- category index는 번호, 이름, 글 수를 사용한 divider list로 표현한다.
-- 추천 글은 thumbnail card가 아닌 compact text list를 우선한다.
+- archive 기본 순서는 topic index, 광고, 추천 글이다.
+- article detail에서는 topic, 광고, TOC, 같은 topic article 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
+- topic index는 번호, 이름, 글 수를 사용한 divider list로 표현한다.
+- 추천 글은 image card가 아닌 compact text list를 우선한다.
 - sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
-- `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. category, 광고, TOC, 관련 글을 각자의 mobile reading order로 재배치한다.
+- `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. topic, 광고, TOC, 관련 article을 각자의 mobile reading order로 재배치한다.
 
 ### 10.12 광고
 
 - 콘텐츠와 명확한 간격으로 분리.
 - article 문단 중간 삽입 최소화.
 - 광고 container가 주요 콘텐츠 card처럼 보이지 않게 한다.
-- 광고와 category, pagination, previous/next, copy button 등 interactive element 사이에 최소 `32–40px` 간격을 둔다.
+- 광고와 topic, pagination, previous/next, copy button 등 interactive element 사이에 최소 `32–40px` 간격을 둔다.
 - custom label이 필요하면 `Advertisements`를 사용한다. 추천, 관련 글처럼 오해할 표현을 쓰지 않는다.
 - sidebar 기본 슬롯은 `300×250`이며 페이지당 하나부터 시작한다.
 - 가로 슬롯은 viewport 기준으로 `<520px: 320×100`, `520–799px: 468×60`, `≥800px: 728×90`을 기본으로 한다.
 - 실제 광고가 로드되기 전에 CSS로 width/height 또는 min-height를 예약해 layout shift를 막는다.
-- 빈 광고 슬롯의 collapse는 below-the-fold에서만 허용하고 visible content를 밀지 않는지 확인한다.
+- 빈 광고 슬롯의 collapse는 below-the-fold에서만 허용하고 visible article을 밀지 않는지 확인한다.
 - placeholder는 layout 검토용으로만 quiet surface를 사용할 수 있다. production 광고를 자체 card처럼 꾸미지 않는다.
 - home 최대 1개, archive 최대 1개, article은 읽기 시간에 따라 0–2개를 기준으로 한다.
 - notes, about, app landing, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
@@ -556,14 +556,14 @@ Latest articles:
 - desktop `xl` 이상에서는 sidebar `300×250`, 그 미만에서는 세 번째 글 뒤 responsive banner 하나만 초기화한다.
 - `pnpm dev`에서는 외부 AdSense script를 요청하지 않고 동일 크기의 placeholder를 표시한다.
 - production static export에서만 실제 unit을 활성화하며 현재 viewport에 보이지 않는 unit은 광고 요청을 보내지 않는다.
-- 공개 publisher/slot ID는 `src/features/adsense/config.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.
+- 공개 publisher/slot ID는 `src/features/adsense/adSenseConfig.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.
 - 지역별 개인정보 보호 규정과 consent/CMP는 실제 배포 전 운영 설정까지 함께 확인한다.
 
 ## 11. 이미지와 cover
 
-- post thumbnail은 선택 사항.
+- article `coverImage`는 선택 사항.
 - 이미지가 없다고 빈 placeholder card를 만들지 않는다.
-- category cover는 typography, 번호, 간단한 code/diagram을 조합한다.
+- topic cover는 typography, 번호, 간단한 code/diagram을 조합한다.
 - grid motif는 cover마다 같은 밀도로 반복하지 않는다.
 - 이미지 aspect ratio를 page별로 고정한다.
 - 의미 있는 이미지는 구체적인 alt 제공.
@@ -655,7 +655,7 @@ Mobile:
 - navigation 접근 가능.
 - 목록 column이 자연스러운 reading order로 재배치된다.
 - desktop sidebar를 통째로 목록 아래에 붙이지 않는다.
-- category index는 horizontal scroll, TOC는 접이식, 광고는 content flow로 각각 재배치한다.
+- topic index는 horizontal scroll, TOC는 접이식, 광고는 article flow로 각각 재배치한다.
 - code/table horizontal scroll 가능.
 - fixed control이 콘텐츠를 가리지 않는다.
 - hover 없이 모든 기능 사용 가능.
@@ -744,7 +744,7 @@ text-accent / bg-accent / border-accent
 - [ ] H2/H3/code/table/image rhythm이 명확한가?
 - [ ] metadata가 pill로 과장되지 않았는가?
 - [ ] TOC가 보조 navigation처럼 보이는가?
-- [ ] sidebar가 category 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
+- [ ] sidebar가 topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?
 
@@ -753,7 +753,7 @@ text-accent / bg-accent / border-accent
 - [ ] 기존 URL이 유지되는가?
 - [ ] policy 언어 navigation이 명확한가?
 - [ ] 법적 내용을 장식이 방해하지 않는가?
-- [ ] app card가 blog post card처럼 보이지 않는가?
+- [ ] app card가 article card처럼 보이지 않는가?
 
 ## 18. 금지 패턴
 
@@ -777,11 +777,11 @@ text-accent / bg-accent / border-accent
 다음 항목은 V2 production 전 해결한다.
 
 1. article detail 실제 MDX 시안
-2. category별 cover system
+2. topic별 cover system
 3. search interaction
 4. responsive visual QA
 5. `theme-color` 동기화 검토
-6. category와 추천 글을 실제 콘텐츠 route에 연결
+6. topic과 추천 article을 실제 route에 연결
 7. 지역별 consent/CMP 운영 설정 최종 확인
 
 ## 20. 변경 관리
@@ -807,7 +807,7 @@ text-accent / bg-accent / border-accent
 ```text
 style: 본문 타이포그래피 체계 개선
   ├─ src/app/globals.css
-  ├─ src/features/post/...
+  ├─ src/features/article/...
   └─ docs/design-system.md
 ```
 

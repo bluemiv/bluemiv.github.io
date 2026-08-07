@@ -370,13 +370,15 @@ Featured article:
 
 - 화면당 하나.
 - 해당 locale의 최신 article을 사용하며 Latest articles 목록에서는 중복 노출하지 않는다.
-- cover와 text를 2-column으로 배치 가능.
-- cover는 topic별 typographic/diagram 문법을 사용한다.
+- `md` 이상에서 cover와 text를 2-column으로 배치한다.
+- 실제 `coverImage`가 있으면 `32:17` frame을 채워 표시한다. 인접한 제목이 같은 링크 목적을 설명하므로 홈 cover의 alt는 비운다.
+- `coverImage`가 없으면 topic, article 번호, grid를 조합한 typographic cover를 사용한다.
 - 일반 article 목록보다 명확히 크되 hero와 경쟁하지 않는다.
 
 Latest articles:
 
 - card grid 대신 divider 기반 list.
+- 목록에는 thumbnail을 반복하지 않는다. 제목, 설명, topic, 날짜의 탐색 밀도를 우선하고 대표 이미지는 Featured article에만 집중한다.
 - desktop에서 설명 표시 가능.
 - mobile에서는 설명을 2행으로 제한하거나 숨긴다.
 - 번호와 arrow가 중복 장식이 되면 하나를 제거한다.

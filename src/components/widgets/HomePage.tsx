@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
@@ -204,24 +205,38 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 href={getLocalizedPath(locale, `articles/${featuredArticle.slug}`)}
                 className="group border-border grid gap-8 border-b pb-14 md:grid-cols-[1fr_1.1fr] md:items-stretch"
               >
-                <div className="border-border bg-accent-soft relative aspect-[32/17] overflow-hidden border p-6 md:aspect-auto md:min-h-[340px] md:p-8">
-                  <div className="blueprint-grid absolute inset-0" aria-hidden="true" />
-                  <div className="relative flex h-full flex-col justify-between">
-                    <div className="flex items-start justify-between gap-4 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase">
-                      <span className="text-accent">{getTopicLabel(featuredArticle.topic)}</span>
-                      <span className="text-muted">A{getEntryNumber(featuredArticle.id)}</span>
+                <div className="border-border bg-accent-soft relative aspect-[32/17] overflow-hidden border md:self-center">
+                  {featuredArticle.coverImage ? (
+                    <Image
+                      fill
+                      sizes="(min-width: 1184px) 520px, (min-width: 768px) 44vw, calc(100vw - 40px)"
+                      src={featuredArticle.coverImage}
+                      alt=""
+                      className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.01] motion-reduce:transition-none"
+                    />
+                  ) : (
+                    <div className="relative h-full p-6 md:p-8">
+                      <div className="blueprint-grid absolute inset-0" aria-hidden="true" />
+                      <div className="relative flex h-full flex-col justify-between">
+                        <div className="flex items-start justify-between gap-4 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase">
+                          <span className="text-accent">
+                            {getTopicLabel(featuredArticle.topic)}
+                          </span>
+                          <span className="text-muted">A{getEntryNumber(featuredArticle.id)}</span>
+                        </div>
+                        <div className="flex items-end justify-between gap-4">
+                          <span className="font-display text-accent text-[clamp(4.5rem,17vw,8rem)] leading-none font-normal tracking-[-0.07em]">
+                            {getEntryNumber(featuredArticle.id)}
+                          </span>
+                          <span className="text-muted mb-2 hidden max-w-24 text-right font-mono text-[9px] leading-4 tracking-[0.1em] uppercase sm:block">
+                            Filed in
+                            <br />
+                            {getTopicLabel(featuredArticle.topic)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-end justify-between gap-4">
-                      <span className="font-display text-accent text-[clamp(4.5rem,17vw,8rem)] leading-none font-normal tracking-[-0.07em]">
-                        {getEntryNumber(featuredArticle.id)}
-                      </span>
-                      <span className="text-muted mb-2 hidden max-w-24 text-right font-mono text-[9px] leading-4 tracking-[0.1em] uppercase sm:block">
-                        Filed in
-                        <br />
-                        {getTopicLabel(featuredArticle.topic)}
-                      </span>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="flex flex-col justify-center py-1 md:px-7">

@@ -114,54 +114,54 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 
 ### 4.2 Paper palette
 
-| Token | Value | 용도 |
-|---|---:|---|
-| `paper-50` | `#FBFAF7` | light surface |
-| `paper-100` | `#F7F6F2` | light canvas |
-| `paper-200` | `#EFEDE7` | muted surface |
-| `paper-300` | `#D9D6CE` | border |
-| `paper-400` | `#B9B4A9` | strong border |
-| `paper-500` | `#918C82` | subtle text |
-| `paper-600` | `#6F6B63` | muted text |
-| `paper-700` | `#52504A` | secondary ink |
+| Token       |     Value | 용도                   |
+| ----------- | --------: | ---------------------- |
+| `paper-50`  | `#FBFAF7` | light surface          |
+| `paper-100` | `#F7F6F2` | light canvas           |
+| `paper-200` | `#EFEDE7` | muted surface          |
+| `paper-300` | `#D9D6CE` | border                 |
+| `paper-400` | `#B9B4A9` | strong border          |
+| `paper-500` | `#918C82` | subtle text            |
+| `paper-600` | `#6F6B63` | muted text             |
+| `paper-700` | `#52504A` | secondary ink          |
 | `paper-800` | `#343430` | dark surface candidate |
-| `paper-900` | `#242421` | dark ink candidate |
-| `paper-950` | `#181817` | light foreground |
+| `paper-900` | `#242421` | dark ink candidate     |
+| `paper-950` | `#181817` | light foreground       |
 
 ### 4.3 Blueprint palette
 
-| Token | Value | 용도 |
-|---|---:|---|
-| `blueprint-50` | `#F3F6FF` | pale accent surface |
-| `blueprint-100` | `#E7EDFF` | light accent-soft |
-| `blueprint-200` | `#CFDAFE` | light selection |
-| `blueprint-300` | `#AEBFFF` | dark accent hover |
-| `blueprint-400` | `#8DA7FF` | dark accent |
-| `blueprint-500` | `#5E7FF1` | medium accent |
-| `blueprint-600` | `#2F5BE8` | vivid accent |
-| `blueprint-700` | `#2450CC` | light accent |
-| `blueprint-800` | `#2043A5` | light accent hover |
-| `blueprint-900` | `#1E3A82` | deep accent |
-| `blueprint-950` | `#142452` | deepest accent |
+| Token           |     Value | 용도                |
+| --------------- | --------: | ------------------- |
+| `blueprint-50`  | `#F3F6FF` | pale accent surface |
+| `blueprint-100` | `#E7EDFF` | light accent-soft   |
+| `blueprint-200` | `#CFDAFE` | light selection     |
+| `blueprint-300` | `#AEBFFF` | dark accent hover   |
+| `blueprint-400` | `#8DA7FF` | dark accent         |
+| `blueprint-500` | `#5E7FF1` | medium accent       |
+| `blueprint-600` | `#2F5BE8` | vivid accent        |
+| `blueprint-700` | `#2450CC` | light accent        |
+| `blueprint-800` | `#2043A5` | light accent hover  |
+| `blueprint-900` | `#1E3A82` | deep accent         |
+| `blueprint-950` | `#142452` | deepest accent      |
 
 ### 4.4 Semantic tokens
 
-| Semantic utility | Light | Dark | 용도 |
-|---|---|---|---|
-| `canvas` | `paper-100` | `#11120F` | page background |
-| `surface` | `paper-50` | `#181915` | 분리 필요 surface |
-| `surface-muted` | `paper-200` | `#20211D` | code label, muted block |
-| `foreground` | `paper-950` | `#E9E6DE` | primary text |
-| `muted` | `paper-600` | `#AAA69C` | description, secondary meta |
-| `subtle` | `paper-500` | `#7F7C74` | decorative meta only |
-| `border` | `paper-300` | `#30312D` | default divider |
-| `border-strong` | `paper-400` | `#4A4B45` | emphasized boundary |
-| `accent` | `blueprint-700` | `blueprint-400` | link, active, key label |
-| `accent-hover` | `blueprint-800` | `blueprint-300` | hover |
-| `accent-soft` | `blueprint-100` | `#202D54` | cover, quiet highlight |
-| `on-accent` | `#FFFFFF` | `#101A34` | solid accent 위 text |
-| `code` | `#1B1D21` | `#0B0C0D` | code background |
-| `code-foreground` | `#E9E6DE` | `#E9E6DE` | code text |
+| Semantic utility  | Light           | Dark            | 용도                        |
+| ----------------- | --------------- | --------------- | --------------------------- |
+| `canvas`          | `paper-100`     | `#11120F`       | page background             |
+| `surface`         | `paper-50`      | `#181915`       | 분리 필요 surface           |
+| `surface-muted`   | `paper-200`     | `#20211D`       | code label, muted block     |
+| `foreground`      | `paper-950`     | `#E9E6DE`       | primary text                |
+| `muted`           | `paper-600`     | `#AAA69C`       | description, secondary meta |
+| `subtle`          | `paper-500`     | `#7F7C74`       | decorative meta only        |
+| `border`          | `paper-300`     | `#30312D`       | default divider             |
+| `border-strong`   | `paper-400`     | `#4A4B45`       | emphasized boundary         |
+| `accent`          | `blueprint-700` | `blueprint-400` | link, active, key label     |
+| `accent-hover`    | `blueprint-800` | `blueprint-300` | hover                       |
+| `accent-soft`     | `blueprint-100` | `#202D54`       | cover, quiet highlight      |
+| `on-accent`       | `#FFFFFF`       | `#101A34`       | solid accent 위 text        |
+| `code`            | `#1B1D21`       | `#0B0C0D`       | code background             |
+| `code-foreground` | `#E9E6DE`       | `#E9E6DE`       | code text                   |
 
 Tailwind 예:
 
@@ -181,14 +181,14 @@ Tailwind 예:
 
 ### 4.5 확인된 대비
 
-| Pair | Ratio |
-|---|---:|
+| Pair                      |     Ratio |
+| ------------------------- | --------: |
 | light foreground / canvas | `16.43:1` |
-| light muted / canvas | `4.90:1` |
-| light accent / canvas | `6.28:1` |
-| dark foreground / canvas | `15.07:1` |
-| dark muted / canvas | `7.74:1` |
-| dark accent / canvas | `8.15:1` |
+| light muted / canvas      |  `4.90:1` |
+| light accent / canvas     |  `6.28:1` |
+| dark foreground / canvas  | `15.07:1` |
+| dark muted / canvas       |  `7.74:1` |
+| dark accent / canvas      |  `8.15:1` |
 
 `subtle`은 큰 장식 label과 비필수 metadata에만 사용한다. 작은 본문이나 필수 정보에는 `muted` 이상을 사용한다.
 
@@ -196,11 +196,11 @@ Tailwind 예:
 
 ### 5.1 Font roles
 
-| Role | Font | 용도 |
-|---|---|---|
-| Sans | Pretendard Variable | 본문, navigation, UI, 기본 제목 |
-| Display serif | Noto Serif KR | hero 강조어, 인용문, 제한된 editorial heading |
-| Mono | SFMono/Consolas 계열 | 번호, 날짜, category, code |
+| Role          | Font                 | 용도                                          |
+| ------------- | -------------------- | --------------------------------------------- |
+| Sans          | Pretendard Variable  | 본문, navigation, UI, 기본 제목               |
+| Display serif | Noto Serif KR        | hero 강조어, 인용문, 제한된 editorial heading |
+| Mono          | SFMono/Consolas 계열 | 번호, 날짜, category, code                    |
 
 현재 sans/display는 시스템 fallback 상태다. production 이전에 한국어 glyph를 포함한 font를 self-host해야 한다. OS별 fallback 결과를 최종 디자인으로 간주하지 않는다.
 
@@ -213,17 +213,17 @@ Tailwind 예:
 
 ### 5.3 Type scale
 
-| Role | Mobile | Desktop | Line height | Weight |
-|---|---:|---:|---:|---:|
-| Display hero | 48–56px | 76–82px | 1.04–1.10 | 600 |
-| Page H1 | 40–48px | 56–64px | 1.10–1.18 | 600 |
-| Article H1 | 36–44px | 52–60px | 1.12–1.20 | 650–700 |
-| H2 | 28–32px | 32–36px | 1.25–1.35 | 650–700 |
-| H3 | 22–24px | 24–28px | 1.35–1.45 | 650–700 |
-| Lead | 18px | 18–20px | 1.75–1.90 | 400 |
-| Body | 16px | 17–18px | 1.75–1.90 | 400 |
-| UI | 12–14px | 12–14px | 1.4–1.6 | 500–700 |
-| Mono meta | 10–12px | 10–12px | 1.5–1.8 | 400–700 |
+| Role         |  Mobile | Desktop | Line height |  Weight |
+| ------------ | ------: | ------: | ----------: | ------: |
+| Display hero | 48–56px | 76–82px |   1.04–1.10 |     600 |
+| Page H1      | 40–48px | 56–64px |   1.10–1.18 |     600 |
+| Article H1   | 36–44px | 52–60px |   1.12–1.20 | 650–700 |
+| H2           | 28–32px | 32–36px |   1.25–1.35 | 650–700 |
+| H3           | 22–24px | 24–28px |   1.35–1.45 | 650–700 |
+| Lead         |    18px | 18–20px |   1.75–1.90 |     400 |
+| Body         |    16px | 17–18px |   1.75–1.90 |     400 |
+| UI           | 12–14px | 12–14px |     1.4–1.6 | 500–700 |
+| Mono meta    | 10–12px | 10–12px |     1.5–1.8 | 400–700 |
 
 ### 5.4 본문 규칙
 
@@ -239,16 +239,16 @@ Tailwind 예:
 
 4px 단위를 기본으로 사용한다.
 
-| 이름 | 값 | 대표 용도 |
-|---|---:|---|
-| `xs` | 4px | icon/text micro gap |
-| `sm` | 8px | tag, tight meta |
-| `md` | 16px | component internal gap |
-| `lg` | 24px | compact section gap |
-| `xl` | 32px | component separation |
-| `2xl` | 48px | content block separation |
-| `3xl` | 64px | mobile section padding |
-| `4xl` | 80px | desktop section padding |
+| 이름  |    값 | 대표 용도                |
+| ----- | ----: | ------------------------ |
+| `xs`  |   4px | icon/text micro gap      |
+| `sm`  |   8px | tag, tight meta          |
+| `md`  |  16px | component internal gap   |
+| `lg`  |  24px | compact section gap      |
+| `xl`  |  32px | component separation     |
+| `2xl` |  48px | content block separation |
+| `3xl` |  64px | mobile section padding   |
+| `4xl` |  80px | desktop section padding  |
 | `5xl` | 112px | major section separation |
 
 원칙:
@@ -301,23 +301,26 @@ shadow는 낮은 opacity의 단일 soft shadow만 사용한다.
 
 ### 8.1 Global container
 
-- shell max width: `1120px`.
+- shell content max width: `1120px`.
+- `Container` outer max width는 desktop `32px` 좌우 padding을 포함해 `1184px`로 둔다.
 - article max width: `760px`.
-- article + TOC 전체 max width: `1120px`.
-- TOC width: `200–240px`.
-- 고정 desktop sidebar는 사용하지 않는다.
+- blog main + sidebar 전체 max width: `1120px`.
+- desktop blog grid: `minmax(0, 760px) 300px`, column gap `60px`.
+- sidebar 내부 TOC width: `200–240px`.
+- blog sidebar는 `xl` 이상에서만 사용한다. 그 아래에서는 1-column으로 재배치한다.
+- sidebar는 글 탐색과 광고를 위한 contextual rail이다. 모든 페이지에 붙는 site-wide navigation으로 사용하지 않는다.
 
 ### 8.2 Breakpoints
 
 Tailwind 기본 breakpoint를 사용한다.
 
-| Breakpoint | 역할 |
-|---|---|
-| `< sm` | phone, compact navigation |
-| `sm` | 주요 navigation 노출 |
-| `md` | 2-column editorial layout 시작 |
-| `lg` | display type 확장, article side space 확보 |
-| `xl` | TOC rail 노출 가능 |
+| Breakpoint | 역할                                       |
+| ---------- | ------------------------------------------ |
+| `< sm`     | phone, compact navigation                  |
+| `sm`       | 주요 navigation 노출                       |
+| `md`       | 2-column editorial layout 시작             |
+| `lg`       | display type 확장, article side space 확보 |
+| `xl`       | article/archive 300px sidebar 노출         |
 
 viewport별 별도 디자인으로 검토한다. desktop 축소판을 mobile에 그대로 쌓지 않는다.
 
@@ -371,6 +374,11 @@ Latest articles:
 - filter가 많으면 horizontal scroll 또는 search와 결합.
 - 글 목록은 home latest pattern과 동일한 문법 사용.
 - pagination은 페이지 번호와 이전/다음 관계가 명확해야 한다.
+- `xl` 이상에서는 `760px` 글 목록과 `300px` sidebar를 `60px` 간격으로 배치한다.
+- archive sidebar 순서는 category index, `300×250` 광고, 추천 글이다.
+- category와 추천 글은 카드가 아니라 divider 기반 text list로 표현한다.
+- `xl` 미만에서는 sidebar를 제거하고 category index를 목록 위 horizontal scroll로 옮긴다.
+- mobile/tablet 광고는 글 목록의 세 번째 또는 네 번째 항목 뒤에 가로 슬롯으로 배치한다.
 
 ### 9.3 Article detail
 
@@ -395,8 +403,10 @@ Latest articles:
 - 클릭 가능한 category/tag만 chip 허용.
 - author/date/read time을 pill로 만들지 않는다.
 - cover는 최대 폭을 넓힐 수 있지만 본문 rhythm을 깨지 않는다.
-- desktop TOC는 우측 thin rail. 별도 heavy card 금지.
-- mobile TOC는 접이식 또는 생략.
+- desktop sidebar는 category 탐색, 광고, TOC, 관련 글을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
+- desktop TOC는 sidebar 내부 thin rail이며 TOC만 sticky를 허용한다. 별도 heavy card 금지.
+- 광고는 sticky로 만들지 않는다.
+- mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
 
 ### 9.4 Notes
 
@@ -509,12 +519,32 @@ Latest articles:
 - 왼쪽 rail + quiet surface 사용.
 - 큰 icon, gradient, shadow 조합 금지.
 
-### 10.11 광고
+### 10.11 Blog sidebar
+
+- 적용 페이지: article archive, category archive, article detail, 충분한 결과가 있는 search page.
+- 제외 페이지: home, notes, about, app landing, privacy/policy, 404.
+- width는 `300px`로 고정하고 main column을 `720px` 아래로 줄이지 않는다.
+- archive 기본 순서는 category index, 광고, 추천 글이다.
+- article detail에서는 category, 광고, TOC, 같은 category 글 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
+- category index는 번호, 이름, 글 수를 사용한 divider list로 표현한다.
+- 추천 글은 thumbnail card가 아닌 compact text list를 우선한다.
+- sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
+- `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. category, 광고, TOC, 관련 글을 각자의 mobile reading order로 재배치한다.
+
+### 10.12 광고
 
 - 콘텐츠와 명확한 간격으로 분리.
 - article 문단 중간 삽입 최소화.
 - 광고 container가 주요 콘텐츠 card처럼 보이지 않게 한다.
-- layout shift 방지용 최소 높이 예약.
+- 광고와 category, pagination, previous/next, copy button 등 interactive element 사이에 최소 `32–40px` 간격을 둔다.
+- custom label이 필요하면 `Advertisements`를 사용한다. 추천, 관련 글처럼 오해할 표현을 쓰지 않는다.
+- sidebar 기본 슬롯은 `300×250`이며 페이지당 하나부터 시작한다.
+- 가로 슬롯은 viewport 기준으로 `<520px: 320×100`, `520–799px: 468×60`, `≥800px: 728×90`을 기본으로 한다.
+- 실제 광고가 로드되기 전에 CSS로 width/height 또는 min-height를 예약해 layout shift를 막는다.
+- 빈 광고 슬롯의 collapse는 below-the-fold에서만 허용하고 visible content를 밀지 않는지 확인한다.
+- placeholder는 layout 검토용으로만 quiet surface를 사용할 수 있다. production 광고를 자체 card처럼 꾸미지 않는다.
+- home 최대 1개, archive 최대 1개, article은 읽기 시간에 따라 0–2개를 기준으로 한다.
+- notes, about, app landing, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
 
 ## 11. 이미지와 cover
 
@@ -539,12 +569,12 @@ Latest articles:
 
 ### 12.2 Timing
 
-| 종류 | Duration | Easing |
-|---|---:|---|
-| hover color | 120–160ms | ease-out |
-| small transform | 160–200ms | ease-out |
-| dialog enter | 200–260ms | cubic-bezier(0.22, 1, 0.36, 1) |
-| theme color | 160–200ms | ease |
+| 종류            |  Duration | Easing                         |
+| --------------- | --------: | ------------------------------ |
+| hover color     | 120–160ms | ease-out                       |
+| small transform | 160–200ms | ease-out                       |
+| dialog enter    | 200–260ms | cubic-bezier(0.22, 1, 0.36, 1) |
+| theme color     | 160–200ms | ease                           |
 
 ### 12.3 허용 예
 
@@ -611,6 +641,8 @@ Mobile:
 - hero 제목이 화면 밖으로 잘리지 않는다.
 - navigation 접근 가능.
 - 목록 column이 자연스러운 reading order로 재배치된다.
+- desktop sidebar를 통째로 목록 아래에 붙이지 않는다.
+- category index는 horizontal scroll, TOC는 접이식, 광고는 content flow로 각각 재배치한다.
 - code/table horizontal scroll 가능.
 - fixed control이 콘텐츠를 가리지 않는다.
 - hover 없이 모든 기능 사용 가능.
@@ -619,7 +651,9 @@ Desktop:
 
 - container가 지나치게 넓어지지 않는다.
 - article line length 유지.
-- TOC가 본문을 압박하지 않는다.
+- sidebar가 `300px`, gap이 `60px`인지 확인한다.
+- TOC와 광고가 본문을 압박하지 않는다.
+- sidebar가 없는 페이지에 불필요한 빈 column을 남기지 않는다.
 - 큰 여백이 빈 UI처럼 보이지 않고 hierarchy를 만든다.
 
 ## 16. Tailwind CSS 구현 규칙
@@ -697,6 +731,8 @@ text-accent / bg-accent / border-accent
 - [ ] H2/H3/code/table/image rhythm이 명확한가?
 - [ ] metadata가 pill로 과장되지 않았는가?
 - [ ] TOC가 보조 navigation처럼 보이는가?
+- [ ] sidebar가 category 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
+- [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?
 
 ### 17.4 Apps와 policy
@@ -709,7 +745,8 @@ text-accent / bg-accent / border-accent
 ## 18. 금지 패턴
 
 - article 전체를 큰 rounded card로 감싸기
-- desktop 고정 sidebar 복원
+- 모든 페이지에 동일한 site-wide sidebar 적용
+- sidebar 전체 또는 광고를 custom sticky/floating 처리
 - 일반 글 목록을 동일 크기 3-column card grid로 구성
 - metadata를 모두 pill로 만들기
 - 한 화면에 여러 gradient와 glow 사용
@@ -736,6 +773,8 @@ text-accent / bg-accent / border-accent
 8. responsive visual QA
 9. `theme-color` 동기화 검토
 10. hero 높이 `540–580px` 범위로 최종 조정
+11. category와 추천 글을 실제 콘텐츠 route에 연결
+12. AdSense ID, consent, 실제 광고 슬롯 연동
 
 ## 20. 변경 관리
 

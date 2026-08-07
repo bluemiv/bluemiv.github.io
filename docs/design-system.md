@@ -347,24 +347,26 @@ viewport별 별도 디자인으로 검토한다. desktop 축소판을 mobile에 
 
 순서:
 
-1. Brand hero
-2. Featured article
-3. Latest articles
+1. Compact brand hero
+2. New release article
+3. Latest articles + topic discovery rail
 4. Short notes
 5. Footer
 
 Hero:
 
-- production 목표 높이: `540–580px`.
+- 실제 콘텐츠 기준 목표 높이: mobile `560–620px`, desktop `520–560px`.
 - H1은 2–4행.
 - 소개 문장은 2문장 이하.
-- status panel은 secondary information.
-- 최신 글이 지나치게 아래로 밀리지 않게 한다.
+- status panel에는 실제 locale의 article, topic, note 개수와 발행 상태만 표시한다. mobile에서도 4개 지표를 한 행으로 유지한다.
+- hero와 status panel은 `lg`부터 2-column으로 분리한다. tablet에서는 제목 폭을 우선하고 status를 하단 1행으로 둔다.
+- `800px` 높이의 일반 노트북 화면에서 다음 콘텐츠의 시작이 보여야 한다.
 - hero 안에 CTA는 최대 1개.
 
 Featured article:
 
 - 화면당 하나.
+- 해당 locale의 최신 article을 사용하며 Latest articles 목록에서는 중복 노출하지 않는다.
 - cover와 text를 2-column으로 배치 가능.
 - cover는 topic별 typographic/diagram 문법을 사용한다.
 - 일반 article 목록보다 명확히 크되 hero와 경쟁하지 않는다.
@@ -376,6 +378,23 @@ Latest articles:
 - mobile에서는 설명을 2행으로 제한하거나 숨긴다.
 - 번호와 arrow가 중복 장식이 되면 하나를 제거한다.
 - hover는 title color, 1–4px 이동, accent rail 중 하나만 사용한다.
+- 최근 article은 featured를 제외하고 최대 6개 노출한다.
+- title, description, topic, date, link는 MDX repository의 실제 metadata에서 build time에 생성한다.
+- 번역되지 않은 article이나 note의 제목을 UI copy에 가짜 번역해 표시하지 않는다.
+
+Home discovery rail:
+
+- `xl` 이상에서 Latest articles 오른쪽에 `300px` rail을 둔다.
+- rail에는 실제 article metadata에서 집계한 상위 topic 6개와 광고 1개만 둔다.
+- topic route 연결 전 topic index는 정보 목록으로 표시하고 가짜 link를 만들지 않는다.
+- `xl` 미만에서는 topic index를 latest 목록 위 horizontal list로 옮기고 광고를 세 번째 article 뒤에 둔다.
+- home rail은 해당 section의 탐색 보조 영역이며 site-wide sidebar나 sticky 영역으로 사용하지 않는다.
+
+Short notes:
+
+- 실제 locale의 최신 note를 최대 3개 노출한다.
+- 공개 note가 없으면 section 자체를 생략한다.
+- note row는 해당 상세 route로 직접 연결한다.
 
 ### 9.2 Articles archive
 
@@ -563,6 +582,7 @@ Latest articles:
 - 추천 글은 image card가 아닌 compact text list를 우선한다.
 - sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
 - `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. topic, 광고, TOC, 관련 article을 각자의 mobile reading order로 재배치한다.
+- home의 Latest articles 옆 discovery rail은 Blog sidebar와 별도 패턴이다. Home 규칙의 제한된 콘텐츠만 사용한다.
 
 ### 10.12 광고
 
@@ -582,8 +602,10 @@ Latest articles:
 현재 구현 기준:
 
 - 수동 display ad를 기본으로 하며 Auto ads는 별도 layout 검증 전 활성화하지 않는다.
-- `/articles`에서만 AdSense script를 `afterInteractive`로 로드한다.
-- desktop `xl` 이상에서는 sidebar `300×250`, 그 미만에서는 세 번째 글 뒤 responsive banner 하나만 초기화한다.
+- 한국어 `/`와 `/articles`에서 필요한 경우에만 AdSense script를 `afterInteractive`로 로드한다.
+- home은 latest article이 4개 이상일 때만 광고를 노출한다.
+- home desktop은 topic rail 아래 `300×250`, mobile/tablet은 세 번째 latest article 뒤 responsive banner를 사용한다. 한 viewport에서 하나만 초기화한다.
+- `/articles`는 desktop `xl` 이상에서 sidebar `300×250`, 그 미만에서는 세 번째 글 뒤 responsive banner 하나만 초기화한다.
 - `pnpm dev`에서는 외부 AdSense script를 요청하지 않고 동일 크기의 placeholder를 표시한다.
 - production static export에서만 실제 unit을 활성화하며 현재 viewport에 보이지 않는 unit은 광고 요청을 보내지 않는다.
 - 공개 publisher/slot ID는 `src/features/adsense/adSenseConfig.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.
@@ -776,6 +798,10 @@ text-accent / bg-accent / border-accent
 - [ ] 목록이 card grid로 회귀하지 않았는가?
 - [ ] blueprint motif가 과하지 않은가?
 - [ ] 실제 콘텐츠 제목 길이로 검증했는가?
+- [ ] featured와 latest에 같은 article이 중복되지 않는가?
+- [ ] article, note, topic count가 repository의 실제 데이터와 일치하는가?
+- [ ] 번역 없는 locale에 가짜 article이나 존재하지 않는 detail link가 표시되지 않는가?
+- [ ] desktop rail과 mobile flow에서 광고가 하나만 초기화되는가?
 
 ### 17.3 Article
 

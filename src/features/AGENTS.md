@@ -6,6 +6,7 @@
 
 | Feature          | 책임                                                    | 포함할 수 있는 것                                          | 포함하지 않는 것                                               |
 | ---------------- | ------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------------- |
+| `adsense`        | production AdSense script와 광고 unit 초기화            | 공개 publisher/slot 설정, viewport별 slot 활성화           | 광고 위치 결정, consent UI, Auto ads 설정                      |
 | `theme`          | light/dark 테마 선택과 전환                             | theme control, browser preference 확인, 사용자 선택 저장   | 디자인 token 정의, page layout, 범용 button                    |
 | `service-worker` | 기존 캐싱 service worker 등록 해제와 Cache Storage 정리 | browser-side unregister fallback, legacy cache prefix 정리 | offline cache, fetch interception, PWA 설치, push notification |
 
@@ -27,6 +28,15 @@
 - `ThemeToggle`은 현재 상태를 접근성 속성으로 전달해야 하며 hydration 차이를 만들지 않아야 한다.
 - 색상 값과 디자인 결정은 feature 내부에 추가하지 않고 `docs/design-system.md`와 `src/app/globals.css`에서 관리한다.
 - 테마 하나만을 위해 전역 상태 라이브러리를 도입하지 않는다.
+
+## `adsense` 규칙
+
+- AdSense publisher ID와 ad slot ID는 브라우저에 공개되는 값이다. 실제 secret이나 관리 API credential은 feature에 추가하지 않는다.
+- 광고 script는 실제 광고가 있는 route에서만 `afterInteractive`로 불러오며 `pnpm dev`에서는 로드하지 않는다.
+- local development에서는 실제 광고 대신 `AdSlotPlaceholder`로 예약 크기와 반응형 layout을 확인한다.
+- production에서도 현재 viewport에 노출되는 unit 하나만 초기화한다. CSS로 숨긴 광고 unit에 광고 요청을 보내지 않는다.
+- 광고의 page 위치, 간격, 허용 개수는 `docs/design-system.md`를 따른다.
+- Auto ads 활성화와 지역별 consent/CMP 설정은 AdSense 관리 화면의 별도 운영 책임이다. 코드가 활성화 상태를 추측하지 않는다.
 
 ## `service-worker` 규칙
 

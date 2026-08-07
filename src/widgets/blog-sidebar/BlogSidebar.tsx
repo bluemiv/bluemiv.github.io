@@ -1,4 +1,4 @@
-import { AdSlotPlaceholder } from "@/shared/ui/AdSlotPlaceholder";
+import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 
 const CATEGORIES = [
   { name: "All articles", count: 87, active: true },
@@ -85,7 +85,7 @@ export function BlogSidebar() {
       </section>
 
       <div className="mt-12">
-        <AdSlotPlaceholder format="sidebar" />
+        <AdSenseSlot format="sidebar" />
       </div>
 
       <section className="mt-14" aria-labelledby="recommended-title">

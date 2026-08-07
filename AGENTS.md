@@ -17,6 +17,7 @@ Bluemiv Tech Blog V2는 Next.js 16 App Router와 Tailwind CSS v4로 만드는 Gi
 ```text
 public/                          정적 원본 파일
 ├── sw.js                       기존 캐시 제거 전용 tombstone service worker
+├── ads.txt                     AdSense 판매자 공개 인증
 └── .nojekyll                   GitHub Pages의 Jekyll 처리 비활성화
 docs/
 └── design-system.md            디자인 시스템 단일 원천
@@ -24,6 +25,7 @@ src/
 ├── app/                        App Router의 route, layout, metadata, global CSS
 │   └── (blog)/                 블로그 공통 shell을 공유하는 route group
 ├── features/                   독립된 사용자 기능과 도메인 동작
+│   ├── adsense/                production 광고 script와 slot 초기화
 │   ├── service-worker/         구형 service worker와 캐시 정리
 │   └── theme/                  light/dark 테마 전환
 ├── shared/                     도메인에 종속되지 않는 config와 UI primitive

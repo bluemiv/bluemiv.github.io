@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { AdSlotPlaceholder } from "@/shared/ui/AdSlotPlaceholder";
+import { AdSenseScript } from "@/features/adsense/AdSenseScript";
+import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import { BlogGrid } from "@/shared/ui/BlogGrid";
 import { Container } from "@/shared/ui/Container";
 import {
@@ -82,94 +83,97 @@ const ARTICLES = [
 
 export default function ArticlesPage() {
   return (
-    <Container className="py-16 md:py-24">
-      <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
-        <p className="text-accent mb-5 font-mono text-[10px] font-bold tracking-[0.18em] uppercase">
-          Articles / Archive
-        </p>
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl">
-              기술 글
-            </h1>
-            <p className="text-muted mt-6 max-w-[620px] text-base leading-8 md:text-lg">
-              개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류해
-              기록합니다.
-            </p>
-          </div>
-          <span className="text-subtle hidden pb-2 font-mono text-[10px] sm:block">
-            087 ENTRIES
-          </span>
-        </div>
-      </header>
-
-      <div className="mt-10 xl:mt-16">
-        <BlogGrid sidebar={<BlogSidebar />}>
-          <MobileCategoryIndex />
-
-          <section
-            className="mt-10 xl:mt-0"
-            aria-labelledby="article-list-title"
-          >
-            <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
-              <div>
-                <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
-                  Latest first
-                </p>
-                <h2
-                  id="article-list-title"
-                  className="mt-2 text-sm font-bold tracking-[0.08em] uppercase"
-                >
-                  All articles
-                </h2>
-              </div>
-              <p className="text-muted text-xs">
-                콘텐츠 이관 전 레이아웃 미리보기
+    <>
+      <AdSenseScript />
+      <Container className="py-16 md:py-24">
+        <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
+          <p className="text-accent mb-5 font-mono text-[10px] font-bold tracking-[0.18em] uppercase">
+            Articles / Archive
+          </p>
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <h1 className="text-4xl font-semibold tracking-[-0.045em] md:text-6xl">
+                기술 글
+              </h1>
+              <p className="text-muted mt-6 max-w-[620px] text-base leading-8 md:text-lg">
+                개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류해
+                기록합니다.
               </p>
             </div>
+            <span className="text-subtle hidden pb-2 font-mono text-[10px] sm:block">
+              087 ENTRIES
+            </span>
+          </div>
+        </header>
 
-            <ol>
-              {ARTICLES.map((article, index) => (
-                <li key={article.number}>
-                  <article className="border-border grid grid-cols-[44px_minmax(0,1fr)] gap-3 border-b py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_88px] md:items-start">
-                    <span className="text-subtle font-mono text-[10px]">
-                      {article.number}
-                    </span>
-                    <span className="text-accent font-mono text-[10px] uppercase">
-                      {article.category}
-                    </span>
-                    <div className="col-span-2 md:col-span-1">
-                      <h3 className="text-lg font-semibold tracking-[-0.025em] md:text-xl">
-                        {article.title}
-                      </h3>
-                      <p className="text-muted mt-2 text-sm leading-6">
-                        {article.description}
-                      </p>
-                    </div>
-                    <div className="text-subtle col-span-2 flex gap-3 font-mono text-[10px] md:col-span-1 md:block md:text-right">
-                      <time dateTime={article.dateTime} className="block">
-                        {article.date}
-                      </time>
-                      <span className="mt-1 block">{article.readTime}</span>
-                    </div>
-                  </article>
+        <div className="mt-10 xl:mt-16">
+          <BlogGrid sidebar={<BlogSidebar />}>
+            <MobileCategoryIndex />
 
-                  {index === 2 ? (
-                    <div className="xl:hidden">
-                      <AdSlotPlaceholder format="banner" />
-                    </div>
-                  ) : null}
-                </li>
-              ))}
-            </ol>
+            <section
+              className="mt-10 xl:mt-0"
+              aria-labelledby="article-list-title"
+            >
+              <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+                    Latest first
+                  </p>
+                  <h2
+                    id="article-list-title"
+                    className="mt-2 text-sm font-bold tracking-[0.08em] uppercase"
+                  >
+                    All articles
+                  </h2>
+                </div>
+                <p className="text-muted text-xs">
+                  콘텐츠 이관 전 레이아웃 미리보기
+                </p>
+              </div>
 
-            <footer className="border-border text-subtle flex items-center justify-between border-b py-6 font-mono text-[10px]">
-              <span>PAGE 01 / 15</span>
-              <span>페이지 이동은 콘텐츠 이관 후 연결</span>
-            </footer>
-          </section>
-        </BlogGrid>
-      </div>
-    </Container>
+              <ol>
+                {ARTICLES.map((article, index) => (
+                  <li key={article.number}>
+                    <article className="border-border grid grid-cols-[44px_minmax(0,1fr)] gap-3 border-b py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_88px] md:items-start">
+                      <span className="text-subtle font-mono text-[10px]">
+                        {article.number}
+                      </span>
+                      <span className="text-accent font-mono text-[10px] uppercase">
+                        {article.category}
+                      </span>
+                      <div className="col-span-2 md:col-span-1">
+                        <h3 className="text-lg font-semibold tracking-[-0.025em] md:text-xl">
+                          {article.title}
+                        </h3>
+                        <p className="text-muted mt-2 text-sm leading-6">
+                          {article.description}
+                        </p>
+                      </div>
+                      <div className="text-subtle col-span-2 flex gap-3 font-mono text-[10px] md:col-span-1 md:block md:text-right">
+                        <time dateTime={article.dateTime} className="block">
+                          {article.date}
+                        </time>
+                        <span className="mt-1 block">{article.readTime}</span>
+                      </div>
+                    </article>
+
+                    {index === 2 ? (
+                      <div className="xl:hidden">
+                        <AdSenseSlot format="banner" />
+                      </div>
+                    ) : null}
+                  </li>
+                ))}
+              </ol>
+
+              <footer className="border-border text-subtle flex items-center justify-between border-b py-6 font-mono text-[10px]">
+                <span>PAGE 01 / 15</span>
+                <span>페이지 이동은 콘텐츠 이관 후 연결</span>
+              </footer>
+            </section>
+          </BlogGrid>
+        </div>
+      </Container>
+    </>
   );
 }

@@ -549,6 +549,16 @@ Latest articles:
 - home 최대 1개, archive 최대 1개, article은 읽기 시간에 따라 0–2개를 기준으로 한다.
 - notes, about, app landing, privacy/policy, 404에는 기본적으로 광고를 넣지 않는다.
 
+현재 구현 기준:
+
+- 수동 display ad를 기본으로 하며 Auto ads는 별도 layout 검증 전 활성화하지 않는다.
+- `/articles`에서만 AdSense script를 `afterInteractive`로 로드한다.
+- desktop `xl` 이상에서는 sidebar `300×250`, 그 미만에서는 세 번째 글 뒤 responsive banner 하나만 초기화한다.
+- `pnpm dev`에서는 외부 AdSense script를 요청하지 않고 동일 크기의 placeholder를 표시한다.
+- production static export에서만 실제 unit을 활성화하며 현재 viewport에 보이지 않는 unit은 광고 요청을 보내지 않는다.
+- 공개 publisher/slot ID는 `src/features/adsense/config.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.
+- 지역별 개인정보 보호 규정과 consent/CMP는 실제 배포 전 운영 설정까지 함께 확인한다.
+
 ## 11. 이미지와 cover
 
 - post thumbnail은 선택 사항.
@@ -772,7 +782,7 @@ text-accent / bg-accent / border-accent
 4. responsive visual QA
 5. `theme-color` 동기화 검토
 6. category와 추천 글을 실제 콘텐츠 route에 연결
-7. AdSense ID, consent, 실제 광고 슬롯 연동
+7. 지역별 consent/CMP 운영 설정 최종 확인
 
 ## 20. 변경 관리
 

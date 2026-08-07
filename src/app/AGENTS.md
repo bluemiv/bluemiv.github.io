@@ -5,6 +5,7 @@
 - `/`는 한국어 홈. `/en/`, `/ja/`만 locale prefix를 쓴다.
 - 동적 route는 static export용 `generateStaticParams`를 제공한다.
 - route folder는 public URL과 같은 소문자 kebab-case를 쓴다.
+- `blog` route는 기존 URL redirect 전용이다. 신규 화면을 추가하지 않는다.
 - route group과 Next.js 예약 파일명은 framework 규칙을 따른다.
 - metadata 변경 시 canonical, hreflang, Open Graph를 함께 확인한다.
 - runtime request API와 서버 전용 기능을 쓰지 않는다.

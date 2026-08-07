@@ -3,7 +3,9 @@
 | 디렉토리        | 책임                               |
 | --------------- | ---------------------------------- |
 | `adsense`       | 광고 script, slot, local preview   |
+| `article`       | article metadata 검증과 SSG 조회   |
 | `i18n`          | locale 판별, locale URL, 번역 문구 |
+| `note`          | note metadata 검증과 SSG 조회      |
 | `serviceWorker` | 구형 worker와 cache 제거           |
 | `theme`         | 초기 theme 적용과 전환             |
 

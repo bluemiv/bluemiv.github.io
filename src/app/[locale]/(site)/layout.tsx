@@ -4,10 +4,7 @@ import { SiteFooter } from "@/components/widgets/SiteFooter";
 import { SiteHeader } from "@/components/widgets/SiteHeader";
 import { isPrefixedLocale } from "@/features/i18n/localeConfig";
 
-export default async function LocalizedBlogLayout({
-  children,
-  params,
-}: LayoutProps<"/[locale]">) {
+export default async function LocalizedBlogLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
 
   if (!isPrefixedLocale(locale)) notFound();

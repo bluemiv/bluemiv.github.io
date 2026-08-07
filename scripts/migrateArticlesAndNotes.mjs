@@ -78,7 +78,7 @@ function normalizeMetadataNames(sourceMdx) {
     .replace(/^updatedAt:/m, "modifiedAt:")
     .replace(/^release:/m, "isPublished:")
     .replace(/^thumbnail:/m, "coverImage:")
-    .replace(/^author:.*$/m, "author: Bluemiv");
+    .replace(/^author:.*\n/m, "");
 }
 
 function writeMdxFile(target, mdx) {
@@ -114,10 +114,7 @@ for (const relativeFile of articleFiles) {
 
   if (!slug) throw new Error(`Missing article slug: ${key}`);
 
-  const sourceMdx = fs.readFileSync(
-    path.join(legacyArticlesRoot, relativeFile),
-    "utf8",
-  );
+  const sourceMdx = fs.readFileSync(path.join(legacyArticlesRoot, relativeFile), "utf8");
   const migratedMdx = normalizeMetadataNames(
     addMigrationMetadata(sourceMdx, [
       `id: article-${legacyId.padStart(3, "0")}`,
@@ -151,10 +148,7 @@ for (const relativeFile of noteFiles) {
 
   if (!slug) throw new Error(`Missing note slug: ${legacyId}`);
 
-  const sourceMdx = fs.readFileSync(
-    path.join(legacyNotesRoot, relativeFile),
-    "utf8",
-  );
+  const sourceMdx = fs.readFileSync(path.join(legacyNotesRoot, relativeFile), "utf8");
   const migratedMdx = normalizeMetadataNames(
     addMigrationMetadata(sourceMdx, [
       `id: note-${legacyId.padStart(3, "0")}`,
@@ -172,6 +166,4 @@ for (const relativeFile of noteFiles) {
   );
 }
 
-console.log(
-  `Migrated ${articleFiles.length} articles and ${noteFiles.length} notes.`,
-);
+console.log(`Migrated ${articleFiles.length} articles and ${noteFiles.length} notes.`);

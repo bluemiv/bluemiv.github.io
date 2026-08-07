@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { SITE_CONFIG } from "@/config/siteConfig";
-import {
-  isPrefixedLocale,
-  PREFIXED_LOCALES,
-} from "@/features/i18n/localeConfig";
+import { isPrefixedLocale, PREFIXED_LOCALES } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
 import { ServiceWorkerCleanup } from "@/features/serviceWorker/ServiceWorkerCleanup";
 import { ThemeInitializer } from "@/features/theme/ThemeInitializer";
@@ -19,9 +16,7 @@ export function generateStaticParams() {
   return PREFIXED_LOCALES.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params,
-}: LayoutProps<"/[locale]">): Promise<Metadata> {
+export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
 
   if (!isPrefixedLocale(locale)) notFound();
@@ -37,20 +32,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocaleRootLayout({
-  children,
-  params,
-}: LayoutProps<"/[locale]">) {
+export default async function LocaleRootLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
 
   if (!isPrefixedLocale(locale)) notFound();
 
   return (
-    <html
-      lang={locale}
-      className={ibmPlexMono.variable}
-      suppressHydrationWarning
-    >
+    <html lang={locale} className={ibmPlexMono.variable} suppressHydrationWarning>
       <head>
         <ThemeInitializer />
       </head>

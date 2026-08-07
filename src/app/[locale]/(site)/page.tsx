@@ -14,9 +14,7 @@ const OPEN_GRAPH_LOCALE = {
   ja: "ja_JP",
 } as const;
 
-export async function generateMetadata({
-  params,
-}: PageProps<"/[locale]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
 
   if (!isPrefixedLocale(locale)) notFound();
@@ -39,9 +37,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function LocalizedHomePage({
-  params,
-}: PageProps<"/[locale]">) {
+export default async function LocalizedHomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
 
   if (!isPrefixedLocale(locale)) notFound();

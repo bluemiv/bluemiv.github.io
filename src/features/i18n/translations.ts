@@ -147,7 +147,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       accent: "기록",
       lineThreeSuffix: "으로 남깁니다.",
       description: (careerMonthOrdinal) =>
-        `소프트웨어를 설계하고 개발한 지 ${careerMonthOrdinal}개월째. 문제를 해결하며 내린 선택과 배움을 기록합니다.`,
+        `소프트웨어를 개발한 지 ${careerMonthOrdinal}개월째. 문제를 해결하며 내린 선택과 배움을 기록합니다.`,
       cta: "최근 글 살펴보기",
       statusLabel: "상태",
       status: "기록 중",
@@ -193,7 +193,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       accent: "record",
       lineThreeSuffix: ".",
       description: (careerMonthOrdinal) =>
-        `${careerMonthOrdinal} months into designing and building software. I document the decisions and lessons shaped by solving real problems.`,
+        `${careerMonthOrdinal} months into building software. I document the decisions and lessons shaped by solving real problems.`,
       cta: "Browse recent writing",
       statusLabel: "Status",
       status: "Translating",
@@ -239,7 +239,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       accent: "記録",
       lineThreeSuffix: "として残します。",
       description: (careerMonthOrdinal) =>
-        `ソフトウェアの設計と開発を始めて${careerMonthOrdinal}か月目。課題を解決する中での選択と学びを記録しています。`,
+        `ソフトウェア開発を始めて${careerMonthOrdinal}か月目。課題を解決する中での選択と学びを記録しています。`,
       cta: "最近の記事を見る",
       statusLabel: "状態",
       status: "翻訳中",

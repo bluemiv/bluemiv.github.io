@@ -26,6 +26,7 @@ export default defineConfig({
         "src/features/article/articleSeo.ts",
         "src/features/i18n/localeConfig.ts",
         "src/features/legacyRedirect/legacyRedirects.ts",
+        "src/features/navigation/siteNavigation.ts",
         "src/features/note/noteMetadata.ts",
         "src/features/note/noteRepository.ts",
         "src/features/serviceWorker/serviceWorkerConfig.ts",

@@ -449,12 +449,15 @@ Latest articles:
 
 ### 10.1 Header
 
-- 높이: `64–72px`.
+- 기본 높이는 `72px`, scroll down compact 높이는 `60px`.
 - logo, primary navigation, search, theme control만 배치.
 - sticky 허용.
-- blur를 쓰면 투명도가 읽기성을 해치지 않아야 한다.
-- mobile에서 navigation 전체를 제거하지 않는다.
-- mobile menu 또는 최소 `Articles`, `Notes` 접근 경로 제공.
+- header surface는 `canvas 80%`와 `backdrop-blur-xl`을 사용해 본문과 분리하되 배경 흐름을 남긴다.
+- desktop은 logo, 중앙 primary navigation, utility control의 3영역으로 구성한다.
+- active navigation은 text와 1px accent rail을 함께 사용한다.
+- 아래로 `32px` 이상 scroll하면 compact, 위로 `16px` 이상 scroll하면 기본 높이로 전환한다.
+- mobile menu에서 모든 primary navigation을 제공한다.
+- 크기와 menu transition은 `200ms ease-out`, reduced motion에서는 제거한다.
 - 모든 touch target 최소 `44×44px`.
 
 ### 10.2 Logo

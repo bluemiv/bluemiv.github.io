@@ -1,6 +1,7 @@
 import type { Locale } from "./localeConfig";
 
 type SiteCopy = {
+  homeLabel: string;
   navigationLabel: string;
   nav: {
     articles: string;
@@ -8,12 +9,15 @@ type SiteCopy = {
     apps: string;
     about: string;
   };
+  mobileMenu: {
+    open: string;
+    close: string;
+  };
   languageLabel: string;
   theme: {
     toggle: string;
     light: string;
     dark: string;
-    visible: string;
   };
   footer: {
     description: string;
@@ -78,6 +82,7 @@ export const LANGUAGE_NAMES: Record<Locale, { native: string; english: string }>
 
 export const SITE_COPY: Record<Locale, SiteCopy> = {
   ko: {
+    homeLabel: "Bluemiv 홈",
     navigationLabel: "주요 메뉴",
     nav: {
       articles: "Articles",
@@ -85,16 +90,17 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       apps: "Apps",
       about: "About",
     },
+    mobileMenu: { open: "메뉴 열기", close: "메뉴 닫기" },
     languageLabel: "언어 선택",
     theme: {
       toggle: "색상 테마 전환",
       light: "라이트 테마로 전환",
       dark: "다크 테마로 전환",
-      visible: "Theme",
     },
     footer: { description: "서울에서 기록하는 정적 기술 아카이브" },
   },
   en: {
+    homeLabel: "Bluemiv home",
     navigationLabel: "Primary navigation",
     nav: {
       articles: "Articles",
@@ -102,16 +108,17 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       apps: "Apps",
       about: "About",
     },
+    mobileMenu: { open: "Open menu", close: "Close menu" },
     languageLabel: "Choose language",
     theme: {
       toggle: "Change color theme",
       light: "Switch to light theme",
       dark: "Switch to dark theme",
-      visible: "Theme",
     },
     footer: { description: "A static technology archive from Seoul" },
   },
   ja: {
+    homeLabel: "Bluemiv ホーム",
     navigationLabel: "メインメニュー",
     nav: {
       articles: "Articles",
@@ -119,12 +126,12 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       apps: "Apps",
       about: "About",
     },
+    mobileMenu: { open: "メニューを開く", close: "メニューを閉じる" },
     languageLabel: "言語を選択",
     theme: {
       toggle: "カラーテーマを変更",
       light: "ライトテーマに切り替え",
       dark: "ダークテーマに切り替え",
-      visible: "Theme",
     },
     footer: { description: "ソウルから綴る静的な技術アーカイブ" },
   },

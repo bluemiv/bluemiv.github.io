@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { Moon, Sun, SunMoon } from "lucide-react";
 
 import { resolveTheme, THEME_STORAGE_KEY } from "./themeConfig";
 
@@ -11,7 +12,6 @@ type ThemeToggleProps = {
     toggle: string;
     light: string;
     dark: string;
-    visible: string;
   };
 };
 
@@ -19,7 +19,6 @@ const DEFAULT_LABELS = {
   toggle: "색상 테마 전환",
   light: "라이트 테마로 전환",
   dark: "다크 테마로 전환",
-  visible: "Theme",
 };
 
 function subscribeToTheme(onStoreChange: () => void) {
@@ -70,13 +69,15 @@ export function ThemeToggle({ labels = DEFAULT_LABELS }: ThemeToggleProps) {
       onClick={toggleTheme}
       aria-label={isDark === null ? labels.toggle : isDark ? labels.light : labels.dark}
       aria-pressed={isDark ?? undefined}
-      className="border-border text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-l pl-3 text-xs font-bold tracking-[0.12em] uppercase transition-colors md:pl-6"
+      className="text-muted hover:text-foreground inline-flex size-11 items-center justify-center transition-colors"
     >
-      <span
-        aria-hidden="true"
-        className="block size-3 rounded-full border border-current bg-[linear-gradient(90deg,currentColor_50%,transparent_50%)]"
-      />
-      <span className="hidden sm:inline">{labels.visible}</span>
+      {isDark === null ? (
+        <SunMoon aria-hidden="true" size={16} />
+      ) : isDark ? (
+        <Sun aria-hidden="true" size={16} />
+      ) : (
+        <Moon aria-hidden="true" size={16} />
+      )}
     </button>
   );
 }

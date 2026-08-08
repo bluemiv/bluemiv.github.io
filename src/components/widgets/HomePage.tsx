@@ -5,11 +5,15 @@ import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
 import { ArticleListRow } from "@/components/widgets/ArticleListRow";
+import {
+  ArticleTaxonomyNavigation,
+  MobileArticleTaxonomyNavigation,
+} from "@/components/widgets/ArticleTaxonomyNavigation";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
-import { selectHomeArticles, summarizeArticleTopics } from "@/features/article/articleCollection";
+import { selectHomeArticles, summarizeArticleTaxonomy } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getArticleDocument, getPublishedArticles } from "@/features/article/articleRepository";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
@@ -42,8 +46,8 @@ export function HomePage({ locale }: PropsWithHomePage) {
   const articles = getPublishedArticles(locale);
   const notes = getPublishedNotes(locale);
   const { featuredArticle, latestArticles } = selectHomeArticles(articles);
-  const allTopics = summarizeArticleTopics(articles, articles.length);
-  const topics = allTopics.slice(0, 6);
+  const taxonomy = summarizeArticleTaxonomy(articles);
+  const topicCount = taxonomy.reduce((count, category) => count + category.topics.length, 0);
   const featuredDocument = featuredArticle
     ? getArticleDocument(featuredArticle.slug, locale)
     : null;
@@ -103,7 +107,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               <div className="lg:contents">
                 <dt>{copy.hero.topicCountLabel.toUpperCase()}</dt>
                 <dd className="text-foreground tabular-nums">
-                  {String(allTopics.length).padStart(2, "0")}
+                  {String(topicCount).padStart(2, "0")}
                 </dd>
               </div>
               <div className="lg:contents">
@@ -227,7 +231,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
 
         <div
           id="latest-articles"
-          className={`${featuredArticle ? "mt-20 md:mt-28" : ""} scroll-mt-24 ${topics.length > 0 ? "xl:grid xl:grid-cols-[minmax(0,760px)_300px] xl:gap-[60px]" : "max-w-[760px]"}`}
+          className={`${featuredArticle ? "mt-20 md:mt-28" : ""} scroll-mt-24 ${taxonomy.length > 0 ? "xl:grid xl:grid-cols-[minmax(0,760px)_300px] xl:gap-[60px]" : "max-w-[760px]"}`}
         >
           <section aria-labelledby="latest-title">
             <div className="border-border grid gap-4 border-b pb-5 sm:grid-cols-[1fr_auto] sm:items-end">
@@ -254,26 +258,17 @@ export function HomePage({ locale }: PropsWithHomePage) {
               ) : null}
             </div>
 
-            {topics.length > 0 ? (
-              <div className="border-border border-b py-5 xl:hidden">
-                <p className="text-muted mb-3 font-mono text-xs tracking-[0.16em] uppercase">
-                  {copy.topics.heading}
-                </p>
-                <ul className="flex [scrollbar-width:none] gap-5 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
-                  {topics.map(({ topic, count }) => (
-                    <li key={topic} className="shrink-0">
-                      <Link
-                        href={getLocalizedPath(locale, `topics/${topic}`)}
-                        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-                        className="text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-b border-transparent px-1 text-sm transition-colors hover:border-current"
-                      >
-                        <span className="font-semibold">{getArticleTopicLabel(topic)}</span>
-                        <span className="text-muted font-mono text-xs tabular-nums">{count}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {taxonomy.length > 0 ? (
+              <MobileArticleTaxonomyNavigation
+                activeCategory={null}
+                activeTopic={null}
+                heading={copy.topics.heading}
+                isAllArticlesActive={false}
+                locale={locale}
+                taxonomy={taxonomy}
+                totalArticleCount={articles.length}
+                transitionDirection="forward"
+              />
             ) : null}
 
             {latestArticles.length > 0 ? (
@@ -296,52 +291,20 @@ export function HomePage({ locale }: PropsWithHomePage) {
             )}
           </section>
 
-          {topics.length > 0 ? (
+          {taxonomy.length > 0 ? (
             <aside className="hidden xl:block" aria-label={copy.topics.heading}>
-              <section aria-labelledby="home-topics-title">
-                <div className="border-border border-b pb-4">
-                  <p className="motion-section-marker text-accent font-mono text-xs tracking-[0.16em] uppercase">
-                    {copy.topics.eyebrow}
-                  </p>
-                  <div className="mt-2 flex items-end justify-between gap-4">
-                    <h2
-                      id="home-topics-title"
-                      className="text-xs font-bold tracking-[0.08em] uppercase"
-                    >
-                      {copy.topics.heading}
-                    </h2>
-                    <span className="text-muted font-mono text-xs tabular-nums">
-                      {topics.length.toString().padStart(2, "0")}
-                    </span>
-                  </div>
-                  <p className="text-muted mt-3 text-sm leading-6">{copy.topics.description}</p>
-                </div>
-                <ol>
-                  {topics.map(({ topic, count }, index) => (
-                    <li key={topic} className="border-border border-b">
-                      <Link
-                        href={getLocalizedPath(locale, `topics/${topic}`)}
-                        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-                        className="group grid min-h-14 grid-cols-[28px_1fr_auto_16px] items-center gap-3 text-sm"
-                      >
-                        <span className="text-subtle font-mono text-xs">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <span className="group-hover:text-accent text-foreground font-semibold transition-colors">
-                          {getArticleTopicLabel(topic)}
-                        </span>
-                        <span className="text-muted font-mono text-xs tabular-nums">{count}</span>
-                        <span
-                          aria-hidden="true"
-                          className="text-subtle transition-transform group-hover:translate-x-0.5"
-                        >
-                          →
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ol>
-              </section>
+              <ArticleTaxonomyNavigation
+                activeCategory={null}
+                activeTopic={null}
+                description={copy.topics.description}
+                eyebrow={copy.topics.eyebrow}
+                heading={copy.topics.heading}
+                isAllArticlesActive={false}
+                locale={locale}
+                taxonomy={taxonomy}
+                totalArticleCount={articles.length}
+                transitionDirection="forward"
+              />
 
               {showHomeAd ? (
                 <div className="mt-12">

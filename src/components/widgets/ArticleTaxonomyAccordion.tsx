@@ -12,13 +12,17 @@ import {
   type ArticleTopic,
 } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
-import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
+import {
+  NAVIGATION_TRANSITION_TYPES,
+  type NavigationTransitionDirection,
+} from "@/features/navigation/navigationTransition";
 
 type PropsWithArticleTaxonomyAccordion = {
   activeCategory: ArticleCategory | null;
   activeTopic: ArticleTopic | null;
   locale: Locale;
   taxonomy: readonly ArticleCategorySummary[];
+  transitionDirection?: NavigationTransitionDirection;
 };
 
 function getCategoryPath(locale: Locale, category: ArticleCategory): string {
@@ -34,6 +38,7 @@ export function ArticleTaxonomyAccordion({
   activeTopic,
   locale,
   taxonomy,
+  transitionDirection = "swap",
 }: PropsWithArticleTaxonomyAccordion) {
   const [expandedCategory, setExpandedCategory] = useState<ArticleCategory | null>(activeCategory);
 
@@ -61,7 +66,7 @@ export function ArticleTaxonomyAccordion({
               </span>
               <Link
                 href={getCategoryPath(locale, categorySummary.category)}
-                transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
+                transitionTypes={NAVIGATION_TRANSITION_TYPES[transitionDirection]}
                 aria-current={isCategoryActive && activeTopic === null ? "page" : undefined}
                 className={`flex min-h-14 min-w-0 items-center text-sm transition-colors duration-150 motion-reduce:transition-none ${
                   isCategoryActive
@@ -99,7 +104,7 @@ export function ArticleTaxonomyAccordion({
                   <li key={topic} className="border-border border-b last:border-b-0">
                     <Link
                       href={getTopicPath(locale, topic)}
-                      transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
+                      transitionTypes={NAVIGATION_TRANSITION_TYPES[transitionDirection]}
                       aria-current={isTopicActive ? "page" : undefined}
                       className={`grid min-h-11 grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-3 border-l-2 py-2 pr-3 pl-10 text-sm transition-colors duration-150 motion-reduce:transition-none ${
                         isTopicActive

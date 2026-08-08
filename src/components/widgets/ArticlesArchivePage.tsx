@@ -1,7 +1,8 @@
 import { Container } from "@/components/atoms/Container";
 import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout";
 import { ArticleListRow } from "@/components/widgets/ArticleListRow";
-import { ArticleSidebar, MobileTaxonomyIndex } from "@/components/widgets/ArticleSidebar";
+import { ArticleSidebar } from "@/components/widgets/ArticleSidebar";
+import { MobileArticleTaxonomyNavigation } from "@/components/widgets/ArticleTaxonomyNavigation";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { PaginationNavigation } from "@/components/widgets/PaginationNavigation";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
@@ -84,7 +85,7 @@ export function ArticlesArchivePage({
 
         <div className="mt-10 xl:mt-16">
           <ArticleArchiveLayout sidebar={<ArticleSidebar {...taxonomyNavigationProps} />}>
-            <MobileTaxonomyIndex {...taxonomyNavigationProps} />
+            <MobileArticleTaxonomyNavigation {...taxonomyNavigationProps} />
 
             <section className="mt-10 xl:mt-0" aria-labelledby="article-list-title">
               <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">

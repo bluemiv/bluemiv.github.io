@@ -9,6 +9,7 @@
   사용한다. mock 목록과 비동작 control을 두지 않는다.
 - Home Latest와 archive는 공통 article row를 사용한다. divider list와 우측 `32:17` compact cover를
   유지하고 cover가 없으면 placeholder와 빈 column을 만들지 않는다.
+- Home discovery rail과 archive sidebar는 공통 `ArticleTaxonomyNavigation`을 사용한다.
 - article row thumbnail의 왼쪽은 image와 border를 함께 canvas로 dissolve한다. 상시 장식을 더하지 않고
   hover/focus에서만 dissolve 경계에 짧은 accent registration tick을 표시한다.
 - desktop archive taxonomy는 category link와 접기 button을 분리한다. 전체 글에서는 category를

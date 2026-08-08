@@ -185,7 +185,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     topics: {
       eyebrow: "Explore / Topics",
       heading: "주제별 기록",
-      description: "많이 기록한 주제부터 빠르게 훑어봅니다.",
+      description: "분야와 주제를 2단계로 나누어 기록을 탐색합니다.",
     },
     notes: {
       eyebrow: "Short Notes",
@@ -231,7 +231,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     topics: {
       eyebrow: "Explore / Topics",
       heading: "Browse by topic",
-      description: "See which subjects are covered most often.",
+      description: "Browse the archive through its two-level field and topic structure.",
     },
     notes: {
       eyebrow: "Short Notes",
@@ -277,7 +277,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     topics: {
       eyebrow: "Explore / Topics",
       heading: "トピックから探す",
-      description: "よく記録しているテーマを一覧できます。",
+      description: "分野とトピックの2段階から記録を探せます。",
     },
     notes: {
       eyebrow: "Short Notes",

@@ -1,8 +1,10 @@
 import type { PropsWithChildren } from "react";
 
+import { CalendarDays, History, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { MetadataList, type MetadataListItem } from "@/components/atoms/MetadataList";
 import { NoteTableOfContents } from "@/components/widgets/NoteTableOfContents";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { SITE_CONFIG } from "@/config/siteConfig";
@@ -33,6 +35,33 @@ function getNotePath(slug: string): string {
 export function NoteDetailPage({ note, headings, navigation, children }: PropsWithNoteDetailPage) {
   const hasModifiedDate = note.modifiedAt !== note.publishedAt;
   const hasTableOfContents = shouldShowNoteTableOfContents(headings);
+  const metadataItems: MetadataListItem[] = [
+    {
+      icon: UserRound,
+      label: "작성자",
+      value: note.author,
+    },
+    {
+      icon: CalendarDays,
+      label: "발행일",
+      value: (
+        <time dateTime={note.publishedAt}>{DATE_FORMATTER.format(new Date(note.publishedAt))}</time>
+      ),
+    },
+    ...(hasModifiedDate
+      ? [
+          {
+            icon: History,
+            label: "수정일",
+            value: (
+              <time dateTime={note.modifiedAt}>
+                {DATE_FORMATTER.format(new Date(note.modifiedAt))}
+              </time>
+            ),
+          },
+        ]
+      : []),
+  ];
 
   return (
     <PageTransition>
@@ -65,30 +94,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
               {note.description}
             </p>
 
-            <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-sm">
-              <div className="flex gap-2">
-                <dt>작성</dt>
-                <dd className="text-foreground">{note.author}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt>발행</dt>
-                <dd className="text-foreground">
-                  <time dateTime={note.publishedAt}>
-                    {DATE_FORMATTER.format(new Date(note.publishedAt))}
-                  </time>
-                </dd>
-              </div>
-              {hasModifiedDate ? (
-                <div className="flex gap-2">
-                  <dt>수정</dt>
-                  <dd className="text-foreground">
-                    <time dateTime={note.modifiedAt}>
-                      {DATE_FORMATTER.format(new Date(note.modifiedAt))}
-                    </time>
-                  </dd>
-                </div>
-              ) : null}
-            </dl>
+            <MetadataList items={metadataItems} />
           </header>
 
           <div className="mt-12 md:mt-16">

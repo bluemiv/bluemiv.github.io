@@ -1,9 +1,11 @@
 import { type PropsWithChildren, ViewTransition } from "react";
 
+import { CalendarDays, Clock3, History, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { MetadataList, type MetadataListItem } from "@/components/atoms/MetadataList";
 import { ArticleDetailSidebar } from "@/components/widgets/ArticleDetailSidebar";
 import { ArticleReadingRuler } from "@/components/widgets/ArticleReadingRuler";
 import { ArticleTableOfContents } from "@/components/widgets/ArticleTableOfContents";
@@ -43,6 +45,40 @@ export function ArticleDetailPage({
   children,
 }: PropsWithArticleDetailPage) {
   const hasModifiedDate = article.modifiedAt !== article.publishedAt;
+  const metadataItems: MetadataListItem[] = [
+    {
+      icon: UserRound,
+      label: "작성자",
+      value: article.author,
+    },
+    {
+      icon: CalendarDays,
+      label: "발행일",
+      value: (
+        <time dateTime={article.publishedAt}>
+          {DATE_FORMATTER.format(new Date(article.publishedAt))}
+        </time>
+      ),
+    },
+    ...(hasModifiedDate
+      ? [
+          {
+            icon: History,
+            label: "수정일",
+            value: (
+              <time dateTime={article.modifiedAt}>
+                {DATE_FORMATTER.format(new Date(article.modifiedAt))}
+              </time>
+            ),
+          },
+        ]
+      : []),
+    {
+      icon: Clock3,
+      label: "예상 읽기 시간",
+      value: <time dateTime={`PT${readingTimeMinutes}M`}>약 {readingTimeMinutes}분</time>,
+    },
+  ];
 
   return (
     <ArticleReadingProvider headings={headings}>
@@ -85,34 +121,7 @@ export function ArticleDetailPage({
                 {article.description}
               </p>
 
-              <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-sm">
-                <div className="flex gap-2">
-                  <dt>작성</dt>
-                  <dd className="text-foreground">{article.author}</dd>
-                </div>
-                <div className="flex gap-2">
-                  <dt>발행</dt>
-                  <dd className="text-foreground">
-                    <time dateTime={article.publishedAt}>
-                      {DATE_FORMATTER.format(new Date(article.publishedAt))}
-                    </time>
-                  </dd>
-                </div>
-                {hasModifiedDate ? (
-                  <div className="flex gap-2">
-                    <dt>수정</dt>
-                    <dd className="text-foreground">
-                      <time dateTime={article.modifiedAt}>
-                        {DATE_FORMATTER.format(new Date(article.modifiedAt))}
-                      </time>
-                    </dd>
-                  </div>
-                ) : null}
-                <div className="flex gap-2">
-                  <dt>읽기</dt>
-                  <dd className="text-foreground">{readingTimeMinutes}분</dd>
-                </div>
-              </dl>
+              <MetadataList items={metadataItems} />
             </header>
 
             {article.coverImage ? (

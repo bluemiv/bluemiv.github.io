@@ -12,6 +12,7 @@ import {
   getLegacyPolicyRedirectParams,
   getPolicyRedirect,
 } from "@/features/policy/policyRedirects";
+import { NO_INDEX_FOLLOW_ROBOTS } from "@/features/seo/siteDiscovery";
 
 export const dynamicParams = false;
 
@@ -29,7 +30,7 @@ export async function generateMetadata({
     return {
       title: "Privacy Policy",
       alternates: { canonical: destination },
-      robots: { index: false, follow: true },
+      robots: NO_INDEX_FOLLOW_ROBOTS,
     };
   }
 
@@ -38,6 +39,7 @@ export async function generateMetadata({
   return {
     title: document.title,
     description: document.description,
+    robots: NO_INDEX_FOLLOW_ROBOTS,
     alternates: {
       canonical: document.path,
       languages: getPolicyLanguageAlternates(document),

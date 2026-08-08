@@ -11,4 +11,6 @@
 - `/articles/page/1/` 중복 route를 만들지 않는다.
 - route group과 Next.js 예약 파일명은 framework 규칙을 따른다.
 - metadata 변경 시 canonical, hreflang, Open Graph를 함께 확인한다.
+- sitemap, feed, robots route는 root `app`에 두고 `dynamic = "force-static"`과 static export 산출물을 검증한다.
+- policy document metadata에는 `noindex, follow`를 적용한다.
 - runtime request API와 서버 전용 기능을 쓰지 않는다.

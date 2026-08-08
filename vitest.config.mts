@@ -40,10 +40,13 @@ export default defineConfig({
         "src/features/policy/policyRedirects.ts",
         "src/features/profile/careerDuration.ts",
         "src/features/serviceWorker/serviceWorkerConfig.ts",
+        "src/features/seo/siteDiscovery.ts",
+        "src/features/seo/syndicationFeed.ts",
         "src/features/theme/themeConfig.ts",
         "scripts/migrationMetadata.mjs",
         "scripts/policyMigration.mjs",
         "scripts/staticLinkVerification.mjs",
+        "scripts/staticSeoVerification.mjs",
       ],
       thresholds: {
         branches: 90,

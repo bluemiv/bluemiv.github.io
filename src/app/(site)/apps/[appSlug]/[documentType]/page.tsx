@@ -7,6 +7,7 @@ import {
   getPolicyDocument,
   getPolicyLanguageAlternates,
 } from "@/features/policy/policyDocuments";
+import { NO_INDEX_FOLLOW_ROBOTS } from "@/features/seo/siteDiscovery";
 
 export const dynamicParams = false;
 
@@ -24,6 +25,7 @@ export async function generateMetadata({
   return {
     title: document.title,
     description: document.description,
+    robots: NO_INDEX_FOLLOW_ROBOTS,
     alternates: {
       canonical: document.path,
       languages: getPolicyLanguageAlternates(document),

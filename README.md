@@ -36,6 +36,7 @@ pnpm build
 
 - [디자인 시스템](docs/design-system.md)
 - [명명 규칙](docs/naming-conventions.md)
+- [SEO 가이드](docs/seo.md)
 - [에이전트 작업 규칙](AGENTS.md)
 - [Feature 작업 규칙](src/features/AGENTS.md)
 - [오픈소스 폰트 고지](THIRD_PARTY_NOTICES.md)

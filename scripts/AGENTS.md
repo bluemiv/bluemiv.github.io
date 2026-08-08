@@ -7,3 +7,4 @@
 - article 본문과 asset 경로가 바뀌지 않았는지 검증한다.
 - 변환 규칙은 순수 함수로 분리하고 `*.test.mjs`로 검증한다.
 - `pnpm build`는 static export 후 내부 link target 존재 여부까지 검증한다.
+- `pnpm build`는 sitemap, feed, robots, policy noindex도 함께 검증한다.

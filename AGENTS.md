@@ -121,6 +121,15 @@ coverImage: /r/i/example/cover.webp
 - `public/sw.js`는 구형 캐시 제거용 tombstone이다.
 - 삭제·이름 변경·fetch handler·cache write 금지.
 
+## SEO discovery
+
+- 검색 규칙은 `docs/seo.md`를 단일 기준으로 사용한다.
+- `/sitemap.xml`, `/feed.xml`, `/rss.xml`, `/robots.txt`는 static export로 생성한다.
+- sitemap과 feed에는 canonical article, note, topic, locale 홈만 포함한다.
+- policy document, app route, legacy redirect는 sitemap과 feed에서 제외한다.
+- policy document는 `noindex, follow`로 유지하고 robots.txt에서 차단하지 않는다.
+- sitemap `lastmod`는 실제 `modifiedAt`만 사용한다.
+
 ## 검증
 
 ```bash

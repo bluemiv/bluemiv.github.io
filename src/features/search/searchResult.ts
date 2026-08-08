@@ -51,7 +51,7 @@ export function createSearchResult(data: PagefindResultData): SearchResult | nul
 
   return {
     category: data.meta?.category?.trim() || undefined,
-    excerpt: sanitizeSearchExcerpt(data.excerpt?.trim() ?? ""),
+    excerpt: sanitizeSearchExcerpt(data.meta?.description?.trim() || data.excerpt?.trim() || ""),
     title,
     type: getDocumentType(data),
     url,

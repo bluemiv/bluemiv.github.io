@@ -229,6 +229,12 @@ select {
   outline: none;
 }
 
+.site-search-close:focus-visible,
+.site-search-filter:focus-visible,
+.site-search-result:focus-visible {
+  outline: none;
+}
+
 .site-theme-toggle:focus-visible {
   outline: none;
 }

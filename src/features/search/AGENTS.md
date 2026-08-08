@@ -9,3 +9,6 @@
 - 검색 engine은 dialog를 열었을 때 지연 로드한다.
 - 검색 실패는 페이지 탐색을 막지 않고 정적 미리보기 안내로 처리한다.
 - query와 result 변환은 순수 함수로 분리하고 경계 조건을 테스트한다.
+- dialog는 상단 accent rail, `S01` index, linear filter tab을 사용한다.
+- result focus는 quiet surface, title color, 왼쪽 accent rail로 표시한다.
+- result 설명은 description metadata를 우선하고 본문 excerpt를 fallback으로 사용한다.

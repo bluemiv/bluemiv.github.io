@@ -670,8 +670,15 @@ Short notes:
 - `All`, `Articles`, `Notes`의 세 filter만 먼저 노출한다. category, topic, tag는 query 검색과
   index filter로만 유지해 control을 과밀하게 만들지 않는다.
 - 검색 결과는 thumbnail이나 개별 card 없이 divider list로 최대 8개 표시한다.
-- result는 type, category, title, 두 줄 excerpt 순서로 구성하고 일치 구간만 accent-soft로 표시한다.
+- result는 type, category, title, 두 줄 description 순서로 구성한다. description metadata가 없을
+  때만 본문 excerpt를 사용하고, excerpt의 일치 구간만 accent-soft로 표시한다.
 - dialog는 최대 `720px`, radius `8px`, canvas 배경과 어두운 blur backdrop을 사용한다.
+- dialog 상단에는 1px accent rail과 `S01` index를 두어 Blueprint Editorial의 좌표 문법을
+  유지한다. 빈 상태는 큰 장식 대신 짧은 accent guide rail로 안내 문장에 시선을 연결한다.
+- filter는 개별 box나 solid fill을 반복하지 않는 14px linear tab으로 표현한다. 선택 상태는 accent
+  text와 1px bottom rail을 함께 사용한다.
+- 검색 결과가 있으면 목록 위에 결과 수를 compact meta로 표시한다. 결과 hover와 keyboard focus는
+  quiet surface, title color, 왼쪽 accent rail을 함께 사용하고 바깥 outline box를 만들지 않는다.
 - dialog 상단은 mobile `16px`, desktop `clamp(24px, 8dvh, 80px)`에 고정한다. 결과 수가
   바뀌어도 상단은 움직이지 않고 아래 방향으로만 확장한다.
 - viewport 좌우 최소 `12px`, 하단 최소 `16px`를 남기고 최대 높이를 넘으면 내부 결과만 scroll한다.

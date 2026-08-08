@@ -19,7 +19,9 @@ export function SearchDocumentMetadata({
     <div className="hidden" aria-hidden="true">
       <time dateTime={publishedAt} data-pagefind-meta="publishedAt[datetime]" />
       <span data-pagefind-weight="10">{title}</span>
-      <span data-pagefind-weight="3">{description}</span>
+      <span data-pagefind-meta="description" data-pagefind-weight="3">
+        {description}
+      </span>
       {category ? (
         <span data-pagefind-meta="category" data-pagefind-weight="2">
           {category}

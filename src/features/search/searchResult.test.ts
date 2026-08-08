@@ -29,18 +29,33 @@ describe("searchResult", () => {
   it("Pagefind data를 UI result로 변환한다", () => {
     expect(
       createSearchResult({
-        excerpt: "정적 <mark>검색</mark>을 구성합니다.",
+        excerpt: "본문의 정적 <mark>검색</mark> 문맥입니다.",
         filters: { type: ["note"] },
-        meta: { category: "Frontend", title: "검색 구현" },
+        meta: {
+          category: "Frontend",
+          description: "정적 검색을 구성합니다.",
+          title: "검색 구현",
+        },
         url: "/notes/static-search/",
       }),
     ).toEqual({
       category: "Frontend",
-      excerpt: "정적 <mark>검색</mark>을 구성합니다.",
+      excerpt: "정적 검색을 구성합니다.",
       title: "검색 구현",
       type: "note",
       url: "/notes/static-search/",
     });
+  });
+
+  it("description metadata가 없으면 Pagefind 본문 excerpt를 사용한다", () => {
+    expect(
+      createSearchResult({
+        excerpt: "본문의 <mark>검색</mark> 문맥입니다.",
+        filters: { type: ["article"] },
+        meta: { title: "검색 구현" },
+        url: "/articles/static-search/",
+      }),
+    ).toMatchObject({ excerpt: "본문의 <mark>검색</mark> 문맥입니다." });
   });
 
   it("검색 강조 mark만 남기고 실행 가능한 HTML을 제거한다", () => {

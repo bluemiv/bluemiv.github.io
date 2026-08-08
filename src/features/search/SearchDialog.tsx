@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Search, X } from "lucide-react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { ArrowUpRight, Search, X } from "lucide-react";
 import Link from "next/link";
 
 import type { Locale } from "@/features/i18n/localeConfig";
@@ -29,7 +29,22 @@ type PropsWithSearchDialog = {
 
 type SearchState = "idle" | "loading" | "ready" | "unavailable";
 
+type PropsWithSearchMessage = {
+  children: ReactNode;
+};
+
 const SEARCH_DELAY = 160;
+
+function SearchMessage({ children }: PropsWithSearchMessage) {
+  return (
+    <div className="text-muted flex min-h-44 items-center text-sm">
+      <div className="flex items-center gap-4">
+        <span aria-hidden="true" className="bg-accent h-px w-8 shrink-0" />
+        <p className="max-w-[360px] leading-6">{children}</p>
+      </div>
+    </div>
+  );
+}
 
 export function SearchDialog({
   copy,
@@ -163,7 +178,7 @@ export function SearchDialog({
       lang={locale}
       aria-labelledby="site-search-title"
       aria-describedby="site-search-description"
-      className="border-border bg-canvas text-foreground fixed inset-x-0 top-[var(--search-dialog-top)] mx-auto my-0 max-h-[min(720px,calc(100dvh_-_var(--search-dialog-top)_-_16px))] w-[min(720px,calc(100vw-24px))] [transform:translateY(8px)] overflow-hidden rounded-[8px] border p-0 opacity-0 shadow-2xl transition-[opacity,transform,overlay,display] [transition-behavior:allow-discrete] duration-200 [--search-dialog-top:16px] backdrop:bg-[#11120f]/45 backdrop:backdrop-blur-sm open:[transform:translateY(0)] open:opacity-100 motion-reduce:transition-none motion-reduce:open:[transform:none] sm:[--search-dialog-top:clamp(24px,8dvh,80px)]"
+      className="border-border bg-canvas text-foreground before:bg-accent backdrop:bg-code/55 fixed inset-x-0 top-[var(--search-dialog-top)] mx-auto my-0 max-h-[min(720px,calc(100dvh_-_var(--search-dialog-top)_-_16px))] w-[min(720px,calc(100vw-24px))] [transform:translateY(8px)] overflow-hidden rounded-lg border p-0 opacity-0 shadow-xl transition-[opacity,transform,overlay,display] [transition-behavior:allow-discrete] duration-200 [--search-dialog-top:16px] backdrop:backdrop-blur-sm before:absolute before:inset-x-0 before:top-0 before:h-px before:content-[''] open:[transform:translateY(0)] open:opacity-100 motion-reduce:transition-none motion-reduce:open:[transform:none] sm:[--search-dialog-top:clamp(24px,8dvh,80px)]"
       onCancel={(event) => {
         event.preventDefault();
         onRequestClose();
@@ -172,19 +187,19 @@ export function SearchDialog({
     >
       <div className="border-border flex min-h-16 items-center justify-between gap-4 border-b px-4 sm:px-6">
         <div className="min-w-0">
-          <p
-            id="site-search-title"
-            className="font-mono text-xs font-semibold tracking-[0.14em] uppercase"
-          >
-            {copy.title}
-          </p>
+          <div className="flex items-center gap-2 font-mono text-xs font-semibold tracking-[0.14em] uppercase">
+            <span aria-hidden="true" className="text-accent">
+              S01
+            </span>
+            <p id="site-search-title">{copy.title}</p>
+          </div>
           <p id="site-search-description" className="text-muted mt-0.5 truncate text-sm">
             {copy.description}
           </p>
         </div>
         <button
           type="button"
-          className="text-muted hover:text-foreground inline-flex size-11 shrink-0 items-center justify-center transition-colors"
+          className="site-search-close text-muted hover:text-foreground focus-visible:text-accent after:bg-accent relative inline-flex size-11 shrink-0 items-center justify-center transition-colors after:absolute after:right-3 after:bottom-1 after:left-3 after:h-px after:origin-center after:scale-x-0 after:transition-transform focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
           aria-label={copy.close}
           onClick={onRequestClose}
         >
@@ -194,7 +209,7 @@ export function SearchDialog({
 
       <form
         role="search"
-        className="border-border border-b px-4 py-4 sm:px-6"
+        className="px-4 pt-4 sm:px-6"
         onSubmit={(event) => event.preventDefault()}
       >
         <label className="border-border-strong focus-within:border-accent bg-surface focus-within:bg-accent-soft/20 flex min-h-12 items-center gap-3 border px-4 transition-colors">
@@ -218,15 +233,19 @@ export function SearchDialog({
           <kbd className="text-subtle hidden font-mono text-xs sm:block">ESC</kbd>
         </label>
 
-        <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label={copy.filterLabel}>
+        <div
+          className="border-border mt-3 flex flex-wrap border-b"
+          role="group"
+          aria-label={copy.filterLabel}
+        >
           {(["all", "article", "note"] as const).map((type) => (
             <button
               key={type}
               type="button"
-              className={`min-h-11 px-3 font-mono text-xs font-semibold tracking-[0.08em] uppercase transition-colors ${
+              className={`site-search-filter after:bg-accent relative min-h-11 px-3 font-mono text-sm font-semibold tracking-[0.06em] uppercase transition-colors after:absolute after:right-3 after:bottom-[-1px] after:left-3 after:h-px after:origin-center after:scale-x-0 after:transition-transform motion-reduce:after:transition-none ${
                 documentType === type
-                  ? "bg-accent text-on-accent"
-                  : "border-border text-muted hover:text-foreground border"
+                  ? "text-accent after:scale-x-100"
+                  : "text-muted hover:text-foreground focus-visible:text-accent focus-visible:after:scale-x-100"
               }`}
               aria-pressed={documentType === type}
               onClick={() => handleDocumentTypeChange(type)}
@@ -246,65 +265,65 @@ export function SearchDialog({
         </p>
 
         {resultStatus ? (
-          <div className="text-muted flex min-h-48 items-center justify-center text-center text-sm">
-            <p className="max-w-[360px] leading-6">{resultStatus}</p>
-          </div>
+          <SearchMessage>{resultStatus}</SearchMessage>
         ) : results.length ? (
-          <ol aria-label={copy.resultCount(results.length)}>
-            {results.map((result, index) => (
-              <li key={result.url} className="border-border border-b last:border-b-0">
-                <Link
-                  href={result.url}
-                  data-search-result
-                  className="group focus-visible:outline-accent grid grid-cols-[32px_minmax(0,1fr)_20px] gap-3 py-5 outline-none focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
-                  onClick={onRequestClose}
-                  onKeyDown={(event) => {
-                    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-                    event.preventDefault();
-                    const links = Array.from(
-                      dialogRef.current?.querySelectorAll<HTMLAnchorElement>(
-                        "[data-search-result]",
-                      ) ?? [],
-                    );
-                    const nextIndex =
-                      event.key === "ArrowDown"
-                        ? Math.min(index + 1, links.length - 1)
-                        : Math.max(index - 1, 0);
-                    links[nextIndex]?.focus();
-                  }}
-                >
-                  <span className="text-subtle pt-0.5 font-mono text-xs tabular-nums">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="text-accent font-mono text-xs tracking-[0.1em] uppercase">
-                      {copy.types[result.type]}
-                      {result.category ? ` / ${result.category}` : ""}
-                    </span>
-                    <span className="group-hover:text-accent mt-1 block text-lg font-semibold tracking-[-0.02em] transition-colors">
-                      {result.title}
-                    </span>
-                    {result.excerpt ? (
-                      <span
-                        className="text-muted [&_mark]:bg-accent-soft [&_mark]:text-foreground mt-1.5 line-clamp-2 block text-sm leading-6"
-                        dangerouslySetInnerHTML={{ __html: result.excerpt }}
-                      />
-                    ) : null}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="text-subtle group-hover:text-accent transition-[color,transform] group-hover:translate-x-0.5"
+          <>
+            <div className="border-border text-muted flex min-h-10 items-center border-b font-mono text-xs tabular-nums">
+              {copy.resultCount(results.length)}
+            </div>
+            <ol aria-label={copy.resultCount(results.length)}>
+              {results.map((result, index) => (
+                <li key={result.url} className="border-border border-b last:border-b-0">
+                  <Link
+                    href={result.url}
+                    data-search-result
+                    className="site-search-result group hover:bg-surface focus-visible:bg-surface before:bg-accent relative grid grid-cols-[32px_minmax(0,1fr)_20px] gap-3 py-5 transition-colors before:absolute before:inset-y-4 before:left-0 before:w-px before:origin-center before:scale-y-0 before:transition-transform before:content-[''] hover:before:scale-y-100 focus-visible:before:scale-y-100 motion-reduce:before:transition-none"
+                    onClick={onRequestClose}
+                    onKeyDown={(event) => {
+                      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                      event.preventDefault();
+                      const links = Array.from(
+                        dialogRef.current?.querySelectorAll<HTMLAnchorElement>(
+                          "[data-search-result]",
+                        ) ?? [],
+                      );
+                      const nextIndex =
+                        event.key === "ArrowDown"
+                          ? Math.min(index + 1, links.length - 1)
+                          : Math.max(index - 1, 0);
+                      links[nextIndex]?.focus();
+                    }}
                   >
-                    ↗
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+                    <span className="text-subtle pt-0.5 font-mono text-xs tabular-nums">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="text-accent font-mono text-xs tracking-[0.1em] uppercase">
+                        {copy.types[result.type]}
+                        {result.category ? ` / ${result.category}` : ""}
+                      </span>
+                      <span className="group-hover:text-accent group-focus-visible:text-accent mt-1 block text-lg font-semibold tracking-[-0.02em] transition-colors">
+                        {result.title}
+                      </span>
+                      {result.excerpt ? (
+                        <span
+                          className="text-muted [&_mark]:bg-accent-soft [&_mark]:text-foreground mt-1.5 line-clamp-2 text-sm leading-6"
+                          dangerouslySetInnerHTML={{ __html: result.excerpt }}
+                        />
+                      ) : null}
+                    </span>
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="text-subtle group-hover:text-accent group-focus-visible:text-accent transition-[color,transform] group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
+                      size={16}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </>
         ) : (
-          <div className="text-muted flex min-h-48 items-center justify-center text-center text-sm">
-            <p>{copy.hint}</p>
-          </div>
+          <SearchMessage>{copy.hint}</SearchMessage>
         )}
       </div>
     </dialog>

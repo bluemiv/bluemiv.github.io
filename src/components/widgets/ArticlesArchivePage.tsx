@@ -83,14 +83,16 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
         </span>
 
         {article.coverImage ? (
-          <span className="border-border group-hover:border-border-strong group-focus-visible:border-border-strong relative aspect-[32/17] w-28 shrink-0 overflow-hidden rounded-[2px] border transition-colors duration-150 motion-reduce:transition-none sm:w-40 md:w-44">
-            <Image
-              fill
-              sizes="(min-width: 768px) 176px, (min-width: 640px) 160px, 112px"
-              src={article.coverImage}
-              alt=""
-              className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.01] group-focus-visible:scale-[1.01] motion-reduce:transition-none"
-            />
+          <span className="article-archive-thumbnail relative aspect-[32/17] w-28 shrink-0 sm:w-40 md:w-44">
+            <span className="article-archive-thumbnail-media border-border group-hover:border-border-strong group-focus-visible:border-border-strong absolute inset-0 overflow-hidden rounded-[2px] border transition-colors duration-150 motion-reduce:transition-none">
+              <Image
+                fill
+                sizes="(min-width: 768px) 176px, (min-width: 640px) 160px, 112px"
+                src={article.coverImage}
+                alt=""
+                className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.01] group-focus-visible:scale-[1.01] motion-reduce:transition-none"
+              />
+            </span>
           </span>
         ) : null}
       </Link>

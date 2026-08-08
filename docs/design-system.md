@@ -437,6 +437,9 @@ Short notes:
   추가한다. thumbnail 때문에 card grid로 바꾸지 않는다.
 - archive thumbnail은 `32:17` frame을 사용하고 mobile `112px`, `sm` `160px`, `md` 이상
   `176px` 폭으로 제한한다. 제목과 분류가 항상 thumbnail보다 먼저 읽혀야 한다.
+- thumbnail 왼쪽 34%는 image와 border를 함께 canvas로 dissolve해 text에서 image로 이어지는 경계를
+  부드럽게 만든다. 단순 opacity 장식은 반복하지 않고 hover/focus에서만 경계에 짧은 accent
+  registration tick을 표시한다.
 - cover가 없으면 placeholder와 빈 column을 만들지 않는다. 같은 link 안의 제목이 목적을 설명하므로
   archive thumbnail의 alt는 비운다.
 - 전체 article archive는 최신순으로 페이지당 10개를 표시한다.
@@ -711,7 +714,8 @@ Short notes:
 
 - article `coverImage`는 선택 사항.
 - 이미지가 없다고 빈 placeholder card를 만들지 않는다.
-- archive thumbnail은 `object-cover`로 frame을 채우고 최대 `scale(1.01)` hover만 허용한다.
+- archive thumbnail은 `object-cover`로 frame을 채운다. 왼쪽 canvas dissolve를 유지하고 image 자체에는
+  최대 `scale(1.01)` hover만 허용한다.
 - topic cover는 typography, 번호, 간단한 code/diagram을 조합한다.
 - grid motif는 cover마다 같은 밀도로 반복하지 않는다.
 - article cover 비율은 `32:17`로 고정한다.
@@ -982,7 +986,8 @@ text-accent / bg-accent / border-accent
 - [ ] cover drift가 읽기 시작을 늦추거나 title/description을 중복하지 않는가?
 - [ ] mobile code/table scroll이 되는가?
 - [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?
-- [ ] archive thumbnail이 제목보다 강하지 않고, cover가 없는 행에 빈 공간을 남기지 않는가?
+- [ ] archive thumbnail이 제목보다 강하지 않고, 왼쪽 dissolve가 light/dark canvas에 자연스럽게
+      연결되며 cover가 없는 행에 빈 공간을 남기지 않는가?
 
 ### 17.4 App detail과 policy
 

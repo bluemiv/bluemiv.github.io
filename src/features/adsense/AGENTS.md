@@ -5,3 +5,5 @@
 - viewport에 보이는 slot만 초기화한다.
 - layout shift 방지를 위해 크기를 예약한다.
 - 광고 위치와 개수는 `docs/design-system.md`를 따른다.
+- 같은 viewport에 desktop/mobile 대체 slot을 동시에 초기화하지 않는다.
+- 광고 실패가 article과 navigation 렌더링을 막지 않게 한다.

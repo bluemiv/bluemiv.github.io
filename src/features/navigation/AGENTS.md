@@ -7,3 +7,5 @@
 - page transition 방향은 `forward`, `back`, `swap`으로 정의한다.
 - transition은 탐색 의미만 제공한다. 시각 효과는 공통 style과 component가 담당한다.
 - pagination 번호 축약은 처음·끝과 현재 주변을 유지하는 순수 함수로 계산한다.
+- active route 판별은 trailing slash 유무와 root 경계를 함께 처리한다.
+- pagination은 잘못된 현재·전체 페이지 값을 명시적으로 거부한다.

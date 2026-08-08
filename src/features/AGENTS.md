@@ -18,7 +18,10 @@
 - feature끼리 직접 import하지 않는다.
 - route와 page layout을 feature에 넣지 않는다.
 - browser API가 필요할 때만 최소 범위에 `"use client"`를 쓴다.
+- 공개 API는 feature root 또는 책임이 드러나는 파일에서만 export한다.
+- UI state와 build-time domain data를 같은 module에 섞지 않는다.
 - 비즈니스 규칙은 가능한 순수 함수로 분리한다.
 - 테스트는 대상 파일 옆 `*.test.ts`에 둔다.
 - 로직 추가·변경 시 성공·실패·경계 조건을 함께 테스트한다.
 - 새 feature 추가 시 위 표를 함께 갱신한다.
+- feature 삭제 시 import, test, 표 항목, 빈 디렉토리를 함께 제거한다.

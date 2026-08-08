@@ -15,6 +15,9 @@
 - 이관 article의 기존 heading 번호는 과거 anchor 호환을 위해 유지할 수 있다.
 - code fence에 언어를 지정한다.
 - code fence는 상세 화면에서 language label과 코드 복사 action이 자동 적용된다. 본문에 별도 복사 UI를 넣지 않는다.
+- route·layout·navigation용 JSX를 MDX에 넣지 않는다.
+- 내부 article link는 canonical route와 trailing slash를 사용한다.
 - cover 이미지는 `32:17` 비율을 지킨다. 권장 크기는 `1600×850px` WebP다.
 - cover의 핵심 요소는 잘림과 반응형 축소를 고려해 가장자리에서 충분히 띄운다.
 - 본문 수정 없이 이관할 때 원문 byte 동일성을 검증한다.
+- metadata 변경 후 build-time schema와 category/topic 관계 검증을 실행한다.

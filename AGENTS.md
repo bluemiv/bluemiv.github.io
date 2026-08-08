@@ -50,6 +50,13 @@ docs/                설계 문서
 - 사용하지 않는 파일과 빈 디렉토리는 제거한다.
 - 가까운 디렉토리의 `AGENTS.md`를 함께 따른다.
 
+## 룰 파일 작성
+
+- 짧은 명령문으로 쓴다. 배경 설명과 예시는 꼭 필요할 때만 둔다.
+- 공통 규칙은 루트에만 둔다. 하위 파일은 해당 디렉토리의 책임만 적는다.
+- 구현·구조·디자인 결정이 바뀌면 관련 `AGENTS.md`와 기준 문서를 같은 커밋에서 갱신한다.
+- 존재하지 않는 기능, 경로, 예정 사항을 규칙으로 적지 않는다.
+
 ## 용어
 
 - 긴 글: `article`. `post`, `content`를 같은 뜻으로 쓰지 않는다.
@@ -108,6 +115,9 @@ coverImage: /r/i/example/cover.webp
 - article 본문을 card로 감싸지 않는다.
 - semantic color token과 Tailwind CSS 사용.
 - light/dark, mobile/desktop, keyboard, reduced motion 확인.
+- desktop archive taxonomy는 category link와 toggle을 분리한 단일 펼침 accordion을 사용한다.
+- 전체 archive에서는 모두 접고, category/topic archive에서는 현재 category만 먼저 펼친다.
+- category와 topic은 같은 divider와 active rail 문법을 사용한다.
 
 ## locale별 폰트
 
@@ -148,4 +158,5 @@ pnpm format:check
 ```
 
 - 비즈니스 로직 추가·변경 시 성공·실패·경계 조건 테스트를 함께 갱신한다.
+- interaction 변경 시 production static build를 실제 desktop/mobile viewport에서 확인한다.
 - 커밋 전 `git diff --cached`로 secret과 불필요 파일 확인.

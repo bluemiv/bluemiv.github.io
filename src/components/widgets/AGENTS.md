@@ -8,8 +8,12 @@
 - archive의 category/topic 계층, count, article, 추천 영역은 실제 repository와 유효한 route만
   사용한다. mock 목록과 비동작 control을 두지 않는다.
 - desktop archive taxonomy는 category link와 접기 button을 분리한다. 전체 글에서는 category를
-  기본으로 접고, category/topic route에서는 현재 category만 자동으로 펼친다.
+  기본으로 접고, category/topic route에서는 현재 category만 자동으로 펼친다. 한 번에 하나만 연다.
+- taxonomy toggle은 최소 44px, `aria-expanded`, `aria-controls`, 명확한 accessible name을 제공한다.
+- 접힌 topic list는 keyboard와 accessibility tree에서 제외한다.
 - taxonomy의 category header와 topic row는 같은 divider와 active rail 문법을 사용한다. topic에만
   상시 세로 border를 두지 않는다.
+- `xl` 미만 taxonomy는 현재 분류가 앞에 오는 horizontal navigation을 유지한다.
 - blog page 전환은 `PageTransition`으로 감싸고 navigation의 `forward`, `back`, `swap` 의미를 사용한다.
 - pagination은 실제 정적 route만 link하고 현재 페이지에 `aria-current="page"`를 제공한다.
+- widget interaction 변경 후 production build를 desktop/mobile에서 직접 확인한다.

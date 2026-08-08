@@ -10,3 +10,6 @@
 - React prop은 `className` 표기를 유지한다.
 - 한 번 쓰는 단순 wrapper는 만들지 않는다.
 - 디자인 작업 전 `docs/design-system.md`를 확인한다.
+- native semantic element를 먼저 사용한다. div에 button/link 역할을 흉내 내지 않는다.
+- interaction만 client component로 분리한다. 정적 markup 전체를 client로 바꾸지 않는다.
+- interactive UI는 keyboard, focus, accessible name, reduced motion을 확인한다.

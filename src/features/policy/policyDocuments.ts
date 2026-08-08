@@ -4,6 +4,13 @@ import generatedDocuments from "./policyDocuments.generated.json";
 
 const POLICY_LOCALES = ["ko", "en", "ja", "zh-CN"] as const;
 
+const POLICY_CONTACT_PATTERN =
+  /(?:<span>(?:privacy officer|data protection contact|name|氏名|성명|担当者|個人情報保護責任者|담당자|개인정보 보호책임자)<\/span>|privacy officer|data protection contact|担当者|個人情報保護責任者|담당자|개인정보 보호책임자)\s*:\s*([^<]+)/gi;
+
+function hasPrivatePolicyContact(html: string): boolean {
+  return [...html.matchAll(POLICY_CONTACT_PATTERN)].some((match) => match[1].trim() !== "Bluemiv");
+}
+
 const POLICY_DOCUMENT_SCHEMA = z
   .object({
     path: z.string().regex(/^\/(?:[a-z0-9-]+\/)+$/),
@@ -23,7 +30,10 @@ const POLICY_DOCUMENT_SCHEMA = z
             html,
           ),
         { message: "Policy HTML contains private legacy contact data" },
-      ),
+      )
+      .refine((html) => !hasPrivatePolicyContact(html), {
+        message: "Policy HTML contains private policy contact data",
+      }),
   })
   .strict();
 
@@ -92,8 +102,8 @@ export function getLocalizedAppPolicyParams() {
   });
 }
 
-export function getBaseLegacyPolicyParams() {
-  return POLICY_DOCUMENTS.flatMap(({ path }) => {
+export function getBaseLegacyPolicyParams(documents: readonly PolicyDocument[] = POLICY_DOCUMENTS) {
+  return documents.flatMap(({ path }) => {
     const match = path.match(/^\/privacy\/([^/]+)\/$/);
     return match ? [{ appSlug: match[1] }] : [];
   });

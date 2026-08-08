@@ -10,6 +10,10 @@ const LEGACY_AUTHOR_PATTERNS = [
 const PRIVATE_TEXT_REPLACEMENTS = [
   [/\+82-10-\d{3,4}-\d{4}\s*,?\s*/g, ""],
   [/public\.(?!bluemiv@)[\w.-]+@gmail\.com/gi, "public.bluemiv@gmail.com"],
+  [
+    /((?:<span>(?:privacy officer|data protection contact|name|氏名|성명|担当者|個人情報保護責任者|담당자|개인정보 보호책임자)<\/span>|privacy officer|data protection contact|担当者|個人情報保護責任者|담당자|개인정보 보호책임자)\s*:\s*)[^<]+/gi,
+    "$1Bluemiv",
+  ],
   [/\{appName\}/g, "KPOP Clip"],
 ];
 

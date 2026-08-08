@@ -13,11 +13,11 @@ import {
 } from "./policyDocuments";
 
 describe("policyDocuments", () => {
-  it("기존 법적 문서 31개를 고유 경로로 제공한다", () => {
+  it("기존 법적 문서 26개를 고유 경로로 제공한다", () => {
     const documents = getPolicyDocuments();
 
-    expect(documents).toHaveLength(31);
-    expect(new Set(documents.map(({ path }) => path)).size).toBe(31);
+    expect(documents).toHaveLength(26);
+    expect(new Set(documents.map(({ path }) => path)).size).toBe(26);
   });
 
   it("trailing slash 유무와 관계없이 문서를 찾는다", () => {
@@ -25,6 +25,16 @@ describe("policyDocuments", () => {
     expect(getPolicyDocument("/apps/kpop-tube/privacy/en/")?.locale).toBe("en");
     expect(getPolicyDocument("/missing/")).toBeUndefined();
     expect(getPolicyDocument("/")).toBeUndefined();
+  });
+
+  it.each([
+    "/apps/berry-voca-starter/privacy/",
+    "/privacy/ai-wallpaper/ko/",
+    "/privacy/ai-wallpaper/en/",
+    "/privacy/ai-wallpaper/jp/",
+    "/privacy/luna/",
+  ])("사용 종료한 정책 %s를 제공하지 않는다", (path) => {
+    expect(getPolicyDocument(path)).toBeUndefined();
   });
 
   it("같은 문서의 locale 대체 경로를 만든다", () => {
@@ -54,10 +64,13 @@ describe("policyDocuments", () => {
   });
 
   it("route 종류별 static params를 분리한다", () => {
-    expect(getBaseAppPolicyParams()).toHaveLength(6);
+    expect(getBaseAppPolicyParams()).toHaveLength(5);
     expect(getLocalizedAppPolicyParams()).toHaveLength(4);
-    expect(getBaseLegacyPolicyParams()).toEqual([{ appSlug: "luna" }]);
-    expect(getLocalizedLegacyPolicyParams()).toHaveLength(19);
+    expect(getBaseLegacyPolicyParams()).toEqual([]);
+    expect(getLocalizedLegacyPolicyParams()).toHaveLength(16);
+
+    const example = { ...getPolicyDocuments()[0], path: "/privacy/example/" };
+    expect(getBaseLegacyPolicyParams([example])).toEqual([{ appSlug: "example" }]);
   });
 
   it("중복 경로와 안전하지 않은 이관 본문을 거부한다", () => {
@@ -70,5 +83,8 @@ describe("policyDocuments", () => {
     expect(() =>
       parsePolicyDocuments([{ ...valid, html: "Jane Doe (no formal title/position)" }]),
     ).toThrow("Policy HTML contains private legacy contact data");
+    expect(() =>
+      parsePolicyDocuments([{ ...valid, html: "<span>Privacy Officer</span>: Jane Doe" }]),
+    ).toThrow("Policy HTML contains private policy contact data");
   });
 });

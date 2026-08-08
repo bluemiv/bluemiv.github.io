@@ -11,7 +11,6 @@ const LEGACY_OUTPUT_DIRECTORY = resolve(PROJECT_DIRECTORY, "../bluemiv.github.io
 const TARGET_FILE = join(PROJECT_DIRECTORY, "src/features/policy/policyDocuments.generated.json");
 
 const POLICY_SOURCE_PATHS = [
-  "apps/berry-voca-starter/privacy.html",
   "apps/kpop-tube/account-deletion.html",
   "apps/kpop-tube/privacy.html",
   "apps/kpop-tube/privacy/en.html",
@@ -22,9 +21,6 @@ const POLICY_SOURCE_PATHS = [
   "apps/potion-sort-quest/privacy/en.html",
   "apps/potion-sort-quest/privacy/jp.html",
   "blim/account-deletion.html",
-  "privacy/ai-wallpaper/en.html",
-  "privacy/ai-wallpaper/jp.html",
-  "privacy/ai-wallpaper/ko.html",
   "privacy/blim/en.html",
   "privacy/blim/jp.html",
   "privacy/blim/ko.html",
@@ -34,7 +30,6 @@ const POLICY_SOURCE_PATHS = [
   "privacy/kpop/en.html",
   "privacy/kpop/jp.html",
   "privacy/kpop/ko.html",
-  "privacy/luna.html",
   "privacy/musepiece/en.html",
   "privacy/musepiece/jp.html",
   "privacy/musepiece/ko.html",
@@ -50,11 +45,9 @@ const POLICY_LOCALE_OVERRIDES = {
 };
 
 const LEGACY_POLICY_APP_NAMES = {
-  "ai-wallpaper": "AI Wallpaper",
   blim: "Blim",
   "easy-dots": "Easy Dots",
   kpop: "KPOP Clip",
-  luna: "Luna",
   musepiece: "Musepiece",
   "pixel-blur": "Pixel Blur",
   "pomodoro-flow": "Pomodoro Flow",

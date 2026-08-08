@@ -27,13 +27,17 @@ describe("policyMigration", () => {
     const result = sanitizePolicyHtml(`
       <main><p>홍길동 (직책/직급: 없음), 홍길동, Jane Doe (no formal title/position)</p>
       <p>Contact: +82-10-1234-5678, public.legacy@gmail.com</p>
+      <p><span>Privacy Officer</span>: John Smith</p>
+      <p>개인정보 보호책임자: 박담당</p>
       <p>{appName}</p><ul><li>전화: +82-10-1234-5678</li></ul></main>
     `);
 
     expect(result).toContain("Bluemiv");
+    expect(result).toContain("<span>Privacy Officer</span>: Bluemiv");
+    expect(result).toContain("개인정보 보호책임자: Bluemiv");
     expect(result).toContain("public.bluemiv@gmail.com");
     expect(result).toContain("KPOP Clip");
-    expect(result).not.toMatch(/홍길동|Jane Doe|1234-5678|public\.legacy/);
+    expect(result).not.toMatch(/홍길동|Jane Doe|John Smith|박담당|1234-5678|public\.legacy/);
     expect(result).not.toContain("<li>전화: </li>");
   });
 

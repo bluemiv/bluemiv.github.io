@@ -19,7 +19,7 @@ type SiteCopy = {
   };
 };
 
-type HomeCopy = {
+export type HomeCopy = {
   metadata: {
     title: string;
     description: string;

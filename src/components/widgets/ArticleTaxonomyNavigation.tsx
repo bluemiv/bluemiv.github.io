@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SectionHeader } from "@/components/atoms/SectionHeader";
 import type { ArticleCategorySummary } from "@/features/article/articleCollection";
 import {
   getArticleCategoryLabel,
@@ -138,22 +139,17 @@ export function ArticleTaxonomyNavigation({
 
   return (
     <nav aria-labelledby="taxonomy-title">
-      <div className="border-border border-b pb-4">
-        {eyebrow ? (
-          <p className="motion-section-marker text-accent font-mono text-xs tracking-[0.16em] uppercase">
-            {eyebrow}
-          </p>
-        ) : null}
-        <div className={`${eyebrow ? "mt-2" : ""} flex items-end justify-between gap-4`}>
-          <h2 id="taxonomy-title" className="text-xs font-bold tracking-[0.08em] uppercase">
-            {heading}
-          </h2>
+      <SectionHeader
+        description={description}
+        eyebrow={eyebrow}
+        heading={heading}
+        headingId="taxonomy-title"
+        trailing={
           <span className="text-muted font-mono text-xs tabular-nums">
             {String(topicCount).padStart(2, "0")} TOPICS
           </span>
-        </div>
-        {description ? <p className="text-muted mt-3 text-sm leading-6">{description}</p> : null}
-      </div>
+        }
+      />
 
       <Link
         href={getLocalizedPath(locale, "articles")}

@@ -1,15 +1,15 @@
 import type { PropsWithChildren } from "react";
 
-import Link from "next/link";
-
 import { Container } from "@/components/atoms/Container";
+import { EntryTagList } from "@/components/atoms/EntryTagList";
 import { PublicationMetadata } from "@/components/atoms/PublicationMetadata";
+import { AdjacentEntryNavigation } from "@/components/widgets/AdjacentEntryNavigation";
+import { ArchiveBackLink } from "@/components/widgets/ArchiveBackLink";
 import { NoteTableOfContents } from "@/components/widgets/NoteTableOfContents";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
 import { PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
-import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { shouldShowNoteTableOfContents, type NoteHeading } from "@/features/note/noteDocument";
 import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
@@ -35,14 +35,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
       <Container className="py-12 md:py-20">
         <article className="max-w-[760px]" aria-labelledby="note-title">
           <header>
-            <Link
-              href={getLocalizedPath("ko", "notes")}
-              transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-sm tracking-[0.1em] uppercase transition-colors"
-            >
-              <span aria-hidden="true">←</span>
-              <span className="ml-2">All notes</span>
-            </Link>
+            <ArchiveBackLink href={getLocalizedPath("ko", "notes")} label="All notes" />
 
             <div className="mt-8 flex items-center gap-4">
               <span className="bg-accent h-px w-8" aria-hidden="true" />
@@ -86,56 +79,30 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
             </div>
           </div>
 
-          {note.tags.length ? (
-            <footer className="border-border mt-14 border-t pt-7">
-              <p className="text-muted font-mono text-xs tracking-[0.16em] uppercase">
-                Filed under
-              </p>
-              <ul className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-                {note.tags.map((tag) => (
-                  <li key={tag}>#{tag}</li>
-                ))}
-              </ul>
-            </footer>
-          ) : null}
+          <EntryTagList className="mt-14" tags={note.tags} />
 
-          {navigation.olderNote || navigation.newerNote ? (
-            <nav
-              className="border-border mt-14 grid border-y sm:grid-cols-2"
-              aria-label="더 이전 기록과 더 최근 기록"
-            >
-              {navigation.olderNote ? (
-                <Link
-                  href={getNotePath(navigation.olderNote.slug)}
-                  transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-                  className="group py-7 sm:pr-7"
-                >
-                  <span className="text-muted font-mono text-xs tracking-[0.12em] uppercase">
-                    ← 더 이전 기록
-                  </span>
-                  <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold break-keep transition-colors">
-                    {navigation.olderNote.title}
-                  </span>
-                </Link>
-              ) : null}
-              {navigation.newerNote ? (
-                <Link
-                  href={getNotePath(navigation.newerNote.slug)}
-                  transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-                  className={`border-border group py-7 sm:border-l sm:pl-7 sm:text-right ${
-                    navigation.olderNote ? "border-t sm:border-t-0" : "sm:col-start-2"
-                  }`}
-                >
-                  <span className="text-muted font-mono text-xs tracking-[0.12em] uppercase">
-                    더 최근 기록 →
-                  </span>
-                  <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold break-keep transition-colors">
-                    {navigation.newerNote.title}
-                  </span>
-                </Link>
-              ) : null}
-            </nav>
-          ) : null}
+          <AdjacentEntryNavigation
+            ariaLabel="더 이전 기록과 더 최근 기록"
+            className="mt-14"
+            previous={
+              navigation.olderNote
+                ? {
+                    href: getNotePath(navigation.olderNote.slug),
+                    label: "← 더 이전 기록",
+                    title: navigation.olderNote.title,
+                  }
+                : null
+            }
+            next={
+              navigation.newerNote
+                ? {
+                    href: getNotePath(navigation.newerNote.slug),
+                    label: "더 최근 기록 →",
+                    title: navigation.newerNote.title,
+                  }
+                : null
+            }
+          />
         </article>
       </Container>
     </PageTransition>

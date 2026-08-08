@@ -582,6 +582,17 @@ Short notes:
 
 ## 10. 컴포넌트 규칙
 
+공통 composition:
+
+- 반복되는 eyebrow, heading, description, trailing action/count 조합은 `SectionHeader`를 사용한다.
+- article과 note archive의 상단 정보 계층은 `ArchivePageHeader`를 사용한다.
+- Home Latest와 archive article 목록은 `ArticleList`와 `ArticleListRow`를 함께 사용한다.
+- article과 note 상세의 archive 복귀, tag 목록, 이전·다음 탐색은 각각 `ArchiveBackLink`,
+  `EntryTagList`, `AdjacentEntryNavigation`을 사용한다.
+- `HomePage`는 build-time data 조회와 section 조합만 담당한다. hero, featured article, latest
+  article, notes section의 markup은 독립 widget에 둔다.
+- 공통 컴포넌트로 표현 가능한 UI를 page-local markup으로 다시 만들지 않는다.
+
 ### 10.1 Header
 
 - 바깥 shell은 `72px`를 유지하고, scroll down compact 상태에서는 surface와 내부 콘텐츠만

@@ -6,4 +6,5 @@
 - data 조회와 route 조합을 하지 않는다.
 - `className` 확장이 필요하면 `PropsWithClassName<TProps>`를 쓴다.
 - article과 note가 공유하는 발행 정보 UI는 `PublicationMetadata`를 사용한다.
+- 반복 section 제목은 `SectionHeader`, 공통 tag 목록은 `EntryTagList`를 사용한다.
 - 기본 HTML attribute와 ref 전달을 불필요하게 막지 않는다.

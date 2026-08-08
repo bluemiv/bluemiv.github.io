@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { getArticleNumber } from "@/features/article/articleIdentifier";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getArticleDocument } from "@/features/article/articleRepository";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
@@ -12,10 +13,6 @@ type PropsWithArticleListRow = {
   article: ArticleMetadata;
   locale: Locale;
 };
-
-function getArticleNumber(id: string): string {
-  return id.replace("article-", "").padStart(3, "0");
-}
 
 export function ArticleListRow({ article, locale }: PropsWithArticleListRow) {
   const document = getArticleDocument(article.slug, locale);

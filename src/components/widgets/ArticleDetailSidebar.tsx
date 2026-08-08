@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArticleTableOfContents } from "@/components/widgets/ArticleTableOfContents";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import type { ArticleHeading } from "@/features/article/articleDocument";
+import { getArticleNumber } from "@/features/article/articleIdentifier";
 import {
   getArticleCategoryLabel,
   getArticleTopicLabel,
@@ -52,7 +53,7 @@ export function ArticleDetailSidebar({
           ))}
         </ul>
         <p className="text-muted mt-2 font-mono text-xs uppercase">
-          {articleId.replace("article-", "Entry / ")}
+          Entry / {getArticleNumber(articleId)}
         </p>
       </section>
 

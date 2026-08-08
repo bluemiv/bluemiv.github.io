@@ -3,6 +3,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
 
+import { CodeCopyButton } from "@/components/atoms/CodeCopyButton";
 import { getArticleImageDimensions } from "@/features/article/articleImage";
 
 type PropsWithArticleCodeBlock = ComponentPropsWithoutRef<"pre"> & {
@@ -13,10 +14,13 @@ function ArticleCodeBlock({ children, ...props }: PropsWithArticleCodeBlock) {
   const language = props["data-language"];
 
   return (
-    <pre {...props}>
-      {language ? <span className="article-code-language">{language}</span> : null}
-      {children}
-    </pre>
+    <div className="article-code-block">
+      <div className="article-code-toolbar">
+        <span className="article-code-language">{language ?? "code"}</span>
+        <CodeCopyButton />
+      </div>
+      <pre {...props}>{children}</pre>
+    </div>
   );
 }
 

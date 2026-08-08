@@ -458,6 +458,8 @@ Short notes:
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
 - 본문 뒤에는 tag, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
 - code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
+- code block toolbar 오른쪽에는 `Copy` action을 둔다. 복사 성공 시 아이콘과 label을 `Copied`로 2초간 바꾸고, 실패 시 `Retry`를 표시한다.
+- 복사 대상은 toolbar를 제외한 `<code>`의 원문 전체다. 버튼은 항상 보이고 keyboard focus와 screen reader 상태 안내를 제공한다.
 - article `h2`–`h4` 번호는 문서 순서로 build time에 자동 생성한다. `01`, `01.01`, `01.01.01` 형식을 사용한다.
 - 이관 article의 기존 heading 번호는 anchor 호환을 위해 source에 남기되 화면에서는 자동 번호로 대체한다.
 - highlighted code line은 code surface와 accent를 혼합한 어두운 배경을 사용해 두 theme에서 token 대비를 유지한다.

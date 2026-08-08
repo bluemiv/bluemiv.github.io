@@ -156,6 +156,14 @@ coverImage: /r/i/example/cover.webp
 - policy document는 `noindex, follow`로 유지하고 robots.txt에서 차단하지 않는다.
 - sitemap `lastmod`는 실제 `modifiedAt`만 사용한다.
 
+## 내부 검색
+
+- Pagefind index는 static export 이후 `out/pagefind/`에 생성한다.
+- article과 note 상세 본문만 색인한다.
+- archive, policy, app, legacy redirect는 내부 검색에서 제외한다.
+- 검색 engine과 index는 사용자 입력이 시작된 뒤 지연 로드한다.
+- 검색 UI·색인 범위 규칙은 `docs/design-system.md`와 `docs/seo.md`를 함께 따른다.
+
 ## 검증
 
 ```bash

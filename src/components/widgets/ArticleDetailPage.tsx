@@ -26,6 +26,7 @@ import {
 } from "@/features/i18n/publicationMetadata";
 import { PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
+import { SearchDocumentMetadata } from "@/features/search/SearchDocumentMetadata";
 
 type PropsWithArticleDetailPage = PropsWithChildren<{
   article: ArticleMetadata;
@@ -57,7 +58,7 @@ export function ArticleDetailPage({
         <AdSenseScript />
         <ArticleReadingRuler headings={headings} />
         <Container className="py-12 md:py-20">
-          <article aria-labelledby="article-title">
+          <article aria-labelledby="article-title" data-pagefind-filter="type:article">
             <header className="max-w-[940px]">
               <ArchiveBackLink href={getLocalizedPath("ko", "articles")} label="All articles" />
 
@@ -68,6 +69,7 @@ export function ArticleDetailPage({
                     href={getLocalizedPath("ko", `categories/${article.category}`)}
                     transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
                     className="hover:text-accent-hover underline-offset-4 hover:underline"
+                    data-pagefind-filter="category"
                   >
                     {categoryLabel}
                   </Link>
@@ -78,6 +80,7 @@ export function ArticleDetailPage({
                         href={getLocalizedPath("ko", `topics/${topic}`)}
                         transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
                         className="hover:text-accent-hover underline-offset-4 hover:underline"
+                        data-pagefind-filter="topic"
                       >
                         {getArticleTopicLabel(topic)}
                       </Link>
@@ -91,11 +94,15 @@ export function ArticleDetailPage({
 
               <h1
                 id="article-title"
+                data-pagefind-meta="title"
                 className="mt-6 max-w-[900px] text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance sm:text-5xl md:text-6xl"
               >
                 {article.title}
               </h1>
-              <p className="text-muted mt-7 max-w-[780px] text-lg leading-8 text-pretty md:text-xl md:leading-9">
+              <p
+                className="text-muted mt-7 max-w-[780px] text-lg leading-8 text-pretty md:text-xl md:leading-9"
+                data-pagefind-meta="description"
+              >
                 {article.description}
               </p>
 
@@ -157,7 +164,15 @@ export function ArticleDetailPage({
               <div className="max-w-[760px] min-w-0">
                 <ArticleTableOfContents headings={headings} variant="mobile" />
 
-                <div id="article-body" className="article-body mt-12 xl:mt-0">
+                <div id="article-body" className="article-body mt-12 xl:mt-0" data-pagefind-body>
+                  <SearchDocumentMetadata
+                    category={categoryLabel}
+                    description={article.description}
+                    publishedAt={article.publishedAt}
+                    tags={article.tags}
+                    title={article.title}
+                    topics={article.topics.map(getArticleTopicLabel)}
+                  />
                   {children}
                 </div>
 

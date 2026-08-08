@@ -1,4 +1,4 @@
-# Third-party font notices
+# Third-party notices
 
 이 프로젝트는 다음 오픈소스 폰트를 self-host한다.
 
@@ -13,3 +13,11 @@
 | IBM Plex Mono   | `@ibm/plex-mono`                       | Copyright 2017 IBM Corp.                           | SIL Open Font License 1.1 |
 
 라이선스 전문은 각 npm package에 포함되어 있다.
+
+## Software
+
+| Software | Package    | Copyright | License |
+| -------- | ---------- | --------- | ------- |
+| Pagefind | `pagefind` | Pagefind  | MIT     |
+
+라이선스 전문은 npm package에 포함되어 있다.

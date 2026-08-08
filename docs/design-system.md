@@ -608,6 +608,8 @@ Short notes:
 - 언어 메뉴의 현재 locale은 현 경로를 유지한다. 대응 번역 route가 없는 다른 locale은 존재하지 않는 경로 대신 해당 locale 홈으로 이동한다.
 - 아래로 `32px` 이상 scroll하면 compact, 위로 `16px` 이상 scroll하면 기본 높이로 전환한다.
 - mobile menu에서 모든 primary navigation을 제공한다.
+- desktop search trigger는 utility 영역에 두고, mobile search trigger는 menu 첫 행에 둔다.
+- 현재 locale에 검색 가능한 article 또는 note 상세가 없으면 search trigger를 노출하지 않는다.
 - header 상단과 mobile menu는 서로 독립된 blur surface로 구성해 중첩 `backdrop-filter`를 만들지 않는다.
 - mobile menu surface는 `canvas 92%`와 `backdrop-blur-2xl`을 사용해 배경 글자를 흐리면서 navigation 대비를 유지한다.
 - compact transition은 `transform`만 사용하며 `180ms ease-out`, menu transition은 `200ms ease-out`을 사용한다. reduced motion에서는 제거한다.
@@ -659,10 +661,21 @@ Short notes:
 
 ### 10.6 Search
 
-- article 수가 늘면 command palette 또는 full-width dialog.
-- title, description, topic, tag 검색.
-- keyboard focus trap, Escape close, focus restore 필수.
-- 검색 결과는 compact list.
+- Pagefind가 static export 이후 article과 note 상세만 색인한다. 외부 검색 API를 사용하지 않는다.
+- engine과 언어별 index는 dialog를 열고 검색어를 입력한 뒤 지연 로드한다.
+- title, description, 본문, category, topic, tag를 검색한다.
+- desktop header와 mobile menu에서 같은 `SearchDialog`를 연다. `Command/Ctrl + K`를 함께 제공한다.
+- native dialog의 focus trap을 사용하고 Escape close와 기존 focus 복귀를 유지한다.
+- `All`, `Articles`, `Notes`의 세 filter만 먼저 노출한다. category, topic, tag는 query 검색과
+  index filter로만 유지해 control을 과밀하게 만들지 않는다.
+- 검색 결과는 thumbnail이나 개별 card 없이 divider list로 최대 8개 표시한다.
+- result는 type, category, title, 두 줄 excerpt 순서로 구성하고 일치 구간만 accent-soft로 표시한다.
+- dialog는 최대 `720px`, radius `8px`, canvas 배경과 어두운 blur backdrop을 사용한다.
+- mobile dialog는 viewport 좌우 최소 `12px`, 위아래 최소 `16px`를 남기고 내부 결과만 scroll한다.
+- 모든 trigger, filter, close control은 최소 `44px` target을 유지한다.
+- query는 trim과 반복 공백 정리 후 두 글자부터 실행하고 `160ms` 지연으로 입력 중 요청을 줄인다.
+- `pnpm dev`에는 생성된 index가 없으므로 실패 대신 `pnpm start` 정적 미리보기 안내를 표시한다.
+- reduced motion에서는 dialog transition을 제거한다.
 
 ### 10.7 TOC
 
@@ -1057,11 +1070,10 @@ text-accent / bg-accent / border-accent
 다음 항목은 V2 production 전 해결한다.
 
 1. topic별 cover system
-2. search interaction
-3. 전체 페이지 responsive visual QA
-4. `theme-color` 동기화 검토
-5. article comments 서비스 연결
-6. 지역별 consent/CMP 운영 설정 최종 확인
+2. 전체 페이지 responsive visual QA
+3. `theme-color` 동기화 검토
+4. article comments 서비스 연결
+5. 지역별 consent/CMP 운영 설정 최종 확인
 
 ## 20. 변경 관리
 

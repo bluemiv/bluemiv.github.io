@@ -14,6 +14,7 @@ import { shouldShowNoteTableOfContents, type NoteHeading } from "@/features/note
 import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 import type { NoteNavigation } from "@/features/note/noteNavigation";
+import { SearchDocumentMetadata } from "@/features/search/SearchDocumentMetadata";
 
 type PropsWithNoteDetailPage = PropsWithChildren<{
   headings: readonly NoteHeading[];
@@ -33,7 +34,11 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
   return (
     <PageTransition>
       <Container className="py-12 md:py-20">
-        <article className="max-w-[760px]" aria-labelledby="note-title">
+        <article
+          className="max-w-[760px]"
+          aria-labelledby="note-title"
+          data-pagefind-filter="type:note"
+        >
           <header>
             <ArchiveBackLink href={getLocalizedPath("ko", "notes")} label="All notes" />
 
@@ -46,11 +51,15 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
             <h1
               id="note-title"
+              data-pagefind-meta="title"
               className="mt-6 text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance break-keep sm:text-5xl md:text-6xl"
             >
               {note.title}
             </h1>
-            <p className="text-muted mt-7 text-lg leading-8 text-pretty break-keep md:text-xl md:leading-9">
+            <p
+              className="text-muted mt-7 text-lg leading-8 text-pretty break-keep md:text-xl md:leading-9"
+              data-pagefind-meta="description"
+            >
               {note.description}
             </p>
 
@@ -74,7 +83,16 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
           <div className="mt-12 md:mt-16">
             {hasTableOfContents ? <NoteTableOfContents headings={headings} /> : null}
-            <div className={`article-body note-body ${hasTableOfContents ? "mt-10" : ""}`}>
+            <div
+              className={`article-body note-body ${hasTableOfContents ? "mt-10" : ""}`}
+              data-pagefind-body
+            >
+              <SearchDocumentMetadata
+                description={note.description}
+                publishedAt={note.publishedAt}
+                tags={note.tags}
+                title={note.title}
+              />
               {children}
             </div>
           </div>

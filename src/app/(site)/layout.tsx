@@ -40,7 +40,7 @@ export default function BlogLayout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <div className="flex min-h-screen flex-col">
-          <SiteHeader locale="ko" />
+          <SiteHeader locale="ko" isSearchEnabled />
           <main className="flex-1">{children}</main>
           <SiteFooter locale="ko" />
         </div>

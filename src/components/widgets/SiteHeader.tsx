@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Menu, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -17,20 +17,24 @@ import {
   resolveHeaderScrollState,
 } from "@/features/navigation/siteNavigation";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
+import { SearchDialog } from "@/features/search/SearchDialog";
 import { ThemeToggle } from "@/features/theme/ThemeToggle";
 
 type PropsWithSiteHeader = {
+  isSearchEnabled?: boolean;
   locale: Locale;
 };
 
 const MOBILE_NAVIGATION_ID = "mobile-site-navigation";
 
-export function SiteHeader({ locale }: PropsWithSiteHeader) {
+export function SiteHeader({ isSearchEnabled = false, locale }: PropsWithSiteHeader) {
   const copy = SITE_COPY[locale];
   const pathname = usePathname();
   const [isCompact, setIsCompact] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const searchRestoreTargetRef = useRef<HTMLElement | null>(null);
   const scrollStateRef = useRef(createHeaderScrollState());
   const href = (path: string) => getLocalizedPath(locale, path);
   const homeHref = getLocalizedPath(locale);
@@ -46,6 +50,11 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
         ]
       : [];
   const shouldUseCompactHeader = isCompact && !isMobileMenuOpen;
+  const openSearch = useCallback(() => {
+    setIsMobileMenuOpen(false);
+    setIsSearchOpen(true);
+  }, []);
+  const closeSearch = useCallback(() => setIsSearchOpen(false), []);
 
   useEffect(() => {
     let animationFrameId = 0;
@@ -143,6 +152,18 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
 
         <div className="border-border flex items-center justify-self-end border-l pl-1 md:pl-3">
           <div id={ARTICLE_READING_HEADER_SLOT_ID} className="contents" />
+          {isSearchEnabled ? (
+            <button
+              type="button"
+              className="text-muted hover:text-foreground hidden min-h-11 items-center gap-2 px-3 font-mono text-xs font-semibold tracking-[0.08em] uppercase transition-colors md:inline-flex"
+              aria-label={`${copy.search.open} (${copy.search.shortcut})`}
+              onClick={openSearch}
+            >
+              <Search aria-hidden="true" size={17} />
+              <span className="hidden lg:inline">Search</span>
+              <kbd className="text-subtle hidden xl:inline">⌘K</kbd>
+            </button>
+          ) : null}
           <LocaleSwitcher currentPath={pathname} locale={locale} />
           <ThemeToggle labels={copy.theme} />
           {navItems.length ? (
@@ -176,6 +197,22 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
           }`}
         >
           <Container className="py-3">
+            {isSearchEnabled ? (
+              <button
+                type="button"
+                className="border-border text-muted hover:text-foreground flex min-h-14 w-full items-center gap-3 border-b transition-colors"
+                onClick={() => {
+                  searchRestoreTargetRef.current = menuButtonRef.current;
+                  openSearch();
+                }}
+              >
+                <span className="text-accent flex w-9 justify-start" aria-hidden="true">
+                  <Search size={18} />
+                </span>
+                <span className="flex-1 text-left text-sm font-semibold">Search</span>
+                <kbd className="text-subtle font-mono text-xs">⌘K</kbd>
+              </button>
+            ) : null}
             <nav aria-label={copy.navigationLabel}>
               <ul>
                 {navItems.map((item, index) => {
@@ -221,6 +258,17 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
             </nav>
           </Container>
         </div>
+      ) : null}
+
+      {isSearchEnabled ? (
+        <SearchDialog
+          copy={copy.search}
+          isOpen={isSearchOpen}
+          locale={locale}
+          onRequestClose={closeSearch}
+          onRequestOpen={openSearch}
+          restoreFocusTargetRef={searchRestoreTargetRef}
+        />
       ) : null}
     </header>
   );

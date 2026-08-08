@@ -1,5 +1,30 @@
 import type { Locale } from "./localeConfig";
 
+export type SearchCopy = {
+  close: string;
+  description: string;
+  empty: string;
+  filterLabel: string;
+  filters: {
+    all: string;
+    article: string;
+    note: string;
+  };
+  hint: string;
+  label: string;
+  loading: string;
+  open: string;
+  placeholder: string;
+  resultCount: (count: number) => string;
+  shortcut: string;
+  title: string;
+  types: {
+    article: string;
+    note: string;
+  };
+  unavailable: string;
+};
+
 type SiteCopy = {
   homeLabel: string;
   navigationLabel: string;
@@ -12,6 +37,7 @@ type SiteCopy = {
     close: string;
   };
   languageLabel: string;
+  search: SearchCopy;
   theme: {
     toggle: string;
     light: string;
@@ -87,6 +113,23 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
     },
     mobileMenu: { open: "메뉴 열기", close: "메뉴 닫기" },
     languageLabel: "언어 선택",
+    search: {
+      close: "검색 닫기",
+      description: "Articles와 Notes의 제목, 본문, 주제를 검색합니다.",
+      empty: "일치하는 기록이 없습니다. 다른 단어로 검색해보세요.",
+      filterLabel: "검색할 기록 유형",
+      filters: { all: "All", article: "Articles", note: "Notes" },
+      hint: "두 글자 이상 입력하면 기록을 검색합니다.",
+      label: "검색어",
+      loading: "기록을 찾고 있습니다.",
+      open: "글 검색 열기",
+      placeholder: "무엇을 찾고 있나요?",
+      resultCount: (count) => `${count}개의 검색 결과`,
+      shortcut: "Command 또는 Control K",
+      title: "Search archive",
+      types: { article: "Article", note: "Note" },
+      unavailable: "개발 서버에서는 검색 index가 없습니다. pnpm start로 확인해주세요.",
+    },
     theme: {
       toggle: "색상 테마 전환",
       light: "라이트 테마로 전환",
@@ -102,6 +145,23 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
     },
     mobileMenu: { open: "Open menu", close: "Close menu" },
     languageLabel: "Choose language",
+    search: {
+      close: "Close search",
+      description: "Search titles, text, and topics across Articles and Notes.",
+      empty: "No matching entries. Try a different search.",
+      filterLabel: "Entry type",
+      filters: { all: "All", article: "Articles", note: "Notes" },
+      hint: "Enter at least two characters to search the archive.",
+      label: "Search query",
+      loading: "Searching the archive.",
+      open: "Open writing search",
+      placeholder: "What are you looking for?",
+      resultCount: (count) => `${count} search results`,
+      shortcut: "Command or Control K",
+      title: "Search archive",
+      types: { article: "Article", note: "Note" },
+      unavailable: "Search is available in the static preview started with pnpm start.",
+    },
     theme: {
       toggle: "Change color theme",
       light: "Switch to light theme",
@@ -117,6 +177,23 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
     },
     mobileMenu: { open: "メニューを開く", close: "メニューを閉じる" },
     languageLabel: "言語を選択",
+    search: {
+      close: "検索を閉じる",
+      description: "ArticlesとNotesのタイトル、本文、トピックを検索します。",
+      empty: "一致する記録がありません。別のキーワードで検索してください。",
+      filterLabel: "記録の種類",
+      filters: { all: "All", article: "Articles", note: "Notes" },
+      hint: "2文字以上入力すると記録を検索します。",
+      label: "検索キーワード",
+      loading: "記録を検索しています。",
+      open: "記事検索を開く",
+      placeholder: "何をお探しですか？",
+      resultCount: (count) => `${count}件の検索結果`,
+      shortcut: "CommandまたはControl K",
+      title: "Search archive",
+      types: { article: "Article", note: "Note" },
+      unavailable: "検索はpnpm startで起動した静的プレビューで利用できます。",
+    },
     theme: {
       toggle: "カラーテーマを変更",
       light: "ライトテーマに切り替え",

@@ -22,6 +22,16 @@
 policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 읽을 수 있도록
 `robots.txt`에서 차단하지 않는다.
 
+## 사이트 내부 검색
+
+- Pagefind가 static export의 canonical article과 note 상세만 색인한다.
+- 실제 본문에만 `data-pagefind-body`를 두고 header, footer, archive, 광고, 관련 글은 제외한다.
+- title, description은 metadata로, type, category, topic, tag는 filter로 명시한다.
+- title, description, category, topic, tag의 검색 문맥은 본문 색인 영역 안에서 가중치를 적용한다.
+- locale별 HTML `lang`을 기준으로 index를 분리한다. 번역 상세가 없는 locale에는 빈 검색 UI를 노출하지 않는다.
+- 검색 query URL과 검색 결과 page를 만들지 않는다. canonical, sitemap, feed에는 영향을 주지 않는다.
+- `pnpm build`에서 Pagefind index 생성 후 표시한 상세 수와 실제 index page 수가 같은지 검증한다.
+
 ## Social metadata
 
 - 모든 색인 페이지는 title, description, canonical과 함께 Open Graph와 Twitter Card를 생성한다.
@@ -79,5 +89,5 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - article, note, category, topic, locale 경로가 바뀌면 sitemap과 feed 생성기를 함께 갱신한다.
 - 새 policy route는 sitemap과 feed에 넣지 않고 `noindex, follow`를 적용한다.
 - `lastmod`에 빌드 시각이나 현재 시각을 넣지 않는다.
-- `pnpm build`는 내부 링크와 SEO 정적 산출물을 함께 검증한다.
+- `pnpm build`는 내부 링크, SEO 정적 산출물, 내부 검색 index를 함께 검증한다.
 - 변경 후 test, XML 문법 검사, static export 산출물 검증을 실행한다.

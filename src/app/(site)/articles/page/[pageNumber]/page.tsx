@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { ArticlesArchivePage } from "@/components/widgets/ArticlesArchivePage";
 import { getArticleArchiveMetadata } from "@/features/article/articleArchiveSeo";
-import { summarizeArticleTopics } from "@/features/article/articleCollection";
+import { summarizeArticleTaxonomy } from "@/features/article/articleCollection";
 import {
   getArticleArchiveStaticParams,
   paginateArticles,
@@ -44,15 +44,16 @@ export default async function PaginatedArticlesPage({
 }: PageProps<"/articles/page/[pageNumber]">) {
   const { pageNumber } = await params;
   const { articles, pagination } = getArticleArchivePage(pageNumber);
-  const topics = summarizeArticleTopics(articles, articles.length);
+  const taxonomy = summarizeArticleTaxonomy(articles);
 
   return (
     <ArticlesArchivePage
+      activeCategory={null}
       activeTopic={null}
       articles={pagination.articles}
       locale={ARTICLE_LOCALE}
       pagination={pagination}
-      topics={topics}
+      taxonomy={taxonomy}
       totalArticleCount={articles.length}
     />
   );

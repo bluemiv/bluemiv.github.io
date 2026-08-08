@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { ArticlesArchivePage } from "@/components/widgets/ArticlesArchivePage";
 import { getArticleArchiveMetadata } from "@/features/article/articleArchiveSeo";
-import { summarizeArticleTopics } from "@/features/article/articleCollection";
+import { summarizeArticleTaxonomy } from "@/features/article/articleCollection";
 import { paginateArticles } from "@/features/article/articlePagination";
 import { getPublishedArticles } from "@/features/article/articleRepository";
 
@@ -23,15 +23,16 @@ export function generateMetadata(): Metadata {
 
 export default function ArticlesPage() {
   const { articles, pagination } = getFirstArticleArchivePage();
-  const topics = summarizeArticleTopics(articles, articles.length);
+  const taxonomy = summarizeArticleTaxonomy(articles);
 
   return (
     <ArticlesArchivePage
+      activeCategory={null}
       activeTopic={null}
       articles={pagination.articles}
       locale={ARTICLE_LOCALE}
       pagination={pagination}
-      topics={topics}
+      taxonomy={taxonomy}
       totalArticleCount={articles.length}
     />
   );

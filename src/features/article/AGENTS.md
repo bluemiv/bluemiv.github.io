@@ -4,9 +4,12 @@
 - MDX metadata의 `author`는 선택값이다.
 - `author`가 없으면 `SITE_CONFIG.author`를 사용한다.
 - heading, 읽기 시간, 추천과 이전·다음 계산은 순수 함수로 유지한다.
-- featured 분리, topic 집계·필터링 같은 article collection 계산도 순수 함수로 유지한다.
+- featured 분리, category/topic 집계·필터링 같은 article collection 계산도 순수 함수로 유지한다.
 - archive pagination은 최신순 article 배열을 페이지당 10개로 나누고 경계 조건을 테스트한다.
 - reading progress와 active heading 계산은 하나의 provider에서 공유하고 순수 계산을 테스트한다.
-- topic 공개 label은 `articleTopic.ts`를 단일 원천으로 사용한다.
+- category/topic 계층, 공개 label, 허용 관계는 `articleTaxonomy.ts`를 단일 원천으로 사용한다.
+- metadata의 `category`는 단일 값, `topics`는 중복 없는 비어 있지 않은 배열이다.
+- `topics[0]`은 UI에서 대표 topic으로 사용한다.
+- 모든 topic은 선택한 category 아래에 정의되어야 하며 잘못된 조합은 build에서 거부한다.
 - route와 화면 markup은 넣지 않는다.
 - filesystem 조회는 SSG build에서만 실행한다.

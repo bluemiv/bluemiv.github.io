@@ -13,7 +13,21 @@ export function getArticleNavigation(
 ): ArticleNavigation {
   const articleIndex = articles.findIndex(({ id }) => id === article.id);
   const relatedArticles = articles
-    .filter(({ id, topic }) => id !== article.id && topic === article.topic)
+    .map((candidate, index) => ({
+      candidate,
+      index,
+      sharedTopicCount: candidate.topics.filter((topic) => article.topics.includes(topic)).length,
+    }))
+    .filter(
+      ({ candidate, sharedTopicCount }) =>
+        candidate.id !== article.id &&
+        candidate.category === article.category &&
+        sharedTopicCount > 0,
+    )
+    .sort(
+      (left, right) => right.sharedTopicCount - left.sharedTopicCount || left.index - right.index,
+    )
+    .map(({ candidate }) => candidate)
     .slice(0, Math.max(0, relatedLimit));
 
   return {

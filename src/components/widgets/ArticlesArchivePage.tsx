@@ -2,29 +2,36 @@ import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
 import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout";
-import { ArticleSidebar, MobileTopicIndex } from "@/components/widgets/ArticleSidebar";
+import { ArticleSidebar, MobileTaxonomyIndex } from "@/components/widgets/ArticleSidebar";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { PaginationNavigation } from "@/components/widgets/PaginationNavigation";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
-import type { ArticleTopicSummary } from "@/features/article/articleCollection";
+import type { ArticleCategorySummary } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import {
   getArticleArchivePagePath,
   type ArticlePagination,
 } from "@/features/article/articlePagination";
 import { getArticleDocument } from "@/features/article/articleRepository";
-import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import {
+  getArticleCategoryDefinition,
+  getArticleCategoryLabel,
+  getArticleTopicLabel,
+  type ArticleCategory,
+  type ArticleTopic,
+} from "@/features/article/articleTaxonomy";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticlesArchivePage = {
-  activeTopic: string | null;
+  activeCategory: ArticleCategory | null;
+  activeTopic: ArticleTopic | null;
   articles: readonly ArticleMetadata[];
   locale: Locale;
   pagination: ArticlePagination | null;
-  topics: readonly ArticleTopicSummary[];
+  taxonomy: readonly ArticleCategorySummary[];
   totalArticleCount: number;
 };
 
@@ -60,11 +67,11 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
       <Link
         href={getLocalizedPath(locale, `articles/${article.slug}`)}
         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-        className="article-list-link group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 px-2 py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_104px] md:items-start md:px-3"
+        className="article-list-link group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 px-2 py-7 md:grid-cols-[44px_144px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
         <span className="text-subtle font-mono text-xs">A{getArticleNumber(article.id)}</span>
-        <span className="text-accent font-mono text-xs font-semibold tracking-[0.06em] uppercase">
-          {getArticleTopicLabel(article.topic)}
+        <span className="text-accent font-mono text-xs leading-5 font-semibold tracking-[0.06em] uppercase">
+          {getArticleCategoryLabel(article.category)} / {getArticleTopicLabel(article.topics[0])}
         </span>
         <span className="col-span-2 md:col-span-1">
           <strong className="article-list-title block text-lg leading-7 font-semibold tracking-[-0.025em] md:text-xl">
@@ -86,15 +93,26 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
 }
 
 export function ArticlesArchivePage({
+  activeCategory,
   activeTopic,
   articles,
   locale,
   pagination,
-  topics,
+  taxonomy,
   totalArticleCount,
 }: PropsWithArticlesArchivePage) {
+  const activeCategoryDefinition = activeCategory
+    ? getArticleCategoryDefinition(activeCategory)
+    : null;
   const activeTopicLabel = activeTopic ? getArticleTopicLabel(activeTopic) : null;
-  const topicNavigationProps = { activeTopic, locale, topics, totalArticleCount };
+  const activeLabel = activeTopicLabel ?? activeCategoryDefinition?.label ?? null;
+  const taxonomyNavigationProps = {
+    activeCategory,
+    activeTopic,
+    locale,
+    taxonomy,
+    totalArticleCount,
+  };
   const archiveArticleCount = pagination?.totalArticles ?? articles.length;
 
   return (
@@ -103,7 +121,7 @@ export function ArticlesArchivePage({
       <Container className="py-16 md:py-24">
         <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
           <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
-            Articles / {activeTopicLabel ?? "Archive"}
+            Articles / {activeLabel ?? "Archive"}
             {pagination && pagination.currentPage > 1
               ? ` / P${String(pagination.currentPage).padStart(2, "0")}`
               : ""}
@@ -111,12 +129,13 @@ export function ArticlesArchivePage({
           <div className="flex items-end justify-between gap-6">
             <div>
               <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep sm:text-5xl md:text-6xl">
-                {activeTopicLabel ? `${activeTopicLabel} 글` : "기술 글"}
+                {activeLabel ? `${activeLabel} 글` : "기술 글"}
               </h1>
               <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
                 {activeTopicLabel
-                  ? `${activeTopicLabel} 주제로 분류한 문제 해결 과정과 선택의 이유를 모았습니다.`
-                  : "개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류해 기록합니다."}
+                  ? `${activeTopicLabel} 주제를 다룬 문제 해결 과정과 선택의 이유를 모았습니다.`
+                  : (activeCategoryDefinition?.description ??
+                    "개발 과정에서 만난 문제와 선택의 이유를 분야와 기술별로 분류해 기록합니다.")}
               </p>
             </div>
             <span className="text-muted hidden pb-2 font-mono text-xs tabular-nums sm:block">
@@ -126,8 +145,8 @@ export function ArticlesArchivePage({
         </header>
 
         <div className="mt-10 xl:mt-16">
-          <ArticleArchiveLayout sidebar={<ArticleSidebar {...topicNavigationProps} />}>
-            <MobileTopicIndex {...topicNavigationProps} />
+          <ArticleArchiveLayout sidebar={<ArticleSidebar {...taxonomyNavigationProps} />}>
+            <MobileTaxonomyIndex {...taxonomyNavigationProps} />
 
             <section className="mt-10 xl:mt-0" aria-labelledby="article-list-title">
               <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
@@ -139,7 +158,7 @@ export function ArticlesArchivePage({
                     id="article-list-title"
                     className="mt-2 text-sm font-bold tracking-[0.08em] uppercase"
                   >
-                    {activeTopicLabel ? `${activeTopicLabel} articles` : "All articles"}
+                    {activeLabel ? `${activeLabel} articles` : "All articles"}
                   </h2>
                 </div>
                 <p className="text-muted text-sm">
@@ -164,7 +183,7 @@ export function ArticlesArchivePage({
                 </ol>
               ) : (
                 <p className="border-border text-muted border-b py-14 text-sm leading-7">
-                  이 주제에 공개된 글이 없습니다.
+                  이 분류에 공개된 글이 없습니다.
                 </p>
               )}
 

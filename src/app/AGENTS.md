@@ -6,7 +6,8 @@
 - 동적 route는 static export용 `generateStaticParams`를 제공한다.
 - route folder는 public URL과 같은 소문자 kebab-case를 쓴다.
 - `blog` route는 기존 URL redirect 전용이다. 신규 화면을 추가하지 않는다.
-- topic archive는 `/topics/[topic]/`에서 SSG로 생성한다. `category` route를 새로 만들지 않는다.
+- category archive는 `/categories/[category]/`, topic archive는 `/topics/[topic]/`에서 SSG로
+  생성한다. 둘 다 공개 article이 있는 값만 `generateStaticParams`에 포함한다.
 - article archive 첫 페이지는 `/articles/`, 2페이지부터 `/articles/page/[pageNumber]/`에서 SSG로 생성한다.
 - `/articles/page/1/` 중복 route를 만들지 않는다.
 - route group과 Next.js 예약 파일명은 framework 규칙을 따른다.

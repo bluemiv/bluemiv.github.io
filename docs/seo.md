@@ -7,6 +7,7 @@
 - locale 홈: `/`, `/en/`, `/ja/`
 - article 목록과 페이지: `/articles/`, `/articles/page/{pageNumber}/`
 - article 상세: `/articles/{slug}/`
+- category 목록: `/categories/{category}/`
 - topic 목록: `/topics/{topic}/`
 - note 목록과 상세: `/notes/`, `/notes/{slug}/`
 - app 상세: `/apps/{appSlug}/`
@@ -27,8 +28,10 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - Next.js static export를 위해 route에 `dynamic = "force-static"`을 명시한다.
 - URL은 `SITE_CONFIG.url` 기준 절대 URL과 trailing slash를 사용한다.
 - 공개된 article과 note만 포함한다.
+- 공개 article이 있는 category와 topic archive만 포함한다.
 - `lastmod`는 콘텐츠의 실제 `modifiedAt`을 사용한다.
 - article과 note의 `coverImage`가 있으면 image sitemap 정보로 포함한다.
+- article 구조화 데이터는 `Home > Articles > Category > Article` breadcrumb를 포함한다.
 - locale 홈은 `ko`, `en`, `ja`, `x-default` hreflang을 서로 연결한다.
 - Google이 사용하지 않는 `priority`, `changefreq`는 만들지 않는다.
 
@@ -54,7 +57,7 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 
 ## 변경 규칙
 
-- article, note, topic, locale 경로가 바뀌면 sitemap과 feed 생성기를 함께 갱신한다.
+- article, note, category, topic, locale 경로가 바뀌면 sitemap과 feed 생성기를 함께 갱신한다.
 - 새 policy route는 sitemap과 feed에 넣지 않고 `noindex, follow`를 적용한다.
 - `lastmod`에 빌드 시각이나 현재 시각을 넣지 않는다.
 - `pnpm build`는 내부 링크와 SEO 정적 산출물을 함께 검증한다.

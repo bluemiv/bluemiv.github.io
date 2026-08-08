@@ -423,8 +423,9 @@ Short notes:
 ### 9.2 Articles archive
 
 - 상단에 짧은 H1과 전체 글 수.
-- topic filter는 `/articles/`와 `/topics/{topic}/` 정적 route를 사용하는 text link다.
-- 선택 topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
+- sidebar filter는 `/categories/{category}/`와 `/topics/{topic}/` 정적 route를 사용하는 2단
+  text navigation이다. category는 1차 분야, topic은 들여쓴 2차 기술로 표시한다.
+- 선택 category/topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
 - 글 목록은 home latest pattern과 동일한 문법 사용.
 - 전체 article archive는 최신순으로 페이지당 10개를 표시한다.
@@ -435,13 +436,16 @@ Short notes:
 - 현재 페이지는 `aria-current="page"`와 accent rail로 표시한다. 이전·다음 경계에서는 동작하지 않는 link를 만들지 않는다.
 - 목록 상단에는 전체 article 수와 현재 페이지의 article 범위를 함께 표시한다.
 - `xl` 이상에서는 `760px` 글 목록과 `300px` sidebar를 `60px` 간격으로 배치한다.
-- archive sidebar 기본 순서는 실제 topic index, `300×250` 광고다.
+- archive sidebar 기본 순서는 실제 category/topic 2단 index, `300×250` 광고다.
 - 추천 글은 실제 article link와 선정 기준이 있을 때만 추가한다. 가짜 제목이나 준비 중 label을 노출하지 않는다.
-- `xl` 미만에서는 sidebar를 제거하고 topic index를 목록 위 horizontal scroll로 옮긴다.
-- mobile topic archive에서는 선택 topic을 `All articles` 바로 뒤로 옮겨 좁은 viewport에서도 현재 상태가 처음부터 보이게 한다.
+- `xl` 미만에서는 sidebar를 제거하고 category/topic index를 목록 위 horizontal scroll로 옮긴다.
+- mobile archive에서는 `All articles`, 현재 category, 현재 topic을 앞쪽에 두어 현재 상태가
+  처음부터 보이게 한다.
 - mobile/tablet 광고는 글 목록의 세 번째 또는 네 번째 항목 뒤에 가로 슬롯으로 배치한다.
-- archive의 제목, 설명, 날짜, 읽기 시간, topic count는 MDX repository의 build-time 데이터만 사용한다.
-- `/topics/{topic}/`에서도 Header의 Articles navigation을 active로 유지한다.
+- archive의 제목, 설명, 날짜, 읽기 시간, category/topic count는 MDX repository의 build-time
+  데이터만 사용한다.
+- `/categories/{category}/`와 `/topics/{topic}/`에서도 Header의 Articles navigation을 active로
+  유지한다.
 
 ### 9.3 Article detail
 
@@ -629,15 +633,20 @@ Short notes:
 
 ### 10.11 Blog sidebar
 
-- 적용 페이지: article archive, topic archive, article detail, 충분한 결과가 있는 search page.
+- 적용 페이지: article archive, category archive, topic archive, article detail, 충분한 결과가
+  있는 search page.
 - 제외 페이지: home, notes, app detail, privacy/policy, 404.
 - width는 `300px`로 고정하고 main column을 `720px` 아래로 줄이지 않는다.
-- archive 기본 순서는 topic index, 광고다. 추천 글은 실제 link와 선정 기준이 있을 때만 뒤에 추가한다.
-- article detail에서는 topic, 광고, TOC, 같은 topic article 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
-- topic index는 번호, 이름, 글 수를 사용한 divider list로 표현한다.
+- archive 기본 순서는 category/topic 2단 index, 광고다. 추천 글은 실제 link와 선정 기준이
+  있을 때만 뒤에 추가한다.
+- article detail에서는 category와 topics, 광고, TOC, 관련 article 순서를 기본으로 하되 글
+  길이에 따라 조정할 수 있다.
+- taxonomy index는 category 번호·이름·글 수와 들여쓴 topic 번호·이름·글 수를 사용한 divider
+  list로 표현한다.
 - 추천 글을 추가하면 image card가 아닌 compact text list를 우선한다.
 - sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
-- `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. topic, 광고, TOC, 관련 article을 각자의 mobile reading order로 재배치한다.
+- `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. category/topic, 광고, TOC, 관련
+  article을 각자의 mobile reading order로 재배치한다.
 - home의 Latest articles 옆 discovery rail은 Blog sidebar와 별도 패턴이다. Home 규칙의 제한된 콘텐츠만 사용한다.
 
 ### 10.12 광고
@@ -929,7 +938,7 @@ text-accent / bg-accent / border-accent
 - [ ] metadata가 pill로 과장되지 않았는가?
 - [ ] TOC가 보조 navigation처럼 보이는가?
 - [ ] Reading Ruler와 TOC가 같은 active heading을 표시하고 keyboard로 이동 가능한가?
-- [ ] sidebar가 topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
+- [ ] sidebar가 category/topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?
 - [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?

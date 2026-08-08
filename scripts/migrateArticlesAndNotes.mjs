@@ -54,6 +54,31 @@ const ARTICLE_SLUG_BY_LEGACY_KEY = {
   "spring/41": "spring-requestparam-vs-pathvariable",
 };
 
+const ARTICLE_CLASSIFICATION_BY_LEGACY_TOPIC = {
+  algorithm: { category: "computer-science", topics: ["algorithm"] },
+  firebase: { category: "backend", topics: ["firebase"] },
+  go: { category: "backend", topics: ["go"] },
+  java: { category: "backend", topics: ["java", "spring"] },
+  javascript: { category: "frontend", topics: ["javascript"] },
+  kotlin: { category: "backend", topics: ["kotlin", "java"] },
+  nextjs: { category: "frontend", topics: ["nextjs", "react"] },
+  spring: { category: "backend", topics: ["spring", "java"] },
+};
+
+const ARTICLE_CLASSIFICATION_BY_LEGACY_KEY = {
+  "frontend/7": { category: "frontend", topics: ["browser"] },
+  "frontend/25": { category: "frontend", topics: ["html"] },
+  "frontend/27": { category: "frontend", topics: ["tooling", "javascript"] },
+  "react/2": { category: "frontend", topics: ["react"] },
+  "react/3": { category: "frontend", topics: ["react"] },
+  "react/6": { category: "frontend", topics: ["react", "styling"] },
+  "react/8": { category: "frontend", topics: ["typescript", "react"] },
+  "react/14": { category: "frontend", topics: ["react", "tooling"] },
+  "react/16": { category: "frontend", topics: ["tooling", "typescript"] },
+  "react/21": { category: "frontend", topics: ["react"] },
+  "react/23": { category: "frontend", topics: ["react", "tooling"] },
+};
+
 const NOTE_SLUG_BY_LEGACY_ID = {
   1: "nextjs-environment-variables",
   2: "database-index-basics",
@@ -96,8 +121,11 @@ for (const relativeFile of articleFiles) {
   const key = relativeFile.replace(/\.mdx$/, "");
   const [topic, legacyId] = key.split("/");
   const slug = ARTICLE_SLUG_BY_LEGACY_KEY[key];
+  const classification =
+    ARTICLE_CLASSIFICATION_BY_LEGACY_KEY[key] ?? ARTICLE_CLASSIFICATION_BY_LEGACY_TOPIC[topic];
 
   if (!slug) throw new Error(`Missing article slug: ${key}`);
+  if (!classification) throw new Error(`Missing article classification: ${key}`);
 
   const sourceMdx = fs.readFileSync(path.join(legacyArticlesRoot, relativeFile), "utf8");
   const migratedMdx = normalizeMetadataNames(
@@ -105,7 +133,8 @@ for (const relativeFile of articleFiles) {
       `id: article-${legacyId.padStart(3, "0")}`,
       `slug: ${slug}`,
       "locale: ko",
-      `topic: ${topic}`,
+      `category: ${classification.category}`,
+      `topics: [${classification.topics.map((item) => `'${item}'`).join(", ")}]`,
       "legacyPaths:",
       `  - /blog/${topic}/${legacyId}/`,
     ]),

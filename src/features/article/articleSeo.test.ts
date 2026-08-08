@@ -7,7 +7,8 @@ const ARTICLE = parseArticleMetadata({
   id: "article-001",
   slug: "example-article",
   locale: "ko",
-  topic: "nextjs",
+  category: "frontend",
+  topics: ["nextjs", "react"],
   legacyPaths: ["/blog/nextjs/1/"],
   title: "예시 아티클",
   description: "예시 설명",
@@ -22,15 +23,24 @@ describe("articleSeo", () => {
   it("canonical과 cover를 절대 URL로 만든 TechArticle 데이터를 생성한다", () => {
     const structuredData = getArticleStructuredData(ARTICLE, "/articles/example-article/");
 
-    expect(structuredData).toMatchObject({
+    expect(structuredData["@graph"][0]).toMatchObject({
       "@type": "TechArticle",
       headline: ARTICLE.title,
       inLanguage: "ko",
       mainEntityOfPage: "https://bluemiv.github.io/articles/example-article/",
       image: "https://bluemiv.github.io/r/i/nextjs/1/thumbnail.webp",
-      keywords: "nextjs, ssg",
-      articleSection: "nextjs",
+      keywords: "nextjs, react, ssg",
+      articleSection: "Frontend",
       author: { name: "Bluemiv" },
+    });
+    expect(structuredData["@graph"][1]).toMatchObject({
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { position: 1, item: "https://bluemiv.github.io/" },
+        { position: 2, item: "https://bluemiv.github.io/articles/" },
+        { position: 3, item: "https://bluemiv.github.io/categories/frontend/" },
+        { position: 4, item: "https://bluemiv.github.io/articles/example-article/" },
+      ],
     });
   });
 
@@ -40,7 +50,7 @@ describe("articleSeo", () => {
       "/articles/example-article/",
     );
 
-    expect(structuredData.image).toBeUndefined();
+    expect(structuredData["@graph"][0].image).toBeUndefined();
   });
 
   it("구조화 데이터의 HTML 종료 문자를 escape한다", () => {

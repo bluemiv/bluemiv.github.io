@@ -11,7 +11,7 @@ import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import { selectHomeArticles, summarizeArticleTopics } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getArticleDocument, getPublishedArticles } from "@/features/article/articleRepository";
-import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
@@ -47,6 +47,10 @@ function getEntryNumber(id: string): string {
   return id.split("-").at(-1)?.padStart(3, "0") ?? "000";
 }
 
+function getArticleClassification(article: ArticleMetadata): string {
+  return `${getArticleCategoryLabel(article.category)} / ${getArticleTopicLabel(article.topics[0])}`;
+}
+
 function ArticleRow({ article, locale }: PropsWithArticleRow) {
   const articleHref = getLocalizedPath(locale, `articles/${article.slug}`);
 
@@ -55,11 +59,11 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
       <Link
         href={articleHref}
         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-        className="article-list-link group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 px-2 py-7 md:grid-cols-[52px_104px_minmax(0,1fr)_104px] md:items-start md:px-3"
+        className="article-list-link group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 px-2 py-7 md:grid-cols-[52px_144px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
         <span className="text-subtle font-mono text-xs">A{getEntryNumber(article.id)}</span>
         <span className="text-accent font-mono text-xs font-semibold tracking-[0.08em] uppercase">
-          {getArticleTopicLabel(article.topic)}
+          {getArticleClassification(article)}
         </span>
         <span className="col-start-2 md:col-start-3 md:row-start-1">
           <strong className="article-list-title block text-lg leading-7 font-semibold tracking-[-0.025em] motion-reduce:transition-none md:text-xl">
@@ -217,7 +221,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                         <div className="relative flex h-full flex-col justify-between">
                           <div className="flex items-start justify-between gap-4 font-mono text-xs font-semibold tracking-[0.1em] uppercase">
                             <span className="text-accent">
-                              {getArticleTopicLabel(featuredArticle.topic)}
+                              {getArticleClassification(featuredArticle)}
                             </span>
                             <span className="text-muted">
                               A{getEntryNumber(featuredArticle.id)}
@@ -230,7 +234,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                             <span className="text-muted mb-2 hidden max-w-24 text-right font-mono text-xs leading-4 tracking-[0.1em] uppercase sm:block">
                               Filed in
                               <br />
-                              {getArticleTopicLabel(featuredArticle.topic)}
+                              {getArticleClassification(featuredArticle)}
                             </span>
                           </div>
                         </div>
@@ -241,7 +245,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
 
                 <div className="flex flex-col justify-center py-1 md:px-7">
                   <p className="text-muted font-mono text-xs tracking-[0.06em] uppercase">
-                    {getArticleTopicLabel(featuredArticle.topic)}
+                    {getArticleClassification(featuredArticle)}
                     {featuredDocument
                       ? ` · ${featuredDocument.readingTimeMinutes} ${copy.featured.readTimeSuffix}`
                       : ""}

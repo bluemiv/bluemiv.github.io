@@ -3,7 +3,9 @@ import type { MetadataRoute } from "next";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import type { AppProfile } from "@/features/app/appProfiles";
 import {
+  filterArticlesByCategory,
   filterArticlesByTopic,
+  summarizeArticleTaxonomy,
   summarizeArticleTopics,
 } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
@@ -103,6 +105,13 @@ export function createSitemap(
     ),
   );
 
+  const categoryEntries = summarizeArticleTaxonomy(articles).map(({ category }) =>
+    getSitemapEntry(
+      getLocalizedPath("ko", `categories/${category}`),
+      filterArticlesByCategory(articles, category),
+    ),
+  );
+
   const topicEntries = summarizeArticleTopics(articles, articles.length).map(({ topic }) =>
     getSitemapEntry(
       getLocalizedPath("ko", `topics/${topic}`),
@@ -125,6 +134,7 @@ export function createSitemap(
     ...homeEntries,
     ...articleArchiveEntries,
     ...articleEntries,
+    ...categoryEntries,
     ...topicEntries,
     getSitemapEntry(getLocalizedPath("ko", "notes"), notes),
     ...noteEntries,

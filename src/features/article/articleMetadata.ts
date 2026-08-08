@@ -3,6 +3,12 @@ import { z } from "zod";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { SUPPORTED_LOCALES } from "@/features/i18n/localeConfig";
 
+import {
+  ARTICLE_CATEGORY_SLUGS,
+  ARTICLE_TOPIC_SLUGS,
+  isArticleTopicInCategory,
+} from "./articleTaxonomy";
+
 const ISO_DATE_SCHEMA = z.preprocess(
   (value) => (value instanceof Date ? value.toISOString() : value),
   z
@@ -19,7 +25,13 @@ const ARTICLE_METADATA_SCHEMA = z
       .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
       .refine((slug) => slug !== "page", { message: "Article slug 'page' is reserved" }),
     locale: z.enum(SUPPORTED_LOCALES),
-    topic: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    category: z.enum(ARTICLE_CATEGORY_SLUGS),
+    topics: z
+      .array(z.enum(ARTICLE_TOPIC_SLUGS))
+      .min(1)
+      .refine((topics) => new Set(topics).size === topics.length, {
+        message: "Article topics must be unique",
+      }),
     legacyPaths: z.array(z.string().regex(/^\/blog\/[a-z0-9-]+\/[^/]+\/$/)),
     title: z.string().trim().min(1),
     description: z.string().trim().min(1),
@@ -30,7 +42,18 @@ const ARTICLE_METADATA_SCHEMA = z
     author: z.string().trim().min(1).optional(),
     coverImage: z.string().startsWith("/").optional(),
   })
-  .strict();
+  .strict()
+  .superRefine(({ category, topics }, context) => {
+    topics.forEach((topic, index) => {
+      if (isArticleTopicInCategory(topic, category)) return;
+
+      context.addIssue({
+        code: "custom",
+        message: `Article topic '${topic}' does not belong to category '${category}'`,
+        path: ["topics", index],
+      });
+    });
+  });
 
 type ParsedArticleMetadata = z.infer<typeof ARTICLE_METADATA_SCHEMA>;
 

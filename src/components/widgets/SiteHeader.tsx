@@ -40,7 +40,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
           {
             href: href("articles"),
             label: copy.nav.articles,
-            matchHrefs: [href("articles"), href("topics")],
+            matchHrefs: [href("articles"), href("categories"), href("topics")],
           },
           { href: href("notes"), label: copy.nav.notes, matchHrefs: [href("notes")] },
         ]

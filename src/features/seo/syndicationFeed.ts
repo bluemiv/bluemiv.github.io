@@ -58,7 +58,7 @@ export function getSyndicationEntries(
     .filter(({ isPublished }) => isPublished)
     .map((article): SyndicationEntry => ({
       author: article.author,
-      categories: getUniqueCategories([article.topic, ...article.tags]),
+      categories: getUniqueCategories([article.category, ...article.topics, ...article.tags]),
       description: article.description,
       modifiedAt: article.modifiedAt,
       publishedAt: article.publishedAt,

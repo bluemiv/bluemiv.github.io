@@ -27,7 +27,7 @@ export default defineConfig({
         "src/features/article/articleReadingProgress.ts",
         "src/features/article/articleRepository.ts",
         "src/features/article/articleSeo.ts",
-        "src/features/article/articleTopic.ts",
+        "src/features/article/articleTaxonomy.ts",
         "src/features/i18n/localeConfig.ts",
         "src/features/legacyRedirect/legacyRedirects.ts",
         "src/features/navigation/siteNavigation.ts",

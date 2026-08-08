@@ -1,8 +1,15 @@
 import type { ArticleMetadata } from "./articleMetadata";
+import { ARTICLE_TAXONOMY, type ArticleCategory, type ArticleTopic } from "./articleTaxonomy";
 
 export type ArticleTopicSummary = {
-  topic: string;
+  topic: ArticleTopic;
   count: number;
+};
+
+export type ArticleCategorySummary = {
+  category: ArticleCategory;
+  count: number;
+  topics: ArticleTopicSummary[];
 };
 
 export type ArticleHomeSelection = {
@@ -29,19 +36,54 @@ export function summarizeArticleTopics(
   const topicCounts = new Map<string, number>();
 
   for (const article of articles) {
-    topicCounts.set(article.topic, (topicCounts.get(article.topic) ?? 0) + 1);
+    for (const topic of new Set(article.topics)) {
+      topicCounts.set(topic, (topicCounts.get(topic) ?? 0) + 1);
+    }
   }
 
-  return Array.from(topicCounts, ([topic, count]) => ({ topic, count }))
+  return Array.from(topicCounts, ([topic, count]) => ({ topic: topic as ArticleTopic, count }))
     .sort((left, right) => right.count - left.count || left.topic.localeCompare(right.topic))
     .slice(0, Math.max(0, topicLimit));
+}
+
+export function summarizeArticleTaxonomy(
+  articles: readonly ArticleMetadata[],
+): ArticleCategorySummary[] {
+  return ARTICLE_TAXONOMY.map((categoryDefinition) => {
+    const categoryArticles = articles.filter(
+      ({ category }) => category === categoryDefinition.slug,
+    );
+    const topicCounts = new Map(
+      summarizeArticleTopics(categoryArticles, Number.POSITIVE_INFINITY).map(({ topic, count }) => [
+        topic,
+        count,
+      ]),
+    );
+
+    return {
+      category: categoryDefinition.slug,
+      count: categoryArticles.length,
+      topics: categoryDefinition.topics
+        .map(({ slug }) => ({ topic: slug, count: topicCounts.get(slug) ?? 0 }))
+        .filter(({ count }) => count > 0),
+    };
+  }).filter(({ count }) => count > 0);
+}
+
+export function filterArticlesByCategory(
+  articles: readonly ArticleMetadata[],
+  category: string | null,
+): ArticleMetadata[] {
+  return category ? articles.filter((article) => article.category === category) : [...articles];
 }
 
 export function filterArticlesByTopic(
   articles: readonly ArticleMetadata[],
   topic: string | null,
 ): ArticleMetadata[] {
-  return topic ? articles.filter((article) => article.topic === topic) : [...articles];
+  return topic
+    ? articles.filter((article) => article.topics.includes(topic as ArticleTopic))
+    : [...articles];
 }
 
 export function getEarliestArticlePublicationYear(

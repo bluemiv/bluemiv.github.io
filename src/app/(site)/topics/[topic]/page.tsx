@@ -4,10 +4,14 @@ import { notFound } from "next/navigation";
 import { ArticlesArchivePage } from "@/components/widgets/ArticlesArchivePage";
 import {
   filterArticlesByTopic,
-  summarizeArticleTopics,
+  summarizeArticleTaxonomy,
 } from "@/features/article/articleCollection";
 import { getPublishedArticles } from "@/features/article/articleRepository";
-import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import {
+  getArticleTopicDefinition,
+  getArticleTopicLabel,
+  isArticleTopic,
+} from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 
 const ARTICLE_LOCALE = "ko";
@@ -16,22 +20,25 @@ export const dynamicParams = false;
 
 function getArticleArchiveData() {
   const articles = getPublishedArticles(ARTICLE_LOCALE);
-  const topics = summarizeArticleTopics(articles, articles.length);
+  const taxonomy = summarizeArticleTaxonomy(articles);
 
-  return { articles, topics };
+  return { articles, taxonomy };
 }
 
 export function generateStaticParams() {
-  return getArticleArchiveData().topics.map(({ topic }) => ({ topic }));
+  return getArticleArchiveData().taxonomy.flatMap(({ topics }) =>
+    topics.map(({ topic }) => ({ topic })),
+  );
 }
 
 export async function generateMetadata({
   params,
 }: PageProps<"/topics/[topic]">): Promise<Metadata> {
   const { topic } = await params;
-  const { topics } = getArticleArchiveData();
+  const { taxonomy } = getArticleArchiveData();
+  const publishedTopics = taxonomy.flatMap(({ topics }) => topics.map((item) => item.topic));
 
-  if (!topics.some((item) => item.topic === topic)) notFound();
+  if (!isArticleTopic(topic) || !publishedTopics.includes(topic)) notFound();
 
   const topicLabel = getArticleTopicLabel(topic);
   const canonical = getLocalizedPath(ARTICLE_LOCALE, `topics/${topic}`);
@@ -51,17 +58,20 @@ export async function generateMetadata({
 
 export default async function ArticleTopicPage({ params }: PageProps<"/topics/[topic]">) {
   const { topic } = await params;
-  const { articles, topics } = getArticleArchiveData();
+  const { articles, taxonomy } = getArticleArchiveData();
+  const publishedTopics = taxonomy.flatMap(({ topics }) => topics.map((item) => item.topic));
 
-  if (!topics.some((item) => item.topic === topic)) notFound();
+  if (!isArticleTopic(topic) || !publishedTopics.includes(topic)) notFound();
+  const topicDefinition = getArticleTopicDefinition(topic);
 
   return (
     <ArticlesArchivePage
+      activeCategory={topicDefinition.category}
       activeTopic={topic}
       articles={filterArticlesByTopic(articles, topic)}
       locale={ARTICLE_LOCALE}
       pagination={null}
-      topics={topics}
+      taxonomy={taxonomy}
       totalArticleCount={articles.length}
     />
   );

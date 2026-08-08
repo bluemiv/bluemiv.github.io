@@ -10,7 +10,8 @@ function createArticle(overrides: Partial<ArticleMetadata> = {}): ArticleMetadat
     id: "article-001",
     slug: "xml-escaping",
     locale: "ko",
-    topic: "nextjs",
+    category: "frontend",
+    topics: ["nextjs", "react"],
     legacyPaths: [],
     title: 'XML <문자> & "따옴표"',
     description: "A > B & C",
@@ -51,7 +52,7 @@ describe("syndicationFeed", () => {
       "https://bluemiv.github.io/notes/small-note/",
       "https://bluemiv.github.io/articles/xml-escaping/",
     ]);
-    expect(entries[1].categories).toEqual(["nextjs"]);
+    expect(entries[1].categories).toEqual(["frontend", "nextjs", "react"]);
   });
 
   it("지정한 최근 항목 수만 남기고 잘못된 limit을 거부한다", () => {

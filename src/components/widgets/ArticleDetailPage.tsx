@@ -1,4 +1,4 @@
-import { type PropsWithChildren, ViewTransition } from "react";
+import { Fragment, type PropsWithChildren, ViewTransition } from "react";
 
 import { CalendarDays, Clock3, History, UserRound } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +15,7 @@ import type { ArticleHeading } from "@/features/article/articleDocument";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import type { ArticleNavigation } from "@/features/article/articleNavigation";
 import { ArticleReadingProvider } from "@/features/article/ArticleReadingProvider";
-import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
@@ -101,13 +101,27 @@ export function ArticleDetailPage({
                 <span className="bg-accent h-px w-8" aria-hidden="true" />
                 <p className="text-accent font-mono text-xs font-semibold tracking-[0.16em] uppercase">
                   <Link
-                    href={getLocalizedPath("ko", `topics/${article.topic}`)}
+                    href={getLocalizedPath("ko", `categories/${article.category}`)}
                     transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
                     className="hover:text-accent-hover underline-offset-4 hover:underline"
                   >
-                    {getArticleTopicLabel(article.topic)}
-                  </Link>{" "}
-                  / {article.id.replace("article-", "")}
+                    {getArticleCategoryLabel(article.category)}
+                  </Link>
+                  <span aria-hidden="true"> / </span>
+                  {article.topics.map((topic, index) => (
+                    <Fragment key={topic}>
+                      <Link
+                        href={getLocalizedPath("ko", `topics/${topic}`)}
+                        transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
+                        className="hover:text-accent-hover underline-offset-4 hover:underline"
+                      >
+                        {getArticleTopicLabel(topic)}
+                      </Link>
+                      {index < article.topics.length - 1 ? ", " : ""}
+                    </Fragment>
+                  ))}
+                  <span aria-hidden="true"> / </span>
+                  {article.id.replace("article-", "")}
                 </p>
               </div>
 
@@ -182,7 +196,8 @@ export function ArticleDetailPage({
                         </h2>
                       </div>
                       <span className="text-muted hidden font-mono text-xs uppercase sm:block">
-                        {article.topic}
+                        {getArticleCategoryLabel(article.category)} /{" "}
+                        {getArticleTopicLabel(article.topics[0])}
                       </span>
                     </div>
                     <ol className="mt-6">
@@ -256,8 +271,9 @@ export function ArticleDetailPage({
 
               <ArticleDetailSidebar
                 articleId={article.id}
-                topic={article.topic}
+                category={article.category}
                 headings={headings}
+                topics={article.topics}
               />
             </div>
           </article>

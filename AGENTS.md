@@ -54,8 +54,9 @@ docs/                설계 문서
 
 - 긴 글: `article`. `post`, `content`를 같은 뜻으로 쓰지 않는다.
 - 짧은 글: `note`.
-- 주 분류: `topic`. `category`를 새 코드에 쓰지 않는다.
-- 보조 키워드: `tag`.
+- 1차 분야 분류: `category`.
+- 2차 기술 분류: `topic`. article metadata에서는 `topics` 배열로 사용한다.
+- 보조 검색어: `tag`.
 - 전체 규칙: `docs/naming-conventions.md`.
 
 ## URL·locale
@@ -65,6 +66,7 @@ docs/                설계 문서
 - article: `/articles/{slug}/`.
 - article archive pagination: 첫 페이지는 `/articles/`, 2페이지부터 `/articles/page/{pageNumber}/`.
 - `page`는 article slug로 사용하지 않는다.
+- category: `/categories/{category}/`.
 - topic: `/topics/{topic}/`. tag: `/tags/{tag}/`.
 - note: `/notes/{slug}/`.
 - 영어·일본어는 동일 route 앞에 locale prefix를 붙인다.
@@ -81,7 +83,8 @@ docs/                설계 문서
 id: article-001
 slug: example-article
 locale: ko
-topic: nextjs
+category: frontend
+topics: [nextjs, react]
 legacyPaths: []
 title: 제목
 description: 설명
@@ -94,6 +97,8 @@ coverImage: /r/i/example/cover.webp
 
 - `createdAt`, `updatedAt`, `release`, `thumbnail` 사용 금지.
 - `author`는 선택값. 없으면 SSG build에서 `SITE_CONFIG.author`를 사용한다.
+- `topics[0]`은 목록과 상세 화면에 먼저 표시할 대표 topic이다.
+- 모든 topic은 선택한 category에 속해야 한다. 교차 분야 검색어는 `tags`에 둔다.
 - 번역 article은 같은 `id`, `slug`를 사용한다.
 
 ## UI
@@ -125,7 +130,7 @@ coverImage: /r/i/example/cover.webp
 
 - 검색 규칙은 `docs/seo.md`를 단일 기준으로 사용한다.
 - `/sitemap.xml`, `/feed.xml`, `/rss.xml`, `/robots.txt`는 static export로 생성한다.
-- sitemap에는 canonical article, note, topic, locale 홈, app 상세를 포함한다.
+- sitemap에는 canonical article, note, category, topic, locale 홈, app 상세를 포함한다.
 - feed에는 article과 note만 포함한다.
 - policy document, app 목록, legacy redirect는 sitemap과 feed에서 제외한다.
 - policy document는 `noindex, follow`로 유지하고 robots.txt에서 차단하지 않는다.

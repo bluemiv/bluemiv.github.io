@@ -5,6 +5,7 @@ import { ArticleDetailPage } from "@/components/widgets/ArticleDetailPage";
 import { getArticleDocument, getPublishedArticles } from "@/features/article/articleRepository";
 import { getArticleNavigation } from "@/features/article/articleNavigation";
 import { getArticleStructuredData, serializeStructuredData } from "@/features/article/articleSeo";
+import { getArticleCategoryLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 
 const ARTICLE_LOCALE = "ko";
@@ -24,12 +25,14 @@ export async function generateMetadata({
   if (!article?.isPublished) notFound();
 
   const canonical = getLocalizedPath(ARTICLE_LOCALE, `articles/${article.slug}`);
+  const keywords = [...new Set([...article.topics, ...article.tags])];
 
   return {
     title: article.title,
     description: article.description,
     authors: [{ name: article.author }],
-    keywords: article.tags,
+    keywords,
+    category: getArticleCategoryLabel(article.category),
     alternates: {
       canonical,
       languages: {
@@ -46,7 +49,7 @@ export async function generateMetadata({
       publishedTime: article.publishedAt,
       modifiedTime: article.modifiedAt,
       authors: [article.author],
-      tags: article.tags,
+      tags: keywords,
       images: article.coverImage ? [{ url: article.coverImage, alt: article.title }] : undefined,
     },
     twitter: {

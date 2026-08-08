@@ -2,19 +2,20 @@
 
 ## 도메인 용어
 
-| 의미        | 표준 용어        | 쓰지 않는 용어               |
-| ----------- | ---------------- | ---------------------------- |
-| 긴 글       | `article`        | `post`, `content`            |
-| 짧은 글     | `note`           | `shortPost`, `shortContent`  |
-| 주 분류     | `topic`          | `category`                   |
-| 보조 키워드 | `tag`            | `keyword`                    |
-| 발행일      | `publishedAt`    | `createdAt`                  |
-| 수정일      | `modifiedAt`     | `updatedAt`                  |
-| 공개 여부   | `isPublished`    | `release`                    |
-| 대표 이미지 | `coverImage`     | `thumbnail`                  |
-| 작성자      | `author`         | 실명                         |
-| 개별 앱     | `app`            | `application`, `product`     |
-| 법적 문서   | `policyDocument` | `legalContent`, `policyPage` |
+| 의미          | 표준 용어        | 쓰지 않는 용어               |
+| ------------- | ---------------- | ---------------------------- |
+| 긴 글         | `article`        | `post`, `content`            |
+| 짧은 글       | `note`           | `shortPost`, `shortContent`  |
+| 1차 분야 분류 | `category`       | `section`, `group`           |
+| 2차 기술 분류 | `topic`          | `subject`                    |
+| 보조 검색어   | `tag`            | `keyword`                    |
+| 발행일        | `publishedAt`    | `createdAt`                  |
+| 수정일        | `modifiedAt`     | `updatedAt`                  |
+| 공개 여부     | `isPublished`    | `release`                    |
+| 대표 이미지   | `coverImage`     | `thumbnail`                  |
+| 작성자        | `author`         | 실명                         |
+| 개별 앱       | `app`            | `application`, `product`     |
+| 법적 문서     | `policyDocument` | `legalContent`, `policyPage` |
 
 - `author`는 선택값이다. 생략하면 SSG build에서 `SITE_CONFIG.author`를 사용한다.
 - 공개 author 기본값은 `Bluemiv`다.
@@ -56,6 +57,7 @@
 ```text
 /articles/{slug}/
 /articles/page/{pageNumber}/
+/categories/{category}/
 /topics/{topic}/
 /tags/{tag}/
 /notes/{slug}/
@@ -68,9 +70,30 @@
 - 한국어는 prefix가 없다.
 - URL 끝 `/`를 유지한다.
 - 번역 article은 모든 locale에서 같은 slug를 쓴다.
+- article metadata는 단일 `category`와 중복 없는 `topics` 배열을 사용한다.
+- category/topic 계층은 `articleTaxonomy.ts`를 단일 원천으로 사용한다.
+- `topics[0]`은 목록과 상세 화면에 먼저 표시하는 대표 topic이다.
 - `page`는 article archive pagination을 위한 예약 slug다. article slug로 사용하지 않는다.
 - `/apps/`는 app 목록 없이 `/`로 이동한다.
 - 기존 policy의 `/privacy/.../`, `/blim/account-deletion/`, URL 내부 언어 코드는 호환을 위해 유지한다.
+
+## article 분류
+
+```yaml
+category: backend
+topics: [spring, kotlin]
+tags: [dependency-injection]
+```
+
+| category           | 허용 topic                                                                             |
+| ------------------ | -------------------------------------------------------------------------------------- |
+| `backend`          | `spring`, `java`, `kotlin`, `go`, `firebase`                                           |
+| `frontend`         | `react`, `nextjs`, `javascript`, `typescript`, `browser`, `html`, `tooling`, `styling` |
+| `computer-science` | `algorithm`                                                                            |
+
+- article은 category 하나와 topic 하나 이상을 가진다.
+- 모든 topic은 선택한 category에 속해야 한다.
+- 여러 category에 걸친 검색어는 계층에 억지로 넣지 않고 `tags`로 표현한다.
 
 ## 변경 규칙
 

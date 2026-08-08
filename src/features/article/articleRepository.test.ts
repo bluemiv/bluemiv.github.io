@@ -25,7 +25,8 @@ describe("articleRepository", () => {
       id: "article-087",
       slug: "what-is-kotlin",
       locale: "ko",
-      topic: "kotlin",
+      category: "backend",
+      topics: ["kotlin", "java"],
       author: "Bluemiv",
     });
   });
@@ -56,7 +57,8 @@ describe("articleRepository", () => {
 id: article-001
 slug: another-article
 locale: ko
-topic: nextjs
+category: frontend
+topics: ['nextjs', 'react']
 legacyPaths: ['/blog/nextjs/1/']
 title: 잘못된 경로
 description: 잘못된 경로 테스트

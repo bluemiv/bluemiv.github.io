@@ -508,11 +508,11 @@ select {
 
 @keyframes article-detail-cover-drift {
   from {
-    transform: translateY(2%);
+    transform: translateY(4%);
   }
 
   to {
-    transform: translateY(-2%);
+    transform: translateY(-4%);
   }
 }
 

@@ -120,7 +120,7 @@ export function ArticleDetailHeader({ article, readingTimeMinutes }: PropsWithAr
       {article.coverImage ? (
         <ViewTransition name={`article-cover-${article.id}`} default="none" share="article-cover">
           <div className="article-detail-cover bg-canvas relative mt-8 min-h-[30rem] max-w-[1120px] overflow-hidden rounded-t-[4px] sm:min-h-[32rem] md:aspect-[32/17] md:min-h-0">
-            <div className="article-detail-cover-media absolute inset-x-0 -top-[4%] h-[108%]">
+            <div className="article-detail-cover-media absolute inset-x-0 -top-[8%] h-[116%]">
               <Image
                 fill
                 priority

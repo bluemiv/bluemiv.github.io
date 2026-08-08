@@ -33,3 +33,5 @@
 - detail cover에는 낮은 dark scrim을 두고 image와 scrim을 하단 canvas로 dissolve한다. 본문 시작을
   늦추는 별도 title header와 cover의 연속 배치를 만들지 않는다.
 - detail cover 하단 약 20%는 theme canvas로 명확히 fade하고 metadata는 fade 시작점 위에 유지한다.
+- detail cover의 image layer는 frame보다 세로로 16% 크게 두고 view timeline에서 `+4%`부터 `-4%`
+  사이만 transform한다. frame, text, scrim과 fade는 움직이지 않는다.

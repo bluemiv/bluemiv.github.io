@@ -528,7 +528,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - header는 넓은 editorial 영역, 본문은 최대 `760px`, desktop sidebar는 `300px`로 구성한다.
 - 상세 cover는 desktop에서 `32:17` frame을 `object-cover`로 채운다. mobile에서는 긴 제목과 설명이
   잘리지 않도록 최소 높이 `480–512px`의 editorial hero로 전환한다. image layer는 frame보다 세로로
-  `8%` 크게 두고 view timeline에서 `translateY(2%)`부터 `-2%`까지만 이동한다.
+  `16%` 크게 두고 view timeline에서 `translateY(4%)`부터 `-4%`까지 이동한다.
 - cover drift는 CSS progressive enhancement다. JavaScript scroll listener를 추가하지 않고 reduced
   motion에서는 정적 cover로 표시한다.
 - desktop은 광고 다음에 thin rail TOC를 두고 TOC만 sticky 처리한다.
@@ -878,7 +878,8 @@ Home scroll-driven detail:
 Article detail cover:
 
 - cover frame은 일반 문서 흐름을 유지한다. sticky/fixed cover와 본문 겹침을 사용하지 않는다.
-- image layer만 view timeline과 `transform`으로 이동한다. 이동 범위는 frame 내부 `4%` 이하다.
+- image layer만 view timeline과 `transform`으로 이동한다. 양방향 `4%`, 전체 `8%` 범위에서 mask
+  뒤로 미끄러지는 정도만 허용한다.
 - cover가 있는 글은 title/description/metadata를 overlay에 한 번만 표시하고 별도 상단 header에서
   반복하지 않는다. 낮은 dark scrim으로 대비를 확보하고 하단은 canvas로 dissolve한다.
 - 지원하지 않는 browser와 reduced motion에서는 중앙 정렬된 정적 cover로 fallback한다.

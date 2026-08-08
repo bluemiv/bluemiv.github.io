@@ -446,6 +446,16 @@ select {
     );
 }
 
+.article-detail-cover-fade {
+  background: linear-gradient(
+    to bottom,
+    transparent 78%,
+    color-mix(in srgb, var(--theme-canvas) 18%, transparent) 84%,
+    color-mix(in srgb, var(--theme-canvas) 62%, transparent) 93%,
+    var(--theme-canvas) 100%
+  );
+}
+
 .motion-section-marker::after {
   display: inline-block;
   width: 2rem;

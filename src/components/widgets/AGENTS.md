@@ -32,3 +32,4 @@
   category/topic, title, description, 발행 정보를 하나의 overlay hero에 한 번만 표시한다.
 - detail cover에는 낮은 dark scrim을 두고 image와 scrim을 하단 canvas로 dissolve한다. 본문 시작을
   늦추는 별도 title header와 cover의 연속 배치를 만들지 않는다.
+- detail cover 하단 약 20%는 theme canvas로 명확히 fade하고 metadata는 fade 시작점 위에 유지한다.

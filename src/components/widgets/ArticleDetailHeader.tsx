@@ -131,7 +131,11 @@ export function ArticleDetailHeader({ article, readingTimeMinutes }: PropsWithAr
               />
             </div>
             <div className="article-detail-cover-scrim absolute inset-0" aria-hidden="true" />
-            <div className="relative z-10 flex min-h-[30rem] items-end px-5 pt-20 pb-20 sm:min-h-[32rem] sm:px-8 sm:pt-24 sm:pb-24 md:min-h-0 md:px-12 md:pt-28">
+            <div
+              className="article-detail-cover-fade pointer-events-none absolute inset-0"
+              aria-hidden="true"
+            />
+            <div className="relative z-10 flex min-h-[30rem] items-end px-5 pt-20 pb-28 sm:min-h-[32rem] sm:px-8 sm:pt-24 sm:pb-32 md:min-h-0 md:px-12 md:pt-28">
               <div className="w-full max-w-[940px]">
                 <ArticleHeaderContent
                   article={article}

@@ -512,6 +512,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - cover가 있으면 topic, 제목, description, metadata를 별도 header와 cover로 나누지 않고 하나의
   overlay hero에 한 번만 표시한다. 이미지 위에는 낮은 dark scrim을 두고 하단으로 갈수록 image와
   scrim을 canvas에 dissolve해 본문으로 자연스럽게 연결한다.
+- 하단 약 `20%`에는 theme canvas로 끝나는 명시적 fade를 두고 metadata는 fade 시작점 위에 둔다.
+  cover와 본문 사이에 hard edge나 별도 divider를 만들지 않는다.
 - detail hero의 cover는 정보와 별개인 배경이므로 빈 alt를 사용한다. cover가 없는 글은 같은 정보를
   일반 text header로 제공하며 빈 이미지 영역을 만들지 않는다.
 - 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.

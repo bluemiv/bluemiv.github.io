@@ -55,7 +55,6 @@ type HomeCopy = {
   topics: {
     eyebrow: string;
     heading: string;
-    description: string;
   };
   notes: {
     eyebrow: string;
@@ -185,7 +184,6 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     topics: {
       eyebrow: "Explore / Topics",
       heading: "주제별 기록",
-      description: "분야와 주제를 2단계로 나누어 기록을 탐색합니다.",
     },
     notes: {
       eyebrow: "Short Notes",
@@ -231,7 +229,6 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     topics: {
       eyebrow: "Explore / Topics",
       heading: "Browse by topic",
-      description: "Browse the archive through its two-level field and topic structure.",
     },
     notes: {
       eyebrow: "Short Notes",
@@ -277,7 +274,6 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     topics: {
       eyebrow: "Explore / Topics",
       heading: "トピックから探す",
-      description: "分野とトピックの2段階から記録を探せます。",
     },
     notes: {
       eyebrow: "Short Notes",

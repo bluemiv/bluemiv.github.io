@@ -296,7 +296,6 @@ export function HomePage({ locale }: PropsWithHomePage) {
               <ArticleTaxonomyNavigation
                 activeCategory={null}
                 activeTopic={null}
-                description={copy.topics.description}
                 eyebrow={copy.topics.eyebrow}
                 heading={copy.topics.heading}
                 isAllArticlesActive={false}

@@ -422,6 +422,7 @@ Home discovery rail:
 - Home과 Articles archive는 같은 `ArticleTaxonomyNavigation`을 사용한다.
 - rail에는 실제 article metadata에서 집계한 category > topic 2단계와 광고 1개를 둔다.
 - category와 topic은 각각 실제 archive로 연결하고 글 수를 함께 표시한다.
+- 분류 구조를 다시 설명하는 소개 문장은 두지 않는다.
 - Home에서는 모든 category를 접고 `All articles`를 현재 페이지로 표시하지 않는다.
 - `xl` 미만에서는 같은 taxonomy 데이터를 horizontal navigation으로 바꾸고 광고를 세 번째 article 뒤에 둔다.
 - home rail은 해당 section의 탐색 보조 영역이며 site-wide sidebar나 sticky 영역으로 사용하지 않는다.

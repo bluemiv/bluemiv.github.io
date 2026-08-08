@@ -421,8 +421,13 @@ Short notes:
 - 선택 topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
 - 글 목록은 home latest pattern과 동일한 문법 사용.
-- 현재 43개 article은 최신순 단일 archive에 모두 표시한다. pagination이 없으면 page 번호나 이동 affordance를 만들지 않는다.
-- pagination 도입 시 실제 route와 이전/다음 관계를 함께 구현하고 placeholder control을 먼저 노출하지 않는다.
+- 전체 article archive는 최신순으로 페이지당 10개를 표시한다.
+- 첫 페이지 URL은 `/articles/`를 유지하고 2페이지부터 `/articles/page/{pageNumber}/`로 SSG 생성한다. `/articles/page/1/`은 만들지 않는다.
+- 각 페이지는 고유 title, description, canonical과 실제 이전·다음 관계를 가진다.
+- desktop은 현재 위치 주변의 페이지 번호와 이전·다음 link를 표시한다. 페이지가 많으면 처음·끝과 현재 주변만 남기고 ellipsis로 줄인다.
+- mobile은 이전, `현재 / 전체`, 다음 순서의 compact navigation을 사용한다.
+- 현재 페이지는 `aria-current="page"`와 accent rail로 표시한다. 이전·다음 경계에서는 동작하지 않는 link를 만들지 않는다.
+- 목록 상단에는 전체 article 수와 현재 페이지의 article 범위를 함께 표시한다.
 - `xl` 이상에서는 `760px` 글 목록과 `300px` sidebar를 `60px` 간격으로 배치한다.
 - archive sidebar 기본 순서는 실제 topic index, `300×250` 광고다.
 - 추천 글은 실제 article link와 선정 기준이 있을 때만 추가한다. 가짜 제목이나 준비 중 label을 노출하지 않는다.
@@ -897,6 +902,7 @@ text-accent / bg-accent / border-accent
 - [ ] sidebar가 topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?
+- [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?
 
 ### 17.4 App detail과 policy
 

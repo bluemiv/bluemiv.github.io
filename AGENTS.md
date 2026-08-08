@@ -63,6 +63,8 @@ docs/                설계 문서
 - 기본 locale: 한국어 `ko`. `/`에 표시한다. `/ko/` canonical을 만들지 않는다.
 - 영어: `/en/`. 일본어: `/ja/`.
 - article: `/articles/{slug}/`.
+- article archive pagination: 첫 페이지는 `/articles/`, 2페이지부터 `/articles/page/{pageNumber}/`.
+- `page`는 article slug로 사용하지 않는다.
 - topic: `/topics/{topic}/`. tag: `/tags/{tag}/`.
 - note: `/notes/{slug}/`.
 - 영어·일본어는 동일 route 앞에 locale prefix를 붙인다.

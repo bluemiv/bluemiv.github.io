@@ -60,6 +60,7 @@ export default async function ArticleTopicPage({ params }: PageProps<"/topics/[t
       activeTopic={topic}
       articles={filterArticlesByTopic(articles, topic)}
       locale={ARTICLE_LOCALE}
+      pagination={null}
       topics={topics}
       totalArticleCount={articles.length}
     />

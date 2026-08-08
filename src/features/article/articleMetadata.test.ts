@@ -45,6 +45,7 @@ describe("parseArticleMetadata", () => {
   it.each([
     ["잘못된 id", { id: "article-one" }],
     ["잘못된 slug", { slug: "Invalid Slug" }],
+    ["예약된 slug", { slug: "page" }],
     ["지원하지 않는 locale", { locale: "fr" }],
     ["잘못된 topic", { topic: "Next JS" }],
     ["상대 legacy path", { legacyPaths: ["blog/nextjs/1/"] }],

@@ -55,6 +55,7 @@
 
 ```text
 /articles/{slug}/
+/articles/page/{pageNumber}/
 /topics/{topic}/
 /tags/{tag}/
 /notes/{slug}/
@@ -67,6 +68,7 @@
 - 한국어는 prefix가 없다.
 - URL 끝 `/`를 유지한다.
 - 번역 article은 모든 locale에서 같은 slug를 쓴다.
+- `page`는 article archive pagination을 위한 예약 slug다. article slug로 사용하지 않는다.
 - `/apps/`는 app 목록 없이 `/`로 이동한다.
 - 기존 policy의 `/privacy/.../`, `/blim/account-deletion/`, URL 내부 언어 코드는 호환을 위해 유지한다.
 

@@ -4,11 +4,16 @@ import { Container } from "@/components/atoms/Container";
 import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout";
 import { ArticleSidebar, MobileTopicIndex } from "@/components/widgets/ArticleSidebar";
 import { PageTransition } from "@/components/widgets/PageTransition";
+import { PaginationNavigation } from "@/components/widgets/PaginationNavigation";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import type { ArticleTopicSummary } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
+import {
+  getArticleArchivePagePath,
+  type ArticlePagination,
+} from "@/features/article/articlePagination";
 import { getArticleDocument } from "@/features/article/articleRepository";
 import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
@@ -18,6 +23,7 @@ type PropsWithArticlesArchivePage = {
   activeTopic: string | null;
   articles: readonly ArticleMetadata[];
   locale: Locale;
+  pagination: ArticlePagination | null;
   topics: readonly ArticleTopicSummary[];
   totalArticleCount: number;
 };
@@ -83,11 +89,13 @@ export function ArticlesArchivePage({
   activeTopic,
   articles,
   locale,
+  pagination,
   topics,
   totalArticleCount,
 }: PropsWithArticlesArchivePage) {
   const activeTopicLabel = activeTopic ? getArticleTopicLabel(activeTopic) : null;
   const topicNavigationProps = { activeTopic, locale, topics, totalArticleCount };
+  const archiveArticleCount = pagination?.totalArticles ?? articles.length;
 
   return (
     <PageTransition>
@@ -96,6 +104,9 @@ export function ArticlesArchivePage({
         <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
           <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
             Articles / {activeTopicLabel ?? "Archive"}
+            {pagination && pagination.currentPage > 1
+              ? ` / P${String(pagination.currentPage).padStart(2, "0")}`
+              : ""}
           </p>
           <div className="flex items-end justify-between gap-6">
             <div>
@@ -109,7 +120,7 @@ export function ArticlesArchivePage({
               </p>
             </div>
             <span className="text-muted hidden pb-2 font-mono text-xs tabular-nums sm:block">
-              {String(articles.length).padStart(3, "0")} ENTRIES
+              {String(archiveArticleCount).padStart(3, "0")} ENTRIES
             </span>
           </div>
         </header>
@@ -131,7 +142,11 @@ export function ArticlesArchivePage({
                     {activeTopicLabel ? `${activeTopicLabel} articles` : "All articles"}
                   </h2>
                 </div>
-                <p className="text-muted text-xs">최신 발행순 · {articles.length}개</p>
+                <p className="text-muted text-xs">
+                  {pagination
+                    ? `최신 발행순 · 전체 ${pagination.totalArticles}개 중 ${pagination.firstArticleNumber}–${pagination.lastArticleNumber}`
+                    : `최신 발행순 · ${articles.length}개`}
+                </p>
               </div>
 
               {articles.length ? (
@@ -152,6 +167,15 @@ export function ArticlesArchivePage({
                   이 주제에 공개된 글이 없습니다.
                 </p>
               )}
+
+              {pagination ? (
+                <PaginationNavigation
+                  currentPage={pagination.currentPage}
+                  getPageHref={(pageNumber) => getArticleArchivePagePath(locale, pageNumber)}
+                  label="전체 글 페이지"
+                  totalPages={pagination.totalPages}
+                />
+              ) : null}
             </section>
           </ArticleArchiveLayout>
         </div>

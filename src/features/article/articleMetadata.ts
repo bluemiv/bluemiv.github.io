@@ -14,7 +14,10 @@ const ISO_DATE_SCHEMA = z.preprocess(
 const ARTICLE_METADATA_SCHEMA = z
   .object({
     id: z.string().regex(/^article-\d+$/),
-    slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    slug: z
+      .string()
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+      .refine((slug) => slug !== "page", { message: "Article slug 'page' is reserved" }),
     locale: z.enum(SUPPORTED_LOCALES),
     topic: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     legacyPaths: z.array(z.string().regex(/^\/blog\/[a-z0-9-]+\/[^/]+\/$/)),

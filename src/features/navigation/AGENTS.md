@@ -6,3 +6,4 @@
 - 작은 scroll 흔들림으로 header 상태가 반복 전환되지 않게 한다.
 - page transition 방향은 `forward`, `back`, `swap`으로 정의한다.
 - transition은 탐색 의미만 제공한다. 시각 효과는 공통 style과 component가 담당한다.
+- pagination 번호 축약은 처음·끝과 현재 주변을 유지하는 순수 함수로 계산한다.

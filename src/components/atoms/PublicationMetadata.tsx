@@ -36,14 +36,16 @@ export function PublicationMetadata({
 
   return (
     <dl
-      className={`grid grid-cols-2 gap-x-5 gap-y-3 border-t pt-5 font-mono text-sm sm:flex sm:flex-wrap sm:items-center sm:gap-x-6 ${isOnMedia ? "border-code-foreground/25 text-code-foreground/80 mt-7" : "border-border text-muted mt-9"}`}
+      className={`grid grid-cols-2 gap-x-5 gap-y-3 border-t pt-5 font-mono text-sm sm:flex sm:flex-wrap sm:items-center sm:gap-x-6 ${isOnMedia ? "border-foreground/20 text-muted dark:border-code-foreground/25 dark:text-code-foreground/80 mt-7" : "border-border text-muted mt-9"}`}
     >
       <div className="flex min-h-6 items-center gap-2">
         <UserRound aria-hidden="true" className="size-4 shrink-0" strokeWidth={1.75} />
         <dt className="sr-only">{labels.author}</dt>
         <dd
           className={
-            isOnMedia ? "text-code-foreground font-semibold" : "text-foreground font-semibold"
+            isOnMedia
+              ? "text-foreground dark:text-code-foreground font-semibold"
+              : "text-foreground font-semibold"
           }
         >
           {author}
@@ -52,7 +54,7 @@ export function PublicationMetadata({
 
       <div className="flex min-h-6 items-center gap-2 whitespace-nowrap tabular-nums">
         <dt
-          className={`text-xs font-semibold tracking-[0.06em] uppercase ${isOnMedia ? "text-code-foreground/65" : "text-subtle"}`}
+          className={`text-xs font-semibold tracking-[0.06em] uppercase ${isOnMedia ? "text-subtle dark:text-code-foreground/65" : "text-subtle"}`}
         >
           {labels.publishedAt}
         </dt>
@@ -64,7 +66,7 @@ export function PublicationMetadata({
       {modifiedAt ? (
         <div className="flex min-h-6 items-center gap-2 whitespace-nowrap tabular-nums">
           <dt
-            className={`text-xs font-semibold tracking-[0.06em] uppercase ${isOnMedia ? "text-code-foreground/65" : "text-subtle"}`}
+            className={`text-xs font-semibold tracking-[0.06em] uppercase ${isOnMedia ? "text-subtle dark:text-code-foreground/65" : "text-subtle"}`}
           >
             {labels.modifiedAt}
           </dt>

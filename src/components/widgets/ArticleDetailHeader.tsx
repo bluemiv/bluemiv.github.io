@@ -40,11 +40,13 @@ function ArticleHeaderContent({
     <>
       <div className="flex items-center gap-4">
         <span
-          className={isOnMedia ? "bg-code-foreground/70 h-px w-8" : "bg-accent h-px w-8"}
+          className={
+            isOnMedia ? "bg-accent dark:bg-code-foreground/70 h-px w-8" : "bg-accent h-px w-8"
+          }
           aria-hidden="true"
         />
         <p
-          className={`font-mono text-xs font-semibold tracking-[0.16em] uppercase ${isOnMedia ? "text-code-foreground/90" : "text-accent"}`}
+          className={`font-mono text-xs font-semibold tracking-[0.16em] uppercase ${isOnMedia ? "text-accent dark:text-code-foreground/90" : "text-accent"}`}
         >
           <Link
             href={getLocalizedPath("ko", `categories/${article.category}`)}
@@ -76,12 +78,12 @@ function ArticleHeaderContent({
       <h1
         id="article-title"
         data-pagefind-meta="title"
-        className={`mt-6 max-w-[900px] text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance sm:text-5xl md:text-6xl ${isOnMedia ? "text-code-foreground" : "text-foreground"}`}
+        className={`mt-6 max-w-[900px] text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance sm:text-5xl md:text-6xl ${isOnMedia ? "text-foreground dark:text-code-foreground" : "text-foreground"}`}
       >
         {article.title}
       </h1>
       <p
-        className={`mt-6 max-w-[780px] text-lg leading-8 text-pretty md:text-xl md:leading-9 ${isOnMedia ? "text-code-foreground/85" : "text-muted"}`}
+        className={`mt-6 max-w-[780px] text-lg leading-8 text-pretty md:text-xl md:leading-9 ${isOnMedia ? "text-muted dark:text-code-foreground/85" : "text-muted"}`}
         data-pagefind-meta="description"
       >
         {article.description}

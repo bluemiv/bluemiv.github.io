@@ -433,7 +433,12 @@ Short notes:
   사용한다. 선택되지 않은 topic마다 세로 border를 반복하지 않는다.
 - 선택 category/topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
-- 글 목록은 home latest pattern과 동일한 문법 사용.
+- 글 목록은 home latest의 divider와 active rail 문법을 공유하되 우측에 compact cover thumbnail을
+  추가한다. thumbnail 때문에 card grid로 바꾸지 않는다.
+- archive thumbnail은 `32:17` frame을 사용하고 mobile `112px`, `sm` `160px`, `md` 이상
+  `176px` 폭으로 제한한다. 제목과 분류가 항상 thumbnail보다 먼저 읽혀야 한다.
+- cover가 없으면 placeholder와 빈 column을 만들지 않는다. 같은 link 안의 제목이 목적을 설명하므로
+  archive thumbnail의 alt는 비운다.
 - 전체 article archive는 최신순으로 페이지당 10개를 표시한다.
 - 첫 페이지 URL은 `/articles/`를 유지하고 2페이지부터 `/articles/page/{pageNumber}/`로 SSG 생성한다. `/articles/page/1/`은 만들지 않는다.
 - 각 페이지는 고유 title, description, canonical과 실제 이전·다음 관계를 가진다.
@@ -698,6 +703,7 @@ Short notes:
 
 - article `coverImage`는 선택 사항.
 - 이미지가 없다고 빈 placeholder card를 만들지 않는다.
+- archive thumbnail은 `object-cover`로 frame을 채우고 최대 `scale(1.01)` hover만 허용한다.
 - topic cover는 typography, 번호, 간단한 code/diagram을 조합한다.
 - grid motif는 cover마다 같은 밀도로 반복하지 않는다.
 - article cover 비율은 `32:17`로 고정한다.
@@ -960,6 +966,7 @@ text-accent / bg-accent / border-accent
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?
 - [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?
+- [ ] archive thumbnail이 제목보다 강하지 않고, cover가 없는 행에 빈 공간을 남기지 않는가?
 
 ### 17.4 App detail과 policy
 

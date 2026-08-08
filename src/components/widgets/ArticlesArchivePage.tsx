@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
@@ -52,26 +53,46 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
       <Link
         href={getLocalizedPath(locale, `articles/${article.slug}`)}
         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-        className="article-list-link group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 px-2 py-7 md:grid-cols-[44px_144px_minmax(0,1fr)_104px] md:items-start md:px-3"
+        className="article-list-link group flex items-start gap-4 px-2 py-6 sm:gap-5 md:gap-6 md:px-3 md:py-7"
       >
-        <span className="text-subtle font-mono text-xs">A{getArticleNumber(article.id)}</span>
-        <span className="text-accent font-mono text-xs leading-5 font-semibold tracking-[0.06em] uppercase">
-          {getArticleCategoryLabel(article.category)} / {getArticleTopicLabel(article.topics[0])}
-        </span>
-        <span className="col-span-2 md:col-span-1">
-          <strong className="article-list-title block text-lg leading-7 font-semibold tracking-[-0.025em] md:text-xl">
+        <span className="min-w-0 flex-1">
+          <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="text-subtle font-mono text-xs">A{getArticleNumber(article.id)}</span>
+            <span className="text-accent font-mono text-xs leading-5 font-semibold tracking-[0.06em] uppercase">
+              {getArticleCategoryLabel(article.category)} /{" "}
+              {getArticleTopicLabel(article.topics[0])}
+            </span>
+          </span>
+          <strong className="article-list-title mt-3 block text-lg leading-7 font-semibold tracking-[-0.025em] break-keep md:text-xl">
             {article.title}
           </strong>
-          <span className="text-muted mt-2 line-clamp-2 block text-sm leading-6">
+          <span className="text-muted mt-2 hidden text-sm leading-6 sm:line-clamp-2">
             {article.description}
           </span>
+          <span className="text-muted mt-3 flex items-center gap-2 font-mono text-xs tabular-nums">
+            <time dateTime={article.publishedAt}>
+              {formatPublicationDate(article.publishedAt, locale)}
+            </time>
+            {document ? (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>{document.readingTimeMinutes} MIN</span>
+              </>
+            ) : null}
+          </span>
         </span>
-        <span className="text-muted col-span-2 flex gap-3 font-mono text-xs tabular-nums md:col-span-1 md:block md:text-right">
-          <time dateTime={article.publishedAt} className="block">
-            {formatPublicationDate(article.publishedAt, locale)}
-          </time>
-          {document ? <span className="mt-1 block">{document.readingTimeMinutes} MIN</span> : null}
-        </span>
+
+        {article.coverImage ? (
+          <span className="border-border group-hover:border-border-strong group-focus-visible:border-border-strong relative aspect-[32/17] w-28 shrink-0 overflow-hidden rounded-[2px] border transition-colors duration-150 motion-reduce:transition-none sm:w-40 md:w-44">
+            <Image
+              fill
+              sizes="(min-width: 768px) 176px, (min-width: 640px) 160px, 112px"
+              src={article.coverImage}
+              alt=""
+              className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.01] group-focus-visible:scale-[1.01] motion-reduce:transition-none"
+            />
+          </span>
+        ) : null}
       </Link>
     </article>
   );

@@ -716,11 +716,23 @@ Short notes:
 - reading progress
 - theme transition
 
-Article reading progress:
+Article Reading Ruler:
 
-- article detail에서만 header 하단에 `2px` accent rail을 표시한다.
-- CSS scroll-driven animation을 사용하며 JavaScript scroll state를 추가하지 않는다.
-- 기능 지원이 없거나 reduced motion이면 rail을 숨긴다. 읽기와 탐색 기능은 그대로 유지한다.
+- article detail에서만 기술 도면의 축척자를 닮은 Reading Ruler를 표시한다.
+- 기존 header 하단의 가로 progress bar는 사용하지 않는다.
+- `1360px` 이상에서는 viewport 오른쪽에 주요 H2를 세로 눈금으로 표시한다. 현재 구간은 긴
+  accent 눈금, 지난 구간은 중간 눈금, 남은 구간은 짧은 neutral 눈금으로 구분한다.
+- desktop 눈금은 anchor link이며 keyboard focus와 `aria-current="location"`을 제공한다.
+- `1360px` 미만에서는 header 아래의 전체 폭 32px status subrow에
+  `READ 042% · 03/08` 형식의 compact indicator를 둔다. 한쪽만 본문을 가리는 floating box와
+  채워지는 progress bar는 사용하지 않는다.
+- 진행률, 현재 heading, TOC active 상태는 article 범위의 provider 한 곳에서 계산해 공유한다.
+- scroll listener는 passive + `requestAnimationFrame`으로 제한하고 article 및 heading 위치는
+  resize 때만 다시 측정한다. 별도 network 요청과 layout shift를 만들지 않는다.
+- desktop ruler는 scroll 중 선명해지고 정지 후 낮은 대비로 돌아간다. hover와 keyboard
+  focus에서는 다시 선명하게 표시한다. mobile indicator는 작은 글자의 가독성을 위해 동일한
+  대비를 유지한다.
+- reduced motion에서는 위치와 opacity animation을 제거하되 진행률과 active 정보는 유지한다.
 
 Article list interaction:
 
@@ -757,7 +769,7 @@ Theme transition:
 
 ### 12.4 Reduced motion
 
-`prefers-reduced-motion: reduce`에서 animation과 smooth scroll을 사실상 제거한다. theme wipe와 page transition, reading progress, scroll-driven detail도 실행하지 않으며 기능과 정보는 motion 없이 동일해야 한다.
+`prefers-reduced-motion: reduce`에서 animation과 smooth scroll을 사실상 제거한다. theme wipe와 page transition, scroll-driven detail은 실행하지 않는다. Reading Ruler는 위치·opacity animation 없이 진행률과 active 정보를 그대로 제공한다.
 
 ## 13. Dark mode
 
@@ -905,6 +917,7 @@ text-accent / bg-accent / border-accent
 - [ ] H2/H3/code/table/image rhythm이 명확한가?
 - [ ] metadata가 pill로 과장되지 않았는가?
 - [ ] TOC가 보조 navigation처럼 보이는가?
+- [ ] Reading Ruler와 TOC가 같은 active heading을 표시하고 keyboard로 이동 가능한가?
 - [ ] sidebar가 topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] mobile code/table scroll이 되는가?

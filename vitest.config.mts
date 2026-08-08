@@ -24,6 +24,7 @@ export default defineConfig({
         "src/features/article/articleDocument.ts",
         "src/features/article/articleImage.ts",
         "src/features/article/articleNavigation.ts",
+        "src/features/article/articleReadingProgress.ts",
         "src/features/article/articleRepository.ts",
         "src/features/article/articleSeo.ts",
         "src/features/article/articleTopic.ts",

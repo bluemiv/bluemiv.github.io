@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { ChevronDown } from "lucide-react";
 
 import type { ArticleHeading } from "@/features/article/articleDocument";
+import { useArticleReading } from "@/features/article/ArticleReadingProvider";
 
 type PropsWithArticleTableOfContents = {
   headings: readonly ArticleHeading[];
@@ -12,26 +11,7 @@ type PropsWithArticleTableOfContents = {
 };
 
 export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTableOfContents) {
-  const [activeId, setActiveId] = useState(headings[0]?.id ?? "");
-
-  useEffect(() => {
-    const elements = headings
-      .map(({ id }) => document.getElementById(id))
-      .filter((element): element is HTMLElement => element !== null);
-
-    if (!elements.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleHeading = entries.find((entry) => entry.isIntersecting);
-        if (visibleHeading) setActiveId(visibleHeading.target.id);
-      },
-      { rootMargin: "-18% 0px -72%", threshold: 0 },
-    );
-
-    elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, [headings]);
+  const { activeId } = useArticleReading();
 
   if (!headings.length) return null;
 

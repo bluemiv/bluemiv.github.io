@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   createHeaderScrollState,
-  isArticleDetailPath,
   isNavigationPathActive,
   resolveHeaderScrollState,
 } from "./siteNavigation";
@@ -17,13 +16,6 @@ describe("siteNavigation", () => {
   it("root route를 다른 route의 active 상태로 확장하지 않는다", () => {
     expect(isNavigationPathActive("/", "/")).toBe(true);
     expect(isNavigationPathActive("/articles/", "/")).toBe(false);
-  });
-
-  it("article 상세 route만 읽기 진행 표시 대상으로 판별한다", () => {
-    expect(isArticleDetailPath("/articles/example/", "/articles/")).toBe(true);
-    expect(isArticleDetailPath("/articles/", "/articles/")).toBe(false);
-    expect(isArticleDetailPath("/articles/example/extra/", "/articles/")).toBe(false);
-    expect(isArticleDetailPath("/notes/example/", "/articles/")).toBe(false);
   });
 
   it("음수 scroll 위치를 0으로 정규화한다", () => {

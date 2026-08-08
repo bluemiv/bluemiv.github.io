@@ -12,7 +12,6 @@ import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { SITE_COPY } from "@/features/i18n/translations";
 import {
   createHeaderScrollState,
-  isArticleDetailPath,
   isNavigationPathActive,
   resolveHeaderScrollState,
 } from "@/features/navigation/siteNavigation";
@@ -34,7 +33,6 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
   const scrollStateRef = useRef(createHeaderScrollState());
   const href = (path: string) => getLocalizedPath(locale, path);
   const homeHref = getLocalizedPath(locale);
-  const articlesHref = href("articles");
   const navItems =
     locale === "ko"
       ? [
@@ -47,7 +45,6 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
         ]
       : [];
   const shouldUseCompactHeader = isCompact && !isMobileMenuOpen;
-  const shouldShowReadingProgress = isArticleDetailPath(pathname, articlesHref);
 
   useEffect(() => {
     let animationFrameId = 0;
@@ -170,15 +167,6 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
           ) : null}
         </div>
       </Container>
-
-      {shouldShowReadingProgress ? (
-        <div
-          className="article-reading-progress-track pointer-events-none absolute inset-x-0 bottom-0 z-10"
-          aria-hidden="true"
-        >
-          <div className="article-reading-progress-bar" />
-        </div>
-      ) : null}
 
       {navItems.length ? (
         <div

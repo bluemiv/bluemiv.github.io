@@ -12,6 +12,7 @@ import {
   isArticleCategory,
 } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
 
 const ARTICLE_LOCALE = "ko";
 
@@ -40,9 +41,10 @@ export async function generateMetadata({
 
   const categoryDefinition = getArticleCategoryDefinition(category);
   const canonical = getLocalizedPath(ARTICLE_LOCALE, `categories/${category}`);
+  const title = `${categoryDefinition.label} 기술 글`;
 
   return {
-    title: `${categoryDefinition.label} 기술 글`,
+    title,
     description: categoryDefinition.description,
     alternates: {
       canonical,
@@ -51,6 +53,12 @@ export async function generateMetadata({
         "x-default": canonical,
       },
     },
+    ...createWebsiteSocialMetadata({
+      title,
+      description: categoryDefinition.description,
+      canonical,
+      locale: ARTICLE_LOCALE,
+    }),
   };
 }
 

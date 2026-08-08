@@ -26,8 +26,24 @@ function writeValidOutput(outputDirectory) {
     '<link rel="alternate" type="application/atom+xml" href="/feed.xml" />' +
     '<link rel="alternate" type="application/rss+xml" href="/rss.xml" />';
   for (const route of ["", "en", "ja", "articles", "notes"]) {
-    writeFile(outputDirectory, `${route ? `${route}/` : ""}index.html`, feedLinks);
+    const pathname = route ? `/${route}/` : "/";
+    const canonical = `${EXPECTED_ORIGIN}${pathname}`;
+    const socialMetadata =
+      `<link rel="canonical" href="${canonical}" />` +
+      '<meta property="og:title" content="Title" />' +
+      '<meta property="og:description" content="Description" />' +
+      '<meta property="og:type" content="website" />' +
+      '<meta property="og:locale" content="ko_KR" />' +
+      '<meta property="og:site_name" content="Bluemiv Blog" />' +
+      `<meta property="og:url" content="${canonical}" />` +
+      `<meta property="og:image" content="${EXPECTED_ORIGIN}/og-default.webp" />` +
+      '<meta name="twitter:card" content="summary_large_image" />' +
+      '<meta name="twitter:title" content="Title" />' +
+      '<meta name="twitter:description" content="Description" />' +
+      `<meta name="twitter:image" content="${EXPECTED_ORIGIN}/og-default.webp" />`;
+    writeFile(outputDirectory, `${route ? `${route}/` : ""}index.html`, feedLinks + socialMetadata);
   }
+  writeFile(outputDirectory, "og-default.webp", Buffer.alloc(5_001));
   writeFile(
     outputDirectory,
     "privacy/example/index.html",
@@ -79,7 +95,27 @@ describe("staticSeoVerification", () => {
       "Missing SEO artifact: feed.xml",
       "Missing SEO artifact: rss.xml",
       "Missing SEO artifact: robots.txt",
+      "Missing SEO artifact: og-default.webp",
     ]);
+  });
+
+  it("색인 페이지의 OG와 Twitter Card 누락을 보고한다", () => {
+    const outputDirectory = createOutputDirectory();
+    writeValidOutput(outputDirectory);
+    writeFile(
+      outputDirectory,
+      "notes/index.html",
+      `<link rel="canonical" href="${EXPECTED_ORIGIN}/notes/" />`,
+    );
+
+    expect(findStaticSeoErrors(outputDirectory, EXPECTED_ORIGIN)).toEqual(
+      expect.arrayContaining([
+        "Page is missing og:title: /notes/",
+        "Page is missing og:image: /notes/",
+        "Page is missing twitter:image: /notes/",
+        "Page has missing or wrong twitter:card: /notes/",
+      ]),
+    );
   });
 
   it("사이트맵 중복·제외 경로와 policy noindex·feed discovery 누락을 보고한다", () => {

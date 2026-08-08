@@ -10,6 +10,7 @@ import {
 } from "@/features/note/noteRepository";
 import { getNoteNavigation } from "@/features/note/noteNavigation";
 import { getNoteStructuredData, serializeNoteStructuredData } from "@/features/note/noteSeo";
+import { createArticleSocialMetadata } from "@/features/seo/socialMetadata";
 
 const NOTE_LOCALE = "ko";
 
@@ -39,24 +40,17 @@ export async function generateMetadata({ params }: PageProps<"/notes/[slug]">): 
         "x-default": canonical,
       },
     },
-    openGraph: {
-      type: "article",
-      locale: "ko_KR",
-      url: canonical,
+    ...createArticleSocialMetadata({
       title: note.title,
       description: note.description,
-      publishedTime: note.publishedAt,
-      modifiedTime: note.modifiedAt,
-      authors: [note.author],
+      canonical,
+      locale: NOTE_LOCALE,
+      publishedAt: note.publishedAt,
+      modifiedAt: note.modifiedAt,
+      author: note.author,
       tags: note.tags,
-      images: note.coverImage ? [{ url: note.coverImage, alt: note.title }] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: note.title,
-      description: note.description,
-      images: note.coverImage ? [note.coverImage] : undefined,
-    },
+      image: note.coverImage ? { url: note.coverImage, alt: note.title } : undefined,
+    }),
   };
 }
 

@@ -7,6 +7,7 @@ import { getArticleNavigation } from "@/features/article/articleNavigation";
 import { getArticleStructuredData, serializeStructuredData } from "@/features/article/articleSeo";
 import { getArticleCategoryLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { createArticleSocialMetadata } from "@/features/seo/socialMetadata";
 
 const ARTICLE_LOCALE = "ko";
 
@@ -40,24 +41,17 @@ export async function generateMetadata({
         "x-default": canonical,
       },
     },
-    openGraph: {
-      type: "article",
-      locale: "ko_KR",
-      url: canonical,
+    ...createArticleSocialMetadata({
       title: article.title,
       description: article.description,
-      publishedTime: article.publishedAt,
-      modifiedTime: article.modifiedAt,
-      authors: [article.author],
+      canonical,
+      locale: ARTICLE_LOCALE,
+      publishedAt: article.publishedAt,
+      modifiedAt: article.modifiedAt,
+      author: article.author,
       tags: keywords,
-      images: article.coverImage ? [{ url: article.coverImage, alt: article.title }] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: article.title,
-      description: article.description,
-      images: article.coverImage ? [article.coverImage] : undefined,
-    },
+      image: article.coverImage ? { url: article.coverImage, alt: article.title } : undefined,
+    }),
   };
 }
 

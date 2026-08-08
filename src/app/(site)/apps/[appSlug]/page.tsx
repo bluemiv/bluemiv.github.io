@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { AppProfilePage } from "@/components/widgets/AppProfilePage";
 import { getAppProfile, getAppProfiles } from "@/features/app/appProfiles";
+import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
 
 export const dynamicParams = false;
 
@@ -22,17 +23,12 @@ export async function generateMetadata({
     title: profile.name,
     description: profile.description,
     alternates: { canonical },
-    openGraph: {
-      type: "website",
-      url: canonical,
+    ...createWebsiteSocialMetadata({
       title: profile.name,
       description: profile.description,
-    },
-    twitter: {
-      card: "summary",
-      title: profile.name,
-      description: profile.description,
-    },
+      canonical,
+      locale: profile.locale,
+    }),
   };
 }
 

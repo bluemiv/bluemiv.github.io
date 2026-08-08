@@ -102,6 +102,14 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 - 한 문장 안에서 한국어와 영어를 불필요하게 섞지 않는다.
 - hero copy는 2~4행, 설명은 2문장 이하.
 
+### 3.3 Social preview
+
+- 공통 OG 이미지는 `1200×630px` WebP로 만든다.
+- Blueprint grid, Active Field Mark, paper canvas, cobalt accent를 사용한다.
+- 모든 locale에서 공유하므로 긴 한국어·영어·일본어 문장을 넣지 않는다.
+- article과 note는 각 문서의 cover를 우선한다. cover가 없는 페이지에서만 공통 이미지를 사용한다.
+- 공통 이미지에 gradient, 사진, 장식용 3D 효과를 넣지 않는다.
+
 ## 4. 색상 시스템
 
 색상 정의 위치: `src/app/globals.css`

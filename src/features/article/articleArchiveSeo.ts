@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
+
 import type { ArticlePagination } from "./articlePagination";
 import { getArticleArchivePagePath } from "./articlePagination";
 
@@ -39,17 +41,11 @@ export function getArticleArchiveMetadata(locale: "ko", pagination: ArticlePagin
       previous: previousPage ? getArticleArchivePagePath(locale, previousPage) : undefined,
       next: nextPage ? getArticleArchivePagePath(locale, nextPage) : undefined,
     },
-    openGraph: {
-      type: "website",
-      locale: "ko_KR",
-      url: canonical,
+    ...createWebsiteSocialMetadata({
       title,
       description,
-    },
-    twitter: {
-      card: "summary",
-      title,
-      description,
-    },
+      canonical,
+      locale,
+    }),
   };
 }

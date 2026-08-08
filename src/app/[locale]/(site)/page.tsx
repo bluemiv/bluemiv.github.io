@@ -8,11 +8,7 @@ import {
   isPrefixedLocale,
 } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
-
-const OPEN_GRAPH_LOCALE = {
-  en: "en_US",
-  ja: "ja_JP",
-} as const;
+import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
@@ -20,20 +16,21 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
   if (!isPrefixedLocale(locale)) notFound();
 
   const copy = HOME_COPY[locale];
+  const canonical = getLocalizedPath(locale);
 
   return {
     title: copy.metadata.title,
     description: copy.metadata.description,
     alternates: {
-      canonical: getLocalizedPath(locale),
+      canonical,
       languages: getLanguageAlternates(),
     },
-    openGraph: {
-      type: "website",
-      locale: OPEN_GRAPH_LOCALE[locale],
+    ...createWebsiteSocialMetadata({
       title: copy.metadata.title,
       description: copy.metadata.description,
-    },
+      canonical,
+      locale,
+    }),
   };
 }
 

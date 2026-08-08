@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const REQUIRED_FILES = ["sitemap.xml", "feed.xml", "rss.xml", "robots.txt"];
+const REQUIRED_FILES = ["sitemap.xml", "feed.xml", "rss.xml", "robots.txt", "og-default.webp"];
 const REQUIRED_SITEMAP_PATHS = ["/", "/en/", "/ja/", "/articles/", "/notes/"];
 const FORBIDDEN_SEARCH_PATH_PATTERN =
   /^\/(?:privacy|blog|ko)(?:\/|$)|^\/apps\/$|^\/apps\/[^/]+\/(?:privacy|terms|account-deletion)(?:\/|$)|\/(?:terms|account-deletion)(?:\/|$)/;
@@ -51,6 +51,75 @@ function hasFeedDiscovery(html, mimeType, feedPath) {
   });
 }
 
+function getTagAttribute(tag, attributeName) {
+  return tag.match(new RegExp(`\\b${attributeName}=["']([^"']*)["']`))?.[1];
+}
+
+function getMetaContent(html, attributeName, attributeValue) {
+  for (const match of html.matchAll(/<meta\b[^>]*>/g)) {
+    if (getTagAttribute(match[0], attributeName) === attributeValue) {
+      return getTagAttribute(match[0], "content");
+    }
+  }
+
+  return undefined;
+}
+
+function getCanonicalHref(html) {
+  for (const match of html.matchAll(/<link\b[^>]*>/g)) {
+    if (getTagAttribute(match[0], "rel") === "canonical") {
+      return getTagAttribute(match[0], "href");
+    }
+  }
+
+  return undefined;
+}
+
+function validateSocialMetadata(errors, outputDirectory, route, expectedUrl, html) {
+  if (getCanonicalHref(html) !== expectedUrl) {
+    errors.push(`Page has missing or wrong canonical: ${route}`);
+  }
+
+  for (const property of ["og:title", "og:description", "og:type", "og:locale", "og:site_name"]) {
+    if (!getMetaContent(html, "property", property)) {
+      errors.push(`Page is missing ${property}: ${route}`);
+    }
+  }
+
+  if (getMetaContent(html, "property", "og:url") !== expectedUrl) {
+    errors.push(`Page has missing or wrong og:url: ${route}`);
+  }
+
+  const openGraphImage = getMetaContent(html, "property", "og:image");
+  if (!openGraphImage) {
+    errors.push(`Page is missing og:image: ${route}`);
+  } else {
+    let imageUrl;
+    try {
+      imageUrl = new URL(openGraphImage);
+    } catch {
+      errors.push(`Page og:image is not absolute: ${route}`);
+    }
+
+    if (imageUrl) {
+      const imagePath = path.join(outputDirectory, imageUrl.pathname.replace(/^\/+/, ""));
+      if (imageUrl.origin !== new URL(expectedUrl).origin || !fs.existsSync(imagePath)) {
+        errors.push(`Page og:image has no local static asset: ${route}`);
+      }
+    }
+  }
+
+  for (const name of ["twitter:title", "twitter:description", "twitter:image"]) {
+    if (!getMetaContent(html, "name", name)) {
+      errors.push(`Page is missing ${name}: ${route}`);
+    }
+  }
+
+  if (getMetaContent(html, "name", "twitter:card") !== "summary_large_image") {
+    errors.push(`Page has missing or wrong twitter:card: ${route}`);
+  }
+}
+
 function getStaticHtmlPath(outputDirectory, pathname) {
   return path.join(outputDirectory, pathname.replace(/^\/+/, ""), "index.html");
 }
@@ -73,6 +142,10 @@ export function findStaticSeoErrors(outputDirectory, expectedOrigin) {
   const sitemapUrls = getXmlTagValues(sitemap, "loc");
   const duplicateUrls = sitemapUrls.filter((url, index) => sitemapUrls.indexOf(url) !== index);
 
+  if (fs.statSync(path.join(outputDirectory, "og-default.webp")).size <= 5_000) {
+    errors.push("Default social image must be larger than 5,000 bytes");
+  }
+
   if (!sitemapUrls.length) errors.push("Sitemap contains no URLs");
   if (duplicateUrls.length)
     errors.push(`Sitemap contains duplicate URLs: ${duplicateUrls.join(", ")}`);
@@ -90,8 +163,17 @@ export function findStaticSeoErrors(outputDirectory, expectedOrigin) {
     if (FORBIDDEN_SEARCH_PATH_PATTERN.test(parsedUrl.pathname)) {
       errors.push(`Sitemap contains excluded path: ${parsedUrl.pathname}`);
     }
-    if (!fs.existsSync(getStaticHtmlPath(outputDirectory, parsedUrl.pathname))) {
+    const htmlPath = getStaticHtmlPath(outputDirectory, parsedUrl.pathname);
+    if (!fs.existsSync(htmlPath)) {
       errors.push(`Sitemap URL has no static HTML: ${parsedUrl.pathname}`);
+    } else if (parsedUrl.origin === expectedOrigin) {
+      validateSocialMetadata(
+        errors,
+        outputDirectory,
+        parsedUrl.pathname,
+        url,
+        fs.readFileSync(htmlPath, "utf8"),
+      );
     }
   }
 

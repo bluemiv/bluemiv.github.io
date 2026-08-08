@@ -22,6 +22,17 @@
 policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 읽을 수 있도록
 `robots.txt`에서 차단하지 않는다.
 
+## Social metadata
+
+- 모든 색인 페이지는 title, description, canonical과 함께 Open Graph와 Twitter Card를 생성한다.
+- OG에는 `site_name`, locale, canonical URL, title, description, image를 포함한다.
+- website는 `og:type=website`, article과 note 상세는 `og:type=article`을 사용한다.
+- article과 note 상세에는 발행일, 수정일, 작성자, tag를 포함한다.
+- article과 note의 `coverImage`가 있으면 social image로 사용한다.
+- cover가 없거나 목록·분류·홈·app 상세이면 `/og-default.webp`를 사용한다.
+- 공통 이미지는 `1200×630px`, `summary_large_image`로 제공한다.
+- OG와 Twitter 생성은 `src/features/seo/socialMetadata.ts`를 단일 기준으로 사용한다.
+
 ## 사이트맵
 
 - 경로: `/sitemap.xml`

@@ -10,3 +10,5 @@
 - XML 값은 반드시 entity escape하고 생성 로직을 순수 함수로 테스트한다.
 - pagination과 taxonomy archive는 중복 title·description·canonical을 만들지 않는다.
 - redirect source와 noindex 문서는 검색 discovery 산출물에서 제외한다.
+- 색인 페이지의 OG와 Twitter Card는 `socialMetadata.ts`에서 생성한다.
+- article과 note는 개별 cover를 우선하고 없으면 `/og-default.webp`를 사용한다.

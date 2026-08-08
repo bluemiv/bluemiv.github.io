@@ -13,6 +13,7 @@ import {
   isArticleTopic,
 } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
 
 const ARTICLE_LOCALE = "ko";
 
@@ -42,10 +43,12 @@ export async function generateMetadata({
 
   const topicLabel = getArticleTopicLabel(topic);
   const canonical = getLocalizedPath(ARTICLE_LOCALE, `topics/${topic}`);
+  const title = `${topicLabel} 기술 글`;
+  const description = `${topicLabel} 주제로 분류한 개발 문제 해결 과정과 선택의 이유를 모았습니다.`;
 
   return {
-    title: `${topicLabel} 기술 글`,
-    description: `${topicLabel} 주제로 분류한 개발 문제 해결 과정과 선택의 이유를 모았습니다.`,
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
@@ -53,6 +56,12 @@ export async function generateMetadata({
         "x-default": canonical,
       },
     },
+    ...createWebsiteSocialMetadata({
+      title,
+      description,
+      canonical,
+      locale: ARTICLE_LOCALE,
+    }),
   };
 }
 

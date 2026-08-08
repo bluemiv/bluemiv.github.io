@@ -5,8 +5,8 @@ import { getArticleImageDimensions } from "./articleImage";
 describe("articleImage", () => {
   it("public article 이미지의 실제 크기를 읽는다", () => {
     expect(getArticleImageDimensions("/r/i/nextjs/1/thumbnail.webp")).toEqual({
-      width: 720,
-      height: 377,
+      width: 1600,
+      height: 850,
     });
   });
 

@@ -53,7 +53,7 @@ docs/                설계 문서
 ## public asset
 
 - `public/`에는 `AGENTS.md`를 두지 않는다. 브라우저에 공개할 배포 asset만 둔다.
-- `ads.txt`, `.nojekyll`, `sw.js` 경로를 바꾸지 않는다.
+- `ads.txt`, `.nojekyll`, `sw.js`, 네이버 소유확인 HTML 경로를 바꾸지 않는다.
 - `r/`는 기존 article asset URL 호환 경로다.
 - `bluemiv-mark.svg`와 `src/app/icon.svg`의 geometry를 동일하게 유지한다.
 - 공개 asset 경로는 소문자 kebab-case를 쓴다. 기존 호환 경로는 예외다.

@@ -55,6 +55,14 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - `/sitemap.xml`, `/feed.xml`, `/rss.xml`의 절대 URL을 안내한다.
 - 검색 제외는 robots 차단이 아니라 페이지 `noindex`로 처리한다.
 
+## 검색 서비스 소유확인
+
+- 네이버 서치어드바이저는 `/naver0b3c7144e2b65f42ae8194ba42c9f26c.html` 파일로 소유권을 확인한다.
+- 인증 파일은 `public/`에서 root 정적 파일로 배포한다. 파일명과 내용을 변경하지 않는다.
+- 소유확인 파일은 공개 검증값이다. 환경변수나 runtime script로 생성하지 않는다.
+- 네이버 소유확인은 1년마다 서치어드바이저에서 연장한다. 만료 전에도 같은 인증 파일을 유지한다.
+- 배포 후 서치어드바이저에는 `/sitemap.xml`과 `/rss.xml`을 각각 사이트맵과 RSS로 제출한다.
+
 ## 변경 규칙
 
 - article, note, category, topic, locale 경로가 바뀌면 sitemap과 feed 생성기를 함께 갱신한다.

@@ -43,3 +43,19 @@ export function filterArticlesByTopic(
 ): ArticleMetadata[] {
   return topic ? articles.filter((article) => article.topic === topic) : [...articles];
 }
+
+export function getEarliestArticlePublicationYear(
+  articles: readonly ArticleMetadata[],
+  timeZone: string,
+): number | null {
+  if (!articles.length) return null;
+
+  const yearFormatter = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    timeZone,
+  });
+
+  return Math.min(
+    ...articles.map((article) => Number(yearFormatter.format(new Date(article.publishedAt)))),
+  );
+}

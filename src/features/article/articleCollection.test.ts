@@ -3,11 +3,16 @@ import { describe, expect, it } from "vitest";
 import type { ArticleMetadata } from "./articleMetadata";
 import {
   filterArticlesByTopic,
+  getEarliestArticlePublicationYear,
   selectHomeArticles,
   summarizeArticleTopics,
 } from "./articleCollection";
 
-function createArticle(id: string, topic: string): ArticleMetadata {
+function createArticle(
+  id: string,
+  topic: string,
+  publishedAt = "2026-01-01T00:00:00.000Z",
+): ArticleMetadata {
   return {
     id,
     slug: id,
@@ -16,8 +21,8 @@ function createArticle(id: string, topic: string): ArticleMetadata {
     legacyPaths: [`/blog/${topic}/${id}/`],
     title: id,
     description: `${id} 설명`,
-    publishedAt: "2026-01-01T00:00:00.000Z",
-    modifiedAt: "2026-01-01T00:00:00.000Z",
+    publishedAt,
+    modifiedAt: publishedAt,
     tags: [topic],
     isPublished: true,
     author: "Bluemiv",
@@ -63,5 +68,26 @@ describe("articleCollection", () => {
     ]);
     expect(filterArticlesByTopic(ARTICLES, "missing")).toEqual([]);
     expect(filterArticlesByTopic(ARTICLES, null)).toEqual(ARTICLES);
+  });
+
+  it("공개 article 순서와 관계없이 가장 이른 발행 연도를 계산한다", () => {
+    const articles = [
+      createArticle("article-002", "react", "2024-01-01T00:00:00+09:00"),
+      createArticle("article-001", "react", "2017-08-10T12:00:00+09:00"),
+      createArticle("article-003", "react", "2026-01-01T00:00:00+09:00"),
+    ];
+
+    expect(getEarliestArticlePublicationYear(articles, "Asia/Seoul")).toBe(2017);
+  });
+
+  it("발행 연도에 지정한 시간대를 적용한다", () => {
+    const article = createArticle("article-001", "react", "2017-12-31T16:00:00.000Z");
+
+    expect(getEarliestArticlePublicationYear([article], "Asia/Seoul")).toBe(2018);
+    expect(getEarliestArticlePublicationYear([article], "UTC")).toBe(2017);
+  });
+
+  it("article이 없으면 시작 연도를 반환하지 않는다", () => {
+    expect(getEarliestArticlePublicationYear([], "Asia/Seoul")).toBeNull();
   });
 });

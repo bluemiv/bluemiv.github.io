@@ -1,6 +1,9 @@
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { SITE_CONFIG } from "@/config/siteConfig";
+import { getEarliestArticlePublicationYear } from "@/features/article/articleCollection";
+import { getPublishedArticles } from "@/features/article/articleRepository";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { SITE_COPY } from "@/features/i18n/translations";
 
@@ -10,7 +13,16 @@ type PropsWithSiteFooter = {
 
 export function SiteFooter({ locale }: PropsWithSiteFooter) {
   const copy = SITE_COPY[locale];
-  const currentYear = new Date().getFullYear();
+  const yearFormatter = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    timeZone: SITE_CONFIG.timeZone,
+  });
+  const currentYear = Number(yearFormatter.format(new Date()));
+  const firstArticleYear =
+    getEarliestArticlePublicationYear(getPublishedArticles("ko"), SITE_CONFIG.timeZone) ??
+    currentYear;
+  const copyrightYears =
+    firstArticleYear < currentYear ? `${firstArticleYear}–${currentYear}` : String(currentYear);
   const href = (path: string) => getLocalizedPath(locale, path);
 
   return (
@@ -20,10 +32,10 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
           <p className="text-foreground font-bold">Bluemiv Tech Blog</p>
           <p className="mt-2 text-xs leading-6">{copy.footer.description}</p>
           <p className="text-subtle text-micro mt-1 font-mono tracking-[0.12em] uppercase">
-            Static since 2017
+            Static since {firstArticleYear}
           </p>
           <div className="border-border text-muted mt-6 flex flex-col gap-1 border-t pt-4 font-mono text-xs leading-5 sm:flex-row sm:gap-5">
-            <p>© 2017–{currentYear} Bluemiv. All rights reserved.</p>
+            <p>© {copyrightYears} Bluemiv. All rights reserved.</p>
             <p>Designed &amp; built by Bluemiv.</p>
           </div>
         </div>

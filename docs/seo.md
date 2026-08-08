@@ -9,11 +9,13 @@
 - article 상세: `/articles/{slug}/`
 - topic 목록: `/topics/{topic}/`
 - note 목록과 상세: `/notes/`, `/notes/{slug}/`
+- app 상세: `/apps/{appSlug}/`
 
 아래 URL은 사이트맵과 feed에서 제외한다.
 
 - policy document: privacy, terms, account deletion
-- app profile과 app 목록
+- app 목록 `/apps/`
+- app 하위 policy document
 - legacy redirect: `/blog/...`, `/ko/`
 
 policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 읽을 수 있도록

@@ -170,7 +170,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     featured: {
       eyebrow: "New release / 01",
-      heading: "새로 공개한 글",
+      heading: "최신 글",
       action: "글 읽기",
       readTimeSuffix: "분 읽기",
     },

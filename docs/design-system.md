@@ -374,7 +374,7 @@ viewport별 별도 디자인으로 검토한다. desktop 축소판을 mobile에 
 순서:
 
 1. Compact brand hero
-2. New release article
+2. Latest article
 3. Latest articles + topic discovery rail
 4. Short notes
 5. Footer

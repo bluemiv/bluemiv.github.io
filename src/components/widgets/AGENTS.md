@@ -28,5 +28,7 @@
 - pagination은 실제 정적 route만 link하고 현재 페이지에 `aria-current="page"`를 제공한다.
 - widget interaction 변경 후 production build를 desktop/mobile에서 직접 확인한다.
 - desktop search trigger는 header utility, mobile search trigger는 menu 첫 행에 두고 같은 dialog를 연다.
-- article detail cover는 문서 흐름을 유지하고 image layer만 transform으로 drift한다. title과
-  description을 overlay에 반복하지 않고 article 번호와 대표 분류만 표시한다.
+- article detail cover는 문서 흐름을 유지하고 image layer만 transform으로 drift한다. cover가 있으면
+  category/topic, title, description, 발행 정보를 하나의 overlay hero에 한 번만 표시한다.
+- detail cover에는 낮은 dark scrim을 두고 image와 scrim을 하단 canvas로 dissolve한다. 본문 시작을
+  늦추는 별도 title header와 cover의 연속 배치를 만들지 않는다.

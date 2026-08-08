@@ -1,7 +1,7 @@
 # Bluemiv Blog V2 디자인 시스템
 
 > 상태: V2 기준 문서
-> 마지막 검토: 2026-08-08
+> 마지막 검토: 2026-08-09
 > 구현 기준: Next.js 16, Tailwind CSS v4, static export
 
 이 문서는 Bluemiv Blog V2의 시각 언어, 레이아웃, 컴포넌트, 상호작용, 접근성 기준을 정의하는 단일 원천이다. UI를 만들거나 수정하기 전에 이 문서를 먼저 확인한다.
@@ -481,15 +481,14 @@ Short notes:
 
 구조:
 
-1. topic
-2. H1
-3. description
-4. author/date/updated/read time
-5. optional cover
-6. article body
-7. related articles
-8. comments
-9. previous/next
+1. archive back link
+2. cover hero 안의 topic/H1/description/author/date/updated/read time
+3. article body
+4. related articles
+5. comments
+6. previous/next
+
+cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 
 규칙:
 
@@ -510,8 +509,11 @@ Short notes:
 - cover는 최대 폭을 넓힐 수 있지만 본문 rhythm을 깨지 않는다.
 - 상세 cover는 sticky/fixed로 읽기 시작을 지연시키지 않는다. frame은 정상 문서 흐름에 두고 image
   layer만 위로 짧게 이동해 깊이를 만든다.
-- 제목과 description은 cover 위에 반복하지 않는다. cover overlay는 article 번호와 대표
-  category/topic만 낮은 강도로 표시하고 screen reader의 중복 탐색에서 제외한다.
+- cover가 있으면 topic, 제목, description, metadata를 별도 header와 cover로 나누지 않고 하나의
+  overlay hero에 한 번만 표시한다. 이미지 위에는 낮은 dark scrim을 두고 하단으로 갈수록 image와
+  scrim을 canvas에 dissolve해 본문으로 자연스럽게 연결한다.
+- detail hero의 cover는 정보와 별개인 배경이므로 빈 alt를 사용한다. cover가 없는 글은 같은 정보를
+  일반 text header로 제공하며 빈 이미지 영역을 만들지 않는다.
 - 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.
 - desktop sidebar는 topic 탐색, 광고, TOC, 관련 article을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
 - desktop TOC는 sidebar 내부 thin rail이며 TOC만 sticky를 허용한다. 별도 heavy card 금지.
@@ -522,8 +524,9 @@ Short notes:
 
 - `@next/mdx`로 article MDX를 build time에 컴파일하고 GFM, heading anchor, syntax highlighting을 적용한다.
 - header는 넓은 editorial 영역, 본문은 최대 `760px`, desktop sidebar는 `300px`로 구성한다.
-- 상세 cover는 `32:17` frame을 `object-cover`로 채운다. image layer는 frame보다 세로로 `8%`
-  크게 두고 view timeline에서 `translateY(2%)`부터 `-2%`까지만 이동한다.
+- 상세 cover는 desktop에서 `32:17` frame을 `object-cover`로 채운다. mobile에서는 긴 제목과 설명이
+  잘리지 않도록 최소 높이 `480–512px`의 editorial hero로 전환한다. image layer는 frame보다 세로로
+  `8%` 크게 두고 view timeline에서 `translateY(2%)`부터 `-2%`까지만 이동한다.
 - cover drift는 CSS progressive enhancement다. JavaScript scroll listener를 추가하지 않고 reduced
   motion에서는 정적 cover로 표시한다.
 - desktop은 광고 다음에 thin rail TOC를 두고 TOC만 sticky 처리한다.
@@ -874,7 +877,8 @@ Article detail cover:
 
 - cover frame은 일반 문서 흐름을 유지한다. sticky/fixed cover와 본문 겹침을 사용하지 않는다.
 - image layer만 view timeline과 `transform`으로 이동한다. 이동 범위는 frame 내부 `4%` 이하다.
-- overlay에는 title/description을 반복하지 않는다. article 번호와 대표 분류만 표시한다.
+- cover가 있는 글은 title/description/metadata를 overlay에 한 번만 표시하고 별도 상단 header에서
+  반복하지 않는다. 낮은 dark scrim으로 대비를 확보하고 하단은 canvas로 dissolve한다.
 - 지원하지 않는 browser와 reduced motion에서는 중앙 정렬된 정적 cover로 fallback한다.
 
 Page transition:
@@ -1047,7 +1051,9 @@ text-accent / bg-accent / border-accent
 - [ ] Reading Ruler와 TOC가 같은 active heading을 표시하고 keyboard로 이동 가능한가?
 - [ ] sidebar가 category/topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
-- [ ] cover drift가 읽기 시작을 늦추거나 title/description을 중복하지 않는가?
+- [ ] cover hero가 읽기 시작을 늦추지 않고 title/description을 한 번만 표시하는가?
+- [ ] cover의 dark scrim이 light/dark에서 충분한 text 대비를 만들고 하단 dissolve가 본문으로
+      자연스럽게 이어지는가?
 - [ ] mobile code/table scroll이 되는가?
 - [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?
 - [ ] archive thumbnail이 제목보다 강하지 않고, 왼쪽 dissolve가 light/dark canvas에 자연스럽게

@@ -1,30 +1,22 @@
-import { Fragment, type PropsWithChildren, ViewTransition } from "react";
+import type { PropsWithChildren } from "react";
 
-import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
 import { EntryTagList } from "@/components/atoms/EntryTagList";
-import { PublicationMetadata } from "@/components/atoms/PublicationMetadata";
 import { AdjacentEntryNavigation } from "@/components/widgets/AdjacentEntryNavigation";
-import { ArchiveBackLink } from "@/components/widgets/ArchiveBackLink";
+import { ArticleDetailHeader } from "@/components/widgets/ArticleDetailHeader";
 import { ArticleDetailSidebar } from "@/components/widgets/ArticleDetailSidebar";
 import { ArticleReadingRuler } from "@/components/widgets/ArticleReadingRuler";
 import { ArticleTableOfContents } from "@/components/widgets/ArticleTableOfContents";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import type { ArticleHeading } from "@/features/article/articleDocument";
-import { getArticleNumber } from "@/features/article/articleIdentifier";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import type { ArticleNavigation } from "@/features/article/articleNavigation";
 import { ArticleReadingProvider } from "@/features/article/ArticleReadingProvider";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
-import {
-  formatApproximateReadingTime,
-  formatPublicationDate,
-} from "@/features/i18n/publicationMetadata";
-import { PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { SearchDocumentMetadata } from "@/features/search/SearchDocumentMetadata";
 
@@ -46,11 +38,7 @@ export function ArticleDetailPage({
   navigation,
   children,
 }: PropsWithArticleDetailPage) {
-  const hasModifiedDate = article.modifiedAt !== article.publishedAt;
-  const publicationLabels = PUBLICATION_METADATA_COPY[article.locale];
-  const articleNumber = getArticleNumber(article.id);
   const categoryLabel = getArticleCategoryLabel(article.category);
-  const primaryTopicLabel = getArticleTopicLabel(article.topics[0]);
 
   return (
     <ArticleReadingProvider headings={headings}>
@@ -59,108 +47,9 @@ export function ArticleDetailPage({
         <ArticleReadingRuler headings={headings} />
         <Container className="py-12 md:py-20">
           <article aria-labelledby="article-title" data-pagefind-filter="type:article">
-            <header className="max-w-[940px]">
-              <ArchiveBackLink href={getLocalizedPath("ko", "articles")} label="All articles" />
+            <ArticleDetailHeader article={article} readingTimeMinutes={readingTimeMinutes} />
 
-              <div className="mt-8 flex items-center gap-4">
-                <span className="bg-accent h-px w-8" aria-hidden="true" />
-                <p className="text-accent font-mono text-xs font-semibold tracking-[0.16em] uppercase">
-                  <Link
-                    href={getLocalizedPath("ko", `categories/${article.category}`)}
-                    transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-                    className="hover:text-accent-hover underline-offset-4 hover:underline"
-                    data-pagefind-filter="category"
-                  >
-                    {categoryLabel}
-                  </Link>
-                  <span aria-hidden="true"> / </span>
-                  {article.topics.map((topic, index) => (
-                    <Fragment key={topic}>
-                      <Link
-                        href={getLocalizedPath("ko", `topics/${topic}`)}
-                        transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-                        className="hover:text-accent-hover underline-offset-4 hover:underline"
-                        data-pagefind-filter="topic"
-                      >
-                        {getArticleTopicLabel(topic)}
-                      </Link>
-                      {index < article.topics.length - 1 ? ", " : ""}
-                    </Fragment>
-                  ))}
-                  <span aria-hidden="true"> / </span>
-                  {articleNumber}
-                </p>
-              </div>
-
-              <h1
-                id="article-title"
-                data-pagefind-meta="title"
-                className="mt-6 max-w-[900px] text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance sm:text-5xl md:text-6xl"
-              >
-                {article.title}
-              </h1>
-              <p
-                className="text-muted mt-7 max-w-[780px] text-lg leading-8 text-pretty md:text-xl md:leading-9"
-                data-pagefind-meta="description"
-              >
-                {article.description}
-              </p>
-
-              <PublicationMetadata
-                author={article.author}
-                labels={publicationLabels}
-                publishedAt={{
-                  dateTime: article.publishedAt,
-                  text: formatPublicationDate(article.publishedAt, article.locale),
-                }}
-                modifiedAt={
-                  hasModifiedDate
-                    ? {
-                        dateTime: article.modifiedAt,
-                        text: formatPublicationDate(article.modifiedAt, article.locale),
-                      }
-                    : undefined
-                }
-                readingTime={{
-                  minutes: readingTimeMinutes,
-                  text: formatApproximateReadingTime(readingTimeMinutes, article.locale),
-                }}
-              />
-            </header>
-
-            {article.coverImage ? (
-              <ViewTransition
-                name={`article-cover-${article.id}`}
-                default="none"
-                share="article-cover"
-              >
-                <figure className="article-detail-cover border-border bg-surface-muted relative mt-12 aspect-[32/17] max-w-[1120px] overflow-hidden rounded-[4px] border md:mt-16">
-                  <div className="article-detail-cover-media absolute inset-x-0 -top-[4%] h-[108%]">
-                    <Image
-                      fill
-                      priority
-                      sizes="(min-width: 1184px) 1120px, calc(100vw - 40px)"
-                      src={article.coverImage}
-                      alt={article.title}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div
-                    aria-hidden="true"
-                    className="border-code-foreground/15 bg-code/80 text-code-foreground absolute inset-x-0 bottom-0 z-10 flex min-h-11 items-center justify-between gap-4 border-t px-4 py-2 font-mono text-xs backdrop-blur-sm sm:px-5"
-                  >
-                    <span className="text-accent font-semibold tracking-[0.1em] uppercase">
-                      Article / A{articleNumber}
-                    </span>
-                    <span className="truncate text-right tracking-[0.06em] uppercase">
-                      {categoryLabel} / {primaryTopicLabel}
-                    </span>
-                  </div>
-                </figure>
-              </ViewTransition>
-            ) : null}
-
-            <div className="mt-12 grid items-start gap-16 xl:mt-20 xl:grid-cols-[minmax(0,760px)_300px] xl:gap-[60px]">
+            <div className="mt-6 grid items-start gap-16 md:mt-8 xl:grid-cols-[minmax(0,760px)_300px] xl:gap-[60px]">
               <div className="max-w-[760px] min-w-0">
                 <ArticleTableOfContents headings={headings} variant="mobile" />
 

@@ -8,6 +8,7 @@ import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import { selectHomeArticles, summarizeArticleTopics } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getArticleDocument, getPublishedArticles } from "@/features/article/articleRepository";
+import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
@@ -29,19 +30,6 @@ const DATE_LOCALES: Record<Locale, string> = {
   ja: "ja-JP",
 };
 
-const TOPIC_LABELS: Record<string, string> = {
-  algorithm: "Algorithm",
-  firebase: "Firebase",
-  frontend: "Frontend",
-  go: "Go",
-  java: "Java",
-  javascript: "JavaScript",
-  kotlin: "Kotlin",
-  nextjs: "Next.js",
-  react: "React",
-  spring: "Spring",
-};
-
 function formatDate(dateTime: string, locale: Locale): string {
   return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
     year: "numeric",
@@ -55,10 +43,6 @@ function getEntryNumber(id: string): string {
   return id.split("-").at(-1)?.padStart(3, "0") ?? "000";
 }
 
-function getTopicLabel(topic: string): string {
-  return TOPIC_LABELS[topic] ?? topic.replaceAll("-", " ");
-}
-
 function ArticleRow({ article, locale }: PropsWithArticleRow) {
   const articleHref = getLocalizedPath(locale, `articles/${article.slug}`);
 
@@ -70,7 +54,7 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
       >
         <span className="text-subtle font-mono text-[10px]">A{getEntryNumber(article.id)}</span>
         <span className="text-accent font-mono text-[10px] font-semibold tracking-[0.08em] uppercase">
-          {getTopicLabel(article.topic)}
+          {getArticleTopicLabel(article.topic)}
         </span>
         <span className="col-start-2 md:col-start-3 md:row-start-1">
           <strong className="group-hover:text-accent block text-lg leading-7 font-semibold tracking-[-0.025em] transition-colors duration-150 motion-reduce:transition-none md:text-xl">
@@ -139,13 +123,15 @@ export function HomePage({ locale }: PropsWithHomePage) {
             <p className="text-muted mt-6 max-w-[650px] text-base leading-8 md:text-lg md:leading-9">
               {copy.hero.description(careerMonthOrdinal)}
             </p>
-            <a
-              className="text-accent hover:text-accent-hover mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold transition-colors duration-150 motion-reduce:transition-none"
-              href="#latest-articles"
-            >
-              {copy.hero.cta}
-              <span aria-hidden="true">↓</span>
-            </a>
+            {hasArticles ? (
+              <a
+                className="text-accent hover:text-accent-hover mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold transition-colors duration-150 motion-reduce:transition-none"
+                href="#latest-articles"
+              >
+                {copy.hero.cta}
+                <span aria-hidden="true">↓</span>
+              </a>
+            ) : null}
           </div>
 
           <aside className="border-border text-subtle border-t pt-5 font-mono text-[10px] leading-6 lg:mb-2 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 lg:text-[11px]">
@@ -220,7 +206,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                       <div className="relative flex h-full flex-col justify-between">
                         <div className="flex items-start justify-between gap-4 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase">
                           <span className="text-accent">
-                            {getTopicLabel(featuredArticle.topic)}
+                            {getArticleTopicLabel(featuredArticle.topic)}
                           </span>
                           <span className="text-muted">A{getEntryNumber(featuredArticle.id)}</span>
                         </div>
@@ -231,7 +217,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                           <span className="text-muted mb-2 hidden max-w-24 text-right font-mono text-[9px] leading-4 tracking-[0.1em] uppercase sm:block">
                             Filed in
                             <br />
-                            {getTopicLabel(featuredArticle.topic)}
+                            {getArticleTopicLabel(featuredArticle.topic)}
                           </span>
                         </div>
                       </div>
@@ -241,7 +227,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
 
                 <div className="flex flex-col justify-center py-1 md:px-7">
                   <p className="text-muted font-mono text-[10px] tracking-[0.06em] uppercase">
-                    {getTopicLabel(featuredArticle.topic)}
+                    {getArticleTopicLabel(featuredArticle.topic)}
                     {featuredDocument
                       ? ` · ${featuredDocument.readingTimeMinutes} ${copy.featured.readTimeSuffix}`
                       : ""}
@@ -307,9 +293,16 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 </p>
                 <ul className="flex [scrollbar-width:none] gap-5 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
                   {topics.map(({ topic, count }) => (
-                    <li key={topic} className="flex shrink-0 items-center gap-2 text-xs">
-                      <span className="text-foreground font-semibold">{getTopicLabel(topic)}</span>
-                      <span className="text-subtle font-mono text-[9px] tabular-nums">{count}</span>
+                    <li key={topic} className="shrink-0">
+                      <Link
+                        href={getLocalizedPath(locale, `topics/${topic}`)}
+                        className="text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-b border-transparent px-1 text-xs transition-colors hover:border-current"
+                      >
+                        <span className="font-semibold">{getArticleTopicLabel(topic)}</span>
+                        <span className="text-subtle font-mono text-[9px] tabular-nums">
+                          {count}
+                        </span>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -358,17 +351,27 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 </div>
                 <ol>
                   {topics.map(({ topic, count }, index) => (
-                    <li
-                      key={topic}
-                      className="border-border grid grid-cols-[28px_1fr_auto] items-center gap-3 border-b py-4"
-                    >
-                      <span className="text-subtle font-mono text-[9px]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="text-foreground text-sm font-semibold">
-                        {getTopicLabel(topic)}
-                      </span>
-                      <span className="text-subtle font-mono text-[9px] tabular-nums">{count}</span>
+                    <li key={topic} className="border-border border-b">
+                      <Link
+                        href={getLocalizedPath(locale, `topics/${topic}`)}
+                        className="group grid min-h-14 grid-cols-[28px_1fr_auto_16px] items-center gap-3 text-sm"
+                      >
+                        <span className="text-subtle font-mono text-[9px]">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="group-hover:text-accent text-foreground font-semibold transition-colors">
+                          {getArticleTopicLabel(topic)}
+                        </span>
+                        <span className="text-subtle font-mono text-[9px] tabular-nums">
+                          {count}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="text-subtle transition-transform group-hover:translate-x-0.5"
+                        >
+                          →
+                        </span>
+                      </Link>
                     </li>
                   ))}
                 </ol>

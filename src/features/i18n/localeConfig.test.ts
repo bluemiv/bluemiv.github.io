@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   getLanguageAlternates,
+  getLocaleSwitcherPath,
   getLocalizedPath,
   isPrefixedLocale,
   isSupportedLocale,
@@ -39,5 +40,13 @@ describe("localeConfig", () => {
       ja: "/ja/articles/example/",
       "x-default": "/articles/example/",
     });
+  });
+
+  it("언어 메뉴에서 현재 locale은 현 경로를 유지하고 다른 locale은 번역 홈으로 이동한다", () => {
+    expect(getLocaleSwitcherPath("ko", "ko", "/articles/example")).toBe("/articles/example/");
+    expect(getLocaleSwitcherPath("ko", "ko", "/")).toBe("/");
+    expect(getLocaleSwitcherPath("ko", "en", "/articles/example/")).toBe("/en/");
+    expect(getLocaleSwitcherPath("en", "en", "/en/")).toBe("/en/");
+    expect(getLocaleSwitcherPath("en", "ko", "/en/")).toBe("/");
   });
 });

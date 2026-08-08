@@ -26,6 +26,7 @@ export default defineConfig({
         "src/features/article/articleNavigation.ts",
         "src/features/article/articleRepository.ts",
         "src/features/article/articleSeo.ts",
+        "src/features/article/articleTopic.ts",
         "src/features/i18n/localeConfig.ts",
         "src/features/legacyRedirect/legacyRedirects.ts",
         "src/features/navigation/siteNavigation.ts",
@@ -42,6 +43,7 @@ export default defineConfig({
         "src/features/theme/themeConfig.ts",
         "scripts/migrationMetadata.mjs",
         "scripts/policyMigration.mjs",
+        "scripts/staticLinkVerification.mjs",
       ],
       thresholds: {
         branches: 90,

@@ -45,6 +45,7 @@ docs/                설계 문서
 
 - 최상위 `shared`, `widgets`, 별도 `layouts` 계층을 만들지 않는다.
 - 작은 공통 UI는 `components/atoms`, 큰 조합 UI는 `components/widgets`에 둔다.
+- component prop type은 `PropsWith{ComponentName}` 형식을 사용한다.
 - route layout은 `app/**/layout.tsx`만 사용한다.
 - 사용하지 않는 파일과 빈 디렉토리는 제거한다.
 - 가까운 디렉토리의 `AGENTS.md`를 함께 따른다.

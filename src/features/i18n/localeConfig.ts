@@ -22,6 +22,17 @@ export function getLocalizedPath(locale: Locale, path = ""): string {
   return normalizedPath ? `${localePrefix}/${normalizedPath}/` : `${localePrefix}/`;
 }
 
+export function getLocaleSwitcherPath(
+  currentLocale: Locale,
+  targetLocale: Locale,
+  currentPath: string,
+): string {
+  if (currentLocale !== targetLocale) return getLocalizedPath(targetLocale);
+
+  const normalizedPath = currentPath.replace(/^\/+|\/+$/g, "");
+  return normalizedPath ? `/${normalizedPath}/` : "/";
+}
+
 export function getLanguageAlternates(path = "") {
   return {
     ko: getLocalizedPath("ko", path),

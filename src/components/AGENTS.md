@@ -6,7 +6,7 @@
 - 컴포넌트 파일과 export는 PascalCase.
 - 기능 로직은 `features`로 보낸다.
 - 공통 `className` prop은 `PropsWithClassName<TProps>`를 쓴다.
-- prop type은 `PropsWithXxx`, `XxxProps`처럼 역할이 보이게 짓는다.
+- component prop type은 `PropsWith{ComponentName}` 형식으로 짓는다. `XxxProps` 형식은 사용하지 않는다.
 - React prop은 `className` 표기를 유지한다.
 - 한 번 쓰는 단순 wrapper는 만들지 않는다.
 - 디자인 작업 전 `docs/design-system.md`를 확인한다.

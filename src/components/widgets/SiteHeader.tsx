@@ -17,13 +17,13 @@ import {
 } from "@/features/navigation/siteNavigation";
 import { ThemeToggle } from "@/features/theme/ThemeToggle";
 
-type SiteHeaderProps = {
+type PropsWithSiteHeader = {
   locale: Locale;
 };
 
 const MOBILE_NAVIGATION_ID = "mobile-site-navigation";
 
-export function SiteHeader({ locale }: SiteHeaderProps) {
+export function SiteHeader({ locale }: PropsWithSiteHeader) {
   const copy = SITE_COPY[locale];
   const pathname = usePathname();
   const [isCompact, setIsCompact] = useState(false);
@@ -32,10 +32,17 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
   const scrollStateRef = useRef(createHeaderScrollState());
   const href = (path: string) => getLocalizedPath(locale, path);
   const homeHref = getLocalizedPath(locale);
-  const navItems = [
-    { href: href("articles"), label: copy.nav.articles },
-    { href: href("notes"), label: copy.nav.notes },
-  ] as const;
+  const navItems =
+    locale === "ko"
+      ? [
+          {
+            href: href("articles"),
+            label: copy.nav.articles,
+            matchHrefs: [href("articles"), href("topics")],
+          },
+          { href: href("notes"), label: copy.nav.notes, matchHrefs: [href("notes")] },
+        ]
+      : [];
   const shouldUseCompactHeader = isCompact && !isMobileMenuOpen;
 
   useEffect(() => {
@@ -97,95 +104,110 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
             </span>
           </Link>
 
-          <nav aria-label={copy.navigationLabel} className="hidden md:block">
-            <ul className="flex items-center gap-1">
-              {navItems.map((item) => {
-                const isActive = isNavigationPathActive(pathname, item.href);
+          {navItems.length ? (
+            <nav aria-label={copy.navigationLabel} className="hidden md:block">
+              <ul className="flex items-center gap-1">
+                {navItems.map((item) => {
+                  const isActive = item.matchHrefs.some((matchHref) =>
+                    isNavigationPathActive(pathname, matchHref),
+                  );
 
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      aria-current={isActive ? "page" : undefined}
-                      className={`after:bg-accent relative inline-flex min-h-11 items-center px-3 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase transition-colors after:absolute after:right-3 after:bottom-1.5 after:left-3 after:h-px after:origin-left after:transition-transform after:duration-200 motion-reduce:transition-none motion-reduce:after:transition-none ${
-                        isActive
-                          ? "text-foreground after:scale-x-100"
-                          : "text-muted hover:text-foreground after:scale-x-0"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`after:bg-accent relative inline-flex min-h-11 items-center px-3 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase transition-colors after:absolute after:right-3 after:bottom-1.5 after:left-3 after:h-px after:origin-left after:transition-transform after:duration-200 motion-reduce:transition-none motion-reduce:after:transition-none ${
+                          isActive
+                            ? "text-foreground after:scale-x-100"
+                            : "text-muted hover:text-foreground after:scale-x-0"
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          ) : (
+            <span className="hidden md:block" aria-hidden="true" />
+          )}
 
           <div className="border-border flex items-center justify-self-end border-l pl-1 md:pl-3">
-            <LocaleSwitcher locale={locale} />
+            <LocaleSwitcher currentPath={pathname} locale={locale} />
             <ThemeToggle labels={copy.theme} />
-            <button
-              ref={menuButtonRef}
-              type="button"
-              className="text-muted hover:text-foreground inline-flex size-11 items-center justify-center transition-colors md:hidden"
-              aria-controls={MOBILE_NAVIGATION_ID}
-              aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? copy.mobileMenu.close : copy.mobileMenu.open}
-              onClick={() => setIsMobileMenuOpen((current) => !current)}
-            >
-              {isMobileMenuOpen ? (
-                <X aria-hidden="true" size={18} />
-              ) : (
-                <Menu aria-hidden="true" size={18} />
-              )}
-            </button>
+            {navItems.length ? (
+              <button
+                ref={menuButtonRef}
+                type="button"
+                className="text-muted hover:text-foreground inline-flex size-11 items-center justify-center transition-colors md:hidden"
+                aria-controls={MOBILE_NAVIGATION_ID}
+                aria-expanded={isMobileMenuOpen}
+                aria-label={isMobileMenuOpen ? copy.mobileMenu.close : copy.mobileMenu.open}
+                onClick={() => setIsMobileMenuOpen((current) => !current)}
+              >
+                {isMobileMenuOpen ? (
+                  <X aria-hidden="true" size={18} />
+                ) : (
+                  <Menu aria-hidden="true" size={18} />
+                )}
+              </button>
+            ) : null}
           </div>
         </Container>
       </div>
 
-      <div
-        id={MOBILE_NAVIGATION_ID}
-        aria-hidden={!isMobileMenuOpen}
-        className={`border-border bg-canvas/92 absolute inset-x-0 top-full border-b backdrop-blur-2xl transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none md:hidden ${
-          isMobileMenuOpen
-            ? "visible translate-y-0 opacity-100"
-            : "pointer-events-none invisible -translate-y-2 opacity-0"
-        }`}
-      >
-        <Container className="py-3">
-          <nav aria-label={copy.navigationLabel}>
-            <ul>
-              {navItems.map((item, index) => {
-                const isActive = isNavigationPathActive(pathname, item.href);
+      {navItems.length ? (
+        <div
+          id={MOBILE_NAVIGATION_ID}
+          aria-hidden={!isMobileMenuOpen}
+          className={`border-border bg-canvas/92 absolute inset-x-0 top-full border-b backdrop-blur-2xl transition-[opacity,transform,visibility] duration-200 ease-out motion-reduce:transition-none md:hidden ${
+            isMobileMenuOpen
+              ? "visible translate-y-0 opacity-100"
+              : "pointer-events-none invisible -translate-y-2 opacity-0"
+          }`}
+        >
+          <Container className="py-3">
+            <nav aria-label={copy.navigationLabel}>
+              <ul>
+                {navItems.map((item, index) => {
+                  const isActive = item.matchHrefs.some((matchHref) =>
+                    isNavigationPathActive(pathname, matchHref),
+                  );
 
-                return (
-                  <li key={item.href} className="border-border border-b last:border-b-0">
-                    <Link
-                      href={item.href}
-                      aria-current={isActive ? "page" : undefined}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`grid min-h-14 grid-cols-[36px_1fr_20px] items-center gap-3 transition-colors ${
-                        isActive ? "text-foreground" : "text-muted hover:text-foreground"
-                      }`}
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={`font-mono text-[9px] ${isActive ? "text-accent" : "text-subtle"}`}
+                  return (
+                    <li key={item.href} className="border-border border-b last:border-b-0">
+                      <Link
+                        href={item.href}
+                        aria-current={isActive ? "page" : undefined}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`grid min-h-14 grid-cols-[36px_1fr_20px] items-center gap-3 transition-colors ${
+                          isActive ? "text-foreground" : "text-muted hover:text-foreground"
+                        }`}
                       >
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="text-sm font-semibold">{item.label}</span>
-                      <span aria-hidden="true" className={isActive ? "text-accent" : "text-subtle"}>
-                        →
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-        </Container>
-      </div>
+                        <span
+                          aria-hidden="true"
+                          className={`font-mono text-[9px] ${isActive ? "text-accent" : "text-subtle"}`}
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="text-sm font-semibold">{item.label}</span>
+                        <span
+                          aria-hidden="true"
+                          className={isActive ? "text-accent" : "text-subtle"}
+                        >
+                          →
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </Container>
+        </div>
+      ) : null}
     </header>
   );
 }

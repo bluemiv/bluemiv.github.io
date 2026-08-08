@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-type StaticRedirectPageProps = {
+type PropsWithStaticRedirectPage = {
   destination: string;
   message: string;
 };
 
-export function StaticRedirectPage({ destination, message }: StaticRedirectPageProps) {
+export function StaticRedirectPage({ destination, message }: PropsWithStaticRedirectPage) {
   const redirectScript = `window.location.replace(${JSON.stringify(destination)});`;
 
   return (

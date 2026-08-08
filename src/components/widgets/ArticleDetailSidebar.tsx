@@ -1,6 +1,10 @@
+import Link from "next/link";
+
 import { ArticleTableOfContents } from "@/components/widgets/ArticleTableOfContents";
-import type { ArticleHeading } from "@/features/article/articleDocument";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
+import type { ArticleHeading } from "@/features/article/articleDocument";
+import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import { getLocalizedPath } from "@/features/i18n/localeConfig";
 
 type PropsWithArticleDetailSidebar = {
   articleId: string;
@@ -19,8 +23,13 @@ export function ArticleDetailSidebar({
         <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
           Article context
         </p>
-        <h2 id="article-context-title" className="mt-3 text-lg font-semibold uppercase">
-          {topic}
+        <h2 id="article-context-title" className="mt-3 text-lg font-semibold">
+          <Link
+            href={getLocalizedPath("ko", `topics/${topic}`)}
+            className="hover:text-accent transition-colors"
+          >
+            {getArticleTopicLabel(topic)}
+          </Link>
         </h2>
         <p className="text-subtle mt-2 font-mono text-[10px] uppercase">
           {articleId.replace("article-", "Entry / ")}

@@ -10,6 +10,7 @@ import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import type { ArticleHeading } from "@/features/article/articleDocument";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import type { ArticleNavigation } from "@/features/article/articleNavigation";
+import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 
 type PropsWithArticleDetailPage = PropsWithChildren<{
@@ -56,7 +57,13 @@ export function ArticleDetailPage({
             <div className="mt-8 flex items-center gap-4">
               <span className="bg-accent h-px w-8" aria-hidden="true" />
               <p className="text-accent font-mono text-[10px] font-semibold tracking-[0.16em] uppercase">
-                {article.topic} / {article.id.replace("article-", "")}
+                <Link
+                  href={getLocalizedPath("ko", `topics/${article.topic}`)}
+                  className="hover:text-accent-hover underline-offset-4 hover:underline"
+                >
+                  {getArticleTopicLabel(article.topic)}
+                </Link>{" "}
+                / {article.id.replace("article-", "")}
               </p>
             </div>
 

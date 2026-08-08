@@ -1,11 +1,11 @@
 import { Container } from "@/components/atoms/Container";
 import type { PolicyDocument } from "@/features/policy/policyDocuments";
 
-type PolicyDocumentPageProps = {
+type PropsWithPolicyDocumentPage = {
   document: PolicyDocument;
 };
 
-export function PolicyDocumentPage({ document }: PolicyDocumentPageProps) {
+export function PolicyDocumentPage({ document }: PropsWithPolicyDocumentPage) {
   return (
     <Container className="py-14 md:py-20">
       <div className="mx-auto max-w-[820px]">

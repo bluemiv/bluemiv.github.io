@@ -1,0 +1,158 @@
+import Link from "next/link";
+
+import { Container } from "@/components/atoms/Container";
+import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout";
+import { ArticleSidebar, MobileTopicIndex } from "@/components/widgets/ArticleSidebar";
+import { SITE_CONFIG } from "@/config/siteConfig";
+import { AdSenseScript } from "@/features/adsense/AdSenseScript";
+import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
+import type { ArticleTopicSummary } from "@/features/article/articleCollection";
+import type { ArticleMetadata } from "@/features/article/articleMetadata";
+import { getArticleDocument } from "@/features/article/articleRepository";
+import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+
+type PropsWithArticlesArchivePage = {
+  activeTopic: string | null;
+  articles: readonly ArticleMetadata[];
+  locale: Locale;
+  topics: readonly ArticleTopicSummary[];
+  totalArticleCount: number;
+};
+
+type PropsWithArticleArchiveRow = {
+  article: ArticleMetadata;
+  locale: Locale;
+};
+
+const DATE_LOCALES: Record<Locale, string> = {
+  ko: "ko-KR",
+  en: "en-US",
+  ja: "ja-JP",
+};
+
+function formatArticleDate(dateTime: string, locale: Locale): string {
+  return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: SITE_CONFIG.timeZone,
+  }).format(new Date(dateTime));
+}
+
+function getArticleNumber(id: string): string {
+  return id.replace("article-", "").padStart(3, "0");
+}
+
+function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
+  const document = getArticleDocument(article.slug, locale);
+
+  return (
+    <article className="border-border border-b">
+      <Link
+        href={getLocalizedPath(locale, `articles/${article.slug}`)}
+        className="group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_104px] md:items-start"
+      >
+        <span className="text-subtle font-mono text-[10px]">A{getArticleNumber(article.id)}</span>
+        <span className="text-accent font-mono text-[10px] font-semibold tracking-[0.06em] uppercase">
+          {getArticleTopicLabel(article.topic)}
+        </span>
+        <span className="col-span-2 md:col-span-1">
+          <strong className="group-hover:text-accent block text-lg leading-7 font-semibold tracking-[-0.025em] transition-colors md:text-xl">
+            {article.title}
+          </strong>
+          <span className="text-muted mt-2 line-clamp-2 block text-sm leading-6">
+            {article.description}
+          </span>
+        </span>
+        <span className="text-subtle col-span-2 flex gap-3 font-mono text-[10px] tabular-nums md:col-span-1 md:block md:text-right">
+          <time dateTime={article.publishedAt} className="block">
+            {formatArticleDate(article.publishedAt, locale)}
+          </time>
+          {document ? <span className="mt-1 block">{document.readingTimeMinutes} MIN</span> : null}
+        </span>
+      </Link>
+    </article>
+  );
+}
+
+export function ArticlesArchivePage({
+  activeTopic,
+  articles,
+  locale,
+  topics,
+  totalArticleCount,
+}: PropsWithArticlesArchivePage) {
+  const activeTopicLabel = activeTopic ? getArticleTopicLabel(activeTopic) : null;
+  const topicNavigationProps = { activeTopic, locale, topics, totalArticleCount };
+
+  return (
+    <>
+      <AdSenseScript />
+      <Container className="py-16 md:py-24">
+        <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
+          <p className="text-accent mb-5 font-mono text-[10px] font-bold tracking-[0.18em] uppercase">
+            Articles / {activeTopicLabel ?? "Archive"}
+          </p>
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep md:text-6xl">
+                {activeTopicLabel ? `${activeTopicLabel} 글` : "기술 글"}
+              </h1>
+              <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
+                {activeTopicLabel
+                  ? `${activeTopicLabel} 주제로 분류한 문제 해결 과정과 선택의 이유를 모았습니다.`
+                  : "개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류해 기록합니다."}
+              </p>
+            </div>
+            <span className="text-subtle hidden pb-2 font-mono text-[10px] tabular-nums sm:block">
+              {String(articles.length).padStart(3, "0")} ENTRIES
+            </span>
+          </div>
+        </header>
+
+        <div className="mt-10 xl:mt-16">
+          <ArticleArchiveLayout sidebar={<ArticleSidebar {...topicNavigationProps} />}>
+            <MobileTopicIndex {...topicNavigationProps} />
+
+            <section className="mt-10 xl:mt-0" aria-labelledby="article-list-title">
+              <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+                    Latest first
+                  </p>
+                  <h2
+                    id="article-list-title"
+                    className="mt-2 text-sm font-bold tracking-[0.08em] uppercase"
+                  >
+                    {activeTopicLabel ? `${activeTopicLabel} articles` : "All articles"}
+                  </h2>
+                </div>
+                <p className="text-muted text-xs">최신 발행순 · {articles.length}개</p>
+              </div>
+
+              {articles.length ? (
+                <ol>
+                  {articles.map((article, index) => (
+                    <li key={article.id}>
+                      <ArticleArchiveRow article={article} locale={locale} />
+                      {index === 2 && articles.length > 3 ? (
+                        <div className="xl:hidden">
+                          <AdSenseSlot format="banner" />
+                        </div>
+                      ) : null}
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <p className="border-border text-muted border-b py-14 text-sm leading-7">
+                  이 주제에 공개된 글이 없습니다.
+                </p>
+              )}
+            </section>
+          </ArticleArchiveLayout>
+        </div>
+      </Container>
+    </>
+  );
+}

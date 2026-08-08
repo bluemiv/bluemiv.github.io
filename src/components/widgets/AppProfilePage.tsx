@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Container } from "@/components/atoms/Container";
 import type { AppProfile } from "@/features/app/appProfiles";
 
-type AppProfilePageProps = {
+type PropsWithAppProfilePage = {
   profile: AppProfile;
 };
 
-export function AppProfilePage({ profile }: AppProfilePageProps) {
+export function AppProfilePage({ profile }: PropsWithAppProfilePage) {
   return (
     <Container className="py-16 md:py-24">
       <article lang={profile.locale} className="app-profile mx-auto max-w-[920px]">

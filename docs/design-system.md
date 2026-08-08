@@ -366,6 +366,7 @@ Hero:
 - hero와 status panel은 `lg`부터 2-column으로 분리한다. tablet에서는 제목 폭을 우선하고 status를 하단 1행으로 둔다.
 - `800px` 높이의 일반 노트북 화면에서 다음 콘텐츠의 시작이 보여야 한다.
 - hero 안에 CTA는 최대 1개.
+- 해당 locale에 공개 article이 없으면 빈 Latest section으로 이동하는 hero CTA를 노출하지 않는다.
 
 Featured article:
 
@@ -392,7 +393,7 @@ Home discovery rail:
 
 - `xl` 이상에서 Latest articles 오른쪽에 `300px` rail을 둔다.
 - rail에는 실제 article metadata에서 집계한 상위 topic 6개와 광고 1개만 둔다.
-- topic route 연결 전 topic index는 정보 목록으로 표시하고 가짜 link를 만들지 않는다.
+- topic은 실제 `/topics/{topic}/` archive로 연결하고 글 수를 함께 표시한다.
 - `xl` 미만에서는 topic index를 latest 목록 위 horizontal list로 옮기고 광고를 세 번째 article 뒤에 둔다.
 - home rail은 해당 section의 탐색 보조 영역이며 site-wide sidebar나 sticky 영역으로 사용하지 않는다.
 
@@ -405,15 +406,20 @@ Short notes:
 ### 9.2 Articles archive
 
 - 상단에 짧은 H1과 전체 글 수.
-- topic/tag filter는 text tab 또는 compact chip.
+- topic filter는 `/articles/`와 `/topics/{topic}/` 정적 route를 사용하는 text link다.
+- 선택 topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
 - 글 목록은 home latest pattern과 동일한 문법 사용.
-- pagination은 페이지 번호와 이전/다음 관계가 명확해야 한다.
+- 현재 43개 article은 최신순 단일 archive에 모두 표시한다. pagination이 없으면 page 번호나 이동 affordance를 만들지 않는다.
+- pagination 도입 시 실제 route와 이전/다음 관계를 함께 구현하고 placeholder control을 먼저 노출하지 않는다.
 - `xl` 이상에서는 `760px` 글 목록과 `300px` sidebar를 `60px` 간격으로 배치한다.
-- archive sidebar 순서는 topic index, `300×250` 광고, 추천 글이다.
-- topic과 추천 글은 카드가 아니라 divider 기반 text list로 표현한다.
+- archive sidebar 기본 순서는 실제 topic index, `300×250` 광고다.
+- 추천 글은 실제 article link와 선정 기준이 있을 때만 추가한다. 가짜 제목이나 준비 중 label을 노출하지 않는다.
 - `xl` 미만에서는 sidebar를 제거하고 topic index를 목록 위 horizontal scroll로 옮긴다.
+- mobile topic archive에서는 선택 topic을 `All articles` 바로 뒤로 옮겨 좁은 viewport에서도 현재 상태가 처음부터 보이게 한다.
 - mobile/tablet 광고는 글 목록의 세 번째 또는 네 번째 항목 뒤에 가로 슬롯으로 배치한다.
+- archive의 제목, 설명, 날짜, 읽기 시간, topic count는 MDX repository의 build-time 데이터만 사용한다.
+- `/topics/{topic}/`에서도 Header의 Articles navigation을 active로 유지한다.
 
 ### 9.3 Article detail
 
@@ -438,6 +444,7 @@ Short notes:
 - 클릭 가능한 topic/tag만 chip 허용.
 - author/date/read time을 pill로 만들지 않는다.
 - cover는 최대 폭을 넓힐 수 있지만 본문 rhythm을 깨지 않는다.
+- 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.
 - desktop sidebar는 topic 탐색, 광고, TOC, 관련 article을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
 - desktop TOC는 sidebar 내부 thin rail이며 TOC만 sticky를 허용한다. 별도 heavy card 금지.
 - 광고는 sticky로 만들지 않는다.
@@ -497,6 +504,8 @@ Short notes:
 - header surface는 `canvas 80%`와 `backdrop-blur-xl`을 사용해 본문과 분리하되 배경 흐름을 남긴다.
 - desktop은 logo, 중앙 primary navigation, utility control의 3영역으로 구성한다.
 - active navigation은 text와 1px accent rail을 함께 사용한다.
+- locale에 실제 archive/detail route가 없으면 해당 primary navigation과 mobile menu trigger를 노출하지 않는다. 404 link를 구조 보존용으로 두지 않는다.
+- 언어 메뉴의 현재 locale은 현 경로를 유지한다. 대응 번역 route가 없는 다른 locale은 존재하지 않는 경로 대신 해당 locale 홈으로 이동한다.
 - 아래로 `32px` 이상 scroll하면 compact, 위로 `16px` 이상 scroll하면 기본 높이로 전환한다.
 - mobile menu에서 모든 primary navigation을 제공한다.
 - header 상단과 mobile menu는 서로 독립된 blur surface로 구성해 중첩 `backdrop-filter`를 만들지 않는다.
@@ -591,10 +600,10 @@ Short notes:
 - 적용 페이지: article archive, topic archive, article detail, 충분한 결과가 있는 search page.
 - 제외 페이지: home, notes, app detail, privacy/policy, 404.
 - width는 `300px`로 고정하고 main column을 `720px` 아래로 줄이지 않는다.
-- archive 기본 순서는 topic index, 광고, 추천 글이다.
+- archive 기본 순서는 topic index, 광고다. 추천 글은 실제 link와 선정 기준이 있을 때만 뒤에 추가한다.
 - article detail에서는 topic, 광고, TOC, 같은 topic article 순서를 기본으로 하되 글 길이에 따라 조정할 수 있다.
 - topic index는 번호, 이름, 글 수를 사용한 divider list로 표현한다.
-- 추천 글은 image card가 아닌 compact text list를 우선한다.
+- 추천 글을 추가하면 image card가 아닌 compact text list를 우선한다.
 - sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
 - `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. topic, 광고, TOC, 관련 article을 각자의 mobile reading order로 재배치한다.
 - home의 Latest articles 옆 discovery rail은 Blog sidebar와 별도 패턴이다. Home 규칙의 제한된 콘텐츠만 사용한다.
@@ -863,9 +872,8 @@ text-accent / bg-accent / border-accent
 2. search interaction
 3. 전체 페이지 responsive visual QA
 4. `theme-color` 동기화 검토
-5. topic archive route 연결
-6. article comments 서비스 연결
-7. 지역별 consent/CMP 운영 설정 최종 확인
+5. article comments 서비스 연결
+6. 지역별 consent/CMP 운영 설정 최종 확인
 
 ## 20. 변경 관리
 

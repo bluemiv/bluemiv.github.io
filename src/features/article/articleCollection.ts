@@ -36,3 +36,10 @@ export function summarizeArticleTopics(
     .sort((left, right) => right.count - left.count || left.topic.localeCompare(right.topic))
     .slice(0, Math.max(0, topicLimit));
 }
+
+export function filterArticlesByTopic(
+  articles: readonly ArticleMetadata[],
+  topic: string | null,
+): ArticleMetadata[] {
+  return topic ? articles.filter((article) => article.topic === topic) : [...articles];
+}

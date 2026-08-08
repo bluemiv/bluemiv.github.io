@@ -48,6 +48,7 @@
 - 경로 생성 함수: `getXxxPath`.
 - 판별 함수: `isXxx`.
 - React prop은 `className`을 사용한다.
+- component prop type은 `PropsWith{ComponentName}` 형식을 쓴다. 예: `PropsWithSiteHeader`.
 - 공통 prop utility는 `PropsWithXxx<TProps>` 형식을 쓴다.
 
 ## URL

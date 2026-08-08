@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import type { ArticleMetadata } from "./articleMetadata";
-import { selectHomeArticles, summarizeArticleTopics } from "./articleCollection";
+import {
+  filterArticlesByTopic,
+  selectHomeArticles,
+  summarizeArticleTopics,
+} from "./articleCollection";
 
 function createArticle(id: string, topic: string): ArticleMetadata {
   return {
@@ -50,5 +54,14 @@ describe("articleCollection", () => {
   it("topic 제한값 경계를 처리한다", () => {
     expect(summarizeArticleTopics([], 3)).toEqual([]);
     expect(summarizeArticleTopics(ARTICLES, -1)).toEqual([]);
+  });
+
+  it("선택한 topic만 필터링하고 선택이 없으면 전체를 유지한다", () => {
+    expect(filterArticlesByTopic(ARTICLES, "react").map(({ id }) => id)).toEqual([
+      "article-004",
+      "article-002",
+    ]);
+    expect(filterArticlesByTopic(ARTICLES, "missing")).toEqual([]);
+    expect(filterArticlesByTopic(ARTICLES, null)).toEqual(ARTICLES);
   });
 });

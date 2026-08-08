@@ -1,8 +1,8 @@
-type AdSlotPlaceholderProps = {
+type PropsWithAdSlotPlaceholder = {
   format: "banner" | "sidebar";
 };
 
-export function AdSlotPlaceholder({ format }: AdSlotPlaceholderProps) {
+export function AdSlotPlaceholder({ format }: PropsWithAdSlotPlaceholder) {
   const isSidebar = format === "sidebar";
 
   return (

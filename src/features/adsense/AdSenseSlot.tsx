@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { ADSENSE_CONFIG } from "./adSenseConfig";
 import { AdSlotPlaceholder } from "./AdSlotPlaceholder";
 
-type AdSenseSlotProps = {
+type PropsWithAdSenseSlot = {
   format: "banner" | "sidebar";
 };
 
@@ -33,7 +33,7 @@ function useMediaQuery(query: string): boolean | null {
   return useSyncExternalStore(subscribe, getSnapshot, getServerViewportSnapshot);
 }
 
-export function AdSenseSlot({ format }: AdSenseSlotProps) {
+export function AdSenseSlot({ format }: PropsWithAdSenseSlot) {
   const isSidebar = format === "sidebar";
   const matchesViewport = useMediaQuery(isSidebar ? "(min-width: 1280px)" : "(max-width: 1279px)");
   const adRef = useRef<HTMLModElement>(null);

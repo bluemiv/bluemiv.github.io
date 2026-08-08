@@ -1,101 +1,121 @@
+import Link from "next/link";
+
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
+import type { ArticleTopicSummary } from "@/features/article/articleCollection";
+import { getArticleTopicLabel } from "@/features/article/articleTopic";
+import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 
-const TOPIC_FILTERS = [
-  { name: "All articles", count: 87, active: true },
-  { name: "Spring", count: 24, active: false },
-  { name: "Java", count: 19, active: false },
-  { name: "JavaScript", count: 15, active: false },
-  { name: "React", count: 12, active: false },
-  { name: "Next.js", count: 8, active: false },
-  { name: "Algorithm", count: 6, active: false },
-] as const;
+type PropsWithArticleTopicNavigation = {
+  activeTopic: string | null;
+  locale: Locale;
+  topics: readonly ArticleTopicSummary[];
+  totalArticleCount: number;
+};
 
-const RECOMMENDED_ARTICLES = [
-  { number: "01", title: "Spring 애플리케이션의 경계를 나누는 기준" },
-  { number: "02", title: "React 상태를 어디까지 끌어올려야 할까" },
-  { number: "03", title: "정적 블로그를 다시 설계하며 정한 것들" },
-] as const;
+function getTopicPath(locale: Locale, topic: string | null): string {
+  return getLocalizedPath(locale, topic ? `topics/${topic}` : "articles");
+}
 
-export function MobileTopicIndex() {
+function getTopicItems({
+  activeTopic,
+  locale,
+  topics,
+  totalArticleCount,
+}: PropsWithArticleTopicNavigation) {
+  return [
+    {
+      href: getTopicPath(locale, null),
+      label: "All articles",
+      count: totalArticleCount,
+      isActive: activeTopic === null,
+    },
+    ...topics.map(({ topic, count }) => ({
+      href: getTopicPath(locale, topic),
+      label: getArticleTopicLabel(topic),
+      count,
+      isActive: topic === activeTopic,
+    })),
+  ];
+}
+
+export function MobileTopicIndex(props: PropsWithArticleTopicNavigation) {
+  const items = getTopicItems(props);
+  const activeItem = items.find((item) => item.isActive);
+  const mobileItems =
+    activeItem && activeItem !== items[0]
+      ? [items[0], activeItem, ...items.slice(1).filter((item) => item !== activeItem)]
+      : items;
+
   return (
-    <section className="border-border border-b pb-6 xl:hidden" aria-labelledby="mobile-topic-title">
+    <nav className="border-border border-b pb-6 xl:hidden" aria-labelledby="mobile-topic-title">
       <h2
         id="mobile-topic-title"
-        className="text-subtle mb-4 font-mono text-[10px] tracking-[0.16em] uppercase"
+        className="text-subtle mb-3 font-mono text-[10px] tracking-[0.16em] uppercase"
       >
         Browse by topic
       </h2>
-      <ul className="flex [scrollbar-width:none] gap-6 overflow-x-auto pb-2 text-sm [&::-webkit-scrollbar]:hidden">
-        {TOPIC_FILTERS.map((topic) => (
-          <li
-            key={topic.name}
-            className={`flex shrink-0 items-center gap-2 whitespace-nowrap ${
-              topic.active ? "text-accent font-semibold" : "text-muted"
-            }`}
-          >
-            <span>{topic.name}</span>
-            <span className="text-subtle font-mono text-[10px]">{topic.count}</span>
+      <ul className="flex [scrollbar-width:none] gap-2 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden">
+        {mobileItems.map((item) => (
+          <li key={item.href} className="shrink-0">
+            <Link
+              href={item.href}
+              aria-current={item.isActive ? "page" : undefined}
+              className={`inline-flex min-h-11 items-center gap-2 border-b px-2 text-sm whitespace-nowrap transition-colors ${
+                item.isActive
+                  ? "border-accent text-accent font-semibold"
+                  : "text-muted hover:text-foreground border-transparent"
+              }`}
+            >
+              <span>{item.label}</span>
+              <span className="text-subtle font-mono text-[10px] tabular-nums">{item.count}</span>
+            </Link>
           </li>
         ))}
       </ul>
-    </section>
+    </nav>
   );
 }
 
-export function ArticleSidebar() {
+export function ArticleSidebar(props: PropsWithArticleTopicNavigation) {
+  const items = getTopicItems(props);
+
   return (
     <aside className="hidden w-[300px] xl:block" aria-label="글 탐색과 광고">
-      <section aria-labelledby="topic-title">
+      <nav aria-labelledby="topic-title">
         <div className="border-border flex items-end justify-between border-b pb-4">
           <h2 id="topic-title" className="text-xs font-bold tracking-[0.08em] uppercase">
             Browse by topic
           </h2>
-          <span className="text-subtle font-mono text-[9px]">07 TOPICS</span>
+          <span className="text-subtle font-mono text-[9px] tabular-nums">
+            {String(props.topics.length).padStart(2, "0")} TOPICS
+          </span>
         </div>
         <ol>
-          {TOPIC_FILTERS.map((topic, index) => (
-            <li
-              key={topic.name}
-              className={`border-border grid grid-cols-[28px_1fr_auto] items-center gap-3 border-b py-4 text-sm ${
-                topic.active ? "border-l-accent text-accent border-l pl-3" : "text-muted"
-              }`}
-            >
-              <span className="text-subtle font-mono text-[10px]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className={topic.active ? "font-semibold" : undefined}>{topic.name}</span>
-              <span className="text-subtle font-mono text-[10px]">{topic.count}</span>
+          {items.map((item, index) => (
+            <li key={item.href} className="border-border border-b">
+              <Link
+                href={item.href}
+                aria-current={item.isActive ? "page" : undefined}
+                className={`grid min-h-14 grid-cols-[28px_1fr_auto] items-center gap-3 py-3 text-sm transition-colors ${
+                  item.isActive
+                    ? "border-l-accent text-accent border-l pl-3 font-semibold"
+                    : "text-muted hover:text-foreground"
+                }`}
+              >
+                <span className="text-subtle font-mono text-[10px]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span>{item.label}</span>
+                <span className="text-subtle font-mono text-[10px] tabular-nums">{item.count}</span>
+              </Link>
             </li>
           ))}
         </ol>
-      </section>
+      </nav>
 
       <div className="mt-12">
         <AdSenseSlot format="sidebar" />
       </div>
-
-      <section className="mt-14" aria-labelledby="recommended-title">
-        <div className="border-border border-b pb-4">
-          <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
-            Next reading
-          </p>
-          <h2 id="recommended-title" className="mt-2 text-xs font-bold tracking-[0.08em] uppercase">
-            추천 글
-          </h2>
-        </div>
-        <ol>
-          {RECOMMENDED_ARTICLES.map((article) => (
-            <li
-              key={article.number}
-              className="border-border grid grid-cols-[28px_1fr] gap-3 border-b py-4"
-            >
-              <span className="text-accent font-mono text-[10px]">{article.number}</span>
-              <span className="text-muted text-sm leading-6">{article.title}</span>
-            </li>
-          ))}
-        </ol>
-        <p className="text-subtle mt-4 font-mono text-[9px] leading-5">콘텐츠 이관 후 링크 연결</p>
-      </section>
     </aside>
   );
 }

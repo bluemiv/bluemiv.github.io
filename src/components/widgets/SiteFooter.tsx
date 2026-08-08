@@ -4,11 +4,11 @@ import { Container } from "@/components/atoms/Container";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { SITE_COPY } from "@/features/i18n/translations";
 
-type SiteFooterProps = {
+type PropsWithSiteFooter = {
   locale: Locale;
 };
 
-export function SiteFooter({ locale }: SiteFooterProps) {
+export function SiteFooter({ locale }: PropsWithSiteFooter) {
   const copy = SITE_COPY[locale];
   const currentYear = new Date().getFullYear();
   const href = (path: string) => getLocalizedPath(locale, path);
@@ -28,12 +28,22 @@ export function SiteFooter({ locale }: SiteFooterProps) {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 text-xs md:justify-end">
-          <Link
-            className="hover:text-foreground inline-flex min-h-11 items-center"
-            href={href("articles")}
-          >
-            Articles
-          </Link>
+          {locale === "ko" ? (
+            <>
+              <Link
+                className="hover:text-foreground inline-flex min-h-11 items-center"
+                href={href("articles")}
+              >
+                Articles
+              </Link>
+              <Link
+                className="hover:text-foreground inline-flex min-h-11 items-center"
+                href={href("notes")}
+              >
+                Notes
+              </Link>
+            </>
+          ) : null}
           <a
             className="hover:text-foreground inline-flex min-h-11 items-center"
             href="https://github.com/bluemiv"

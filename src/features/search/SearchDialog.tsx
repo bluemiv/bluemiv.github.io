@@ -197,14 +197,14 @@ export function SearchDialog({
         className="border-border border-b px-4 py-4 sm:px-6"
         onSubmit={(event) => event.preventDefault()}
       >
-        <label className="border-border-strong focus-within:border-accent bg-surface flex min-h-12 items-center gap-3 border px-4 transition-colors">
+        <label className="border-border-strong focus-within:border-accent bg-surface focus-within:bg-accent-soft/20 flex min-h-12 items-center gap-3 border px-4 transition-colors">
           <Search className="text-subtle shrink-0" aria-hidden="true" size={18} />
           <span className="sr-only">{copy.label}</span>
           <input
             ref={inputRef}
             type="search"
             autoComplete="off"
-            className="placeholder:text-subtle min-w-0 flex-1 bg-transparent text-base outline-none"
+            className="site-search-input placeholder:text-subtle min-w-0 flex-1 bg-transparent text-base outline-none"
             placeholder={copy.placeholder}
             value={query}
             onChange={(event) => handleQueryChange(event.target.value)}

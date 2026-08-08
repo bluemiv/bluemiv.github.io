@@ -225,6 +225,10 @@ select {
   outline-offset: 3px;
 }
 
+.site-search-input:focus-visible {
+  outline: none;
+}
+
 ::view-transition {
   pointer-events: none;
 }

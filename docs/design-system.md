@@ -673,6 +673,8 @@ Short notes:
 - dialog는 최대 `720px`, radius `8px`, canvas 배경과 어두운 blur backdrop을 사용한다.
 - mobile dialog는 viewport 좌우 최소 `12px`, 위아래 최소 `16px`를 남기고 내부 결과만 scroll한다.
 - 모든 trigger, filter, close control은 최소 `44px` target을 유지한다.
+- 검색 field focus는 바깥 container의 1px accent border와 quiet surface 변화로만 표시한다. input
+  자체 outline을 겹치지 않는다.
 - query는 trim과 반복 공백 정리 후 두 글자부터 실행하고 `160ms` 지연으로 입력 중 요청을 줄인다.
 - `pnpm dev`에는 생성된 index가 없으므로 실패 대신 `pnpm start` 정적 미리보기 안내를 표시한다.
 - reduced motion에서는 dialog transition을 제거한다.

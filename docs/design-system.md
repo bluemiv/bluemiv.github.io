@@ -425,6 +425,12 @@ Short notes:
 - 상단에 짧은 H1과 전체 글 수.
 - sidebar filter는 `/categories/{category}/`와 `/topics/{topic}/` 정적 route를 사용하는 2단
   text navigation이다. category는 1차 분야, topic은 들여쓴 2차 기술로 표시한다.
+- desktop filter의 category는 독립된 link와 44px 이상의 toggle button으로 구성한 accordion이다.
+  전체 글에서는 category를 기본으로 접고, category/topic archive에서는 현재 category만 자동으로
+  펼친다. 한 번에 하나의 category만 열며 접힌 topic link는 keyboard와 accessibility tree에서
+  제외한다.
+- category header와 topic row는 같은 폭의 horizontal divider와 같은 위치의 active left rail을
+  사용한다. 선택되지 않은 topic마다 세로 border를 반복하지 않는다.
 - 선택 category/topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
 - 글 목록은 home latest pattern과 동일한 문법 사용.
@@ -649,6 +655,12 @@ Short notes:
   길이에 따라 조정할 수 있다.
 - taxonomy index는 category 번호·이름·글 수와 들여쓴 topic 번호·이름·글 수를 사용한 divider
   list로 표현한다.
+- archive taxonomy의 category는 접을 수 있으며 category link와 toggle을 분리한다. 현재
+  category는 최초 렌더링에서 펼치고, toggle은 `aria-expanded`, `aria-controls`와 최소 44px target을
+  제공한다.
+- category와 topic은 full-width horizontal divider로 한 hierarchy임을 보여 준다. active left
+  rail은 두 단계 모두 같은 위치와 두께를 사용하고, inactive topic에는 neutral vertical rail을
+  반복하지 않는다.
 - 추천 글을 추가하면 image card가 아닌 compact text list를 우선한다.
 - sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
 - `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. category/topic, 광고, TOC, 관련

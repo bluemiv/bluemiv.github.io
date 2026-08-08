@@ -11,6 +11,8 @@ import {
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
+import { ArticleTaxonomyAccordion } from "./ArticleTaxonomyAccordion";
+
 type PropsWithArticleTaxonomyNavigation = {
   activeCategory: ArticleCategory | null;
   activeTopic: ArticleTopic | null;
@@ -136,72 +138,25 @@ export function ArticleSidebar({
           href={getLocalizedPath(locale, "articles")}
           transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
           aria-current={activeCategory === null && activeTopic === null ? "page" : undefined}
-          className={`border-border grid min-h-14 grid-cols-[28px_1fr_auto] items-center gap-3 border-b py-3 text-sm transition-colors ${
+          className={`border-border grid min-h-14 grid-cols-[28px_minmax(0,1fr)_auto_44px] items-center gap-3 border-b border-l-2 text-sm transition-colors duration-150 motion-reduce:transition-none ${
             activeCategory === null && activeTopic === null
-              ? "border-l-accent text-accent border-l pl-3 font-semibold"
-              : "text-muted hover:text-foreground"
+              ? "border-l-accent text-accent font-semibold"
+              : "text-muted hover:text-foreground border-l-transparent"
           }`}
         >
-          <span className="text-subtle font-mono text-xs">00</span>
+          <span className="text-subtle pl-3 font-mono text-xs">00</span>
           <span>All articles</span>
           <span className="text-muted font-mono text-xs tabular-nums">{totalArticleCount}</span>
+          <span aria-hidden="true" className="size-11" />
         </Link>
 
-        <ol>
-          {taxonomy.map((categorySummary, categoryIndex) => {
-            const isCategoryActive = categorySummary.category === activeCategory;
-
-            return (
-              <li key={categorySummary.category} className="border-border border-b">
-                <Link
-                  href={getCategoryPath(locale, categorySummary.category)}
-                  transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
-                  aria-current={isCategoryActive && activeTopic === null ? "page" : undefined}
-                  className={`grid min-h-14 grid-cols-[28px_1fr_auto] items-center gap-3 py-3 text-sm transition-colors ${
-                    isCategoryActive
-                      ? "text-foreground font-semibold"
-                      : "text-muted hover:text-foreground"
-                  }`}
-                >
-                  <span className="text-subtle font-mono text-xs">
-                    C{String(categoryIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span>{getArticleCategoryLabel(categorySummary.category)}</span>
-                  <span className="text-muted font-mono text-xs tabular-nums">
-                    {categorySummary.count}
-                  </span>
-                </Link>
-
-                <ol className="border-border border-t">
-                  {categorySummary.topics.map(({ topic, count }, topicIndex) => {
-                    const isTopicActive = topic === activeTopic;
-
-                    return (
-                      <li key={topic}>
-                        <Link
-                          href={getTopicPath(locale, topic)}
-                          transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
-                          aria-current={isTopicActive ? "page" : undefined}
-                          className={`relative grid min-h-11 grid-cols-[24px_1fr_auto] items-center gap-3 py-2 pr-1 pl-10 text-sm transition-colors before:absolute before:top-0 before:bottom-0 before:left-0 before:w-px ${
-                            isTopicActive
-                              ? "text-accent before:bg-accent font-semibold"
-                              : "text-muted hover:text-foreground before:bg-border"
-                          }`}
-                        >
-                          <span className="text-subtle font-mono text-xs">
-                            {String(topicIndex + 1).padStart(2, "0")}
-                          </span>
-                          <span>{getArticleTopicLabel(topic)}</span>
-                          <span className="text-muted font-mono text-xs tabular-nums">{count}</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ol>
-              </li>
-            );
-          })}
-        </ol>
+        <ArticleTaxonomyAccordion
+          key={`${activeCategory ?? "all"}:${activeTopic ?? "all"}`}
+          activeCategory={activeCategory}
+          activeTopic={activeTopic}
+          locale={locale}
+          taxonomy={taxonomy}
+        />
       </nav>
 
       <div className="mt-12">

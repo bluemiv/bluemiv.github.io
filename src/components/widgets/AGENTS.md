@@ -7,5 +7,9 @@
 - home의 article과 note는 repository의 실제 SSG 데이터만 사용한다. 번역 copy에 콘텐츠를 하드코딩하지 않는다.
 - archive의 category/topic 계층, count, article, 추천 영역은 실제 repository와 유효한 route만
   사용한다. mock 목록과 비동작 control을 두지 않는다.
+- desktop archive taxonomy는 category link와 접기 button을 분리한다. 전체 글에서는 category를
+  기본으로 접고, category/topic route에서는 현재 category만 자동으로 펼친다.
+- taxonomy의 category header와 topic row는 같은 divider와 active rail 문법을 사용한다. topic에만
+  상시 세로 border를 두지 않는다.
 - blog page 전환은 `PageTransition`으로 감싸고 navigation의 `forward`, `back`, `swap` 의미를 사용한다.
 - pagination은 실제 정적 route만 link하고 현재 페이지에 `aria-current="page"`를 제공한다.

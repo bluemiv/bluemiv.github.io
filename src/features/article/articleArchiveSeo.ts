@@ -5,9 +5,9 @@ import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
 import type { ArticlePagination } from "./articlePagination";
 import { getArticleArchivePagePath } from "./articlePagination";
 
-const ARTICLE_ARCHIVE_TITLE = "기술 글";
+const ARTICLE_ARCHIVE_TITLE = "전체 글";
 const ARTICLE_ARCHIVE_DESCRIPTION =
-  "개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류한 기록입니다.";
+  "관심사와 경험, 문제를 해결하며 배운 내용을 주제별로 기록합니다.";
 
 function getArticleArchiveTitle(currentPage: number): string {
   return currentPage === 1
@@ -18,7 +18,7 @@ function getArticleArchiveTitle(currentPage: number): string {
 function getArticleArchiveDescription(currentPage: number): string {
   return currentPage === 1
     ? ARTICLE_ARCHIVE_DESCRIPTION
-    : `개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류한 기록의 ${currentPage}페이지입니다.`;
+    : `관심사와 경험, 문제를 해결하며 배운 기록의 ${currentPage}페이지입니다.`;
 }
 
 export function getArticleArchiveMetadata(locale: "ko", pagination: ArticlePagination): Metadata {

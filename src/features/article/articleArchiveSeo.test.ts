@@ -21,7 +21,7 @@ describe("articleArchiveSeo", () => {
     const metadata = getArticleArchiveMetadata("ko", createPagination(1, 5));
 
     expect(metadata).toMatchObject({
-      title: "기술 글",
+      title: "전체 글",
       alternates: { canonical: "/articles/" },
       pagination: { next: "/articles/page/2/" },
       openGraph: { url: "/articles/" },
@@ -33,7 +33,7 @@ describe("articleArchiveSeo", () => {
     const metadata = getArticleArchiveMetadata("ko", createPagination(3, 5));
 
     expect(metadata).toMatchObject({
-      title: "기술 글 3페이지",
+      title: "전체 글 3페이지",
       description: expect.stringContaining("3페이지"),
       alternates: { canonical: "/articles/page/3/" },
       pagination: {

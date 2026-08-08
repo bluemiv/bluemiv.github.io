@@ -149,13 +149,13 @@ export const PUBLICATION_METADATA_COPY: Record<Locale, PublicationMetadataCopy> 
 export const HOME_COPY: Record<Locale, HomeCopy> = {
   ko: {
     metadata: {
-      title: "기술을 배우고 기록하는 개발 블로그",
-      description: "Java, Spring, React, Next.js를 다루며 만난 문제와 선택의 이유를 기록합니다.",
+      title: "배움과 경험을 기록하는 블로그",
+      description: "관심사와 경험, 문제를 해결하며 배운 내용을 기록합니다.",
     },
     hero: {
-      eyebrow: "Software · Architecture · Learning",
-      lineOne: "기술을 익히고,",
-      lineTwo: "문제를 풀고,",
+      eyebrow: "Learning · Experience · Writing",
+      lineOne: "배우고,",
+      lineTwo: "경험하고,",
       lineThreePrefix: "",
       accent: "기록",
       lineThreeSuffix: "으로 남깁니다.",
@@ -194,13 +194,13 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
   },
   en: {
     metadata: {
-      title: "A developer blog for learning in public",
-      description: "Notes on software, architecture, and the reasoning behind technical decisions.",
+      title: "A personal archive of learning and experience",
+      description: "Writing about interests, experiences, problems, and the lessons that follow.",
     },
     hero: {
-      eyebrow: "Software · Architecture · Learning",
-      lineOne: "Learn deeply.",
-      lineTwo: "Solve deliberately.",
+      eyebrow: "Learning · Experience · Writing",
+      lineOne: "Stay curious.",
+      lineTwo: "Learn by doing.",
       lineThreePrefix: "Keep a ",
       accent: "record",
       lineThreeSuffix: ".",
@@ -239,13 +239,13 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
   },
   ja: {
     metadata: {
-      title: "学びと問題解決を記録する技術ブログ",
-      description: "ソフトウェア、アーキテクチャ、技術選定の背景を丁寧に記録します。",
+      title: "学びと経験を記録するブログ",
+      description: "関心のあることや日々の経験、問題を解決する中で得た学びを記録します。",
     },
     hero: {
-      eyebrow: "Software · Architecture · Learning",
-      lineOne: "技術を学び、",
-      lineTwo: "問題を解き、",
+      eyebrow: "Learning · Experience · Writing",
+      lineOne: "好奇心を持ち、",
+      lineTwo: "経験から学び、",
       lineThreePrefix: "",
       accent: "記録",
       lineThreeSuffix: "として残します。",

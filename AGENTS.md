@@ -8,9 +8,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Bluemiv Tech Blog V2
+# Bluemiv Blog V2
 
-Next.js 16 App Router 기반 정적 기술 블로그다. GitHub Pages에 배포한다.
+Next.js 16 App Router 기반 정적 개인 블로그다. GitHub Pages에 배포한다.
 
 ## 핵심 규칙
 
@@ -72,7 +72,7 @@ docs/                설계 문서
 - 긴 글: `article`. `post`, `content`를 같은 뜻으로 쓰지 않는다.
 - 짧은 글: `note`.
 - 1차 분야 분류: `category`.
-- 2차 기술 분류: `topic`. article metadata에서는 `topics` 배열로 사용한다.
+- 2차 세부 주제 분류: `topic`. article metadata에서는 `topics` 배열로 사용한다.
 - 보조 검색어: `tag`.
 - 전체 규칙: `docs/naming-conventions.md`.
 

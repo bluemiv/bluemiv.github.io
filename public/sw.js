@@ -1,5 +1,5 @@
 /**
- * Bluemiv Tech Blog service worker tombstone.
+ * Bluemiv Blog service worker tombstone.
  *
  * Keep this file at /sw.js permanently. Its only job is to replace the legacy
  * caching worker, remove caches created by it, unregister itself, and release

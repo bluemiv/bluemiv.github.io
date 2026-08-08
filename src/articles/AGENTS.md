@@ -5,7 +5,7 @@
 - slug는 발행 후 바꾸지 않는 소문자 ASCII kebab-case다.
 - metadata는 루트 `AGENTS.md` 스키마를 따른다.
 - `author`를 생략하면 SSG build에서 `SITE_CONFIG.author`가 적용된다.
-- 1차 분류는 단일 `category`, 2차 기술 분류는 `topics` 배열, 보조 검색어는 `tags`다.
+- 1차 분류는 단일 `category`, 2차 세부 주제 분류는 `topics` 배열, 보조 검색어는 `tags`다.
 - `category`와 `topics`는 `features/article/articleTaxonomy.ts`에 정의된 조합만 사용한다.
 - `topics`는 한 개 이상이며 중복 값을 넣지 않는다.
 - `topics[0]`에는 목록과 상세 화면에 먼저 표시할 대표 topic을 둔다.

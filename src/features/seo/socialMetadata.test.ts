@@ -11,8 +11,8 @@ import {
 describe("socialMetadata", () => {
   it("website OG와 Twitter에 locale, canonical, 기본 이미지를 함께 만든다", () => {
     const metadata = createWebsiteSocialMetadata({
-      title: "기술 글",
-      description: "기술 글 설명",
+      title: "전체 글",
+      description: "전체 글 설명",
       canonical: "/articles/",
       locale: "ko",
     });

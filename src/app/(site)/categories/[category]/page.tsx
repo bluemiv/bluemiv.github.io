@@ -41,7 +41,7 @@ export async function generateMetadata({
 
   const categoryDefinition = getArticleCategoryDefinition(category);
   const canonical = getLocalizedPath(ARTICLE_LOCALE, `categories/${category}`);
-  const title = `${categoryDefinition.label} 기술 글`;
+  const title = `${categoryDefinition.label} 글`;
 
   return {
     title,

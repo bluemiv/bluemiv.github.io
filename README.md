@@ -1,6 +1,6 @@
-# Bluemiv Tech Blog V2
+# Bluemiv Blog V2
 
-Bluemiv Tech Blog의 새 구조를 만드는 로컬 작업 브랜치입니다.
+Bluemiv Blog의 새 구조를 만드는 로컬 작업 브랜치입니다.
 
 ## 실행
 

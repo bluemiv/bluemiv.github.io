@@ -1,8 +1,8 @@
 export const SITE_CONFIG = {
   name: "Bluemiv",
-  title: "Bluemiv Tech Blog",
+  title: "Bluemiv Blog",
   displayTitle: "Bluemiv Blog",
-  description: "개발하며 배운 내용과 문제 해결 과정을 기록합니다.",
+  description: "관심사와 경험, 문제를 해결하며 배운 내용을 기록합니다.",
   author: "Bluemiv",
   url: "https://bluemiv.github.io",
   careerStartMonth: "2018-08",

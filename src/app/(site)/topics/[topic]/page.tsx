@@ -43,8 +43,8 @@ export async function generateMetadata({
 
   const topicLabel = getArticleTopicLabel(topic);
   const canonical = getLocalizedPath(ARTICLE_LOCALE, `topics/${topic}`);
-  const title = `${topicLabel} 기술 글`;
-  const description = `${topicLabel} 주제로 분류한 개발 문제 해결 과정과 선택의 이유를 모았습니다.`;
+  const title = `${topicLabel} 글`;
+  const description = `${topicLabel}에 관해 경험하고 배운 내용을 모았습니다.`;
 
   return {
     title,

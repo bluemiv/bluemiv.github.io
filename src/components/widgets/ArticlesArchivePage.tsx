@@ -68,13 +68,13 @@ export function ArticlesArchivePage({
           <div className="flex items-end justify-between gap-6">
             <div>
               <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep sm:text-5xl md:text-6xl">
-                {activeLabel ? `${activeLabel} 글` : "기술 글"}
+                {activeLabel ? `${activeLabel} 글` : "전체 글"}
               </h1>
               <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
                 {activeTopicLabel
-                  ? `${activeTopicLabel} 주제를 다룬 문제 해결 과정과 선택의 이유를 모았습니다.`
+                  ? `${activeTopicLabel}에 관해 경험하고 배운 내용을 모았습니다.`
                   : (activeCategoryDefinition?.description ??
-                    "개발 과정에서 만난 문제와 선택의 이유를 분야와 기술별로 분류해 기록합니다.")}
+                    "관심사와 경험, 문제를 해결하며 배운 내용을 주제별로 기록합니다.")}
               </p>
             </div>
             <span className="text-muted hidden pb-2 font-mono text-xs tabular-nums sm:block">

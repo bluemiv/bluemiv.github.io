@@ -79,8 +79,12 @@ export function CodeCopyButton() {
       aria-live="polite"
       onClick={(event) => void handleCopy(event.currentTarget)}
     >
-      {isCopied ? <Check aria-hidden="true" size={13} /> : <Copy aria-hidden="true" size={13} />}
-      <span>{label}</span>
+      <span key={`icon-${status}`} className="article-code-copy-icon" aria-hidden="true">
+        {isCopied ? <Check size={13} /> : <Copy size={13} />}
+      </span>
+      <span key={`label-${status}`} className="article-code-copy-label">
+        {label}
+      </span>
     </button>
   );
 }

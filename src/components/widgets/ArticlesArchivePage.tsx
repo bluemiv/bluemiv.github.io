@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/atoms/Container";
 import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout";
 import { ArticleSidebar, MobileTopicIndex } from "@/components/widgets/ArticleSidebar";
+import { PageTransition } from "@/components/widgets/PageTransition";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
@@ -11,6 +12,7 @@ import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getArticleDocument } from "@/features/article/articleRepository";
 import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticlesArchivePage = {
   activeTopic: string | null;
@@ -51,14 +53,15 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
     <article className="border-border border-b">
       <Link
         href={getLocalizedPath(locale, `articles/${article.slug}`)}
-        className="group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_104px] md:items-start"
+        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
+        className="article-list-link group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 px-2 py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
         <span className="text-subtle text-micro font-mono">A{getArticleNumber(article.id)}</span>
         <span className="text-accent font-mono text-xs font-semibold tracking-[0.06em] uppercase">
           {getArticleTopicLabel(article.topic)}
         </span>
         <span className="col-span-2 md:col-span-1">
-          <strong className="group-hover:text-accent block text-lg leading-7 font-semibold tracking-[-0.025em] transition-colors md:text-xl">
+          <strong className="article-list-title block text-lg leading-7 font-semibold tracking-[-0.025em] md:text-xl">
             {article.title}
           </strong>
           <span className="text-muted mt-2 line-clamp-2 block text-sm leading-6">
@@ -87,7 +90,7 @@ export function ArticlesArchivePage({
   const topicNavigationProps = { activeTopic, locale, topics, totalArticleCount };
 
   return (
-    <>
+    <PageTransition>
       <AdSenseScript />
       <Container className="py-16 md:py-24">
         <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
@@ -118,7 +121,7 @@ export function ArticlesArchivePage({
             <section className="mt-10 xl:mt-0" aria-labelledby="article-list-title">
               <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
                 <div>
-                  <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                  <p className="motion-section-marker text-accent text-micro font-mono tracking-[0.16em] uppercase">
                     Latest first
                   </p>
                   <h2
@@ -153,6 +156,6 @@ export function ArticlesArchivePage({
           </ArticleArchiveLayout>
         </div>
       </Container>
-    </>
+    </PageTransition>
   );
 }

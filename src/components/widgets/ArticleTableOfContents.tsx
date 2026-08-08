@@ -45,20 +45,28 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
             <a
               href={`#${heading.id}`}
               aria-current={isActive ? "location" : undefined}
-              className={`block text-sm leading-6 transition-colors ${
+              className={`relative block text-sm leading-6 transition-colors duration-150 motion-reduce:transition-none ${
                 variant === "desktop"
-                  ? `-ml-px border-l py-2 pl-4 ${
+                  ? `-ml-px py-2 pl-4 ${
                       isActive
-                        ? "border-accent text-foreground font-semibold"
-                        : "text-muted hover:text-foreground border-transparent"
+                        ? "text-foreground font-semibold"
+                        : "text-muted hover:text-foreground"
                     }`
                   : `py-2 ${isActive ? "text-accent font-semibold" : "text-muted"}`
               }`}
             >
+              {variant === "desktop" ? (
+                <span
+                  aria-hidden="true"
+                  className={`bg-accent absolute top-2 bottom-2 left-0 w-px origin-center transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none ${
+                    isActive ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
+                  }`}
+                />
+              ) : null}
               <span className="flex items-start gap-3">
                 <span
                   aria-hidden="true"
-                  className="text-muted text-micro min-w-9 pt-px font-mono leading-6"
+                  className={`text-micro min-w-9 pt-px font-mono leading-6 transition-colors duration-150 motion-reduce:transition-none ${isActive ? "text-accent" : "text-muted"}`}
                 >
                   {heading.number}
                 </span>
@@ -80,7 +88,7 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
             <span className="text-muted text-micro font-mono">{headings.length} SECTIONS</span>
             <ChevronDown
               aria-hidden="true"
-              className="text-muted size-4 transition-transform group-open:rotate-180"
+              className="text-muted size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
             />
           </span>
         </summary>

@@ -1,7 +1,10 @@
+import { ViewTransition } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { PageTransition } from "@/components/widgets/PageTransition";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
@@ -11,6 +14,7 @@ import { getArticleDocument, getPublishedArticles } from "@/features/article/art
 import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
+import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 import { getPublishedNotes } from "@/features/note/noteRepository";
 import { calculateCareerMonthOrdinal, formatYearMonth } from "@/features/profile/careerDuration";
@@ -50,14 +54,15 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
     <article className="border-border border-b">
       <Link
         href={articleHref}
-        className="group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 py-7 md:grid-cols-[52px_104px_minmax(0,1fr)_104px] md:items-start md:px-3"
+        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
+        className="article-list-link group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 px-2 py-7 md:grid-cols-[52px_104px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
         <span className="text-subtle text-micro font-mono">A{getEntryNumber(article.id)}</span>
         <span className="text-accent font-mono text-xs font-semibold tracking-[0.08em] uppercase">
           {getArticleTopicLabel(article.topic)}
         </span>
         <span className="col-start-2 md:col-start-3 md:row-start-1">
-          <strong className="group-hover:text-accent block text-lg leading-7 font-semibold tracking-[-0.025em] transition-colors duration-150 motion-reduce:transition-none md:text-xl">
+          <strong className="article-list-title block text-lg leading-7 font-semibold tracking-[-0.025em] motion-reduce:transition-none md:text-xl">
             {article.title}
           </strong>
           <span className="text-muted mt-2 line-clamp-2 block max-w-[560px] text-sm leading-6">
@@ -100,7 +105,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
   );
 
   return (
-    <>
+    <PageTransition>
       {showHomeAd ? <AdSenseScript /> : null}
 
       <section className="border-border relative overflow-hidden border-b">
@@ -168,7 +173,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
           <section aria-labelledby="featured-title">
             <div className="border-border mb-8 flex items-end justify-between border-b pb-4">
               <div>
-                <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
+                <p className="motion-section-marker text-accent font-mono text-xs tracking-[0.16em] uppercase">
                   {copy.featured.eyebrow}
                 </p>
                 <h2
@@ -189,41 +194,50 @@ export function HomePage({ locale }: PropsWithHomePage) {
             <article>
               <Link
                 href={getLocalizedPath(locale, `articles/${featuredArticle.slug}`)}
+                transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                 className="group border-border grid gap-8 border-b pb-14 md:grid-cols-[1fr_1.1fr] md:items-stretch"
               >
-                <div className="border-border bg-accent-soft relative aspect-[32/17] overflow-hidden border md:self-center">
-                  {featuredArticle.coverImage ? (
-                    <Image
-                      fill
-                      sizes="(min-width: 1184px) 520px, (min-width: 768px) 44vw, calc(100vw - 40px)"
-                      src={featuredArticle.coverImage}
-                      alt=""
-                      className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.01] motion-reduce:transition-none"
-                    />
-                  ) : (
-                    <div className="relative h-full p-6 md:p-8">
-                      <div className="blueprint-grid absolute inset-0" aria-hidden="true" />
-                      <div className="relative flex h-full flex-col justify-between">
-                        <div className="flex items-start justify-between gap-4 font-mono text-xs font-semibold tracking-[0.1em] uppercase">
-                          <span className="text-accent">
-                            {getArticleTopicLabel(featuredArticle.topic)}
-                          </span>
-                          <span className="text-muted">A{getEntryNumber(featuredArticle.id)}</span>
-                        </div>
-                        <div className="flex items-end justify-between gap-4">
-                          <span className="font-display text-accent text-[clamp(4.5rem,17vw,8rem)] leading-none font-normal tracking-[-0.07em]">
-                            {getEntryNumber(featuredArticle.id)}
-                          </span>
-                          <span className="text-muted text-micro mb-2 hidden max-w-24 text-right font-mono leading-4 tracking-[0.1em] uppercase sm:block">
-                            Filed in
-                            <br />
-                            {getArticleTopicLabel(featuredArticle.topic)}
-                          </span>
+                <ViewTransition
+                  name={`article-cover-${featuredArticle.id}`}
+                  default="none"
+                  share="article-cover"
+                >
+                  <div className="home-featured-cover-reveal border-border bg-accent-soft relative aspect-[32/17] overflow-hidden border md:self-center">
+                    {featuredArticle.coverImage ? (
+                      <Image
+                        fill
+                        sizes="(min-width: 1184px) 520px, (min-width: 768px) 44vw, calc(100vw - 40px)"
+                        src={featuredArticle.coverImage}
+                        alt=""
+                        className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.01] motion-reduce:transition-none"
+                      />
+                    ) : (
+                      <div className="relative h-full p-6 md:p-8">
+                        <div className="blueprint-grid absolute inset-0" aria-hidden="true" />
+                        <div className="relative flex h-full flex-col justify-between">
+                          <div className="flex items-start justify-between gap-4 font-mono text-xs font-semibold tracking-[0.1em] uppercase">
+                            <span className="text-accent">
+                              {getArticleTopicLabel(featuredArticle.topic)}
+                            </span>
+                            <span className="text-muted">
+                              A{getEntryNumber(featuredArticle.id)}
+                            </span>
+                          </div>
+                          <div className="flex items-end justify-between gap-4">
+                            <span className="font-display text-accent text-[clamp(4.5rem,17vw,8rem)] leading-none font-normal tracking-[-0.07em]">
+                              {getEntryNumber(featuredArticle.id)}
+                            </span>
+                            <span className="text-muted text-micro mb-2 hidden max-w-24 text-right font-mono leading-4 tracking-[0.1em] uppercase sm:block">
+                              Filed in
+                              <br />
+                              {getArticleTopicLabel(featuredArticle.topic)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                </ViewTransition>
 
                 <div className="flex flex-col justify-center py-1 md:px-7">
                   <p className="text-muted font-mono text-xs tracking-[0.06em] uppercase">
@@ -265,7 +279,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
           <section aria-labelledby="latest-title">
             <div className="border-border grid gap-4 border-b pb-5 sm:grid-cols-[1fr_auto] sm:items-end">
               <div>
-                <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                <p className="motion-section-marker text-accent text-micro font-mono tracking-[0.16em] uppercase">
                   {copy.latest.eyebrow}
                 </p>
                 <h2
@@ -280,6 +294,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 <Link
                   className="text-accent hover:text-accent-hover inline-flex min-h-11 items-center text-xs font-bold transition-colors duration-150 motion-reduce:transition-none"
                   href={articlesHref}
+                  transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                 >
                   {copy.latest.action} →
                 </Link>
@@ -296,6 +311,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                     <li key={topic} className="shrink-0">
                       <Link
                         href={getLocalizedPath(locale, `topics/${topic}`)}
+                        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                         className="text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-b border-transparent px-1 text-xs transition-colors hover:border-current"
                       >
                         <span className="font-semibold">{getArticleTopicLabel(topic)}</span>
@@ -333,7 +349,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
             <aside className="hidden xl:block" aria-label={copy.topics.heading}>
               <section aria-labelledby="home-topics-title">
                 <div className="border-border border-b pb-4">
-                  <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                  <p className="motion-section-marker text-accent text-micro font-mono tracking-[0.16em] uppercase">
                     {copy.topics.eyebrow}
                   </p>
                   <div className="mt-2 flex items-end justify-between gap-4">
@@ -354,6 +370,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                     <li key={topic} className="border-border border-b">
                       <Link
                         href={getLocalizedPath(locale, `topics/${topic}`)}
+                        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                         className="group grid min-h-14 grid-cols-[28px_1fr_auto_16px] items-center gap-3 text-sm"
                       >
                         <span className="text-subtle text-micro font-mono">
@@ -402,6 +419,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               </p>
               <Link
                 href={notesHref}
+                transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                 className="text-blueprint-400 mt-5 inline-flex min-h-11 items-center text-xs font-bold"
               >
                 {copy.notes.action} →
@@ -412,6 +430,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 <li key={note.id} className="border-canvas/25 border-b">
                   <Link
                     href={getNoteHref(locale, note)}
+                    transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                     className="group grid min-h-20 grid-cols-[48px_1fr_24px] items-center gap-4 py-4 text-sm md:text-base"
                   >
                     <span className="text-blueprint-400 font-mono text-xs">
@@ -431,6 +450,6 @@ export function HomePage({ locale }: PropsWithHomePage) {
           </Container>
         </section>
       ) : null}
-    </>
+    </PageTransition>
   );
 }

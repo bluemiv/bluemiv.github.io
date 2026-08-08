@@ -5,6 +5,7 @@ import { SITE_CONFIG } from "@/config/siteConfig";
 import { getEarliestArticlePublicationYear } from "@/features/article/articleCollection";
 import { getPublishedArticles } from "@/features/article/articleRepository";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithSiteFooter = {
   locale: Locale;
@@ -42,12 +43,14 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
               <Link
                 className="hover:text-foreground inline-flex min-h-11 items-center"
                 href={href("articles")}
+                transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
               >
                 Articles
               </Link>
               <Link
                 className="hover:text-foreground inline-flex min-h-11 items-center"
                 href={href("notes")}
+                transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
               >
                 Notes
               </Link>

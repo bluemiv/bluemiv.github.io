@@ -5,6 +5,7 @@ import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import type { ArticleHeading } from "@/features/article/articleDocument";
 import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticleDetailSidebar = {
   articleId: string;
@@ -26,6 +27,7 @@ export function ArticleDetailSidebar({
         <h2 id="article-context-title" className="mt-3 text-lg font-semibold">
           <Link
             href={getLocalizedPath("ko", `topics/${topic}`)}
+            transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
             className="hover:text-accent transition-colors"
           >
             {getArticleTopicLabel(topic)}

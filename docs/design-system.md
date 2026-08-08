@@ -395,7 +395,7 @@ Latest articles:
 - desktop에서 설명 표시 가능.
 - mobile에서는 설명을 2행으로 제한하거나 숨긴다.
 - 번호와 arrow가 중복 장식이 되면 하나를 제거한다.
-- hover는 title color, 1–4px 이동, accent rail 중 하나만 사용한다.
+- hover와 keyboard focus는 accent rail과 title color로 상태를 함께 전달한다. title 이동은 최대 `2px`로 제한한다.
 - 최근 article은 featured를 제외하고 최대 6개 노출한다.
 - title, description, topic, date, link는 MDX repository의 실제 metadata에서 build time에 생성한다.
 - 번역되지 않은 article이나 note의 제목을 UI copy에 가짜 번역해 표시하지 않는다.
@@ -511,7 +511,7 @@ Short notes:
 
 ### 10.1 Header
 
-- 기본 높이는 `72px`, scroll down compact 높이는 `60px`.
+- 바깥 shell은 `72px`를 유지하고, scroll down compact 상태에서는 surface와 내부 콘텐츠만 시각적으로 `60px` 높이에 맞춘다. layout height를 animation하지 않는다.
 - logo, primary navigation, search, theme control만 배치.
 - sticky 허용.
 - header surface는 `canvas 80%`와 `backdrop-blur-xl`을 사용해 본문과 분리하되 배경 흐름을 남긴다.
@@ -523,7 +523,7 @@ Short notes:
 - mobile menu에서 모든 primary navigation을 제공한다.
 - header 상단과 mobile menu는 서로 독립된 blur surface로 구성해 중첩 `backdrop-filter`를 만들지 않는다.
 - mobile menu surface는 `canvas 92%`와 `backdrop-blur-2xl`을 사용해 배경 글자를 흐리면서 navigation 대비를 유지한다.
-- 크기와 menu transition은 `200ms ease-out`, reduced motion에서는 제거한다.
+- compact transition은 `transform`만 사용하며 `180ms ease-out`, menu transition은 `200ms ease-out`을 사용한다. reduced motion에서는 제거한다.
 - 모든 touch target 최소 `44×44px`.
 
 ### 10.2 Logo
@@ -670,6 +670,18 @@ Short notes:
 - layout property animation 금지.
 - 자동 재생 loop 금지.
 - scroll reveal 남발 금지.
+- 제목, 설명, 본문처럼 의미 있는 콘텐츠는 animation 전에도 항상 렌더링하고 보이게 한다.
+- motion을 위해 client-side 데이터 요청이나 hydration 전용 콘텐츠를 추가하지 않는다.
+- 미지원 브라우저는 정적인 기본 화면으로 자연스럽게 fallback해야 한다.
+
+공통 token:
+
+| Token                        | Value                            | 용도                 |
+| ---------------------------- | -------------------------------- | -------------------- |
+| `--motion-duration-fast`     | `140ms`                          | color, 빠른 feedback |
+| `--motion-duration-base`     | `180ms`                          | 작은 transform       |
+| `--motion-duration-emphasis` | `280ms`                          | page enter           |
+| `--motion-ease-out`          | `cubic-bezier(0.22, 1, 0.36, 1)` | 강조 transition      |
 
 ### 12.2 Timing
 
@@ -677,6 +689,9 @@ Short notes:
 | --------------- | --------: | ------------------------------ |
 | hover color     | 120–160ms | ease-out                       |
 | small transform | 160–200ms | ease-out                       |
+| page exit       |     140ms | ease-in                        |
+| page enter      |     280ms | cubic-bezier(0.22, 1, 0.36, 1) |
+| shared cover    |     360ms | cubic-bezier(0.22, 1, 0.36, 1) |
 | dialog enter    | 200–260ms | cubic-bezier(0.22, 1, 0.36, 1) |
 | theme fallback  | 160–200ms | ease                           |
 | theme wipe      |     360ms | cubic-bezier(0.22, 1, 0.36, 1) |
@@ -690,6 +705,38 @@ Short notes:
 - reading progress
 - theme transition
 
+Article reading progress:
+
+- article detail에서만 header 하단에 `2px` accent rail을 표시한다.
+- CSS scroll-driven animation을 사용하며 JavaScript scroll state를 추가하지 않는다.
+- 기능 지원이 없거나 reduced motion이면 rail을 숨긴다. 읽기와 탐색 기능은 그대로 유지한다.
+
+Article list interaction:
+
+- hover와 `focus-visible`에 같은 accent rail, title color, 최대 `2px` 이동을 사용한다.
+- rail은 `scaleY`, title은 `translateX`를 사용해 layout shift를 만들지 않는다.
+
+TOC와 code copy feedback:
+
+- TOC active 상태는 rail의 opacity/scale과 text color로 표현한다. 항목 위치나 크기는 바꾸지 않는다.
+- copy 결과는 icon과 label을 `Copy`, `Check`, `Retry` 상태로 바꾸고 짧은 opacity/scale feedback만 사용한다.
+- 오류는 색상만으로 전달하지 않고 `Retry` label을 함께 표시한다.
+
+Home scroll-driven detail:
+
+- `Featured`, `Latest`, `Topics`의 장식 rail과 featured cover에만 제한적으로 사용한다.
+- text 전체를 fade-in하지 않는다. cover도 기본 CSS에서는 완전히 보이며, 지원 브라우저에서만 view timeline을 적용한다.
+- section마다 반복 reveal을 추가하지 않는다.
+
+Page transition:
+
+- Next.js App Router의 React View Transition을 progressive enhancement로 사용한다.
+- `forward`, `back`, `swap` 탐색 의미를 link에 지정한다.
+- forward/back은 최대 `12px` 수평 이동과 opacity, 같은 계층 이동은 opacity만 사용한다.
+- Home featured cover와 해당 article detail cover는 같은 transition name으로 연결해 공간 관계를 설명한다.
+- browser가 View Transition을 지원하지 않아도 일반 route navigation이 그대로 동작해야 한다.
+- transition wrapper는 정적 HTML 콘텐츠를 숨기거나 hydration 뒤에 삽입하지 않는다.
+
 Theme transition:
 
 - 지원 브라우저에서는 View Transition API로 오른쪽에서 왼쪽으로 새 theme을 드러내는 **Blueprint Wipe**를 사용한다.
@@ -699,7 +746,7 @@ Theme transition:
 
 ### 12.4 Reduced motion
 
-`prefers-reduced-motion: reduce`에서 animation과 smooth scroll을 사실상 제거한다. theme wipe도 실행하지 않으며 기능과 정보는 motion 없이 동일해야 한다.
+`prefers-reduced-motion: reduce`에서 animation과 smooth scroll을 사실상 제거한다. theme wipe와 page transition, reading progress, scroll-driven detail도 실행하지 않으며 기능과 정보는 motion 없이 동일해야 한다.
 
 ## 13. Dark mode
 

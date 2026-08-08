@@ -69,3 +69,13 @@ export function isNavigationPathActive(pathname: string, href: string): boolean 
     normalizedPathname === normalizedHref || normalizedPathname.startsWith(`${normalizedHref}/`)
   );
 }
+
+export function isArticleDetailPath(pathname: string, articlesHref: string): boolean {
+  const normalizedPathname = pathname.replace(/\/+$/, "") || "/";
+  const normalizedArticlesHref = articlesHref.replace(/\/+$/, "") || "/";
+
+  if (!normalizedPathname.startsWith(`${normalizedArticlesHref}/`)) return false;
+
+  const detailPath = normalizedPathname.slice(normalizedArticlesHref.length + 1);
+  return detailPath.length > 0 && !detailPath.includes("/");
+}

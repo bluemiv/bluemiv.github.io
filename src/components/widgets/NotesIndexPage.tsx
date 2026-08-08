@@ -1,8 +1,10 @@
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { PageTransition } from "@/components/widgets/PageTransition";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 
@@ -36,6 +38,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
     <li className="border-border border-b">
       <Link
         href={getLocalizedPath(locale, `notes/${note.slug}`)}
+        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
         className="group grid grid-cols-[52px_minmax(0,1fr)] gap-x-4 gap-y-5 py-8 md:grid-cols-[72px_minmax(0,1fr)_128px_24px] md:items-start md:gap-x-6 md:py-10"
       >
         <span className="text-subtle font-display text-2xl leading-none tracking-[-0.04em] md:text-3xl">
@@ -48,7 +51,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
               <span key={tag}>#{tag}</span>
             ))}
           </span>
-          <strong className="group-hover:text-accent mt-3 block text-2xl leading-[1.3] font-semibold tracking-[-0.035em] text-balance break-keep transition-colors duration-150 motion-reduce:transition-none md:text-3xl">
+          <strong className="group-hover:text-accent group-focus-visible:text-accent mt-3 block text-2xl leading-[1.3] font-semibold tracking-[-0.035em] text-balance break-keep transition-colors duration-150 motion-reduce:transition-none md:text-3xl">
             {note.title}
           </strong>
           <span className="text-muted mt-4 line-clamp-3 block max-w-[620px] text-sm leading-7 break-keep md:text-base md:leading-8">
@@ -64,7 +67,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
             {formatDate(note.publishedAt, locale)}
           </time>
           <span
-            className="text-accent text-lg leading-none md:col-start-4 md:row-start-1"
+            className="text-accent text-lg leading-none transition-transform duration-150 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none md:col-start-4 md:row-start-1"
             aria-hidden="true"
           >
             →
@@ -77,46 +80,51 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
 
 export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
   return (
-    <Container className="py-16 md:py-24">
-      <header className="border-border max-w-[920px] border-b pb-12 md:pb-16">
-        <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
-          Notes / Index
-        </p>
-        <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep md:text-6xl">
-          짧은 기록
-        </h1>
-        <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
-          한 가지 개념과 작은 문제 해결을 짧고 분명하게 정리합니다.
-        </p>
-      </header>
-
-      <section className="mt-12 max-w-[920px] md:mt-16" aria-labelledby="note-list-title">
-        <div className="border-border flex items-end justify-between gap-6 border-b pb-4">
-          <div>
-            <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
-              Latest first
-            </p>
-            <h2 id="note-list-title" className="mt-2 text-sm font-bold tracking-[0.08em] uppercase">
-              All notes
-            </h2>
-          </div>
-          <span className="text-muted text-micro font-mono tabular-nums">
-            {String(notes.length).padStart(2, "0")} Entries
-          </span>
-        </div>
-
-        {notes.length > 0 ? (
-          <ol>
-            {notes.map((note) => (
-              <NoteRow key={note.id} locale={locale} note={note} />
-            ))}
-          </ol>
-        ) : (
-          <p className="border-border text-muted border-b py-14 text-sm leading-7">
-            공개된 짧은 기록을 준비하고 있습니다.
+    <PageTransition>
+      <Container className="py-16 md:py-24">
+        <header className="border-border max-w-[920px] border-b pb-12 md:pb-16">
+          <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
+            Notes / Index
           </p>
-        )}
-      </section>
-    </Container>
+          <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep md:text-6xl">
+            짧은 기록
+          </h1>
+          <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
+            한 가지 개념과 작은 문제 해결을 짧고 분명하게 정리합니다.
+          </p>
+        </header>
+
+        <section className="mt-12 max-w-[920px] md:mt-16" aria-labelledby="note-list-title">
+          <div className="border-border flex items-end justify-between gap-6 border-b pb-4">
+            <div>
+              <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                Latest first
+              </p>
+              <h2
+                id="note-list-title"
+                className="mt-2 text-sm font-bold tracking-[0.08em] uppercase"
+              >
+                All notes
+              </h2>
+            </div>
+            <span className="text-muted text-micro font-mono tabular-nums">
+              {String(notes.length).padStart(2, "0")} Entries
+            </span>
+          </div>
+
+          {notes.length > 0 ? (
+            <ol>
+              {notes.map((note) => (
+                <NoteRow key={note.id} locale={locale} note={note} />
+              ))}
+            </ol>
+          ) : (
+            <p className="border-border text-muted border-b py-14 text-sm leading-7">
+              공개된 짧은 기록을 준비하고 있습니다.
+            </p>
+          )}
+        </section>
+      </Container>
+    </PageTransition>
   );
 }

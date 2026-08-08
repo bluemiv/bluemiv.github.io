@@ -4,6 +4,7 @@ import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import type { ArticleTopicSummary } from "@/features/article/articleCollection";
 import { getArticleTopicLabel } from "@/features/article/articleTopic";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticleTopicNavigation = {
   activeTopic: string | null;
@@ -59,6 +60,7 @@ export function MobileTopicIndex(props: PropsWithArticleTopicNavigation) {
           <li key={item.href} className="shrink-0">
             <Link
               href={item.href}
+              transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
               aria-current={item.isActive ? "page" : undefined}
               className={`inline-flex min-h-11 items-center gap-2 border-b px-2 text-sm whitespace-nowrap transition-colors ${
                 item.isActive
@@ -95,6 +97,7 @@ export function ArticleSidebar(props: PropsWithArticleTopicNavigation) {
             <li key={item.href} className="border-border border-b">
               <Link
                 href={item.href}
+                transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
                 aria-current={item.isActive ? "page" : undefined}
                 className={`grid min-h-14 grid-cols-[28px_1fr_auto] items-center gap-3 py-3 text-sm transition-colors ${
                   item.isActive

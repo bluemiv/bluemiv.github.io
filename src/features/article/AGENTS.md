@@ -7,6 +7,7 @@
 - featured 분리, category/topic 집계·필터링 같은 article collection 계산도 순수 함수로 유지한다.
 - archive pagination은 최신순 article 배열을 페이지당 10개로 나누고 경계 조건을 테스트한다.
 - reading progress와 active heading 계산은 하나의 provider에서 공유하고 순수 계산을 테스트한다.
+- 상세 구조화 데이터는 Google Article 형식의 `BlogPosting`과 canonical `@id`, `url`을 사용한다.
 - category/topic 계층, 공개 label, 허용 관계는 `articleTaxonomy.ts`를 단일 원천으로 사용한다.
 - taxonomy summary는 정의된 category/topic 순서를 유지하고 공개 article만 집계한다.
 - metadata의 `category`는 단일 값, `topics`는 중복 없는 비어 있지 않은 배열이다.

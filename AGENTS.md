@@ -149,12 +149,15 @@ coverImage: /r/i/example/cover.webp
 ## SEO discovery
 
 - 검색 규칙은 `docs/seo.md`를 단일 기준으로 사용한다.
+- domain root `/`에는 사이트 이름을 명시하는 `WebSite` 구조화 데이터를 한 번만 둔다.
+- article과 note 상세 구조화 데이터는 `BlogPosting`과 canonical URL을 사용한다.
 - `/sitemap.xml`, `/feed.xml`, `/rss.xml`, `/robots.txt`는 static export로 생성한다.
 - sitemap에는 canonical article, note, category, topic, locale 홈, app 상세를 포함한다.
 - feed에는 article과 note만 포함한다.
 - policy document, app 목록, legacy redirect는 sitemap과 feed에서 제외한다.
 - policy document는 `noindex, follow`로 유지하고 robots.txt에서 차단하지 않는다.
 - sitemap `lastmod`는 실제 `modifiedAt`만 사용한다.
+- 색인 페이지의 내부 link는 redirect source가 아닌 최종 canonical URL로 직접 연결한다.
 
 ## 내부 검색
 

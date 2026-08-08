@@ -31,7 +31,7 @@ Spring Boot를 사용하면 많은 설정이 자동으로 적용됩니다. 그�
 
 이런 설정 코드를 모아두는 클래스에 사용하는 어노테이션이 `@Configuration`입니다.
 
-이전 글인 [Bean과 Component 이해하기](/blog/spring/34)에서 `@Bean`으로 객체를 Bean 등록하는 방법을 다뤘습니다. 이번 글에서는 그 `@Bean` 메서드를 어디에, 어떻게 모아두는지 살펴보겠습니다.
+이전 글인 [Bean과 Component 이해하기](/articles/spring-bean-and-component/)에서 `@Bean`으로 객체를 Bean 등록하는 방법을 다뤘습니다. 이번 글에서는 그 `@Bean` 메서드를 어디에, 어떻게 모아두는지 살펴보겠습니다.
 
 ## 2. @Configuration이란?
 
@@ -115,7 +115,7 @@ public class OrderService {
 }
 ```
 
-의존성을 주입받는 방식은 [@Autowired와 의존성 주입 방법](/blog/spring/35)에서 다룬 내용과 연결됩니다.
+의존성을 주입받는 방식은 [@Autowired와 의존성 주입 방법](/articles/spring-autowired-dependency-injection/)에서 다룬 내용과 연결됩니다.
 
 ## 4. 언제 @Configuration을 사용할까?
 
@@ -186,7 +186,7 @@ public class ExternalApiConfig {
 
 이렇게 하면 설정값을 코드에 직접 박아두지 않고, 환경별 설정 파일이나 환경변수를 통해 바꿀 수 있습니다.
 
-설정 파일의 역할은 [application.yml과 application.properties 설정](/blog/spring/32)에서 더 자세히 다뤘습니다.
+설정 파일의 역할은 [application.yml과 application.properties 설정](/articles/spring-boot-application-configuration/)에서 더 자세히 다뤘습니다.
 
 다만 설정값이 여러 개로 묶일 때는 `@Value`를 여러 번 쓰는 것보다 `@ConfigurationProperties`를 사용하는 편이 더 좋습니다. 설정을 하나의 타입으로 묶을 수 있고, 테스트나 검증도 쉬워지기 때문입니다.
 

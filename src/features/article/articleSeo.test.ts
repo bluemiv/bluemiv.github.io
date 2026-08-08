@@ -20,11 +20,13 @@ const ARTICLE = parseArticleMetadata({
 });
 
 describe("articleSeo", () => {
-  it("canonical과 cover를 절대 URL로 만든 TechArticle 데이터를 생성한다", () => {
+  it("canonical과 cover를 절대 URL로 만든 BlogPosting 데이터를 생성한다", () => {
     const structuredData = getArticleStructuredData(ARTICLE, "/articles/example-article/");
 
     expect(structuredData["@graph"][0]).toMatchObject({
-      "@type": "TechArticle",
+      "@type": "BlogPosting",
+      "@id": "https://bluemiv.github.io/articles/example-article/#article",
+      url: "https://bluemiv.github.io/articles/example-article/",
       headline: ARTICLE.title,
       inLanguage: "ko",
       mainEntityOfPage: "https://bluemiv.github.io/articles/example-article/",

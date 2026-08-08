@@ -11,7 +11,9 @@ export function getArticleStructuredData(article: ArticleMetadata, canonicalPath
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "TechArticle",
+        "@type": "BlogPosting",
+        "@id": `${canonicalUrl}#article`,
+        url: canonicalUrl,
         headline: article.title,
         description: article.description,
         inLanguage: article.locale,

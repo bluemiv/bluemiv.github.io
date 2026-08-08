@@ -19,7 +19,7 @@ coverImage: /r/i/spring/34/thumbnail.webp
 
 Spring을 사용하다 보면 `Bean`, `Component`, `@Bean`, `@Component`라는 용어를 자주 만나게 됩니다.
 
-이 개념을 이해해야 Spring이 객체를 어떻게 만들고, 어떻게 의존성을 주입하는지 자연스럽게 이해할 수 있습니다. 이전 글인 [IoC와 DI 이해하기](/blog/spring/33)에서 Spring 컨테이너가 객체를 생성하고 연결한다고 했는데, 이때 Spring 컨테이너가 관리하는 객체를 `Bean`이라고 부릅니다.
+이 개념을 이해해야 Spring이 객체를 어떻게 만들고, 어떻게 의존성을 주입하는지 자연스럽게 이해할 수 있습니다. 이전 글인 [IoC와 DI 이해하기](/articles/spring-ioc-and-dependency-injection/)에서 Spring 컨테이너가 객체를 생성하고 연결한다고 했는데, 이때 Spring 컨테이너가 관리하는 객체를 `Bean`이라고 부릅니다.
 
 ```text
 Spring Container
@@ -112,7 +112,7 @@ public class UserService {
 
 Spring은 모든 클래스를 무조건 Bean으로 등록하지 않습니다. 컴포넌트 스캔 대상이 되는 클래스를 찾아서 Bean으로 등록합니다.
 
-Spring Boot에서는 `@SpringBootApplication`이 붙은 메인 클래스의 패키지를 기준으로 하위 패키지를 스캔합니다. 프로젝트 구조와 메인 클래스 위치는 [Spring Boot 프로젝트 구조 이해하기](/blog/spring/31)에서 설명한 내용과 연결됩니다.
+Spring Boot에서는 `@SpringBootApplication`이 붙은 메인 클래스의 패키지를 기준으로 하위 패키지를 스캔합니다. 프로젝트 구조와 메인 클래스 위치는 [Spring Boot 프로젝트 구조 이해하기](/articles/spring-boot-project-structure/)에서 설명한 내용과 연결됩니다.
 
 ```text
 com/example/demo/
@@ -310,7 +310,7 @@ public class PaymentConfig {
 }
 ```
 
-운영 코드에서는 `"api-key"`처럼 민감한 값을 직접 넣지 말고, [application.yml과 application.properties 설정](/blog/spring/32)에서 다룬 것처럼 환경변수나 설정 파일을 통해 주입받는 것이 안전합니다.
+운영 코드에서는 `"api-key"`처럼 민감한 값을 직접 넣지 말고, [application.yml과 application.properties 설정](/articles/spring-boot-application-configuration/)에서 다룬 것처럼 환경변수나 설정 파일을 통해 주입받는 것이 안전합니다.
 
 ## 10. 자주 하는 실수
 

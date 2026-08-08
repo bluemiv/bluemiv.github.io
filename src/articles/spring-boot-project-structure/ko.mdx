@@ -17,7 +17,7 @@ coverImage: /r/i/spring/31/thumbnail.webp
 
 ## 1. Spring Boot 프로젝트 구조
 
-Spring Initializr로 프로젝트를 생성하면 기본적으로 아래와 같은 구조가 만들어집니다. 개발 환경 설정과 프로젝트 생성 흐름은 [Spring Boot 개발 환경 설정](/blog/spring/29)을 먼저 보면 이해하기 쉽습니다.
+Spring Initializr로 프로젝트를 생성하면 기본적으로 아래와 같은 구조가 만들어집니다. 개발 환경 설정과 프로젝트 생성 흐름은 [Spring Boot 개발 환경 설정](/articles/spring-boot-development-environment/)을 먼저 보면 이해하기 쉽습니다.
 
 ```text
 demo/
@@ -105,7 +105,7 @@ public class DemoApplication {
 - `@EnableAutoConfiguration`: Spring Boot의 자동 설정 기능 활성화
 - `@ComponentScan`: 현재 패키지와 하위 패키지에서 컴포넌트 탐색
 
-즉, `DemoApplication.java`가 있는 패키지를 기준으로 Spring Bean을 찾기 때문에, 일반적으로 이 클래스는 프로젝트의 최상위 패키지에 두는 것이 좋습니다. Spring이 객체를 생성하고 연결하는 원리는 [IoC와 DI 이해하기](/blog/spring/33)를 함께 보면 자연스럽게 이어집니다.
+즉, `DemoApplication.java`가 있는 패키지를 기준으로 Spring Bean을 찾기 때문에, 일반적으로 이 클래스는 프로젝트의 최상위 패키지에 두는 것이 좋습니다. Spring이 객체를 생성하고 연결하는 원리는 [IoC와 DI 이해하기](/articles/spring-ioc-and-dependency-injection/)를 함께 보면 자연스럽게 이어집니다.
 
 ## 4. src/main/resources
 
@@ -120,7 +120,7 @@ src/main/resources/
 
 ### 4.1. application.properties
 
-`application.properties`는 Spring Boot 애플리케이션의 설정을 작성하는 파일입니다. 설정 파일의 문법과 환경별 분리는 [application.yml과 application.properties 설정](/blog/spring/32)에서 더 자세히 다룹니다.
+`application.properties`는 Spring Boot 애플리케이션의 설정을 작성하는 파일입니다. 설정 파일의 문법과 환경별 분리는 [application.yml과 application.properties 설정](/articles/spring-boot-application-configuration/)에서 더 자세히 다룹니다.
 
 ```properties
 server.port=8080

@@ -46,7 +46,7 @@ public class HelloController {
 
 위 코드에서 `/api/hello`로 GET 요청이 들어오면 `hello()` 메서드가 실행되고, 반환값이 HTTP 응답 본문으로 내려갑니다.
 
-이전 글인 [Bean Scope 이해하기](/blog/spring/38)까지는 Spring 컨테이너가 객체를 어떻게 관리하는지 살펴봤습니다. 이제부터는 그 Bean들이 실제 웹 요청을 어떻게 처리하는지 REST API 흐름으로 넘어가 보겠습니다.
+이전 글인 [Bean Scope 이해하기](/articles/spring-bean-scope/)까지는 Spring 컨테이너가 객체를 어떻게 관리하는지 살펴봤습니다. 이제부터는 그 Bean들이 실제 웹 요청을 어떻게 처리하는지 REST API 흐름으로 넘어가 보겠습니다.
 
 ## 2. @RestController란?
 
@@ -310,9 +310,9 @@ public class PostController {
 
 `PostController`는 요청을 받고 `PostService`를 호출합니다. 실제 데이터 조회나 비즈니스 규칙은 `PostService` 쪽으로 이동합니다.
 
-이 구조는 [@Autowired와 의존성 주입 방법](/blog/spring/35)에서 다룬 생성자 주입과 연결됩니다. 컨트롤러도 Spring Bean이기 때문에 다른 Bean을 생성자로 주입받을 수 있습니다.
+이 구조는 [@Autowired와 의존성 주입 방법](/articles/spring-autowired-dependency-injection/)에서 다룬 생성자 주입과 연결됩니다. 컨트롤러도 Spring Bean이기 때문에 다른 Bean을 생성자로 주입받을 수 있습니다.
 
-또한 `@RestController`도 컴포넌트 스캔 대상입니다. Spring이 컨트롤러 객체를 Bean으로 등록하고 관리한다는 점에서는 [Bean과 Component 이해하기](/blog/spring/34)에서 본 내용과 이어집니다.
+또한 `@RestController`도 컴포넌트 스캔 대상입니다. Spring이 컨트롤러 객체를 Bean으로 등록하고 관리한다는 점에서는 [Bean과 Component 이해하기](/articles/spring-bean-and-component/)에서 본 내용과 이어집니다.
 
 ## 8. URL 경로는 어떻게 잡는 게 좋을까?
 

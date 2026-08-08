@@ -23,6 +23,8 @@ describe("noteSeo", () => {
 
     expect(structuredData).toMatchObject({
       "@type": "BlogPosting",
+      "@id": "https://bluemiv.github.io/notes/example-note/#article",
+      url: "https://bluemiv.github.io/notes/example-note/",
       headline: NOTE.title,
       inLanguage: "ko",
       mainEntityOfPage: "https://bluemiv.github.io/notes/example-note/",

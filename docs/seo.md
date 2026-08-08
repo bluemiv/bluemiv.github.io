@@ -43,6 +43,15 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - 공통 이미지는 `1200×630px`, `summary_large_image`로 제공한다.
 - OG와 Twitter 생성은 `src/features/seo/socialMetadata.ts`를 단일 기준으로 사용한다.
 
+## 구조화 데이터
+
+- domain root `/`에는 `WebSite`를 한 번만 생성한다.
+- `WebSite`는 `SITE_CONFIG`의 `displayTitle`, `name`, canonical URL을 사용한다.
+- article과 note 상세는 Google Article 형식의 `BlogPosting`을 사용한다.
+- `BlogPosting`의 `@id`는 `{canonical}#article`, `url`은 canonical 절대 URL이다.
+- article은 `Home > Articles > Category > Article` breadcrumb를 함께 제공한다.
+- JSON-LD는 `<`를 `\u003c`로 escape한 뒤 native `script`로 출력한다.
+
 ## 사이트맵
 
 - 경로: `/sitemap.xml`
@@ -52,7 +61,6 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - 공개 article이 있는 category와 topic archive만 포함한다.
 - `lastmod`는 콘텐츠의 실제 `modifiedAt`을 사용한다.
 - article과 note의 `coverImage`가 있으면 image sitemap 정보로 포함한다.
-- article 구조화 데이터는 `Home > Articles > Category > Article` breadcrumb를 포함한다.
 - locale 홈은 `ko`, `en`, `ja`, `x-default` hreflang을 서로 연결한다.
 - Google이 사용하지 않는 `priority`, `changefreq`는 만들지 않는다.
 
@@ -89,5 +97,7 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - article, note, category, topic, locale 경로가 바뀌면 sitemap과 feed 생성기를 함께 갱신한다.
 - 새 policy route는 sitemap과 feed에 넣지 않고 `noindex, follow`를 적용한다.
 - `lastmod`에 빌드 시각이나 현재 시각을 넣지 않는다.
-- `pnpm build`는 내부 링크, SEO 정적 산출물, 내부 검색 index를 함께 검증한다.
+- 색인 페이지의 내부 link는 legacy redirect가 아닌 최종 canonical URL과 trailing slash를 사용한다.
+- `pnpm build`는 누락된 link와 redirect를 거치는 link를 모두 거부한다.
+- `pnpm build`는 내부 링크, `WebSite` JSON-LD, SEO 정적 산출물, 내부 검색 index를 함께 검증한다.
 - 변경 후 test, XML 문법 검사, static export 산출물 검증을 실행한다.

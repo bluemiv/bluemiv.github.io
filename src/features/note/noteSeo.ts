@@ -8,6 +8,8 @@ export function getNoteStructuredData(note: NoteMetadata, canonicalPath: string)
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "@id": `${canonicalUrl}#article`,
+    url: canonicalUrl,
     headline: note.title,
     description: note.description,
     inLanguage: note.locale,

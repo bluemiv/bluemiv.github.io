@@ -41,7 +41,21 @@ function writeValidOutput(outputDirectory) {
       '<meta name="twitter:title" content="Title" />' +
       '<meta name="twitter:description" content="Description" />' +
       `<meta name="twitter:image" content="${EXPECTED_ORIGIN}/og-default.webp" />`;
-    writeFile(outputDirectory, `${route ? `${route}/` : ""}index.html`, feedLinks + socialMetadata);
+    const websiteStructuredData = route
+      ? ""
+      : `<script type="application/ld+json">${JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": `${EXPECTED_ORIGIN}/#website`,
+          url: `${EXPECTED_ORIGIN}/`,
+          name: "Bluemiv Blog",
+          alternateName: "Bluemiv",
+        })}</script>`;
+    writeFile(
+      outputDirectory,
+      `${route ? `${route}/` : ""}index.html`,
+      feedLinks + socialMetadata + websiteStructuredData,
+    );
   }
   writeFile(outputDirectory, "og-default.webp", Buffer.alloc(5_001));
   writeFile(
@@ -115,6 +129,22 @@ describe("staticSeoVerification", () => {
         "Page is missing twitter:image: /notes/",
         "Page has missing or wrong twitter:card: /notes/",
       ]),
+    );
+  });
+
+  it("홈의 WebSite 구조화 데이터 누락을 보고한다", () => {
+    const outputDirectory = createOutputDirectory();
+    writeValidOutput(outputDirectory);
+    const homePath = path.join(outputDirectory, "index.html");
+    fs.writeFileSync(
+      homePath,
+      fs
+        .readFileSync(homePath, "utf8")
+        .replace(/<script type="application\/ld\+json">.*?<\/script>/, ""),
+    );
+
+    expect(findStaticSeoErrors(outputDirectory, EXPECTED_ORIGIN)).toEqual(
+      expect.arrayContaining(["Home is missing WebSite structured data"]),
     );
   });
 

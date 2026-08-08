@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { HomePage } from "@/components/widgets/HomePage";
+import { SITE_CONFIG } from "@/config/siteConfig";
 import {
   getLanguageAlternates,
   getLocalizedPath,
@@ -17,16 +18,17 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
 
   const copy = HOME_COPY[locale];
   const canonical = getLocalizedPath(locale);
+  const title = `${copy.metadata.title} | ${SITE_CONFIG.name}`;
 
   return {
-    title: copy.metadata.title,
+    title: { absolute: title },
     description: copy.metadata.description,
     alternates: {
       canonical,
       languages: getLanguageAlternates(),
     },
     ...createWebsiteSocialMetadata({
-      title: copy.metadata.title,
+      title,
       description: copy.metadata.description,
       canonical,
       locale,

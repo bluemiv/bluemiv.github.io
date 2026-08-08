@@ -75,6 +75,43 @@ function getCanonicalHref(html) {
   return undefined;
 }
 
+function getStructuredDataNodes(html, errors, route) {
+  const nodes = [];
+
+  for (const match of html.matchAll(
+    /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
+  )) {
+    try {
+      const structuredData = JSON.parse(match[1]);
+      nodes.push(structuredData);
+      if (Array.isArray(structuredData?.["@graph"])) nodes.push(...structuredData["@graph"]);
+    } catch {
+      errors.push(`Page has invalid JSON-LD: ${route}`);
+    }
+  }
+
+  return nodes;
+}
+
+function validateWebsiteStructuredData(errors, expectedOrigin, html) {
+  const website = getStructuredDataNodes(html, errors, "/").find(
+    (node) => node?.["@type"] === "WebSite",
+  );
+  const expectedUrl = `${expectedOrigin}/`;
+
+  if (!website) {
+    errors.push("Home is missing WebSite structured data");
+    return;
+  }
+
+  if (website.url !== expectedUrl || website["@id"] !== `${expectedUrl}#website`) {
+    errors.push("Home WebSite structured data has a wrong canonical URL");
+  }
+  if (!website.name || !website.alternateName) {
+    errors.push("Home WebSite structured data is missing site names");
+  }
+}
+
 function validateSocialMetadata(errors, outputDirectory, route, expectedUrl, html) {
   if (getCanonicalHref(html) !== expectedUrl) {
     errors.push(`Page has missing or wrong canonical: ${route}`);
@@ -244,6 +281,12 @@ export function findStaticSeoErrors(outputDirectory, expectedOrigin) {
       errors.push(`Page is missing RSS discovery: ${route}`);
     }
   }
+
+  validateWebsiteStructuredData(
+    errors,
+    expectedOrigin,
+    fs.readFileSync(getStaticHtmlPath(outputDirectory, "/"), "utf8"),
+  );
 
   return errors;
 }

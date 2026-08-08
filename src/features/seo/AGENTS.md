@@ -1,6 +1,7 @@
 # seo 규칙
 
 - sitemap, robots, RSS, Atom 같은 검색·구독용 정적 문서를 담당한다.
+- domain root의 `WebSite` 구조화 데이터와 안전한 직렬화를 담당한다.
 - 검색 노출 대상은 canonical URL만 포함한다.
 - canonical, hreflang, sitemap URL은 locale와 trailing slash 규칙을 공유한다.
 - app 상세는 sitemap에 포함한다. app 목록, policy document, redirect는 제외한다.
@@ -12,3 +13,4 @@
 - redirect source와 noindex 문서는 검색 discovery 산출물에서 제외한다.
 - 색인 페이지의 OG와 Twitter Card는 `socialMetadata.ts`에서 생성한다.
 - article과 note는 개별 cover를 우선하고 없으면 `/og-default.webp`를 사용한다.
+- `WebSite`의 `name`, `alternateName`, canonical `url`은 `SITE_CONFIG`를 사용한다.

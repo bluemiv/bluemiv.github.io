@@ -34,7 +34,7 @@ Bean 생성 전후에 필요한 작업
 
 Spring Bean 생명주기는 Bean이 만들어지고, 의존성이 주입되고, 초기화되고, 종료될 때 정리되는 전체 흐름을 말합니다.
 
-이전 글인 [@Configuration과 설정 클래스](/blog/spring/36)에서 `@Bean`으로 객체를 등록하는 방법을 살펴봤습니다. 이번 글에서는 등록된 Bean이 Spring 컨테이너 안에서 어떤 순서로 준비되고 정리되는지 알아보겠습니다.
+이전 글인 [@Configuration과 설정 클래스](/articles/spring-configuration-class/)에서 `@Bean`으로 객체를 등록하는 방법을 살펴봤습니다. 이번 글에서는 등록된 Bean이 Spring 컨테이너 안에서 어떤 순서로 준비되고 정리되는지 알아보겠습니다.
 
 ## 2. Bean 생명주기 한눈에 보기
 
@@ -150,7 +150,7 @@ public class ProductCache {
 
 위 코드에서 `productRepository`는 생성자 주입으로 먼저 전달되고, 이후 `@PostConstruct` 메서드에서 사용할 수 있습니다.
 
-의존성 주입 방식은 [@Autowired와 의존성 주입 방법](/blog/spring/35)에서 다룬 내용과 이어집니다.
+의존성 주입 방식은 [@Autowired와 의존성 주입 방법](/articles/spring-autowired-dependency-injection/)에서 다룬 내용과 이어집니다.
 
 ## 5. @PreDestroy로 종료 작업하기
 
@@ -209,7 +209,7 @@ public class ExternalApiConfig {
 
 Spring은 `externalApiClient` Bean을 만든 뒤 `connect()`를 호출하고, 컨테이너가 종료될 때 `disconnect()`를 호출합니다.
 
-이 방식은 [@Configuration과 설정 클래스](/blog/spring/36)에서 다룬 외부 SDK 객체 등록과 함께 자주 사용됩니다. 직접 수정할 수 없는 외부 객체를 Spring Bean으로 등록하면서 초기화와 정리 시점까지 지정할 수 있기 때문입니다.
+이 방식은 [@Configuration과 설정 클래스](/articles/spring-configuration-class/)에서 다룬 외부 SDK 객체 등록과 함께 자주 사용됩니다. 직접 수정할 수 없는 외부 객체를 Spring Bean으로 등록하면서 초기화와 정리 시점까지 지정할 수 있기 때문입니다.
 
 ## 7. InitializingBean과 DisposableBean
 

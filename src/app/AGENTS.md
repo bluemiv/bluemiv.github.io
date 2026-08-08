@@ -15,6 +15,7 @@
 - route group과 Next.js 예약 파일명은 framework 규칙을 따른다.
 - 미등록 URL은 `global-not-found.tsx`와 `experimental.globalNotFound`로 처리한다. 완전한 HTML 문서를 유지한다.
 - metadata 변경 시 canonical, hreflang, Open Graph를 함께 확인한다.
+- `WebSite` 구조화 데이터는 domain root `/`에만 생성한다.
 - sitemap, feed, robots route는 root `app`에 두고 `dynamic = "force-static"`과 static export 산출물을 검증한다.
 - policy document metadata에는 `noindex, follow`를 적용한다.
 - runtime request API와 서버 전용 기능을 쓰지 않는다.

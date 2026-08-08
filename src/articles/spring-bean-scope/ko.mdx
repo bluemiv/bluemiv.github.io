@@ -38,7 +38,7 @@ ExternalApiClient
 
 Bean Scope는 Bean 인스턴스가 얼마나 오래 유지되고, 어디까지 공유되는지를 정하는 규칙입니다.
 
-이전 글인 [Bean 생명주기(Lifecycle) 이해하기](/blog/spring/37)에서는 Bean이 생성되고 초기화되고 정리되는 흐름을 살펴봤습니다. 이번 글에서는 그 Bean이 “하나만 만들어지는지”, “필요할 때마다 새로 만들어지는지”, “요청이나 세션 단위로 관리되는지”를 알아보겠습니다.
+이전 글인 [Bean 생명주기(Lifecycle) 이해하기](/articles/spring-bean-lifecycle/)에서는 Bean이 생성되고 초기화되고 정리되는 흐름을 살펴봤습니다. 이번 글에서는 그 Bean이 “하나만 만들어지는지”, “필요할 때마다 새로 만들어지는지”, “요청이나 세션 단위로 관리되는지”를 알아보겠습니다.
 
 ## 2. Bean Scope 한눈에 보기
 
@@ -213,7 +213,7 @@ public class TemporaryClient {
 
 위 코드에서 `@PreDestroy`가 Singleton Bean처럼 자동으로 호출된다고 기대하면 안 됩니다.
 
-이 내용은 [Bean 생명주기(Lifecycle) 이해하기](/blog/spring/37)에서 다룬 종료 콜백과도 연결됩니다. Prototype Bean은 생성 이후의 책임이 사용하는 쪽으로 넘어간다는 점이 핵심입니다.
+이 내용은 [Bean 생명주기(Lifecycle) 이해하기](/articles/spring-bean-lifecycle/)에서 다룬 종료 콜백과도 연결됩니다. Prototype Bean은 생성 이후의 책임이 사용하는 쪽으로 넘어간다는 점이 핵심입니다.
 
 ## 7. Singleton Bean 안에서 Prototype Bean을 주입하면?
 

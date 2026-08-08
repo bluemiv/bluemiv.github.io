@@ -17,7 +17,7 @@ coverImage: /r/i/spring/35/thumbnail.webp
 
 ## 1. 의존성 주입 방법을 왜 구분해야 할까?
 
-Spring을 사용하면 객체를 직접 `new`로 만들기보다 Spring 컨테이너가 관리하는 Bean을 주입받아 사용합니다. 이전 글인 [IoC와 DI 이해하기](/blog/spring/33)에서 다룬 것처럼, 이 방식은 객체 생성과 연결 책임을 애플리케이션 코드에서 Spring 컨테이너로 옮기는 구조입니다.
+Spring을 사용하면 객체를 직접 `new`로 만들기보다 Spring 컨테이너가 관리하는 Bean을 주입받아 사용합니다. 이전 글인 [IoC와 DI 이해하기](/articles/spring-ioc-and-dependency-injection/)에서 다룬 것처럼, 이 방식은 객체 생성과 연결 책임을 애플리케이션 코드에서 Spring 컨테이너로 옮기는 구조입니다.
 
 그런데 의존성을 주입받는 방법은 하나만 있는 것이 아닙니다.
 
@@ -58,7 +58,7 @@ public class MemoryUserRepository implements UserRepository {
 }
 ```
 
-`MemoryUserRepository`는 `@Repository`가 붙어 있으므로 Spring Bean으로 등록됩니다. Bean 등록 방식은 [Bean과 Component 이해하기](/blog/spring/34)에서 다룬 내용과 연결됩니다.
+`MemoryUserRepository`는 `@Repository`가 붙어 있으므로 Spring Bean으로 등록됩니다. Bean 등록 방식은 [Bean과 Component 이해하기](/articles/spring-bean-and-component/)에서 다룬 내용과 연결됩니다.
 
 이제 `UserService`에서 `UserRepository`를 주입받을 수 있습니다.
 

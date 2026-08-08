@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { findBrokenStaticLinks } from "./staticLinkVerification.mjs";
+import { findBrokenStaticLinks, findIndirectStaticLinks } from "./staticLinkVerification.mjs";
 
 const TEMPORARY_DIRECTORIES = [];
 
@@ -65,5 +65,37 @@ describe("staticLinkVerification", () => {
     expect(findBrokenStaticLinks(outputDirectory)).toEqual([
       { sourceRoute: "/", targetPath: "/%E0%A4%A" },
     ]);
+  });
+
+  it("색인 페이지가 redirect URL을 거치면 최종 목적지를 함께 보고한다", () => {
+    const outputDirectory = createOutputDirectory();
+    writeFile(outputDirectory, "index.html", '<a href="/legacy/">Legacy</a>');
+    writeFile(
+      outputDirectory,
+      "legacy/index.html",
+      '<meta name="robots" content="noindex, follow" /><meta http-equiv="refresh" content="0;url=/articles/new/" />',
+    );
+    writeFile(outputDirectory, "articles/new/index.html", "<h1>New</h1>");
+
+    expect(findIndirectStaticLinks(outputDirectory)).toEqual([
+      { sourceRoute: "/", targetPath: "/legacy/", destinationPath: "/articles/new/" },
+    ]);
+  });
+
+  it("noindex 문서의 redirect 링크는 검색용 내부 링크 검사에서 제외한다", () => {
+    const outputDirectory = createOutputDirectory();
+    writeFile(
+      outputDirectory,
+      "index.html",
+      '<meta name="robots" content="noindex, follow" /><a href="/legacy/">Legacy</a>',
+    );
+    writeFile(
+      outputDirectory,
+      "legacy/index.html",
+      '<meta http-equiv="refresh" content="0;url=/articles/new/" />',
+    );
+    writeFile(outputDirectory, "articles/new/index.html", "<h1>New</h1>");
+
+    expect(findIndirectStaticLinks(outputDirectory)).toEqual([]);
   });
 });

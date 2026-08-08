@@ -30,6 +30,7 @@ export default defineConfig({
         "src/features/legacyRedirect/legacyRedirects.ts",
         "src/features/navigation/siteNavigation.ts",
         "src/features/note/noteMetadata.ts",
+        "src/features/note/noteDocument.ts",
         "src/features/note/noteIdentifier.ts",
         "src/features/note/noteNavigation.ts",
         "src/features/note/noteRepository.ts",

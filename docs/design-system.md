@@ -1,7 +1,7 @@
 # Bluemiv Tech Blog V2 디자인 시스템
 
 > 상태: V2 기준 문서
-> 마지막 검토: 2026-08-07
+> 마지막 검토: 2026-08-08
 > 구현 기준: Next.js 16, Tailwind CSS v4, static export
 
 이 문서는 Bluemiv Tech Blog V2의 시각 언어, 레이아웃, 컴포넌트, 상호작용, 접근성 기준을 정의하는 단일 원천이다. UI를 만들거나 수정하기 전에 이 문서를 먼저 확인한다.
@@ -466,8 +466,11 @@ Short notes:
 - note row는 번호, tag, 제목, 설명, 발행일 순서의 divider list로 구성한다.
 - mobile에서는 날짜와 이동 화살표를 본문 아래 한 행에 두고 설명은 최대 3행으로 제한한다.
 - note 설명은 범위와 독자가 얻을 내용을 한 문장으로 쓰고 같은 서술어를 반복하지 않는다.
-- 상세 페이지는 최대 `760px` 단일 reading column을 사용하고 sidebar, 광고, TOC, 큰 cover를 두지 않는다.
+- 상세 페이지는 최대 `760px` 단일 reading column을 사용하고 sidebar, 광고, 큰 cover를 두지 않는다.
 - 상세 header는 목록 복귀, `Note / N01`, 제목, 설명, 작성·발행·수정 정보 순서로 구성한다.
+- h2가 3개 이상이면 본문 위에 divider 기반 compact TOC를 표시하고, 1~2개면 생략한다.
+- note TOC는 h2만 사용한다. source의 기존 번호는 anchor 호환을 위해 유지하되 label과 화면 heading 번호는 build time에 자동 생성한다.
+- article용 sticky sidebar나 접이식 mobile TOC를 note에 재사용하지 않는다.
 - article 본문 스타일을 공유하되 heading 간격은 짧은 호흡에 맞게 줄인다.
 - 한국어 제목, 설명, 본문은 어절 우선으로 줄바꿈하고 긴 code와 URL은 `overflow-wrap` fallback을 유지한다.
 - 본문 뒤에는 tag와 더 이전·더 최근 note 탐색을 둔다.

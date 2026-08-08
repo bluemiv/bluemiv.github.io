@@ -3,7 +3,11 @@ import { notFound } from "next/navigation";
 
 import { NoteDetailPage } from "@/components/widgets/NoteDetailPage";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
-import { getNoteMetadata, getPublishedNotes } from "@/features/note/noteRepository";
+import {
+  getNoteDocument,
+  getNoteMetadata,
+  getPublishedNotes,
+} from "@/features/note/noteRepository";
 import { getNoteNavigation } from "@/features/note/noteNavigation";
 import { getNoteStructuredData, serializeNoteStructuredData } from "@/features/note/noteSeo";
 
@@ -58,9 +62,11 @@ export async function generateMetadata({ params }: PageProps<"/notes/[slug]">): 
 
 export default async function NotePage({ params }: PageProps<"/notes/[slug]">) {
   const { slug } = await params;
-  const note = getNoteMetadata(slug, NOTE_LOCALE);
+  const noteDocument = getNoteDocument(slug, NOTE_LOCALE);
 
-  if (!note?.isPublished) notFound();
+  if (!noteDocument?.metadata.isPublished) notFound();
+
+  const { metadata: note } = noteDocument;
 
   const { default: NoteBody } = await import(`@/notes/${slug}/${NOTE_LOCALE}.mdx`);
   const notes = getPublishedNotes(NOTE_LOCALE);
@@ -74,7 +80,7 @@ export default async function NotePage({ params }: PageProps<"/notes/[slug]">) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeNoteStructuredData(structuredData) }}
       />
-      <NoteDetailPage note={note} navigation={navigation}>
+      <NoteDetailPage note={note} headings={noteDocument.headings} navigation={navigation}>
         <NoteBody />
       </NoteDetailPage>
     </>

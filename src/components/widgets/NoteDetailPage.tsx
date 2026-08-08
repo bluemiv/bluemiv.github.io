@@ -3,13 +3,16 @@ import type { PropsWithChildren } from "react";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { NoteTableOfContents } from "@/components/widgets/NoteTableOfContents";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { shouldShowNoteTableOfContents, type NoteHeading } from "@/features/note/noteDocument";
 import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 import type { NoteNavigation } from "@/features/note/noteNavigation";
 
 type PropsWithNoteDetailPage = PropsWithChildren<{
+  headings: readonly NoteHeading[];
   navigation: NoteNavigation;
   note: NoteMetadata;
 }>;
@@ -25,8 +28,9 @@ function getNotePath(slug: string): string {
   return getLocalizedPath("ko", `notes/${slug}`);
 }
 
-export function NoteDetailPage({ note, navigation, children }: PropsWithNoteDetailPage) {
+export function NoteDetailPage({ note, headings, navigation, children }: PropsWithNoteDetailPage) {
   const hasModifiedDate = note.modifiedAt !== note.publishedAt;
+  const hasTableOfContents = shouldShowNoteTableOfContents(headings);
 
   return (
     <Container className="py-12 md:py-20">
@@ -83,7 +87,12 @@ export function NoteDetailPage({ note, navigation, children }: PropsWithNoteDeta
           </dl>
         </header>
 
-        <div className="article-body note-body mt-12 md:mt-16">{children}</div>
+        <div className="mt-12 md:mt-16">
+          {hasTableOfContents ? <NoteTableOfContents headings={headings} /> : null}
+          <div className={`article-body note-body ${hasTableOfContents ? "mt-10" : ""}`}>
+            {children}
+          </div>
+        </div>
 
         {note.tags.length ? (
           <footer className="border-border mt-14 border-t pt-7">

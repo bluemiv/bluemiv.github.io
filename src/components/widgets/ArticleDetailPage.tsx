@@ -43,6 +43,9 @@ export function ArticleDetailPage({
 }: PropsWithArticleDetailPage) {
   const hasModifiedDate = article.modifiedAt !== article.publishedAt;
   const publicationLabels = PUBLICATION_METADATA_COPY[article.locale];
+  const articleNumber = article.id.replace("article-", "");
+  const categoryLabel = getArticleCategoryLabel(article.category);
+  const primaryTopicLabel = getArticleTopicLabel(article.topics[0]);
 
   return (
     <ArticleReadingProvider headings={headings}>
@@ -69,7 +72,7 @@ export function ArticleDetailPage({
                     transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
                     className="hover:text-accent-hover underline-offset-4 hover:underline"
                   >
-                    {getArticleCategoryLabel(article.category)}
+                    {categoryLabel}
                   </Link>
                   <span aria-hidden="true"> / </span>
                   {article.topics.map((topic, index) => (
@@ -85,7 +88,7 @@ export function ArticleDetailPage({
                     </Fragment>
                   ))}
                   <span aria-hidden="true"> / </span>
-                  {article.id.replace("article-", "")}
+                  {articleNumber}
                 </p>
               </div>
 
@@ -127,15 +130,28 @@ export function ArticleDetailPage({
                 default="none"
                 share="article-cover"
               >
-                <figure className="border-border bg-surface-muted relative mt-12 aspect-[16/8.5] max-w-[1120px] overflow-hidden rounded-[4px] border md:mt-16">
-                  <Image
-                    fill
-                    priority
-                    sizes="(min-width: 1184px) 1120px, calc(100vw - 40px)"
-                    src={article.coverImage}
-                    alt={`${article.title} 대표 이미지`}
-                    className="object-contain"
-                  />
+                <figure className="article-detail-cover border-border bg-surface-muted relative mt-12 aspect-[32/17] max-w-[1120px] overflow-hidden rounded-[4px] border md:mt-16">
+                  <div className="article-detail-cover-media absolute inset-x-0 -top-[4%] h-[108%]">
+                    <Image
+                      fill
+                      priority
+                      sizes="(min-width: 1184px) 1120px, calc(100vw - 40px)"
+                      src={article.coverImage}
+                      alt={article.title}
+                      className="object-cover"
+                    />
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="border-code-foreground/15 bg-code/80 text-code-foreground absolute inset-x-0 bottom-0 z-10 flex min-h-11 items-center justify-between gap-4 border-t px-4 py-2 font-mono text-xs backdrop-blur-sm sm:px-5"
+                  >
+                    <span className="text-accent font-semibold tracking-[0.1em] uppercase">
+                      Article / A{articleNumber}
+                    </span>
+                    <span className="truncate text-right tracking-[0.06em] uppercase">
+                      {categoryLabel} / {primaryTopicLabel}
+                    </span>
+                  </div>
                 </figure>
               </ViewTransition>
             ) : null}

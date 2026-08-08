@@ -19,3 +19,5 @@
 - blog page 전환은 `PageTransition`으로 감싸고 navigation의 `forward`, `back`, `swap` 의미를 사용한다.
 - pagination은 실제 정적 route만 link하고 현재 페이지에 `aria-current="page"`를 제공한다.
 - widget interaction 변경 후 production build를 desktop/mobile에서 직접 확인한다.
+- article detail cover는 문서 흐름을 유지하고 image layer만 transform으로 drift한다. title과
+  description을 overlay에 반복하지 않고 article 번호와 대표 분류만 표시한다.

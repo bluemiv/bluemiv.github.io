@@ -491,6 +491,10 @@ Short notes:
 - 클릭 가능한 topic/tag만 chip 허용.
 - author/date/read time을 pill로 만들지 않는다.
 - cover는 최대 폭을 넓힐 수 있지만 본문 rhythm을 깨지 않는다.
+- 상세 cover는 sticky/fixed로 읽기 시작을 지연시키지 않는다. frame은 정상 문서 흐름에 두고 image
+  layer만 위로 짧게 이동해 깊이를 만든다.
+- 제목과 description은 cover 위에 반복하지 않는다. cover overlay는 article 번호와 대표
+  category/topic만 낮은 강도로 표시하고 screen reader의 중복 탐색에서 제외한다.
 - 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.
 - desktop sidebar는 topic 탐색, 광고, TOC, 관련 article을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
 - desktop TOC는 sidebar 내부 thin rail이며 TOC만 sticky를 허용한다. 별도 heavy card 금지.
@@ -501,6 +505,10 @@ Short notes:
 
 - `@next/mdx`로 article MDX를 build time에 컴파일하고 GFM, heading anchor, syntax highlighting을 적용한다.
 - header는 넓은 editorial 영역, 본문은 최대 `760px`, desktop sidebar는 `300px`로 구성한다.
+- 상세 cover는 `32:17` frame을 `object-cover`로 채운다. image layer는 frame보다 세로로 `8%`
+  크게 두고 view timeline에서 `translateY(2%)`부터 `-2%`까지만 이동한다.
+- cover drift는 CSS progressive enhancement다. JavaScript scroll listener를 추가하지 않고 reduced
+  motion에서는 정적 cover로 표시한다.
 - desktop은 광고 다음에 thin rail TOC를 두고 TOC만 sticky 처리한다.
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
 - 본문 뒤에는 tag, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
@@ -795,6 +803,13 @@ Home scroll-driven detail:
 - text 전체를 fade-in하지 않는다. cover도 기본 CSS에서는 완전히 보이며, 지원 브라우저에서만 view timeline을 적용한다.
 - section마다 반복 reveal을 추가하지 않는다.
 
+Article detail cover:
+
+- cover frame은 일반 문서 흐름을 유지한다. sticky/fixed cover와 본문 겹침을 사용하지 않는다.
+- image layer만 view timeline과 `transform`으로 이동한다. 이동 범위는 frame 내부 `4%` 이하다.
+- overlay에는 title/description을 반복하지 않는다. article 번호와 대표 분류만 표시한다.
+- 지원하지 않는 browser와 reduced motion에서는 중앙 정렬된 정적 cover로 fallback한다.
+
 Page transition:
 
 - Next.js App Router의 React View Transition을 progressive enhancement로 사용한다.
@@ -964,6 +979,7 @@ text-accent / bg-accent / border-accent
 - [ ] Reading Ruler와 TOC가 같은 active heading을 표시하고 keyboard로 이동 가능한가?
 - [ ] sidebar가 category/topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
+- [ ] cover drift가 읽기 시작을 늦추거나 title/description을 중복하지 않는가?
 - [ ] mobile code/table scroll이 되는가?
 - [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?
 - [ ] archive thumbnail이 제목보다 강하지 않고, cover가 없는 행에 빈 공간을 남기지 않는가?

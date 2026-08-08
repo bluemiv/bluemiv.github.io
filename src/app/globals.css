@@ -366,6 +366,10 @@ select {
 }
 
 @supports (animation-timeline: view()) {
+  .article-detail-cover {
+    view-timeline: --article-detail-cover block;
+  }
+
   .motion-section-marker::after {
     animation: section-marker-reveal linear both;
     animation-range: entry 0% cover 25%;
@@ -376,6 +380,12 @@ select {
     animation: featured-cover-reveal linear both;
     animation-range: entry 0% cover 32%;
     animation-timeline: view(block);
+  }
+
+  .article-detail-cover-media {
+    animation: article-detail-cover-drift linear both;
+    animation-range: cover 0% cover 100%;
+    animation-timeline: --article-detail-cover;
   }
 }
 
@@ -390,6 +400,16 @@ select {
   from {
     transform: scale(0.99);
     opacity: 0.72;
+  }
+}
+
+@keyframes article-detail-cover-drift {
+  from {
+    transform: translateY(2%);
+  }
+
+  to {
+    transform: translateY(-2%);
   }
 }
 
@@ -938,6 +958,7 @@ select {
   }
 
   .home-featured-cover-reveal,
+  .article-detail-cover-media,
   .motion-section-marker::after,
   .article-code-copy-icon,
   .article-code-copy-label {

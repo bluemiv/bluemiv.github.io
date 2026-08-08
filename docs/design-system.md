@@ -557,6 +557,17 @@ Short notes:
 - policy 본문은 기존 법적 문구를 유지하고 실명과 개인 전화번호는 공개하지 않는다.
 - policy에는 sidebar, 광고, app 목록 navigation, 장식용 cover를 두지 않는다.
 
+### 9.6 Not found
+
+- 404는 `Blueprint Editorial`의 비어 있는 좌표로 표현한다. 경고색, 삽화형 캐릭터, 큰 card를 쓰지 않는다.
+- 실제 안내와 복귀 동선을 먼저 읽히게 하고 큰 `404`, 좌표선, grid는 낮은 대비의 장식으로만 사용한다.
+- 제목은 `이 좌표에는 기록이 없습니다.`를 사용한다. 설명은 페이지 부재와 주소 변경 가능성을 함께 알린다.
+- primary action은 한국어 홈, secondary action은 전체 Articles로 연결한다.
+- header와 footer를 유지하되 광고, 추천 글, locale별로 존재하지 않는 복구 경로는 넣지 않는다.
+- mobile에서는 장식 좌표 field를 숨겨 메시지와 action에 공간을 우선한다.
+- 여러 root layout 밖의 미등록 URL도 동일하게 처리하도록 `global-not-found.tsx`에서 완전한 HTML 문서를 생성한다.
+- Next.js가 404에 자동 생성하는 `noindex`를 유지하고 별도 robots metadata를 중복 생성하지 않는다.
+
 ## 10. 컴포넌트 규칙
 
 ### 10.1 Header

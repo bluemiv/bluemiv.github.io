@@ -101,12 +101,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
           aria-label={copy.homeLabel}
         >
           <BrandMark className="text-accent size-5 shrink-0" />
-          <span className="flex items-baseline gap-2.5">
-            <span className="text-base font-bold">Bluemiv</span>
-            <span className="text-subtle hidden font-mono text-xs font-medium tracking-[0.14em] uppercase lg:inline">
-              / Field Notes
-            </span>
-          </span>
+          <span className="text-base font-bold">Bluemiv</span>
         </Link>
 
         {navItems.length ? (

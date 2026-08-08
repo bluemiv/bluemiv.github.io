@@ -98,7 +98,7 @@ blueprint grid, 번호, 좌표, 얇은 cobalt rail을 시그니처로 사용한�
 - `Featured`, `Latest`, `Status` 같은 쉬운 단어는 짧은 분류·장식 label일 때 영어를 우선한다.
 - 문장, CTA, 오류, 도움말, 접근성 label은 사용자가 자연스럽게 이해하도록 각 locale 언어로 번역한다.
 - 해당 언어권에서 현지어 표기가 일반적인 용어는 쉬운 영어라도 자연스러운 현지어를 우선한다.
-- `FIELD NOTES`, `EDITION` 같은 영어 표기는 장식 또는 분류에만 제한.
+- `EDITION`, `NEW RELEASE` 같은 영어 표기는 장식 또는 분류에만 제한.
 - 한 문장 안에서 한국어와 영어를 불필요하게 섞지 않는다.
 - hero copy는 2~4행, 설명은 2문장 이하.
 
@@ -527,6 +527,7 @@ Short notes:
 - sticky 허용.
 - header surface는 `canvas 80%`와 `backdrop-blur-xl`을 사용해 본문과 분리하되 배경 흐름을 남긴다.
 - desktop은 logo, 중앙 primary navigation, utility control의 3영역으로 구성한다.
+- header wordmark는 `Bluemiv`만 사용하고 tagline이나 장식 문구를 덧붙이지 않는다.
 - active navigation은 text와 1px accent rail을 함께 사용한다.
 - locale에 실제 archive/detail route가 없으면 해당 primary navigation과 mobile menu trigger를 노출하지 않는다. 404 link를 구조 보존용으로 두지 않는다.
 - 언어 메뉴의 현재 locale은 현 경로를 유지한다. 대응 번역 route가 없는 다른 locale은 존재하지 않는 경로 대신 해당 locale 홈으로 이동한다.

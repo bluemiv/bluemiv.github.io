@@ -1,11 +1,10 @@
 import { Fragment, type PropsWithChildren, ViewTransition } from "react";
 
-import { CalendarDays, Clock3, History, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
-import { MetadataList, type MetadataListItem } from "@/components/atoms/MetadataList";
+import { PublicationMetadata } from "@/components/atoms/PublicationMetadata";
 import { ArticleDetailSidebar } from "@/components/widgets/ArticleDetailSidebar";
 import { ArticleReadingRuler } from "@/components/widgets/ArticleReadingRuler";
 import { ArticleTableOfContents } from "@/components/widgets/ArticleTableOfContents";
@@ -17,6 +16,11 @@ import type { ArticleNavigation } from "@/features/article/articleNavigation";
 import { ArticleReadingProvider } from "@/features/article/ArticleReadingProvider";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import {
+  formatApproximateReadingTime,
+  formatPublicationDate,
+} from "@/features/i18n/publicationMetadata";
+import { PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticleDetailPage = PropsWithChildren<{
@@ -25,13 +29,6 @@ type PropsWithArticleDetailPage = PropsWithChildren<{
   readingTimeMinutes: number;
   navigation: ArticleNavigation;
 }>;
-
-const DATE_FORMATTER = new Intl.DateTimeFormat("ko-KR", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  timeZone: "Asia/Seoul",
-});
 
 function getArticlePath(slug: string): string {
   return getLocalizedPath("ko", `articles/${slug}`);
@@ -45,40 +42,7 @@ export function ArticleDetailPage({
   children,
 }: PropsWithArticleDetailPage) {
   const hasModifiedDate = article.modifiedAt !== article.publishedAt;
-  const metadataItems: MetadataListItem[] = [
-    {
-      icon: UserRound,
-      label: "작성자",
-      value: article.author,
-    },
-    {
-      icon: CalendarDays,
-      label: "발행일",
-      value: (
-        <time dateTime={article.publishedAt}>
-          {DATE_FORMATTER.format(new Date(article.publishedAt))}
-        </time>
-      ),
-    },
-    ...(hasModifiedDate
-      ? [
-          {
-            icon: History,
-            label: "수정일",
-            value: (
-              <time dateTime={article.modifiedAt}>
-                {DATE_FORMATTER.format(new Date(article.modifiedAt))}
-              </time>
-            ),
-          },
-        ]
-      : []),
-    {
-      icon: Clock3,
-      label: "예상 읽기 시간",
-      value: <time dateTime={`PT${readingTimeMinutes}M`}>약 {readingTimeMinutes}분</time>,
-    },
-  ];
+  const publicationLabels = PUBLICATION_METADATA_COPY[article.locale];
 
   return (
     <ArticleReadingProvider headings={headings}>
@@ -135,7 +99,26 @@ export function ArticleDetailPage({
                 {article.description}
               </p>
 
-              <MetadataList items={metadataItems} />
+              <PublicationMetadata
+                author={article.author}
+                labels={publicationLabels}
+                publishedAt={{
+                  dateTime: article.publishedAt,
+                  text: formatPublicationDate(article.publishedAt, article.locale),
+                }}
+                modifiedAt={
+                  hasModifiedDate
+                    ? {
+                        dateTime: article.modifiedAt,
+                        text: formatPublicationDate(article.modifiedAt, article.locale),
+                      }
+                    : undefined
+                }
+                readingTime={{
+                  minutes: readingTimeMinutes,
+                  text: formatApproximateReadingTime(readingTimeMinutes, article.locale),
+                }}
+              />
             </header>
 
             {article.coverImage ? (

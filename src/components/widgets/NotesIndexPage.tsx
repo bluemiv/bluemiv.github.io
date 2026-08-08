@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
 import { PageTransition } from "@/components/widgets/PageTransition";
-import { SITE_CONFIG } from "@/config/siteConfig";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
@@ -17,21 +17,6 @@ type PropsWithNoteRow = {
   locale: Locale;
   note: NoteMetadata;
 };
-
-const DATE_LOCALES: Record<Locale, string> = {
-  ko: "ko-KR",
-  en: "en-US",
-  ja: "ja-JP",
-};
-
-function formatDate(dateTime: string, locale: Locale): string {
-  return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: SITE_CONFIG.timeZone,
-  }).format(new Date(dateTime));
-}
 
 function NoteRow({ locale, note }: PropsWithNoteRow) {
   return (
@@ -64,7 +49,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
             dateTime={note.publishedAt}
             className="text-muted font-mono text-xs tabular-nums md:col-start-3 md:row-start-1 md:text-right"
           >
-            {formatDate(note.publishedAt, locale)}
+            {formatPublicationDate(note.publishedAt, locale)}
           </time>
           <span
             className="text-accent text-lg leading-none transition-transform duration-150 group-hover:translate-x-1 group-focus-visible:translate-x-1 motion-reduce:transition-none md:col-start-4 md:row-start-1"

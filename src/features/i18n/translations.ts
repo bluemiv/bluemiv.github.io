@@ -65,6 +65,13 @@ type HomeCopy = {
   };
 };
 
+type PublicationMetadataCopy = {
+  author: string;
+  publishedAt: string;
+  modifiedAt: string;
+  readingTime: string;
+};
+
 export const LANGUAGE_NAMES: Record<Locale, { native: string; english: string }> = {
   ko: { native: "한국어", english: "Korean" },
   en: { native: "English", english: "English" },
@@ -116,6 +123,27 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       light: "ライトテーマに切り替え",
       dark: "ダークテーマに切り替え",
     },
+  },
+};
+
+export const PUBLICATION_METADATA_COPY: Record<Locale, PublicationMetadataCopy> = {
+  ko: {
+    author: "작성자",
+    publishedAt: "발행",
+    modifiedAt: "수정",
+    readingTime: "예상 읽기 시간",
+  },
+  en: {
+    author: "Author",
+    publishedAt: "Published",
+    modifiedAt: "Updated",
+    readingTime: "Estimated reading time",
+  },
+  ja: {
+    author: "著者",
+    publishedAt: "公開",
+    modifiedAt: "更新",
+    readingTime: "推定読了時間",
   },
 };
 

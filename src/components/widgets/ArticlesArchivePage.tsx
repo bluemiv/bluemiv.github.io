@@ -5,7 +5,6 @@ import { ArticleArchiveLayout } from "@/components/widgets/ArticleArchiveLayout"
 import { ArticleSidebar, MobileTaxonomyIndex } from "@/components/widgets/ArticleSidebar";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { PaginationNavigation } from "@/components/widgets/PaginationNavigation";
-import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import type { ArticleCategorySummary } from "@/features/article/articleCollection";
@@ -23,6 +22,7 @@ import {
   type ArticleTopic,
 } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticlesArchivePage = {
@@ -39,21 +39,6 @@ type PropsWithArticleArchiveRow = {
   article: ArticleMetadata;
   locale: Locale;
 };
-
-const DATE_LOCALES: Record<Locale, string> = {
-  ko: "ko-KR",
-  en: "en-US",
-  ja: "ja-JP",
-};
-
-function formatArticleDate(dateTime: string, locale: Locale): string {
-  return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: SITE_CONFIG.timeZone,
-  }).format(new Date(dateTime));
-}
 
 function getArticleNumber(id: string): string {
   return id.replace("article-", "").padStart(3, "0");
@@ -83,7 +68,7 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
         </span>
         <span className="text-muted col-span-2 flex gap-3 font-mono text-xs tabular-nums md:col-span-1 md:block md:text-right">
           <time dateTime={article.publishedAt} className="block">
-            {formatArticleDate(article.publishedAt, locale)}
+            {formatPublicationDate(article.publishedAt, locale)}
           </time>
           {document ? <span className="mt-1 block">{document.readingTimeMinutes} MIN</span> : null}
         </span>

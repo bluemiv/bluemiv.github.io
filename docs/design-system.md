@@ -466,11 +466,17 @@ Short notes:
 규칙:
 
 - article 자체를 card로 감싸지 않는다.
-- metadata는 조용한 inline text.
-- 상세 metadata는 `16px` Lucide 아이콘과 값을 함께 사용한다. 작성자, 발행일, 수정일, 예상
-  읽기 시간 label은 시각적으로 감추되 `<dt>`로 유지한다.
+- metadata는 조용한 inline text와 mono typography를 사용한다.
+- article과 note 상세의 발행 정보는 공통 `PublicationMetadata`를 사용한다. 호출부에서 같은
+  markup이나 날짜 formatter를 다시 만들지 않는다.
+- 작성자는 `UserRound`, 예상 읽기 시간은 `Clock3` 아이콘을 값과 함께 사용한다. 발행일과
+  수정일은 아이콘 대신 locale별 `발행`·`수정` label을 실제 화면에 표시해 두 날짜를 명확히
+  구분한다.
+- 날짜는 home, archive, 상세 모두 locale별 숫자 형식과 `SITE_CONFIG.timeZone`을 공유한다.
 - 예상 읽기 시간은 `Clock3` 아이콘과 `약 {n}분`으로 표시하고, machine-readable
   `time[datetime="PT{n}M"]`을 제공한다. 아이콘만으로 의미를 전달하지 않는다.
+- 상세 발행 정보는 mobile에서 2-column, `sm` 이상에서 한 줄 flex로 배치한다. 수정일 유무에
+  따른 wrapping이 정보 관계를 바꾸지 않아야 한다.
 - 클릭 가능한 topic/tag만 chip 허용.
 - author/date/read time을 pill로 만들지 않는다.
 - cover는 최대 폭을 넓힐 수 있지만 본문 rhythm을 깨지 않는다.
@@ -506,8 +512,8 @@ Short notes:
 - mobile에서는 날짜와 이동 화살표를 본문 아래 한 행에 두고 설명은 최대 3행으로 제한한다.
 - note 설명은 범위와 독자가 얻을 내용을 한 문장으로 쓰고 같은 서술어를 반복하지 않는다.
 - 상세 페이지는 최대 `760px` 단일 reading column을 사용하고 sidebar, 광고, 큰 cover를 두지 않는다.
-- 상세 header는 목록 복귀, `Note / N01`, 제목, 설명, 아이콘을 곁들인 작성자·발행일·수정일
-  정보 순서로 구성한다.
+- 상세 header는 목록 복귀, `Note / N01`, 제목, 설명, 공통 `PublicationMetadata` 순서로
+  구성한다. article과 같은 날짜 형식, label, 반응형 배치를 사용한다.
 - h2가 3개 이상이면 본문 위에 divider 기반 compact TOC를 표시하고, 1~2개면 생략한다.
 - note TOC는 h2만 사용한다. source의 기존 번호는 anchor 호환을 위해 유지하되 label과 화면 heading 번호는 build time에 자동 생성한다.
 - article용 sticky sidebar나 접이식 mobile TOC를 note에 재사용하지 않는다.

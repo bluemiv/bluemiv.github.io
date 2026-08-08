@@ -13,6 +13,7 @@ import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getArticleDocument, getPublishedArticles } from "@/features/article/articleRepository";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
 import { HOME_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
@@ -27,21 +28,6 @@ type PropsWithArticleRow = {
   article: ArticleMetadata;
   locale: Locale;
 };
-
-const DATE_LOCALES: Record<Locale, string> = {
-  ko: "ko-KR",
-  en: "en-US",
-  ja: "ja-JP",
-};
-
-function formatDate(dateTime: string, locale: Locale): string {
-  return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: SITE_CONFIG.timeZone,
-  }).format(new Date(dateTime));
-}
 
 function getEntryNumber(id: string): string {
   return id.split("-").at(-1)?.padStart(3, "0") ?? "000";
@@ -77,7 +63,7 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
           dateTime={article.publishedAt}
           className="text-muted col-start-2 font-mono text-xs tabular-nums md:col-start-4 md:row-start-1 md:text-right"
         >
-          {formatDate(article.publishedAt, locale)}
+          {formatPublicationDate(article.publishedAt, locale)}
         </time>
       </Link>
     </article>
@@ -191,7 +177,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 dateTime={featuredArticle.publishedAt}
                 className="text-muted hidden font-mono text-xs tabular-nums sm:block"
               >
-                {formatDate(featuredArticle.publishedAt, locale)}
+                {formatPublicationDate(featuredArticle.publishedAt, locale)}
               </time>
             </div>
 

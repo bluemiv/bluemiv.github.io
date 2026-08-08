@@ -1,14 +1,14 @@
 import type { PropsWithChildren } from "react";
 
-import { CalendarDays, History, UserRound } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
-import { MetadataList, type MetadataListItem } from "@/components/atoms/MetadataList";
+import { PublicationMetadata } from "@/components/atoms/PublicationMetadata";
 import { NoteTableOfContents } from "@/components/widgets/NoteTableOfContents";
 import { PageTransition } from "@/components/widgets/PageTransition";
-import { SITE_CONFIG } from "@/config/siteConfig";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
+import { PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { shouldShowNoteTableOfContents, type NoteHeading } from "@/features/note/noteDocument";
 import { getNoteNumber } from "@/features/note/noteIdentifier";
@@ -21,13 +21,6 @@ type PropsWithNoteDetailPage = PropsWithChildren<{
   note: NoteMetadata;
 }>;
 
-const DATE_FORMATTER = new Intl.DateTimeFormat("ko-KR", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  timeZone: SITE_CONFIG.timeZone,
-});
-
 function getNotePath(slug: string): string {
   return getLocalizedPath("ko", `notes/${slug}`);
 }
@@ -35,33 +28,7 @@ function getNotePath(slug: string): string {
 export function NoteDetailPage({ note, headings, navigation, children }: PropsWithNoteDetailPage) {
   const hasModifiedDate = note.modifiedAt !== note.publishedAt;
   const hasTableOfContents = shouldShowNoteTableOfContents(headings);
-  const metadataItems: MetadataListItem[] = [
-    {
-      icon: UserRound,
-      label: "작성자",
-      value: note.author,
-    },
-    {
-      icon: CalendarDays,
-      label: "발행일",
-      value: (
-        <time dateTime={note.publishedAt}>{DATE_FORMATTER.format(new Date(note.publishedAt))}</time>
-      ),
-    },
-    ...(hasModifiedDate
-      ? [
-          {
-            icon: History,
-            label: "수정일",
-            value: (
-              <time dateTime={note.modifiedAt}>
-                {DATE_FORMATTER.format(new Date(note.modifiedAt))}
-              </time>
-            ),
-          },
-        ]
-      : []),
-  ];
+  const publicationLabels = PUBLICATION_METADATA_COPY[note.locale];
 
   return (
     <PageTransition>
@@ -94,7 +61,22 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
               {note.description}
             </p>
 
-            <MetadataList items={metadataItems} />
+            <PublicationMetadata
+              author={note.author}
+              labels={publicationLabels}
+              publishedAt={{
+                dateTime: note.publishedAt,
+                text: formatPublicationDate(note.publishedAt, note.locale),
+              }}
+              modifiedAt={
+                hasModifiedDate
+                  ? {
+                      dateTime: note.modifiedAt,
+                      text: formatPublicationDate(note.modifiedAt, note.locale),
+                    }
+                  : undefined
+              }
+            />
           </header>
 
           <div className="mt-12 md:mt-16">

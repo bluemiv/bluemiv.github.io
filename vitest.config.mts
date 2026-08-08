@@ -29,6 +29,7 @@ export default defineConfig({
         "src/features/article/articleSeo.ts",
         "src/features/article/articleTaxonomy.ts",
         "src/features/i18n/localeConfig.ts",
+        "src/features/i18n/publicationMetadata.ts",
         "src/features/legacyRedirect/legacyRedirects.ts",
         "src/features/navigation/siteNavigation.ts",
         "src/features/note/noteMetadata.ts",

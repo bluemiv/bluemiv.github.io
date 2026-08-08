@@ -353,12 +353,12 @@ select {
   color: var(--theme-accent);
 }
 
-.article-archive-thumbnail-media {
+.article-list-thumbnail-media {
   -webkit-mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / 45%) 10%, black 34%);
   mask-image: linear-gradient(to right, transparent 0%, rgb(0 0 0 / 45%) 10%, black 34%);
 }
 
-.article-archive-thumbnail::after {
+.article-list-thumbnail::after {
   position: absolute;
   z-index: 1;
   top: 50%;
@@ -376,8 +376,8 @@ select {
     opacity var(--motion-duration-fast) ease-out;
 }
 
-.article-list-link:hover .article-archive-thumbnail::after,
-.article-list-link:focus-visible .article-archive-thumbnail::after {
+.article-list-link:hover .article-list-thumbnail::after,
+.article-list-link:focus-visible .article-list-thumbnail::after {
   transform: translateY(-50%) scaleY(1);
   opacity: 0.78;
 }

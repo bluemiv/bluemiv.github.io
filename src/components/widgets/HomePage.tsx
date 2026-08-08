@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
+import { ArticleListRow } from "@/components/widgets/ArticleListRow";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
@@ -24,50 +25,12 @@ type PropsWithHomePage = {
   locale: Locale;
 };
 
-type PropsWithArticleRow = {
-  article: ArticleMetadata;
-  locale: Locale;
-};
-
 function getEntryNumber(id: string): string {
   return id.split("-").at(-1)?.padStart(3, "0") ?? "000";
 }
 
 function getArticleClassification(article: ArticleMetadata): string {
   return `${getArticleCategoryLabel(article.category)} / ${getArticleTopicLabel(article.topics[0])}`;
-}
-
-function ArticleRow({ article, locale }: PropsWithArticleRow) {
-  const articleHref = getLocalizedPath(locale, `articles/${article.slug}`);
-
-  return (
-    <article className="border-border border-b">
-      <Link
-        href={articleHref}
-        transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-        className="article-list-link group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 px-2 py-7 md:grid-cols-[52px_144px_minmax(0,1fr)_104px] md:items-start md:px-3"
-      >
-        <span className="text-subtle font-mono text-xs">A{getEntryNumber(article.id)}</span>
-        <span className="text-accent font-mono text-xs font-semibold tracking-[0.08em] uppercase">
-          {getArticleClassification(article)}
-        </span>
-        <span className="col-start-2 md:col-start-3 md:row-start-1">
-          <strong className="article-list-title block text-lg leading-7 font-semibold tracking-[-0.025em] motion-reduce:transition-none md:text-xl">
-            {article.title}
-          </strong>
-          <span className="text-muted mt-2 line-clamp-2 block max-w-[560px] text-sm leading-6">
-            {article.description}
-          </span>
-        </span>
-        <time
-          dateTime={article.publishedAt}
-          className="text-muted col-start-2 font-mono text-xs tabular-nums md:col-start-4 md:row-start-1 md:text-right"
-        >
-          {formatPublicationDate(article.publishedAt, locale)}
-        </time>
-      </Link>
-    </article>
-  );
 }
 
 function getNoteHref(locale: Locale, note: NoteMetadata): string {
@@ -317,7 +280,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               <div>
                 {latestArticles.map((article, index) => (
                   <div key={article.id}>
-                    <ArticleRow article={article} locale={locale} />
+                    <ArticleListRow article={article} locale={locale} />
                     {showHomeAd && index === 2 ? (
                       <div className="xl:hidden">
                         <AdSenseSlot format="banner" />

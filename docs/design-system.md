@@ -397,7 +397,9 @@ Featured article:
 Latest articles:
 
 - card grid 대신 divider 기반 list.
-- 목록에는 thumbnail을 반복하지 않는다. 제목, 설명, topic, 날짜의 탐색 밀도를 우선하고 대표 이미지는 Featured article에만 집중한다.
+- archive와 같은 공통 article row를 사용한다. 우측 compact thumbnail은 제목보다 낮은 강도로 표시하고
+  왼쪽 canvas dissolve로 text와 연결한다.
+- cover가 없는 article은 placeholder와 빈 column 없이 text가 남은 폭을 사용한다.
 - desktop에서 설명 표시 가능.
 - mobile에서는 설명을 2행으로 제한하거나 숨긴다.
 - 번호와 arrow가 중복 장식이 되면 하나를 제거한다.
@@ -433,15 +435,15 @@ Short notes:
   사용한다. 선택되지 않은 topic마다 세로 border를 반복하지 않는다.
 - 선택 category/topic은 `aria-current="page"`, accent text와 얇은 underline/rail로 표시한다.
 - filter가 많으면 horizontal scroll 또는 search와 결합.
-- 글 목록은 home latest의 divider와 active rail 문법을 공유하되 우측에 compact cover thumbnail을
-  추가한다. thumbnail 때문에 card grid로 바꾸지 않는다.
-- archive thumbnail은 `32:17` frame을 사용하고 mobile `112px`, `sm` `160px`, `md` 이상
+- 글 목록은 Home Latest와 같은 공통 article row를 사용한다. divider, active rail, compact cover
+  thumbnail 문법을 함께 유지하고 thumbnail 때문에 card grid로 바꾸지 않는다.
+- 공통 article row thumbnail은 `32:17` frame을 사용하고 mobile `112px`, `sm` `160px`, `md` 이상
   `176px` 폭으로 제한한다. 제목과 분류가 항상 thumbnail보다 먼저 읽혀야 한다.
 - thumbnail 왼쪽 34%는 image와 border를 함께 canvas로 dissolve해 text에서 image로 이어지는 경계를
   부드럽게 만든다. 단순 opacity 장식은 반복하지 않고 hover/focus에서만 경계에 짧은 accent
   registration tick을 표시한다.
 - cover가 없으면 placeholder와 빈 column을 만들지 않는다. 같은 link 안의 제목이 목적을 설명하므로
-  archive thumbnail의 alt는 비운다.
+  article row thumbnail의 alt는 비운다.
 - 전체 article archive는 최신순으로 페이지당 10개를 표시한다.
 - 첫 페이지 URL은 `/articles/`를 유지하고 2페이지부터 `/articles/page/{pageNumber}/`로 SSG 생성한다. `/articles/page/1/`은 만들지 않는다.
 - 각 페이지는 고유 title, description, canonical과 실제 이전·다음 관계를 가진다.
@@ -714,7 +716,7 @@ Short notes:
 
 - article `coverImage`는 선택 사항.
 - 이미지가 없다고 빈 placeholder card를 만들지 않는다.
-- archive thumbnail은 `object-cover`로 frame을 채운다. 왼쪽 canvas dissolve를 유지하고 image 자체에는
+- article row thumbnail은 `object-cover`로 frame을 채운다. 왼쪽 canvas dissolve를 유지하고 image 자체에는
   최대 `scale(1.01)` hover만 허용한다.
 - topic cover는 typography, 번호, 간단한 code/diagram을 조합한다.
 - grid motif는 cover마다 같은 밀도로 반복하지 않는다.
@@ -969,6 +971,7 @@ text-accent / bg-accent / border-accent
 - [ ] blueprint motif가 과하지 않은가?
 - [ ] 실제 콘텐츠 제목 길이로 검증했는가?
 - [ ] featured와 latest에 같은 article이 중복되지 않는가?
+- [ ] Latest와 archive가 같은 article row를 사용하고 thumbnail이 제목보다 강하지 않은가?
 - [ ] article, note, topic count가 repository의 실제 데이터와 일치하는가?
 - [ ] 번역 없는 locale에 가짜 article이나 존재하지 않는 detail link가 표시되지 않는가?
 - [ ] desktop rail과 mobile flow에서 광고가 하나만 초기화되는가?

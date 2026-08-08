@@ -50,6 +50,15 @@ docs/                설계 문서
 - 사용하지 않는 파일과 빈 디렉토리는 제거한다.
 - 가까운 디렉토리의 `AGENTS.md`를 함께 따른다.
 
+## public asset
+
+- `public/`에는 `AGENTS.md`를 두지 않는다. 브라우저에 공개할 배포 asset만 둔다.
+- `ads.txt`, `.nojekyll`, `sw.js` 경로를 바꾸지 않는다.
+- `r/`는 기존 article asset URL 호환 경로다.
+- `bluemiv-mark.svg`와 `src/app/icon.svg`의 geometry를 동일하게 유지한다.
+- 공개 asset 경로는 소문자 kebab-case를 쓴다. 기존 호환 경로는 예외다.
+- 사용하지 않는 생성물, source map, 원본 편집 파일을 커밋하지 않는다.
+
 ## 룰 파일 작성
 
 - 짧은 명령문으로 쓴다. 배경 설명과 예시는 꼭 필요할 때만 둔다.

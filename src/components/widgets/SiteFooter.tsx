@@ -19,10 +19,10 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
         <div className="max-w-xl">
           <p className="text-foreground font-bold">Bluemiv Tech Blog</p>
           <p className="mt-2 text-xs leading-6">{copy.footer.description}</p>
-          <p className="text-subtle mt-1 font-mono text-[10px] tracking-[0.12em] uppercase">
+          <p className="text-subtle text-micro mt-1 font-mono tracking-[0.12em] uppercase">
             Static since 2017
           </p>
-          <div className="border-border text-subtle mt-6 flex flex-col gap-1 border-t pt-4 font-mono text-[10px] leading-5 sm:flex-row sm:gap-5">
+          <div className="border-border text-muted mt-6 flex flex-col gap-1 border-t pt-4 font-mono text-xs leading-5 sm:flex-row sm:gap-5">
             <p>© 2017–{currentYear} Bluemiv. All rights reserved.</p>
             <p>Designed &amp; built by Bluemiv.</p>
           </div>

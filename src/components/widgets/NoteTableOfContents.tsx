@@ -11,7 +11,7 @@ export function NoteTableOfContents({ headings }: PropsWithNoteTableOfContents) 
         <h2 id="note-toc-title" className="text-xs font-bold tracking-[0.08em] uppercase">
           On this note
         </h2>
-        <span className="text-subtle font-mono text-[9px]">{headings.length} SECTIONS</span>
+        <span className="text-subtle text-micro font-mono">{headings.length} SECTIONS</span>
       </div>
 
       <ol className="mt-3">
@@ -21,7 +21,7 @@ export function NoteTableOfContents({ headings }: PropsWithNoteTableOfContents) 
               href={`#${heading.id}`}
               className="text-muted hover:text-accent grid min-h-11 grid-cols-[36px_minmax(0,1fr)] items-center gap-3 text-sm leading-6 transition-colors"
             >
-              <span aria-hidden="true" className="text-subtle font-mono text-[9px]">
+              <span aria-hidden="true" className="text-muted text-micro font-mono">
                 {heading.number}
               </span>
               <span>{heading.title}</span>

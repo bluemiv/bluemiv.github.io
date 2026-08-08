@@ -9,7 +9,7 @@ export function PolicyDocumentPage({ document }: PropsWithPolicyDocumentPage) {
   return (
     <Container className="py-14 md:py-20">
       <div className="mx-auto max-w-[820px]">
-        <div className="border-border text-muted mb-10 flex items-center justify-between border-b pb-4 font-mono text-[10px] tracking-[0.12em] uppercase">
+        <div className="border-border text-muted mb-10 flex items-center justify-between border-b pb-4 font-mono text-xs tracking-[0.12em] uppercase">
           <span>Legal document</span>
           <span>{document.locale}</span>
         </div>

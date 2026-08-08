@@ -43,7 +43,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
         </span>
 
         <span className="min-w-0">
-          <span className="text-accent flex flex-wrap gap-x-3 gap-y-1 font-mono text-[9px] font-semibold tracking-[0.08em] uppercase">
+          <span className="text-accent text-micro flex flex-wrap gap-x-3 gap-y-1 font-mono font-semibold tracking-[0.08em] uppercase">
             {note.tags.map((tag) => (
               <span key={tag}>#{tag}</span>
             ))}
@@ -59,7 +59,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
         <span className="col-start-2 flex items-center justify-between gap-4 md:contents">
           <time
             dateTime={note.publishedAt}
-            className="text-subtle font-mono text-[10px] tabular-nums md:col-start-3 md:row-start-1 md:text-right"
+            className="text-muted font-mono text-xs tabular-nums md:col-start-3 md:row-start-1 md:text-right"
           >
             {formatDate(note.publishedAt, locale)}
           </time>
@@ -79,7 +79,7 @@ export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
   return (
     <Container className="py-16 md:py-24">
       <header className="border-border max-w-[920px] border-b pb-12 md:pb-16">
-        <p className="text-accent mb-5 font-mono text-[10px] font-bold tracking-[0.18em] uppercase">
+        <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
           Notes / Index
         </p>
         <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep md:text-6xl">
@@ -93,14 +93,14 @@ export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
       <section className="mt-12 max-w-[920px] md:mt-16" aria-labelledby="note-list-title">
         <div className="border-border flex items-end justify-between gap-6 border-b pb-4">
           <div>
-            <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+            <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
               Latest first
             </p>
             <h2 id="note-list-title" className="mt-2 text-sm font-bold tracking-[0.08em] uppercase">
               All notes
             </h2>
           </div>
-          <span className="text-subtle font-mono text-[9px] tabular-nums">
+          <span className="text-muted text-micro font-mono tabular-nums">
             {String(notes.length).padStart(2, "0")} Entries
           </span>
         </div>

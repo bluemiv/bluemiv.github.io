@@ -97,8 +97,8 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
           >
             <BrandMark className="text-accent size-5 shrink-0" />
             <span className="flex items-baseline gap-2.5">
-              <span className="text-[15px] font-bold">Bluemiv</span>
-              <span className="text-subtle hidden font-mono text-[9px] font-medium tracking-[0.14em] uppercase lg:inline">
+              <span className="text-base font-bold">Bluemiv</span>
+              <span className="text-subtle text-micro hidden font-mono font-medium tracking-[0.14em] uppercase lg:inline">
                 / Field Notes
               </span>
             </span>
@@ -117,7 +117,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
                       <Link
                         href={item.href}
                         aria-current={isActive ? "page" : undefined}
-                        className={`after:bg-accent relative inline-flex min-h-11 items-center px-3 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase transition-colors after:absolute after:right-3 after:bottom-1.5 after:left-3 after:h-px after:origin-left after:transition-transform after:duration-200 motion-reduce:transition-none motion-reduce:after:transition-none ${
+                        className={`after:bg-accent relative inline-flex min-h-11 items-center px-3 font-mono text-xs font-semibold tracking-[0.1em] uppercase transition-colors after:absolute after:right-3 after:bottom-1.5 after:left-3 after:h-px after:origin-left after:transition-transform after:duration-200 motion-reduce:transition-none motion-reduce:after:transition-none ${
                           isActive
                             ? "text-foreground after:scale-x-100"
                             : "text-muted hover:text-foreground after:scale-x-0"
@@ -188,7 +188,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
                       >
                         <span
                           aria-hidden="true"
-                          className={`font-mono text-[9px] ${isActive ? "text-accent" : "text-subtle"}`}
+                          className={`text-micro font-mono ${isActive ? "text-accent" : "text-subtle"}`}
                         >
                           {String(index + 1).padStart(2, "0")}
                         </span>

@@ -53,8 +53,8 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
         href={getLocalizedPath(locale, `articles/${article.slug}`)}
         className="group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_104px] md:items-start"
       >
-        <span className="text-subtle font-mono text-[10px]">A{getArticleNumber(article.id)}</span>
-        <span className="text-accent font-mono text-[10px] font-semibold tracking-[0.06em] uppercase">
+        <span className="text-subtle text-micro font-mono">A{getArticleNumber(article.id)}</span>
+        <span className="text-accent font-mono text-xs font-semibold tracking-[0.06em] uppercase">
           {getArticleTopicLabel(article.topic)}
         </span>
         <span className="col-span-2 md:col-span-1">
@@ -65,7 +65,7 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
             {article.description}
           </span>
         </span>
-        <span className="text-subtle col-span-2 flex gap-3 font-mono text-[10px] tabular-nums md:col-span-1 md:block md:text-right">
+        <span className="text-muted col-span-2 flex gap-3 font-mono text-xs tabular-nums md:col-span-1 md:block md:text-right">
           <time dateTime={article.publishedAt} className="block">
             {formatArticleDate(article.publishedAt, locale)}
           </time>
@@ -91,7 +91,7 @@ export function ArticlesArchivePage({
       <AdSenseScript />
       <Container className="py-16 md:py-24">
         <header className="border-border max-w-[760px] border-b pb-12 md:pb-16">
-          <p className="text-accent mb-5 font-mono text-[10px] font-bold tracking-[0.18em] uppercase">
+          <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
             Articles / {activeTopicLabel ?? "Archive"}
           </p>
           <div className="flex items-end justify-between gap-6">
@@ -105,7 +105,7 @@ export function ArticlesArchivePage({
                   : "개발 과정에서 만난 문제와 선택의 이유를 기술별로 분류해 기록합니다."}
               </p>
             </div>
-            <span className="text-subtle hidden pb-2 font-mono text-[10px] tabular-nums sm:block">
+            <span className="text-muted hidden pb-2 font-mono text-xs tabular-nums sm:block">
               {String(articles.length).padStart(3, "0")} ENTRIES
             </span>
           </div>
@@ -118,7 +118,7 @@ export function ArticlesArchivePage({
             <section className="mt-10 xl:mt-0" aria-labelledby="article-list-title">
               <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
                 <div>
-                  <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+                  <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
                     Latest first
                   </p>
                   <h2

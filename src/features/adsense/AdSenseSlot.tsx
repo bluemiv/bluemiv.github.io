@@ -68,7 +68,7 @@ export function AdSenseSlot({ format }: PropsWithAdSenseSlot) {
       className={isSidebar ? "border-border border-t pt-8" : "border-border border-y py-10"}
       aria-label="광고"
     >
-      <p className="text-subtle mb-3 text-center font-mono text-[9px] tracking-[0.16em] uppercase">
+      <p className="text-muted text-micro mb-3 text-center font-mono tracking-[0.16em] uppercase">
         Advertisements
       </p>
       <div

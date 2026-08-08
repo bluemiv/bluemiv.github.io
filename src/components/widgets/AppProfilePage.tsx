@@ -12,7 +12,7 @@ export function AppProfilePage({ profile }: PropsWithAppProfilePage) {
     <Container className="py-16 md:py-24">
       <article lang={profile.locale} className="app-profile mx-auto max-w-[920px]">
         <header className="border-border border-b pb-12 md:pb-16">
-          <p className="text-accent font-mono text-[10px] font-semibold tracking-[0.14em] uppercase">
+          <p className="text-accent font-mono text-xs font-semibold tracking-[0.14em] uppercase">
             Android app
           </p>
           <h1 className="mt-5 max-w-3xl text-4xl leading-tight font-bold tracking-[-0.04em] text-balance md:text-6xl">
@@ -45,7 +45,7 @@ export function AppProfilePage({ profile }: PropsWithAppProfilePage) {
                   key={feature}
                   className="border-border grid grid-cols-[40px_1fr] gap-3 border-b py-5"
                 >
-                  <span className="text-subtle font-mono text-[10px]">
+                  <span className="text-subtle text-micro font-mono">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="font-semibold">{feature}</span>

@@ -20,7 +20,7 @@ export function ArticleDetailSidebar({
   return (
     <aside className="hidden w-[300px] self-stretch xl:block" aria-label="글 정보와 목차">
       <section className="border-border border-b pb-5" aria-labelledby="article-context-title">
-        <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+        <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
           Article context
         </p>
         <h2 id="article-context-title" className="mt-3 text-lg font-semibold">
@@ -31,7 +31,7 @@ export function ArticleDetailSidebar({
             {getArticleTopicLabel(topic)}
           </Link>
         </h2>
-        <p className="text-subtle mt-2 font-mono text-[10px] uppercase">
+        <p className="text-muted mt-2 font-mono text-xs uppercase">
           {articleId.replace("article-", "Entry / ")}
         </p>
       </section>

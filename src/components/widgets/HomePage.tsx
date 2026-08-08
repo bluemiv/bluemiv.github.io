@@ -52,8 +52,8 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
         href={articleHref}
         className="group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 py-7 md:grid-cols-[52px_104px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
-        <span className="text-subtle font-mono text-[10px]">A{getEntryNumber(article.id)}</span>
-        <span className="text-accent font-mono text-[10px] font-semibold tracking-[0.08em] uppercase">
+        <span className="text-subtle text-micro font-mono">A{getEntryNumber(article.id)}</span>
+        <span className="text-accent font-mono text-xs font-semibold tracking-[0.08em] uppercase">
           {getArticleTopicLabel(article.topic)}
         </span>
         <span className="col-start-2 md:col-start-3 md:row-start-1">
@@ -66,7 +66,7 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
         </span>
         <time
           dateTime={article.publishedAt}
-          className="text-subtle col-start-2 font-mono text-[10px] tabular-nums md:col-start-4 md:row-start-1 md:text-right"
+          className="text-muted col-start-2 font-mono text-xs tabular-nums md:col-start-4 md:row-start-1 md:text-right"
         >
           {formatDate(article.publishedAt, locale)}
         </time>
@@ -107,11 +107,11 @@ export function HomePage({ locale }: PropsWithHomePage) {
         <div className="blueprint-grid pointer-events-none absolute inset-0" aria-hidden="true" />
         <Container className="relative grid min-h-[460px] gap-8 py-10 md:min-h-[500px] md:py-12 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-end">
           <div className="max-w-[820px]">
-            <p className="text-accent mb-6 flex items-center gap-3 font-mono text-[10px] font-semibold tracking-[0.16em] uppercase md:text-xs">
+            <p className="text-accent mb-6 flex items-center gap-3 font-mono text-xs font-semibold tracking-[0.16em] uppercase">
               <span className="bg-accent h-px w-10" />
               {copy.hero.eyebrow}
             </p>
-            <h1 className="text-[clamp(2.9rem,12vw,3.5rem)] leading-[1.07] font-semibold tracking-[-0.055em] text-balance md:text-7xl lg:text-[72px]">
+            <h1 className="text-[clamp(2.9rem,12vw,3.5rem)] leading-[1.07] font-semibold tracking-[-0.055em] text-balance md:text-7xl">
               {copy.hero.lineOne}
               <br />
               {copy.hero.lineTwo}
@@ -134,7 +134,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
             ) : null}
           </div>
 
-          <aside className="border-border text-subtle border-t pt-5 font-mono text-[10px] leading-6 lg:mb-2 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5 lg:text-[11px]">
+          <aside className="border-border text-muted border-t pt-5 font-mono text-xs leading-6 lg:mb-2 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-5">
             <dl className="grid grid-cols-4 gap-x-2 lg:grid-cols-[88px_1fr] lg:gap-x-0">
               <div className="lg:contents">
                 <dt>{copy.hero.articleCountLabel.toUpperCase()}</dt>
@@ -168,7 +168,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
           <section aria-labelledby="featured-title">
             <div className="border-border mb-8 flex items-end justify-between border-b pb-4">
               <div>
-                <p className="text-accent font-mono text-[10px] tracking-[0.16em] uppercase">
+                <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
                   {copy.featured.eyebrow}
                 </p>
                 <h2
@@ -180,7 +180,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               </div>
               <time
                 dateTime={featuredArticle.publishedAt}
-                className="text-subtle hidden font-mono text-[10px] tabular-nums sm:block"
+                className="text-muted hidden font-mono text-xs tabular-nums sm:block"
               >
                 {formatDate(featuredArticle.publishedAt, locale)}
               </time>
@@ -204,7 +204,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                     <div className="relative h-full p-6 md:p-8">
                       <div className="blueprint-grid absolute inset-0" aria-hidden="true" />
                       <div className="relative flex h-full flex-col justify-between">
-                        <div className="flex items-start justify-between gap-4 font-mono text-[10px] font-semibold tracking-[0.1em] uppercase">
+                        <div className="flex items-start justify-between gap-4 font-mono text-xs font-semibold tracking-[0.1em] uppercase">
                           <span className="text-accent">
                             {getArticleTopicLabel(featuredArticle.topic)}
                           </span>
@@ -214,7 +214,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                           <span className="font-display text-accent text-[clamp(4.5rem,17vw,8rem)] leading-none font-normal tracking-[-0.07em]">
                             {getEntryNumber(featuredArticle.id)}
                           </span>
-                          <span className="text-muted mb-2 hidden max-w-24 text-right font-mono text-[9px] leading-4 tracking-[0.1em] uppercase sm:block">
+                          <span className="text-muted text-micro mb-2 hidden max-w-24 text-right font-mono leading-4 tracking-[0.1em] uppercase sm:block">
                             Filed in
                             <br />
                             {getArticleTopicLabel(featuredArticle.topic)}
@@ -226,7 +226,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                 </div>
 
                 <div className="flex flex-col justify-center py-1 md:px-7">
-                  <p className="text-muted font-mono text-[10px] tracking-[0.06em] uppercase">
+                  <p className="text-muted font-mono text-xs tracking-[0.06em] uppercase">
                     {getArticleTopicLabel(featuredArticle.topic)}
                     {featuredDocument
                       ? ` · ${featuredDocument.readingTimeMinutes} ${copy.featured.readTimeSuffix}`
@@ -238,7 +238,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                   <p className="text-muted mt-6 max-w-[560px] text-base leading-8">
                     {featuredArticle.description}
                   </p>
-                  <div className="text-subtle mt-7 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] uppercase">
+                  <div className="text-muted mt-7 flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs uppercase">
                     {featuredArticle.tags.slice(0, 3).map((tag) => (
                       <span key={tag}>#{tag}</span>
                     ))}
@@ -265,7 +265,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
           <section aria-labelledby="latest-title">
             <div className="border-border grid gap-4 border-b pb-5 sm:grid-cols-[1fr_auto] sm:items-end">
               <div>
-                <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+                <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
                   {copy.latest.eyebrow}
                 </p>
                 <h2
@@ -288,7 +288,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
 
             {topics.length > 0 ? (
               <div className="border-border border-b py-5 xl:hidden">
-                <p className="text-subtle mb-3 font-mono text-[9px] tracking-[0.16em] uppercase">
+                <p className="text-muted text-micro mb-3 font-mono tracking-[0.16em] uppercase">
                   {copy.topics.heading}
                 </p>
                 <ul className="flex [scrollbar-width:none] gap-5 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
@@ -299,7 +299,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                         className="text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-b border-transparent px-1 text-xs transition-colors hover:border-current"
                       >
                         <span className="font-semibold">{getArticleTopicLabel(topic)}</span>
-                        <span className="text-subtle font-mono text-[9px] tabular-nums">
+                        <span className="text-muted text-micro font-mono tabular-nums">
                           {count}
                         </span>
                       </Link>
@@ -333,7 +333,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
             <aside className="hidden xl:block" aria-label={copy.topics.heading}>
               <section aria-labelledby="home-topics-title">
                 <div className="border-border border-b pb-4">
-                  <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+                  <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
                     {copy.topics.eyebrow}
                   </p>
                   <div className="mt-2 flex items-end justify-between gap-4">
@@ -343,7 +343,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                     >
                       {copy.topics.heading}
                     </h2>
-                    <span className="text-subtle font-mono text-[9px] tabular-nums">
+                    <span className="text-muted text-micro font-mono tabular-nums">
                       {topics.length.toString().padStart(2, "0")}
                     </span>
                   </div>
@@ -356,13 +356,13 @@ export function HomePage({ locale }: PropsWithHomePage) {
                         href={getLocalizedPath(locale, `topics/${topic}`)}
                         className="group grid min-h-14 grid-cols-[28px_1fr_auto_16px] items-center gap-3 text-sm"
                       >
-                        <span className="text-subtle font-mono text-[9px]">
+                        <span className="text-subtle text-micro font-mono">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         <span className="group-hover:text-accent text-foreground font-semibold transition-colors">
                           {getArticleTopicLabel(topic)}
                         </span>
-                        <span className="text-subtle font-mono text-[9px] tabular-nums">
+                        <span className="text-muted text-micro font-mono tabular-nums">
                           {count}
                         </span>
                         <span
@@ -391,7 +391,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
         <section className="bg-foreground text-canvas py-16 md:py-20" aria-labelledby="notes-title">
           <Container className="grid gap-10 md:grid-cols-[1fr_2fr]">
             <div>
-              <p className="text-blueprint-400 font-mono text-[10px] tracking-[0.16em] uppercase">
+              <p className="text-blueprint-400 font-mono text-xs tracking-[0.16em] uppercase">
                 {copy.notes.eyebrow}
               </p>
               <h2 id="notes-title" className="font-display mt-4 text-4xl md:text-5xl">

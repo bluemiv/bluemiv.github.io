@@ -48,7 +48,7 @@ export function ArticleDetailPage({
           <header className="max-w-[940px]">
             <Link
               href={getLocalizedPath("ko", "articles")}
-              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-[10px] tracking-[0.12em] uppercase transition-colors"
+              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-xs tracking-[0.12em] uppercase transition-colors"
             >
               <span aria-hidden="true">←</span>
               <span className="ml-2">All articles</span>
@@ -56,7 +56,7 @@ export function ArticleDetailPage({
 
             <div className="mt-8 flex items-center gap-4">
               <span className="bg-accent h-px w-8" aria-hidden="true" />
-              <p className="text-accent font-mono text-[10px] font-semibold tracking-[0.16em] uppercase">
+              <p className="text-accent font-mono text-xs font-semibold tracking-[0.16em] uppercase">
                 <Link
                   href={getLocalizedPath("ko", `topics/${article.topic}`)}
                   className="hover:text-accent-hover underline-offset-4 hover:underline"
@@ -79,12 +79,12 @@ export function ArticleDetailPage({
 
             <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-xs">
               <div className="flex gap-2">
-                <dt className="text-subtle">작성</dt>
-                <dd>{article.author}</dd>
+                <dt>작성</dt>
+                <dd className="text-foreground">{article.author}</dd>
               </div>
               <div className="flex gap-2">
-                <dt className="text-subtle">발행</dt>
-                <dd>
+                <dt>발행</dt>
+                <dd className="text-foreground">
                   <time dateTime={article.publishedAt}>
                     {DATE_FORMATTER.format(new Date(article.publishedAt))}
                   </time>
@@ -92,8 +92,8 @@ export function ArticleDetailPage({
               </div>
               {hasModifiedDate ? (
                 <div className="flex gap-2">
-                  <dt className="text-subtle">수정</dt>
-                  <dd>
+                  <dt>수정</dt>
+                  <dd className="text-foreground">
                     <time dateTime={article.modifiedAt}>
                       {DATE_FORMATTER.format(new Date(article.modifiedAt))}
                     </time>
@@ -101,8 +101,8 @@ export function ArticleDetailPage({
                 </div>
               ) : null}
               <div className="flex gap-2">
-                <dt className="text-subtle">읽기</dt>
-                <dd>{readingTimeMinutes}분</dd>
+                <dt>읽기</dt>
+                <dd className="text-foreground">{readingTimeMinutes}분</dd>
               </div>
             </dl>
           </header>
@@ -128,7 +128,7 @@ export function ArticleDetailPage({
 
               {article.tags.length ? (
                 <footer className="border-border mt-16 border-t pt-7">
-                  <p className="text-subtle font-mono text-[9px] tracking-[0.16em] uppercase">
+                  <p className="text-muted text-micro font-mono tracking-[0.16em] uppercase">
                     Filed under
                   </p>
                   <ul className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
@@ -146,7 +146,7 @@ export function ArticleDetailPage({
                 >
                   <div className="flex items-end justify-between gap-6">
                     <div>
-                      <p className="text-accent font-mono text-[9px] tracking-[0.16em] uppercase">
+                      <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
                         Continue exploring
                       </p>
                       <h2
@@ -156,7 +156,7 @@ export function ArticleDetailPage({
                         같은 주제의 글
                       </h2>
                     </div>
-                    <span className="text-subtle hidden font-mono text-[9px] uppercase sm:block">
+                    <span className="text-muted text-micro hidden font-mono uppercase sm:block">
                       {article.topic}
                     </span>
                   </div>
@@ -170,7 +170,7 @@ export function ArticleDetailPage({
                           href={getArticlePath(relatedArticle.slug)}
                           className="group grid grid-cols-[32px_minmax(0,1fr)_auto] gap-3 py-5"
                         >
-                          <span className="text-subtle pt-1 font-mono text-[10px]">
+                          <span className="text-subtle text-micro pt-1 font-mono">
                             {String(index + 1).padStart(2, "0")}
                           </span>
                           <span className="group-hover:text-accent text-base font-semibold transition-colors md:text-lg">
@@ -199,7 +199,7 @@ export function ArticleDetailPage({
                       href={getArticlePath(navigation.olderArticle.slug)}
                       className="group py-7 sm:pr-7"
                     >
-                      <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
+                      <span className="text-muted font-mono text-xs tracking-[0.12em] uppercase">
                         ← 이전 글
                       </span>
                       <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold transition-colors">
@@ -214,7 +214,7 @@ export function ArticleDetailPage({
                         navigation.olderArticle ? "border-t sm:border-t-0" : "sm:col-start-2"
                       }`}
                     >
-                      <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
+                      <span className="text-muted font-mono text-xs tracking-[0.12em] uppercase">
                         다음 글 →
                       </span>
                       <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold transition-colors">

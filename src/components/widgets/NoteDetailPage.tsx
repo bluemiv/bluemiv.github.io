@@ -38,7 +38,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
         <header>
           <Link
             href={getLocalizedPath("ko", "notes")}
-            className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-[10px] tracking-[0.12em] uppercase transition-colors"
+            className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-xs tracking-[0.12em] uppercase transition-colors"
           >
             <span aria-hidden="true">←</span>
             <span className="ml-2">All notes</span>
@@ -46,7 +46,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
           <div className="mt-8 flex items-center gap-4">
             <span className="bg-accent h-px w-8" aria-hidden="true" />
-            <p className="text-accent font-mono text-[10px] font-semibold tracking-[0.16em] uppercase">
+            <p className="text-accent font-mono text-xs font-semibold tracking-[0.16em] uppercase">
               Note / N{getNoteNumber(note.id)}
             </p>
           </div>
@@ -63,12 +63,12 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
           <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-xs">
             <div className="flex gap-2">
-              <dt className="text-subtle">작성</dt>
-              <dd>{note.author}</dd>
+              <dt>작성</dt>
+              <dd className="text-foreground">{note.author}</dd>
             </div>
             <div className="flex gap-2">
-              <dt className="text-subtle">발행</dt>
-              <dd>
+              <dt>발행</dt>
+              <dd className="text-foreground">
                 <time dateTime={note.publishedAt}>
                   {DATE_FORMATTER.format(new Date(note.publishedAt))}
                 </time>
@@ -76,8 +76,8 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
             </div>
             {hasModifiedDate ? (
               <div className="flex gap-2">
-                <dt className="text-subtle">수정</dt>
-                <dd>
+                <dt>수정</dt>
+                <dd className="text-foreground">
                   <time dateTime={note.modifiedAt}>
                     {DATE_FORMATTER.format(new Date(note.modifiedAt))}
                   </time>
@@ -96,7 +96,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
         {note.tags.length ? (
           <footer className="border-border mt-14 border-t pt-7">
-            <p className="text-subtle font-mono text-[9px] tracking-[0.16em] uppercase">
+            <p className="text-muted text-micro font-mono tracking-[0.16em] uppercase">
               Filed under
             </p>
             <ul className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
@@ -114,7 +114,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
           >
             {navigation.olderNote ? (
               <Link href={getNotePath(navigation.olderNote.slug)} className="group py-7 sm:pr-7">
-                <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
+                <span className="text-muted font-mono text-xs tracking-[0.12em] uppercase">
                   ← 더 이전 기록
                 </span>
                 <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold break-keep transition-colors">
@@ -129,7 +129,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
                   navigation.olderNote ? "border-t sm:border-t-0" : "sm:col-start-2"
                 }`}
               >
-                <span className="text-subtle font-mono text-[9px] tracking-[0.12em] uppercase">
+                <span className="text-muted font-mono text-xs tracking-[0.12em] uppercase">
                   더 최근 기록 →
                 </span>
                 <span className="group-hover:text-accent mt-3 block text-sm leading-6 font-semibold break-keep transition-colors">

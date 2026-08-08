@@ -13,7 +13,7 @@ export function LocaleSwitcher({ currentPath, locale }: PropsWithLocaleSwitcher)
   return (
     <details className="group relative">
       <summary
-        className="text-muted hover:text-foreground flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center gap-1 px-1.5 font-mono text-[10px] font-semibold tracking-[0.08em] transition-colors"
+        className="text-muted hover:text-foreground flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center gap-1 px-1.5 font-mono text-xs font-semibold tracking-[0.08em] transition-colors"
         aria-label={SITE_COPY[locale].languageLabel}
       >
         <span>{locale.toUpperCase()}</span>

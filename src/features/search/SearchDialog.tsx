@@ -163,7 +163,7 @@ export function SearchDialog({
       lang={locale}
       aria-labelledby="site-search-title"
       aria-describedby="site-search-description"
-      className="border-border bg-canvas text-foreground fixed inset-0 m-auto max-h-[min(720px,calc(100dvh-32px))] w-[min(720px,calc(100vw-24px))] [transform:translateY(8px)] overflow-hidden rounded-[8px] border p-0 opacity-0 shadow-2xl transition-[opacity,transform,overlay,display] [transition-behavior:allow-discrete] duration-200 backdrop:bg-[#11120f]/45 backdrop:backdrop-blur-sm open:[transform:translateY(0)] open:opacity-100 motion-reduce:transition-none motion-reduce:open:[transform:none]"
+      className="border-border bg-canvas text-foreground fixed inset-x-0 top-[var(--search-dialog-top)] mx-auto my-0 max-h-[min(720px,calc(100dvh_-_var(--search-dialog-top)_-_16px))] w-[min(720px,calc(100vw-24px))] [transform:translateY(8px)] overflow-hidden rounded-[8px] border p-0 opacity-0 shadow-2xl transition-[opacity,transform,overlay,display] [transition-behavior:allow-discrete] duration-200 [--search-dialog-top:16px] backdrop:bg-[#11120f]/45 backdrop:backdrop-blur-sm open:[transform:translateY(0)] open:opacity-100 motion-reduce:transition-none motion-reduce:open:[transform:none] sm:[--search-dialog-top:clamp(24px,8dvh,80px)]"
       onCancel={(event) => {
         event.preventDefault();
         onRequestClose();

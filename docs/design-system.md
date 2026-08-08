@@ -671,7 +671,9 @@ Short notes:
 - 검색 결과는 thumbnail이나 개별 card 없이 divider list로 최대 8개 표시한다.
 - result는 type, category, title, 두 줄 excerpt 순서로 구성하고 일치 구간만 accent-soft로 표시한다.
 - dialog는 최대 `720px`, radius `8px`, canvas 배경과 어두운 blur backdrop을 사용한다.
-- mobile dialog는 viewport 좌우 최소 `12px`, 위아래 최소 `16px`를 남기고 내부 결과만 scroll한다.
+- dialog 상단은 mobile `16px`, desktop `clamp(24px, 8dvh, 80px)`에 고정한다. 결과 수가
+  바뀌어도 상단은 움직이지 않고 아래 방향으로만 확장한다.
+- viewport 좌우 최소 `12px`, 하단 최소 `16px`를 남기고 최대 높이를 넘으면 내부 결과만 scroll한다.
 - 모든 trigger, filter, close control은 최소 `44px` target을 유지한다.
 - 검색 field focus는 바깥 container의 1px accent border와 quiet surface 변화로만 표시한다. input
   자체 outline을 겹치지 않는다.

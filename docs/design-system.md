@@ -527,7 +527,9 @@ Short notes:
 
 ### 10.1 Header
 
-- 바깥 shell은 `72px`를 유지하고, scroll down compact 상태에서는 surface와 내부 콘텐츠만 시각적으로 `60px` 높이에 맞춘다. layout height를 animation하지 않는다.
+- 바깥 shell은 `72px`를 유지하고, scroll down compact 상태에서는 surface와 내부 콘텐츠만
+  시각적으로 `56px` 높이에 맞춘다. layout height를 animation하지 않는다. `44px` touch target
+  위아래에 각각 `6px` 여백을 남긴다.
 - logo, primary navigation, search, theme control만 배치.
 - sticky 허용.
 - header surface는 `canvas 80%`와 `backdrop-blur-xl`을 사용해 본문과 분리하되 배경 흐름을 남긴다.

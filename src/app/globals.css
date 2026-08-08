@@ -304,11 +304,11 @@ select {
 }
 
 .site-header[data-compact="true"] .site-header-surface {
-  transform: scaleY(0.833333);
+  transform: scaleY(0.777778);
 }
 
 .site-header[data-compact="true"] .site-header-content {
-  transform: translateY(-0.375rem);
+  transform: translateY(-0.5rem);
 }
 
 .article-reading-ruler[data-scrolling="true"] {

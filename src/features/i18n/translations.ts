@@ -17,9 +17,6 @@ type SiteCopy = {
     light: string;
     dark: string;
   };
-  footer: {
-    description: string;
-  };
 };
 
 type HomeCopy = {
@@ -89,7 +86,6 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       light: "라이트 테마로 전환",
       dark: "다크 테마로 전환",
     },
-    footer: { description: "서울에서 기록하는 정적 기술 아카이브" },
   },
   en: {
     homeLabel: "Bluemiv home",
@@ -105,7 +101,6 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       light: "Switch to light theme",
       dark: "Switch to dark theme",
     },
-    footer: { description: "A static technology archive from Seoul" },
   },
   ja: {
     homeLabel: "Bluemiv ホーム",
@@ -121,7 +116,6 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
       light: "ライトテーマに切り替え",
       dark: "ダークテーマに切り替え",
     },
-    footer: { description: "ソウルから綴る静的な技術アーカイブ" },
   },
 };
 

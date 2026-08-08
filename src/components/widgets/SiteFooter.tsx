@@ -5,14 +5,12 @@ import { SITE_CONFIG } from "@/config/siteConfig";
 import { getEarliestArticlePublicationYear } from "@/features/article/articleCollection";
 import { getPublishedArticles } from "@/features/article/articleRepository";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
-import { SITE_COPY } from "@/features/i18n/translations";
 
 type PropsWithSiteFooter = {
   locale: Locale;
 };
 
 export function SiteFooter({ locale }: PropsWithSiteFooter) {
-  const copy = SITE_COPY[locale];
   const yearFormatter = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     timeZone: SITE_CONFIG.timeZone,
@@ -30,7 +28,6 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
       <Container className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
         <div className="max-w-xl">
           <p className="text-foreground font-bold">{SITE_CONFIG.displayTitle}</p>
-          <p className="mt-2 text-xs leading-6">{copy.footer.description}</p>
           <p className="text-subtle text-micro mt-1 font-mono tracking-[0.12em] uppercase">
             Static since {firstArticleYear}
           </p>

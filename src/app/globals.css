@@ -229,6 +229,10 @@ select {
   outline: none;
 }
 
+.site-theme-toggle:focus-visible {
+  outline: none;
+}
+
 ::view-transition {
   pointer-events: none;
 }

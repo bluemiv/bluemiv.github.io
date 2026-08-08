@@ -94,7 +94,7 @@ export function ThemeToggle({ labels = DEFAULT_LABELS }: PropsWithThemeToggle) {
       onClick={toggleTheme}
       aria-label={isDark === null ? labels.toggle : isDark ? labels.light : labels.dark}
       aria-pressed={isDark ?? undefined}
-      className="text-muted hover:text-foreground inline-flex size-11 items-center justify-center transition-colors"
+      className="site-theme-toggle text-muted hover:text-foreground focus-visible:text-accent after:bg-accent relative inline-flex size-11 items-center justify-center transition-colors after:absolute after:right-3 after:bottom-1 after:left-3 after:h-px after:origin-center after:scale-x-0 after:transition-transform focus-visible:after:scale-x-100 motion-reduce:after:transition-none"
     >
       <span className="theme-wipe-rail" aria-hidden="true" />
       {isDark === null ? (

@@ -613,6 +613,7 @@ Short notes:
 - header 상단과 mobile menu는 서로 독립된 blur surface로 구성해 중첩 `backdrop-filter`를 만들지 않는다.
 - mobile menu surface는 `canvas 92%`와 `backdrop-blur-2xl`을 사용해 배경 글자를 흐리면서 navigation 대비를 유지한다.
 - compact transition은 `transform`만 사용하며 `180ms ease-out`, menu transition은 `200ms ease-out`을 사용한다. reduced motion에서는 제거한다.
+- theme toggle의 keyboard focus는 바깥 outline 대신 accent icon과 버튼 안쪽 1px bottom rail로 표시한다.
 - 모든 touch target 최소 `44×44px`.
 
 ### 10.2 Logo

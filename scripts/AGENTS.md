@@ -8,3 +8,4 @@
 - 변환 규칙은 순수 함수로 분리하고 `*.test.mjs`로 검증한다.
 - `pnpm build`는 static export 후 내부 link target 존재 여부까지 검증한다.
 - `pnpm build`는 sitemap, feed, robots, policy noindex도 함께 검증한다.
+- `pnpm lint`는 `text-xs` 이상과 Tailwind 표준 font-size 단계 사용 여부를 함께 검증한다.

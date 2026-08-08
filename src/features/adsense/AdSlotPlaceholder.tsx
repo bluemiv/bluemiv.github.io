@@ -10,7 +10,7 @@ export function AdSlotPlaceholder({ format }: PropsWithAdSlotPlaceholder) {
       className={isSidebar ? "border-border border-t pt-8" : "border-border border-y py-10"}
       aria-label="광고 영역 미리보기"
     >
-      <p className="text-muted text-micro mb-3 text-center font-mono tracking-[0.16em] uppercase">
+      <p className="text-muted mb-3 text-center font-mono text-xs tracking-[0.16em] uppercase">
         Advertisements
       </p>
       <div
@@ -21,7 +21,7 @@ export function AdSlotPlaceholder({ format }: PropsWithAdSlotPlaceholder) {
         }
         aria-hidden="true"
       >
-        <span className="text-subtle text-micro font-mono tracking-[0.12em]">
+        <span className="text-subtle font-mono text-xs tracking-[0.12em]">
           {isSidebar ? "300 × 250 / AD SLOT" : "RESPONSIVE / AD SLOT"}
         </span>
       </div>

@@ -66,7 +66,7 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
               <span className="flex items-start gap-3">
                 <span
                   aria-hidden="true"
-                  className={`text-micro min-w-9 pt-px font-mono leading-6 transition-colors duration-150 motion-reduce:transition-none ${isActive ? "text-accent" : "text-muted"}`}
+                  className={`min-w-9 pt-px font-mono text-xs leading-6 transition-colors duration-150 motion-reduce:transition-none ${isActive ? "text-accent" : "text-muted"}`}
                 >
                   {heading.number}
                 </span>
@@ -85,7 +85,7 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
         <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold [&::-webkit-details-marker]:hidden">
           <span>이 글의 목차</span>
           <span className="flex items-center gap-3">
-            <span className="text-muted text-micro font-mono">{headings.length} SECTIONS</span>
+            <span className="text-muted font-mono text-xs">{headings.length} SECTIONS</span>
             <ChevronDown
               aria-hidden="true"
               className="text-muted size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
@@ -105,7 +105,7 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
         <h2 id="article-toc-title" className="text-xs font-bold tracking-[0.08em] uppercase">
           On this page
         </h2>
-        <span className="text-subtle text-micro font-mono">{headings.length} SECTIONS</span>
+        <span className="text-subtle font-mono text-xs">{headings.length} SECTIONS</span>
       </div>
       {links}
     </nav>

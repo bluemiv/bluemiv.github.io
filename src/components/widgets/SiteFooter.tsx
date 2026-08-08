@@ -29,7 +29,7 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
       <Container className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
         <div className="max-w-xl">
           <p className="text-foreground font-bold">{SITE_CONFIG.displayTitle}</p>
-          <p className="text-subtle text-micro mt-1 font-mono tracking-[0.12em] uppercase">
+          <p className="text-subtle mt-1 font-mono text-xs tracking-[0.12em] uppercase">
             Static since {firstArticleYear}
           </p>
           <div className="border-border text-muted mt-6 flex flex-col gap-1 border-t pt-4 font-mono text-xs leading-5 sm:flex-row sm:gap-5">
@@ -37,7 +37,7 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
             <p>Designed &amp; built by Bluemiv.</p>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-x-5 text-xs md:justify-end">
+        <div className="flex flex-wrap items-center gap-x-5 text-sm md:justify-end">
           {locale === "ko" ? (
             <>
               <Link

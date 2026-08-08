@@ -51,7 +51,7 @@ export function ArticleDetailPage({
             <Link
               href={getLocalizedPath("ko", "articles")}
               transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-xs tracking-[0.12em] uppercase transition-colors"
+              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-sm tracking-[0.1em] uppercase transition-colors"
             >
               <span aria-hidden="true">←</span>
               <span className="ml-2">All articles</span>
@@ -73,7 +73,7 @@ export function ArticleDetailPage({
 
             <h1
               id="article-title"
-              className="mt-6 max-w-[900px] text-[2.5rem] leading-[1.14] font-semibold tracking-[-0.05em] text-balance md:text-[3.75rem]"
+              className="mt-6 max-w-[900px] text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance sm:text-5xl md:text-6xl"
             >
               {article.title}
             </h1>
@@ -81,7 +81,7 @@ export function ArticleDetailPage({
               {article.description}
             </p>
 
-            <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-xs">
+            <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-sm">
               <div className="flex gap-2">
                 <dt>작성</dt>
                 <dd className="text-foreground">{article.author}</dd>
@@ -138,7 +138,7 @@ export function ArticleDetailPage({
 
               {article.tags.length ? (
                 <footer className="border-border mt-16 border-t pt-7">
-                  <p className="text-muted text-micro font-mono tracking-[0.16em] uppercase">
+                  <p className="text-muted font-mono text-xs tracking-[0.16em] uppercase">
                     Filed under
                   </p>
                   <ul className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
@@ -156,7 +156,7 @@ export function ArticleDetailPage({
                 >
                   <div className="flex items-end justify-between gap-6">
                     <div>
-                      <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                      <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
                         Continue exploring
                       </p>
                       <h2
@@ -166,7 +166,7 @@ export function ArticleDetailPage({
                         같은 주제의 글
                       </h2>
                     </div>
-                    <span className="text-muted text-micro hidden font-mono uppercase sm:block">
+                    <span className="text-muted hidden font-mono text-xs uppercase sm:block">
                       {article.topic}
                     </span>
                   </div>
@@ -181,7 +181,7 @@ export function ArticleDetailPage({
                           transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
                           className="group grid grid-cols-[32px_minmax(0,1fr)_auto] gap-3 py-5"
                         >
-                          <span className="text-subtle text-micro pt-1 font-mono">
+                          <span className="text-subtle pt-1 font-mono text-xs">
                             {String(index + 1).padStart(2, "0")}
                           </span>
                           <span className="group-hover:text-accent text-base font-semibold transition-colors md:text-lg">

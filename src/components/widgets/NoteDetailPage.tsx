@@ -42,7 +42,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
             <Link
               href={getLocalizedPath("ko", "notes")}
               transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-xs tracking-[0.12em] uppercase transition-colors"
+              className="text-muted hover:text-accent inline-flex min-h-11 items-center font-mono text-sm tracking-[0.1em] uppercase transition-colors"
             >
               <span aria-hidden="true">←</span>
               <span className="ml-2">All notes</span>
@@ -57,7 +57,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
             <h1
               id="note-title"
-              className="mt-6 text-[2.5rem] leading-[1.14] font-semibold tracking-[-0.05em] text-balance break-keep md:text-[3.5rem]"
+              className="mt-6 text-4xl leading-[1.14] font-semibold tracking-[-0.05em] text-balance break-keep sm:text-5xl md:text-6xl"
             >
               {note.title}
             </h1>
@@ -65,7 +65,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
               {note.description}
             </p>
 
-            <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-xs">
+            <dl className="text-muted border-border mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t pt-5 text-sm">
               <div className="flex gap-2">
                 <dt>작성</dt>
                 <dd className="text-foreground">{note.author}</dd>
@@ -100,7 +100,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
 
           {note.tags.length ? (
             <footer className="border-border mt-14 border-t pt-7">
-              <p className="text-muted text-micro font-mono tracking-[0.16em] uppercase">
+              <p className="text-muted font-mono text-xs tracking-[0.16em] uppercase">
                 Filed under
               </p>
               <ul className="text-muted mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">

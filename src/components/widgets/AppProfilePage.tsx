@@ -15,7 +15,7 @@ export function AppProfilePage({ profile }: PropsWithAppProfilePage) {
           <p className="text-accent font-mono text-xs font-semibold tracking-[0.14em] uppercase">
             Android app
           </p>
-          <h1 className="mt-5 max-w-3xl text-4xl leading-tight font-bold tracking-[-0.04em] text-balance md:text-6xl">
+          <h1 className="mt-5 max-w-3xl text-4xl leading-tight font-bold tracking-[-0.04em] text-balance sm:text-5xl md:text-6xl">
             {profile.name}
           </h1>
           <p className="text-muted mt-6 max-w-2xl text-base leading-8 md:text-lg">
@@ -45,7 +45,7 @@ export function AppProfilePage({ profile }: PropsWithAppProfilePage) {
                   key={feature}
                   className="border-border grid grid-cols-[40px_1fr] gap-3 border-b py-5"
                 >
-                  <span className="text-subtle text-micro font-mono">
+                  <span className="text-subtle font-mono text-xs">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="font-semibold">{feature}</span>

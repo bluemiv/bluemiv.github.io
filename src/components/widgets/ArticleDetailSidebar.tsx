@@ -21,9 +21,7 @@ export function ArticleDetailSidebar({
   return (
     <aside className="hidden w-[300px] self-stretch xl:block" aria-label="글 정보와 목차">
       <section className="border-border border-b pb-5" aria-labelledby="article-context-title">
-        <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
-          Article context
-        </p>
+        <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">Article context</p>
         <h2 id="article-context-title" className="mt-3 text-lg font-semibold">
           <Link
             href={getLocalizedPath("ko", `topics/${topic}`)}

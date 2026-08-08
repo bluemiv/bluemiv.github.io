@@ -37,10 +37,6 @@
   --font-sans: "Wanted Sans Variable", "Wanted Sans", system-ui, sans-serif;
   --font-display: "Noto Serif KR Variable", "Noto Serif KR", serif;
   --font-mono: var(--font-ibm-plex-mono), "SFMono-Regular", Consolas, monospace;
-
-  /* 0.6875rem: decorative indices and non-essential technical labels only */
-  --text-micro: 0.6875rem;
-  --text-micro--line-height: 1rem;
 }
 
 :root {
@@ -443,8 +439,8 @@ select {
 
 .article-body {
   color: var(--theme-foreground);
-  font-size: 1.0625rem;
-  line-height: 1.9;
+  font-size: var(--text-lg);
+  line-height: 1.85;
   overflow-wrap: break-word;
 }
 
@@ -462,24 +458,24 @@ select {
 .article-body h2 {
   margin-top: 5rem;
   scroll-margin-top: 7rem;
-  font-size: clamp(1.75rem, 4vw, 2.125rem);
-  line-height: 1.32;
+  font-size: var(--text-4xl);
+  line-height: 1.25;
   letter-spacing: -0.035em;
 }
 
 .article-body h3 {
   margin-top: 3.25rem;
   scroll-margin-top: 7rem;
-  font-size: clamp(1.375rem, 3vw, 1.625rem);
-  line-height: 1.42;
+  font-size: var(--text-3xl);
+  line-height: 1.35;
   letter-spacing: -0.025em;
 }
 
 .article-body h4 {
   margin-top: 2.5rem;
   scroll-margin-top: 7rem;
-  font-size: 1.125rem;
-  line-height: 1.55;
+  font-size: var(--text-lg);
+  line-height: 1.5;
   font-weight: 700;
 }
 
@@ -488,7 +484,7 @@ select {
   margin-bottom: 0.65rem;
   color: var(--theme-accent);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   line-height: 1;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -606,7 +602,7 @@ select {
   overflow-x: auto;
   padding: 0;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   line-height: 1.75;
   tab-size: 2;
 }
@@ -628,7 +624,7 @@ select {
 .article-code-language {
   color: var(--theme-subtle);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: var(--text-xs);
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -642,7 +638,7 @@ select {
   padding: 0 0.375rem;
   color: var(--theme-code-foreground);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   line-height: 1;
   opacity: 0.72;
   cursor: pointer;
@@ -713,8 +709,8 @@ select {
   max-width: 100%;
   overflow-x: auto;
   border-collapse: collapse;
-  font-size: 0.9375rem;
-  line-height: 1.65;
+  font-size: var(--text-base);
+  line-height: 1.75;
 }
 
 .article-body th,
@@ -758,7 +754,7 @@ select {
 
 .policy-body {
   color: var(--theme-muted);
-  font-size: 1rem;
+  font-size: var(--text-base);
   line-height: 1.85;
   overflow-wrap: anywhere;
 }
@@ -788,21 +784,21 @@ select {
 .policy-body h1 {
   max-width: 48rem;
   margin-top: 1rem;
-  font-size: clamp(2.25rem, 7vw, 3.75rem);
+  font-size: var(--text-6xl);
   line-height: 1.15;
   letter-spacing: -0.045em;
 }
 
 .policy-body h2 {
   margin-top: 3.5rem;
-  font-size: clamp(1.35rem, 4vw, 1.65rem);
-  line-height: 1.4;
+  font-size: var(--text-3xl);
+  line-height: 1.35;
   letter-spacing: -0.025em;
 }
 
 .policy-body h3 {
   margin-top: 2.5rem;
-  font-size: 1.125rem;
+  font-size: var(--text-xl);
   line-height: 1.5;
 }
 
@@ -911,16 +907,30 @@ select {
 
 @media (max-width: 639px) {
   .article-body {
-    font-size: 1rem;
+    font-size: var(--text-base);
     line-height: 1.82;
   }
 
   .article-body h2 {
     margin-top: 4rem;
+    font-size: var(--text-3xl);
   }
 
   .article-body h3 {
     margin-top: 2.75rem;
+    font-size: var(--text-2xl);
+  }
+
+  .policy-body h1 {
+    font-size: var(--text-4xl);
+  }
+
+  .policy-body h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .policy-body h3 {
+    font-size: var(--text-lg);
   }
 
   .note-body h2 {

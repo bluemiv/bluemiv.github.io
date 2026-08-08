@@ -31,7 +31,7 @@ export function LocaleSwitcher({ currentPath, locale }: PropsWithLocaleSwitcher)
             hrefLang={item}
             lang={item}
             aria-current={item === locale ? "page" : undefined}
-            className="hover:bg-surface-muted grid min-h-11 grid-cols-[28px_1fr] items-center gap-2 px-3 text-xs transition-colors"
+            className="hover:bg-surface-muted grid min-h-11 grid-cols-[28px_1fr] items-center gap-2 px-3 text-sm transition-colors"
           >
             <span
               className={

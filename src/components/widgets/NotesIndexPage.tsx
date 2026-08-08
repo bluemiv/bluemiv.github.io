@@ -46,7 +46,7 @@ function NoteRow({ locale, note }: PropsWithNoteRow) {
         </span>
 
         <span className="min-w-0">
-          <span className="text-accent text-micro flex flex-wrap gap-x-3 gap-y-1 font-mono font-semibold tracking-[0.08em] uppercase">
+          <span className="text-accent flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs font-semibold tracking-[0.08em] uppercase">
             {note.tags.map((tag) => (
               <span key={tag}>#{tag}</span>
             ))}
@@ -86,7 +86,7 @@ export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
           <p className="text-accent mb-5 font-mono text-xs font-bold tracking-[0.18em] uppercase">
             Notes / Index
           </p>
-          <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep md:text-6xl">
+          <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep sm:text-5xl md:text-6xl">
             짧은 기록
           </h1>
           <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
@@ -97,7 +97,7 @@ export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
         <section className="mt-12 max-w-[920px] md:mt-16" aria-labelledby="note-list-title">
           <div className="border-border flex items-end justify-between gap-6 border-b pb-4">
             <div>
-              <p className="text-accent text-micro font-mono tracking-[0.16em] uppercase">
+              <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
                 Latest first
               </p>
               <h2
@@ -107,7 +107,7 @@ export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
                 All notes
               </h2>
             </div>
-            <span className="text-muted text-micro font-mono tabular-nums">
+            <span className="text-muted font-mono text-xs tabular-nums">
               {String(notes.length).padStart(2, "0")} Entries
             </span>
           </div>

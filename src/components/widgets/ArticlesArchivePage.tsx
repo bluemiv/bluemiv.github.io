@@ -62,7 +62,7 @@ function ArticleArchiveRow({ article, locale }: PropsWithArticleArchiveRow) {
         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
         className="article-list-link group grid grid-cols-[44px_minmax(0,1fr)] gap-x-3 gap-y-3 px-2 py-7 md:grid-cols-[44px_96px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
-        <span className="text-subtle text-micro font-mono">A{getArticleNumber(article.id)}</span>
+        <span className="text-subtle font-mono text-xs">A{getArticleNumber(article.id)}</span>
         <span className="text-accent font-mono text-xs font-semibold tracking-[0.06em] uppercase">
           {getArticleTopicLabel(article.topic)}
         </span>
@@ -110,7 +110,7 @@ export function ArticlesArchivePage({
           </p>
           <div className="flex items-end justify-between gap-6">
             <div>
-              <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep md:text-6xl">
+              <h1 className="text-4xl font-semibold tracking-[-0.045em] text-balance break-keep sm:text-5xl md:text-6xl">
                 {activeTopicLabel ? `${activeTopicLabel} 글` : "기술 글"}
               </h1>
               <p className="text-muted mt-6 max-w-[620px] text-base leading-8 break-keep md:text-lg">
@@ -132,7 +132,7 @@ export function ArticlesArchivePage({
             <section className="mt-10 xl:mt-0" aria-labelledby="article-list-title">
               <div className="border-border grid gap-3 border-b pb-4 sm:grid-cols-[1fr_auto] sm:items-end">
                 <div>
-                  <p className="motion-section-marker text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                  <p className="motion-section-marker text-accent font-mono text-xs tracking-[0.16em] uppercase">
                     Latest first
                   </p>
                   <h2
@@ -142,7 +142,7 @@ export function ArticlesArchivePage({
                     {activeTopicLabel ? `${activeTopicLabel} articles` : "All articles"}
                   </h2>
                 </div>
-                <p className="text-muted text-xs">
+                <p className="text-muted text-sm">
                   {pagination
                     ? `최신 발행순 · 전체 ${pagination.totalArticles}개 중 ${pagination.firstArticleNumber}–${pagination.lastArticleNumber}`
                     : `최신 발행순 · ${articles.length}개`}

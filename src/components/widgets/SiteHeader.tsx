@@ -105,7 +105,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
           <BrandMark className="text-accent size-5 shrink-0" />
           <span className="flex items-baseline gap-2.5">
             <span className="text-base font-bold">Bluemiv</span>
-            <span className="text-subtle text-micro hidden font-mono font-medium tracking-[0.14em] uppercase lg:inline">
+            <span className="text-subtle hidden font-mono text-xs font-medium tracking-[0.14em] uppercase lg:inline">
               / Field Notes
             </span>
           </span>
@@ -217,7 +217,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
                       >
                         <span
                           aria-hidden="true"
-                          className={`text-micro font-mono ${isActive ? "text-accent" : "text-subtle"}`}
+                          className={`font-mono text-xs ${isActive ? "text-accent" : "text-subtle"}`}
                         >
                           {String(index + 1).padStart(2, "0")}
                         </span>

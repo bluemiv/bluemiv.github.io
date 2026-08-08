@@ -88,7 +88,7 @@ export function ArticleSidebar(props: PropsWithArticleTopicNavigation) {
           <h2 id="topic-title" className="text-xs font-bold tracking-[0.08em] uppercase">
             Browse by topic
           </h2>
-          <span className="text-muted text-micro font-mono tabular-nums">
+          <span className="text-muted font-mono text-xs tabular-nums">
             {String(props.topics.length).padStart(2, "0")} TOPICS
           </span>
         </div>
@@ -105,11 +105,11 @@ export function ArticleSidebar(props: PropsWithArticleTopicNavigation) {
                     : "text-muted hover:text-foreground"
                 }`}
               >
-                <span className="text-subtle text-micro font-mono">
+                <span className="text-subtle font-mono text-xs">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span>{item.label}</span>
-                <span className="text-muted text-micro font-mono tabular-nums">{item.count}</span>
+                <span className="text-muted font-mono text-xs tabular-nums">{item.count}</span>
               </Link>
             </li>
           ))}

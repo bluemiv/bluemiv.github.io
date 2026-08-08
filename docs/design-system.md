@@ -227,25 +227,31 @@ Tailwind 예:
 글자 크기는 root 글자 크기를 존중하도록 `rem`으로 구현한다. 아래 괄호 안의 `px`는 브라우저
 기본값 `1rem = 16px`일 때의 참고값이다.
 
-| Role         | Mobile                     | Desktop                     | Line height |  Weight |
-| ------------ | -------------------------- | --------------------------- | ----------: | ------: |
-| Display hero | `3–3.5rem` (48–56px)       | `4.75–5.125rem` (76–82px)   |   1.04–1.10 |     600 |
-| Page H1      | `2.5–3rem` (40–48px)       | `3.5–4rem` (56–64px)        |   1.10–1.18 |     600 |
-| Article H1   | `2.25–2.75rem` (36–44px)   | `3.25–3.75rem` (52–60px)    |   1.12–1.20 | 650–700 |
-| H2           | `1.75–2rem` (28–32px)      | `2–2.25rem` (32–36px)       |   1.25–1.35 | 650–700 |
-| H3           | `1.375–1.5rem` (22–24px)   | `1.5–1.75rem` (24–28px)     |   1.35–1.45 | 650–700 |
-| Lead         | `1.125rem` (18px)          | `1.125–1.25rem` (18–20px)   |   1.75–1.90 |     400 |
-| Body         | `1rem` (16px)              | `1.0625–1.125rem` (17–18px) |   1.75–1.90 |     400 |
-| UI           | `0.75–0.875rem` (12–14px)  | `0.75–0.875rem` (12–14px)   |     1.4–1.6 | 500–700 |
-| Mono meta    | `0.75rem` 이상 (12px 이상) | `0.75rem` 이상 (12px 이상)  |     1.5–1.8 | 400–700 |
-| Micro        | `0.6875rem` (11px)         | `0.6875rem` (11px)          |        1rem | 400–700 |
+| Role                | Mobile                          | Desktop                         | Line height |  Weight |
+| ------------------- | ------------------------------- | ------------------------------- | ----------: | ------: |
+| Display hero        | `text-5xl` (48px)               | `text-7xl` (72px)               |   1.04–1.10 |     600 |
+| Decorative numeral  | `text-7xl` (72px)               | `text-9xl` (128px)              |        1.00 | 400–600 |
+| Page / detail H1    | `text-4xl` (36px)               | `text-6xl` (60px)               |   1.10–1.18 | 600–700 |
+| Article H2          | `text-3xl` (30px)               | `text-4xl` (36px)               |   1.25–1.35 | 650–700 |
+| Article H3          | `text-2xl` (24px)               | `text-3xl` (30px)               |   1.30–1.40 | 650–700 |
+| Article H4          | `text-lg` (18px)                | `text-lg` (18px)                |        1.50 |     700 |
+| Lead                | `text-lg` (18px)                | `text-xl` (20px)                |   1.75–1.90 |     400 |
+| Article body        | `text-base` (16px)              | `text-lg` (18px)                |   1.75–1.90 |     400 |
+| General body / list | `text-sm`–`text-base` (14–16px) | `text-base`–`text-lg` (16–18px) |   1.60–1.85 | 400–600 |
+| UI / action         | `text-sm` (14px)                | `text-sm` (14px)                |   1.40–1.70 | 500–700 |
+| Compact meta        | `text-xs` (12px)                | `text-xs` (12px)                |   1.50–1.80 | 400–700 |
 
-- 본문, navigation, action, 날짜처럼 의미가 있는 정보는 `0.75rem`보다 작게 만들지 않는다.
-- `text-micro`는 장식 번호, 중복된 section 수, 비필수 기술 label에만 사용한다.
-- `0.6875rem`보다 작은 글자는 사용하지 않는다. `9px`, `10px` 임의 크기는 금지한다.
-- 일반 단계는 Tailwind `text-xs` 이상을 사용한다.
-- 화면에 따라 유동적으로 변하는 display heading은 `rem` 기반 `clamp()`를 사용한다.
-- breakpoint에서 크기가 명확히 바뀌는 경우 Tailwind 반응형 type utility를 사용한다.
+- 화면에 보이는 최소 크기는 `text-xs`(12px)다. `text-micro`와 11px 이하는 사용하지 않는다.
+- 읽거나 누르는 navigation, action, 본문 metadata는 기본 `text-sm`(14px)을 사용한다.
+- `text-xs`는 날짜, 순번, topic, section 수, eyebrow처럼 짧고 보조적인 정보에만 사용한다.
+- 중간 본문 단계는 Tailwind의 `text-md`가 아니라 `text-base`다.
+- font size는 Tailwind 표준 단계로만 지정한다. `text-[…]`, px/rem 직접 입력, font-size용
+  `clamp()`를 사용하지 않는다.
+- 반응형 제목은 `text-4xl sm:text-5xl md:text-6xl`처럼 breakpoint별 표준 단계를 사용한다.
+- display hero는 `text-5xl sm:text-6xl md:text-7xl`, 장식 숫자는
+  `text-7xl sm:text-8xl lg:text-9xl`을 기준으로 한다.
+- 문맥 크기에 비례해야 하는 inline code, heading anchor, list marker의 `em` 크기는 허용한다.
+- line-height와 letter-spacing은 글꼴 및 역할에 맞춘 임의 값을 허용하되 font-size 단계와 섞지 않는다.
 
 ### 5.4 본문 규칙
 

@@ -57,7 +57,7 @@ function ArticleRow({ article, locale }: PropsWithArticleRow) {
         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
         className="article-list-link group grid grid-cols-[42px_minmax(0,1fr)] gap-x-3 gap-y-2 px-2 py-7 md:grid-cols-[52px_104px_minmax(0,1fr)_104px] md:items-start md:px-3"
       >
-        <span className="text-subtle text-micro font-mono">A{getEntryNumber(article.id)}</span>
+        <span className="text-subtle font-mono text-xs">A{getEntryNumber(article.id)}</span>
         <span className="text-accent font-mono text-xs font-semibold tracking-[0.08em] uppercase">
           {getArticleTopicLabel(article.topic)}
         </span>
@@ -116,7 +116,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               <span className="bg-accent h-px w-10" />
               {copy.hero.eyebrow}
             </p>
-            <h1 className="text-[clamp(2.9rem,12vw,3.5rem)] leading-[1.07] font-semibold tracking-[-0.055em] text-balance md:text-7xl">
+            <h1 className="text-5xl leading-[1.07] font-semibold tracking-[-0.055em] text-balance sm:text-6xl md:text-7xl">
               {copy.hero.lineOne}
               <br />
               {copy.hero.lineTwo}
@@ -224,10 +224,10 @@ export function HomePage({ locale }: PropsWithHomePage) {
                             </span>
                           </div>
                           <div className="flex items-end justify-between gap-4">
-                            <span className="font-display text-accent text-[clamp(4.5rem,17vw,8rem)] leading-none font-normal tracking-[-0.07em]">
+                            <span className="font-display text-accent text-7xl leading-none font-normal tracking-[-0.07em] sm:text-8xl lg:text-9xl">
                               {getEntryNumber(featuredArticle.id)}
                             </span>
-                            <span className="text-muted text-micro mb-2 hidden max-w-24 text-right font-mono leading-4 tracking-[0.1em] uppercase sm:block">
+                            <span className="text-muted mb-2 hidden max-w-24 text-right font-mono text-xs leading-4 tracking-[0.1em] uppercase sm:block">
                               Filed in
                               <br />
                               {getArticleTopicLabel(featuredArticle.topic)}
@@ -246,7 +246,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
                       ? ` · ${featuredDocument.readingTimeMinutes} ${copy.featured.readTimeSuffix}`
                       : ""}
                   </p>
-                  <h3 className="group-hover:text-accent mt-5 text-3xl leading-[1.2] font-semibold tracking-[-0.045em] text-balance transition-colors duration-150 motion-reduce:transition-none md:text-5xl">
+                  <h3 className="group-hover:text-accent mt-5 text-3xl leading-[1.2] font-semibold tracking-[-0.045em] text-balance transition-colors duration-150 motion-reduce:transition-none md:text-4xl lg:text-5xl">
                     {featuredArticle.title}
                   </h3>
                   <p className="text-muted mt-6 max-w-[560px] text-base leading-8">
@@ -279,7 +279,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
           <section aria-labelledby="latest-title">
             <div className="border-border grid gap-4 border-b pb-5 sm:grid-cols-[1fr_auto] sm:items-end">
               <div>
-                <p className="motion-section-marker text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                <p className="motion-section-marker text-accent font-mono text-xs tracking-[0.16em] uppercase">
                   {copy.latest.eyebrow}
                 </p>
                 <h2
@@ -292,7 +292,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               </div>
               {hasArticles ? (
                 <Link
-                  className="text-accent hover:text-accent-hover inline-flex min-h-11 items-center text-xs font-bold transition-colors duration-150 motion-reduce:transition-none"
+                  className="text-accent hover:text-accent-hover inline-flex min-h-11 items-center text-sm font-bold transition-colors duration-150 motion-reduce:transition-none"
                   href={articlesHref}
                   transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                 >
@@ -303,7 +303,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
 
             {topics.length > 0 ? (
               <div className="border-border border-b py-5 xl:hidden">
-                <p className="text-muted text-micro mb-3 font-mono tracking-[0.16em] uppercase">
+                <p className="text-muted mb-3 font-mono text-xs tracking-[0.16em] uppercase">
                   {copy.topics.heading}
                 </p>
                 <ul className="flex [scrollbar-width:none] gap-5 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden">
@@ -312,12 +312,10 @@ export function HomePage({ locale }: PropsWithHomePage) {
                       <Link
                         href={getLocalizedPath(locale, `topics/${topic}`)}
                         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-                        className="text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-b border-transparent px-1 text-xs transition-colors hover:border-current"
+                        className="text-muted hover:text-foreground inline-flex min-h-11 items-center gap-2 border-b border-transparent px-1 text-sm transition-colors hover:border-current"
                       >
                         <span className="font-semibold">{getArticleTopicLabel(topic)}</span>
-                        <span className="text-muted text-micro font-mono tabular-nums">
-                          {count}
-                        </span>
+                        <span className="text-muted font-mono text-xs tabular-nums">{count}</span>
                       </Link>
                     </li>
                   ))}
@@ -349,7 +347,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
             <aside className="hidden xl:block" aria-label={copy.topics.heading}>
               <section aria-labelledby="home-topics-title">
                 <div className="border-border border-b pb-4">
-                  <p className="motion-section-marker text-accent text-micro font-mono tracking-[0.16em] uppercase">
+                  <p className="motion-section-marker text-accent font-mono text-xs tracking-[0.16em] uppercase">
                     {copy.topics.eyebrow}
                   </p>
                   <div className="mt-2 flex items-end justify-between gap-4">
@@ -359,11 +357,11 @@ export function HomePage({ locale }: PropsWithHomePage) {
                     >
                       {copy.topics.heading}
                     </h2>
-                    <span className="text-muted text-micro font-mono tabular-nums">
+                    <span className="text-muted font-mono text-xs tabular-nums">
                       {topics.length.toString().padStart(2, "0")}
                     </span>
                   </div>
-                  <p className="text-muted mt-3 text-xs leading-5">{copy.topics.description}</p>
+                  <p className="text-muted mt-3 text-sm leading-6">{copy.topics.description}</p>
                 </div>
                 <ol>
                   {topics.map(({ topic, count }, index) => (
@@ -373,15 +371,13 @@ export function HomePage({ locale }: PropsWithHomePage) {
                         transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
                         className="group grid min-h-14 grid-cols-[28px_1fr_auto_16px] items-center gap-3 text-sm"
                       >
-                        <span className="text-subtle text-micro font-mono">
+                        <span className="text-subtle font-mono text-xs">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         <span className="group-hover:text-accent text-foreground font-semibold transition-colors">
                           {getArticleTopicLabel(topic)}
                         </span>
-                        <span className="text-muted text-micro font-mono tabular-nums">
-                          {count}
-                        </span>
+                        <span className="text-muted font-mono text-xs tabular-nums">{count}</span>
                         <span
                           aria-hidden="true"
                           className="text-subtle transition-transform group-hover:translate-x-0.5"
@@ -420,7 +416,7 @@ export function HomePage({ locale }: PropsWithHomePage) {
               <Link
                 href={notesHref}
                 transitionTypes={NAVIGATION_TRANSITION_TYPES.forward}
-                className="text-blueprint-400 mt-5 inline-flex min-h-11 items-center text-xs font-bold"
+                className="text-blueprint-400 mt-5 inline-flex min-h-11 items-center text-sm font-bold"
               >
                 {copy.notes.action} →
               </Link>

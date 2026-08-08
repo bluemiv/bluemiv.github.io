@@ -510,10 +510,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - 상세 cover는 sticky/fixed로 읽기 시작을 지연시키지 않는다. frame은 정상 문서 흐름에 두고 image
   layer만 위로 짧게 이동해 깊이를 만든다.
 - cover가 있으면 topic, 제목, description, metadata를 별도 header와 cover로 나누지 않고 하나의
-  overlay hero에 한 번만 표시한다. 이미지 위에는 text 영역을 위한 scrim을 두고 하단으로 갈수록
-  image와 scrim을 canvas에 dissolve해 본문으로 자연스럽게 연결한다.
-- light theme은 canvas 색의 paper scrim을 text 영역에 집중해 어두운 원본을 밝은 blueprint처럼
-  전환하고 dark text를 사용한다. dark theme은 원본 명암, 밝은 text와 dark scrim을 유지한다.
+  overlay hero에 한 번만 표시한다. 이미지 위에는 낮은 dark scrim을 두고 하단으로 갈수록 image와
+  scrim을 canvas에 dissolve해 본문으로 자연스럽게 연결한다.
 - detail hero의 cover는 정보와 별개인 배경이므로 빈 alt를 사용한다. cover가 없는 글은 같은 정보를
   일반 text header로 제공하며 빈 이미지 영역을 만들지 않는다.
 - 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.
@@ -880,8 +878,7 @@ Article detail cover:
 - cover frame은 일반 문서 흐름을 유지한다. sticky/fixed cover와 본문 겹침을 사용하지 않는다.
 - image layer만 view timeline과 `transform`으로 이동한다. 이동 범위는 frame 내부 `4%` 이하다.
 - cover가 있는 글은 title/description/metadata를 overlay에 한 번만 표시하고 별도 상단 header에서
-  반복하지 않는다. theme별 scrim과 text tone으로 대비를 확보하고 하단은 canvas로 dissolve한다.
-  light에서는 paper scrim과 dark text, dark에서는 dark scrim과 light text를 사용한다.
+  반복하지 않는다. 낮은 dark scrim으로 대비를 확보하고 하단은 canvas로 dissolve한다.
 - 지원하지 않는 browser와 reduced motion에서는 중앙 정렬된 정적 cover로 fallback한다.
 
 Page transition:
@@ -1055,7 +1052,7 @@ text-accent / bg-accent / border-accent
 - [ ] sidebar가 category/topic 탐색, 광고, TOC 사이의 우선순위를 유지하는가?
 - [ ] 광고와 navigation 사이에 충분한 간격이 있는가?
 - [ ] cover hero가 읽기 시작을 늦추지 않고 title/description을 한 번만 표시하는가?
-- [ ] cover의 theme별 scrim이 light/dark에서 충분한 text 대비를 만들고 하단 dissolve가 본문으로
+- [ ] cover의 dark scrim이 light/dark에서 충분한 text 대비를 만들고 하단 dissolve가 본문으로
       자연스럽게 이어지는가?
 - [ ] mobile code/table scroll이 되는가?
 - [ ] article archive의 페이지별 article 수, 현재 범위, 이전·다음 link가 실제 정적 route와 일치하는가?

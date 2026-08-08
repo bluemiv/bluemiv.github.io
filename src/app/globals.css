@@ -433,23 +433,6 @@ select {
   background:
     linear-gradient(
       to right,
-      color-mix(in srgb, var(--theme-canvas) 90%, transparent) 0%,
-      color-mix(in srgb, var(--theme-canvas) 66%, transparent) 58%,
-      color-mix(in srgb, var(--theme-canvas) 42%, transparent) 100%
-    ),
-    linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--theme-canvas) 12%, transparent) 0%,
-      color-mix(in srgb, var(--theme-canvas) 46%, transparent) 54%,
-      color-mix(in srgb, var(--theme-canvas) 92%, transparent) 82%,
-      transparent 100%
-    );
-}
-
-.dark .article-detail-cover-scrim {
-  background:
-    linear-gradient(
-      to right,
       color-mix(in srgb, var(--theme-code) 78%, transparent) 0%,
       color-mix(in srgb, var(--theme-code) 54%, transparent) 58%,
       color-mix(in srgb, var(--theme-code) 30%, transparent) 100%

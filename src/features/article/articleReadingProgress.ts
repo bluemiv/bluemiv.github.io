@@ -3,6 +3,8 @@ export type ArticleHeadingOffset = {
   offsetTop: number;
 };
 
+export const ARTICLE_READING_HEADER_SLOT_ID = "article-reading-header-slot";
+
 type ArticleReadingGeometry = {
   articleHeight: number;
   articleTop: number;

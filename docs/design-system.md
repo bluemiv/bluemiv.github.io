@@ -720,12 +720,15 @@ Article Reading Ruler:
 
 - article detail에서만 기술 도면의 축척자를 닮은 Reading Ruler를 표시한다.
 - 기존 header 하단의 가로 progress bar는 사용하지 않는다.
-- `1360px` 이상에서는 viewport 오른쪽에 주요 H2를 세로 눈금으로 표시한다. 현재 구간은 긴
-  accent 눈금, 지난 구간은 중간 눈금, 남은 구간은 짧은 neutral 눈금으로 구분한다.
+- `1360px` 이상에서는 viewport 오른쪽에 주요 H2를 세로 눈금으로 표시한다. 세로 축은 읽기
+  진행률만큼 위에서 아래로 accent 색상이 채워진다. 현재 구간은 긴 accent 눈금, 지난 구간은
+  중간 눈금, 남은 구간은 짧은 neutral 눈금으로 구분한다.
 - desktop 눈금은 anchor link이며 keyboard focus와 `aria-current="location"`을 제공한다.
-- `1360px` 미만에서는 header 아래의 전체 폭 32px status subrow에
-  `READ 042% · 03/08` 형식의 compact indicator를 둔다. 한쪽만 본문을 가리는 floating box와
-  채워지는 progress bar는 사용하지 않는다.
+- `1360px` 미만에서는 기존 header control 영역에 세로 micro gauge와 `042% · 03/08` 형식의
+  compact indicator를 둔다. `640px` 미만에서는 공간 확보를 위해 구간 수만 감춘다.
+- compact indicator는 header 높이를 늘리거나 별도 subrow를 만들지 않는다. article이 아닌
+  페이지의 header slot은 크기를 차지하지 않는다.
+- 진행 fill은 `transform: scaleY()`만 사용해 layout shift를 만들지 않는다.
 - 진행률, 현재 heading, TOC active 상태는 article 범위의 provider 한 곳에서 계산해 공유한다.
 - scroll listener는 passive + `requestAnimationFrame`으로 제한하고 article 및 heading 위치는
   resize 때만 다시 측정한다. 별도 network 요청과 layout shift를 만들지 않는다.

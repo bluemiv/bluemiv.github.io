@@ -311,11 +311,6 @@ select {
   transform: translateY(-0.375rem);
 }
 
-body:has(.site-header[data-compact="true"]) .article-reading-compact {
-  transform: translateY(-0.75rem);
-}
-
-.article-reading-compact[data-scrolling="true"],
 .article-reading-ruler[data-scrolling="true"] {
   opacity: 1;
 }
@@ -938,11 +933,6 @@ body:has(.site-header[data-compact="true"]) .article-reading-compact {
     transition-duration: 0.01ms !important;
   }
 
-  .article-reading-compact {
-    transform: none;
-  }
-
-  .article-reading-compact,
   .article-reading-ruler {
     opacity: 1;
   }

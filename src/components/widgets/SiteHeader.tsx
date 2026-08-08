@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 import { BrandMark } from "@/components/atoms/BrandMark";
 import { Container } from "@/components/atoms/Container";
+import { ARTICLE_READING_HEADER_SLOT_ID } from "@/features/article/articleReadingProgress";
 import { LocaleSwitcher } from "@/features/i18n/LocaleSwitcher";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { SITE_COPY } from "@/features/i18n/translations";
@@ -146,6 +147,7 @@ export function SiteHeader({ locale }: PropsWithSiteHeader) {
         )}
 
         <div className="border-border flex items-center justify-self-end border-l pl-1 md:pl-3">
+          <div id={ARTICLE_READING_HEADER_SLOT_ID} className="contents" />
           <LocaleSwitcher currentPath={pathname} locale={locale} />
           <ThemeToggle labels={copy.theme} />
           {navItems.length ? (

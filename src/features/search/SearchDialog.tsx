@@ -193,7 +193,7 @@ export function SearchDialog({
             </span>
             <p id="site-search-title">{copy.title}</p>
           </div>
-          <p id="site-search-description" className="text-muted mt-0.5 truncate text-sm">
+          <p id="site-search-description" className="sr-only">
             {copy.description}
           </p>
         </div>

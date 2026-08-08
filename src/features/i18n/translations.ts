@@ -115,7 +115,7 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
     languageLabel: "언어 선택",
     search: {
       close: "검색 닫기",
-      description: "Articles와 Notes의 제목, 본문, 주제를 검색합니다.",
+      description: "글을 검색합니다.",
       empty: "일치하는 기록이 없습니다. 다른 단어로 검색해보세요.",
       filterLabel: "검색할 기록 유형",
       filters: { all: "All", article: "Articles", note: "Notes" },
@@ -147,7 +147,7 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
     languageLabel: "Choose language",
     search: {
       close: "Close search",
-      description: "Search titles, text, and topics across Articles and Notes.",
+      description: "Search the archive.",
       empty: "No matching entries. Try a different search.",
       filterLabel: "Entry type",
       filters: { all: "All", article: "Articles", note: "Notes" },
@@ -179,7 +179,7 @@ export const SITE_COPY: Record<Locale, SiteCopy> = {
     languageLabel: "言語を選択",
     search: {
       close: "検索を閉じる",
-      description: "ArticlesとNotesのタイトル、本文、トピックを検索します。",
+      description: "記録を検索します。",
       empty: "一致する記録がありません。別のキーワードで検索してください。",
       filterLabel: "記録の種類",
       filters: { all: "All", article: "Articles", note: "Notes" },

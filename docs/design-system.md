@@ -675,6 +675,8 @@ Short notes:
 - dialog는 최대 `720px`, radius `8px`, canvas 배경과 어두운 blur backdrop을 사용한다.
 - dialog 상단에는 1px accent rail과 `S01` index를 두어 Blueprint Editorial의 좌표 문법을
   유지한다. 빈 상태는 큰 장식 대신 짧은 accent guide rail로 안내 문장에 시선을 연결한다.
+- dialog header에는 `S01`과 `Search archive`만 표시한다. 검색 범위를 설명하는 문장은 노출하지
+  않고 짧은 접근성 설명으로만 제공한다.
 - filter는 개별 box나 solid fill을 반복하지 않는 14px linear tab으로 표현한다. 선택 상태는 accent
   text와 1px bottom rail을 함께 사용한다.
 - 검색 결과가 있으면 목록 위에 결과 수를 compact meta로 표시한다. 결과 hover와 keyboard focus는

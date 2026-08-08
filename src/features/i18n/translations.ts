@@ -238,7 +238,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       lineThreeSuffix: "으로 남깁니다.",
       description: (careerMonthOrdinal) =>
         `개발자로 일한 지 ${careerMonthOrdinal}개월째. 문제를 해결하며 내린 선택과 배움을 기록합니다.`,
-      cta: "최근 글 살펴보기",
+      cta: "최신 글 살펴보기",
       statusLabel: "상태",
       status: "기록 중",
       articleCountLabel: "Articles",
@@ -254,7 +254,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     latest: {
       eyebrow: "Archive / Latest",
       heading: "Latest Articles",
-      description: "최근 공개한 글을 시간순으로 살펴봅니다.",
+      description: "최신 글을 발행순으로 살펴봅니다.",
       action: "전체 글",
       empty: "공개된 글을 준비하고 있습니다.",
     },
@@ -283,7 +283,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       lineThreeSuffix: ".",
       description: (careerMonthOrdinal) =>
         `${careerMonthOrdinal} months into my career as a developer. I document the decisions and lessons shaped by solving real problems.`,
-      cta: "Browse recent writing",
+      cta: "Browse latest writing",
       statusLabel: "Status",
       status: "Translating",
       articleCountLabel: "Articles",
@@ -292,14 +292,14 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     featured: {
       eyebrow: "New release / 01",
-      heading: "Recently published",
+      heading: "Latest article",
       action: "Read article",
       readTimeSuffix: "min read",
     },
     latest: {
       eyebrow: "Archive / Latest",
       heading: "Latest Articles",
-      description: "Browse the most recently published writing.",
+      description: "Browse the latest writing in publication order.",
       action: "All articles",
       empty: "Translated articles are being prepared.",
     },
@@ -328,7 +328,7 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
       lineThreeSuffix: "として残します。",
       description: (careerMonthOrdinal) =>
         `開発者として働き始めて${careerMonthOrdinal}か月目。課題を解決する中での選択と学びを記録しています。`,
-      cta: "最近の記事を見る",
+      cta: "最新の記事を見る",
       statusLabel: "状態",
       status: "翻訳中",
       articleCountLabel: "Articles",
@@ -337,14 +337,14 @@ export const HOME_COPY: Record<Locale, HomeCopy> = {
     },
     featured: {
       eyebrow: "New release / 01",
-      heading: "新着記事",
+      heading: "最新記事",
       action: "記事を読む",
       readTimeSuffix: "分で読めます",
     },
     latest: {
       eyebrow: "Archive / Latest",
       heading: "Latest Articles",
-      description: "最近公開した記事を新しい順に紹介します。",
+      description: "最新の記事を公開順に紹介します。",
       action: "すべての記事",
       empty: "翻訳記事を準備しています。",
     },

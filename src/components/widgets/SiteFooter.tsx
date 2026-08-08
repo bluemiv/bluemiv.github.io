@@ -29,7 +29,7 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
     <footer className="border-border text-muted mt-auto border-t py-10 text-sm">
       <Container className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
         <div className="max-w-xl">
-          <p className="text-foreground font-bold">Bluemiv Tech Blog</p>
+          <p className="text-foreground font-bold">{SITE_CONFIG.displayTitle}</p>
           <p className="mt-2 text-xs leading-6">{copy.footer.description}</p>
           <p className="text-subtle text-micro mt-1 font-mono tracking-[0.12em] uppercase">
             Static since {firstArticleYear}

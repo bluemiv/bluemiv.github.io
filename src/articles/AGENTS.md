@@ -48,6 +48,8 @@
 - code fence에 언어를 지정한다.
 - code fence는 상세 화면에서 language label과 코드 복사 action이 자동 적용된다. 본문에 별도 복사 UI를 넣지 않는다.
 - code block 앞에는 목적, 뒤에는 핵심 줄과 결과를 설명한다. code를 문장으로 그대로 반복하지 않는다.
+- line highlight는 앞뒤 문장에서 설명하는 핵심 줄에만 사용한다. 닫는 괄호와 무관한 선언을 강조하지 않는다.
+- code를 수정하면 highlight 줄 번호도 다시 세어 확인한다. block 전체를 관성적으로 강조하지 않는다.
 - 실행되지 않는 축약 code에는 생략 부분을 명확히 표시하고 완성 code처럼 설명하지 않는다.
 - route·layout·navigation용 JSX를 MDX에 넣지 않는다.
 - 내부 article link는 canonical route와 trailing slash를 사용한다.

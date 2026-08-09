@@ -487,8 +487,8 @@ Short notes:
 2. cover hero 안의 topic/H1/description/author/date/updated/read time
 3. article body
 4. related articles
-5. comments
-6. previous/next
+5. previous/next
+6. comments
 
 cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 
@@ -538,7 +538,11 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   motion에서는 정적 cover로 표시한다.
 - desktop은 문서 흐름의 광고 다음에 thin rail TOC를 두고 TOC만 sticky로 처리한다.
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
-- 본문 뒤에는 tag archive link, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
+- 본문 뒤에는 tag archive link, 같은 topic article, 이전·다음 article, 댓글 순서로 탐색을 이어간다.
+- 댓글은 article의 마지막에 divider 기반 독립 section으로 둔다. 외부 iframe의 높이 변경이 이전·다음
+  탐색 위치를 밀지 않게 하고, 본문 읽기와 내부 탐색을 먼저 완료할 수 있게 한다.
+- 번역 article은 locale과 무관하게 같은 `article.id`를 giscus discussion key로 사용한다.
+- giscus는 현재 locale과 light/dark theme을 따르고 lazy loading한다. 댓글은 Pagefind 색인에서 제외한다.
 - code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
 - code block toolbar 오른쪽에는 `Copy` action을 둔다. 복사 성공 시 아이콘과 label을 `Copied`로 2초간 바꾸고, 실패 시 `Retry`를 표시한다.
 - 복사 대상은 toolbar를 제외한 `<code>`의 원문 전체다. 버튼은 항상 보이고 keyboard focus와 screen reader 상태 안내를 제공한다.
@@ -1115,13 +1119,12 @@ text-accent / bg-accent / border-accent
 
 ## 19. 현재 미완료 항목
 
-다음 항목은 V2 production 전 해결한다.
+다음 항목은 production 운영 중 계속 점검한다.
 
 1. topic별 cover system
 2. 전체 페이지 responsive visual QA
 3. `theme-color` 동기화 검토
-4. article comments 서비스 연결
-5. 지역별 consent/CMP 운영 설정 최종 확인
+4. 지역별 consent/CMP 운영 설정 최종 확인
 
 ## 20. 변경 관리
 

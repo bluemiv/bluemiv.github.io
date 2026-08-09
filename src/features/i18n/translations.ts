@@ -107,6 +107,9 @@ export type ArticleDetailCopy = {
   previousLabel: string;
   nextLabel: string;
   tagLabel: string;
+  commentsEyebrow: string;
+  commentsTitle: string;
+  commentsDescription: string;
 };
 
 export const LANGUAGE_NAMES: Record<Locale, { native: string; english: string }> = {
@@ -246,6 +249,9 @@ export const ARTICLE_DETAIL_COPY: Record<Locale, ArticleDetailCopy> = {
     previousLabel: "← 이전 글",
     nextLabel: "다음 글 →",
     tagLabel: "Filed under",
+    commentsEyebrow: "Discussion",
+    commentsTitle: "댓글",
+    commentsDescription: "궁금한 점이나 의견을 남겨주세요.",
   },
   en: {
     backLabel: "Back to home",
@@ -257,6 +263,9 @@ export const ARTICLE_DETAIL_COPY: Record<Locale, ArticleDetailCopy> = {
     previousLabel: "← Previous",
     nextLabel: "Next →",
     tagLabel: "Filed under",
+    commentsEyebrow: "Discussion",
+    commentsTitle: "Comments",
+    commentsDescription: "Share a question or thought.",
   },
   ja: {
     backLabel: "ホームへ戻る",
@@ -268,6 +277,9 @@ export const ARTICLE_DETAIL_COPY: Record<Locale, ArticleDetailCopy> = {
     previousLabel: "← 前の記事",
     nextLabel: "次の記事 →",
     tagLabel: "Tags",
+    commentsEyebrow: "Discussion",
+    commentsTitle: "コメント",
+    commentsDescription: "質問や感想があれば、気軽にどうぞ。",
   },
 };
 

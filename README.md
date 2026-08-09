@@ -1,6 +1,6 @@
-# Bluemiv Blog V2
+# Bluemiv Blog
 
-Bluemiv Blog의 새 구조를 만드는 로컬 작업 브랜치입니다.
+Next.js static export로 운영하는 Bluemiv Blog입니다.
 
 ## 실행
 
@@ -33,6 +33,7 @@ pnpm verify:search
 - 기존 글, 앱 URL, 개인정보처리방침 URL 보존
 - 서비스 워커 캐시 미사용
 - Pagefind 기반 정적 article·note 검색
+- giscus와 GitHub Discussions 기반 article 댓글
 - `/sw.js`는 `bluemiv-blog-*` 캐시 삭제와 기존 등록 해제만 수행하는 tombstone으로 영구 유지
 
 ## 배포

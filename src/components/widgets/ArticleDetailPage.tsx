@@ -16,6 +16,7 @@ import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import type { ArticleNavigation } from "@/features/article/articleNavigation";
 import { ArticleReadingProvider } from "@/features/article/ArticleReadingProvider";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
+import { GiscusComments } from "@/features/comment/GiscusComments";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { ARTICLE_DETAIL_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
@@ -154,6 +155,27 @@ export function ArticleDetailPage({
                       : null
                   }
                 />
+
+                <section
+                  aria-labelledby="comments-title"
+                  className="border-border mt-20 border-t pt-8"
+                  data-pagefind-ignore
+                >
+                  <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
+                    {copy.commentsEyebrow}
+                  </p>
+                  <div className="mt-2 sm:flex sm:items-end sm:justify-between sm:gap-8">
+                    <h2 id="comments-title" className="text-2xl font-semibold tracking-[-0.03em]">
+                      {copy.commentsTitle}
+                    </h2>
+                    <p className="text-muted mt-2 text-sm sm:mt-0 sm:text-right">
+                      {copy.commentsDescription}
+                    </p>
+                  </div>
+                  <div className="mt-8">
+                    <GiscusComments articleId={article.id} locale={article.locale} />
+                  </div>
+                </section>
               </div>
 
               <ArticleDetailSidebar

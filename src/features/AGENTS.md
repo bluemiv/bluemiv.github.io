@@ -5,6 +5,7 @@
 | `adsense`        | 광고 script, slot, local preview              |
 | `app`            | 개별 app 공개 정보와 상세 경로                |
 | `article`        | article metadata, 식별 번호, SSG 조회         |
+| `comment`        | giscus 댓글, discussion 식별, theme 동기화    |
 | `i18n`           | locale 판별, locale URL, 번역 문구            |
 | `legacyRedirect` | 기존 URL과 canonical URL 매핑                 |
 | `navigation`     | site navigation과 header scroll               |

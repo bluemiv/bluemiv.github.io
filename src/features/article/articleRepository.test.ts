@@ -72,12 +72,28 @@ describe("articleRepository", () => {
       "en",
       "ja",
     ]);
+    expect(getPublishedArticleLocales("react-useeffect-vs-uselayouteffect")).toEqual([
+      "ko",
+      "en",
+      "ja",
+    ]);
   });
 
   it("없는 article이나 번역은 null 또는 빈 목록을 반환한다", () => {
+    const englishArticles = getPublishedArticles("en");
+
     expect(getArticleMetadata("missing-article", "ko")).toBeNull();
     expect(getArticleMetadata("what-is-kotlin", "en")).toBeNull();
-    expect(getPublishedArticles("en")).toHaveLength(1);
+    expect(englishArticles).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          locale: "en",
+          slug: "react-useeffect-vs-uselayouteffect",
+        }),
+      ]),
+    );
+    expect(englishArticles.every(({ locale }) => locale === "en")).toBe(true);
+    expect(englishArticles.some(({ slug }) => slug === "what-is-kotlin")).toBe(false);
   });
 
   it("파일 경로와 metadata가 다르면 build를 실패시킨다", () => {

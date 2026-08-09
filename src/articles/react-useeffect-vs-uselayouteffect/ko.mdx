@@ -9,7 +9,7 @@ legacyPaths:
 title: 'React useEffect와 useLayoutEffect의 차이와 선택 기준'
 description: React의 render, commit, browser paint 흐름을 기준으로 useEffect와 useLayoutEffect의 차이를 설명합니다. DOM 측정, 화면 깜빡임, SSR 사례를 통해 어떤 Hook을 선택해야 하는지 정리합니다.
 publishedAt: 2025-01-09T22:28:36+09:00
-modifiedAt: 2026-08-09T20:10:00+09:00
+modifiedAt: 2026-08-09T20:20:00+09:00
 tags: ['use-effect', 'use-layout-effect']
 isPublished: true
 coverImage: /r/i/react/2/thumbnail.webp
@@ -183,9 +183,11 @@ useLayoutEffect(() => {
 
 ### 초기 테마
 
-server rendering을 사용하는 화면에서는 JavaScript가 load되고 hydration이 끝나기 전에 HTML이 먼저 보일 수 있어요. `useLayoutEffect`는 server에서 실행되지 않으므로 초기 theme 깜빡임을 완전히 해결하지 못해요.
+client rendering에서는 `useLayoutEffect`로 theme class를 바꾸면 첫 paint 전에 변경 사항이 반영되므로 깜빡임을 막을 수 있어요.
 
-초기 theme은 CSS의 `prefers-color-scheme`, server에서 만든 HTML class, hydration 전에 실행하는 짧은 초기화 script로 맞추는 편이 안전해요. 사용자가 theme button을 누른 뒤 DOM class를 바꾸는 동작은 event handler에서 직접 처리할 수 있어요.
+하지만 server rendering에서는 server HTML이 JavaScript보다 먼저 paint될 수 있어요. `useLayoutEffect`는 hydration 과정에서 실행되므로, `localStorage`의 theme을 읽는 작업만 맡기면 이미 표시된 초기 화면까지 되돌릴 수는 없어요.
+
+초기 theme은 CSS의 `prefers-color-scheme`, server에서 만든 HTML class, hydration 전에 실행하는 짧은 초기화 script로 맞추는 편이 안전해요. static export처럼 request마다 theme을 server에서 결정할 수 없다면 `<head>`의 동기 script로 DOM class를 먼저 적용할 수 있어요. 사용자가 theme button을 누른 뒤 class를 바꾸는 동작은 event handler에서 직접 처리하면 돼요.
 
 ### Redirect와 접근 제어
 

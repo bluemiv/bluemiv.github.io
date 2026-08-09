@@ -10,9 +10,6 @@ export function AdSlotPlaceholder({ format }: PropsWithAdSlotPlaceholder) {
       className={isSidebar ? "border-border border-t pt-8" : "border-border border-y py-10"}
       aria-label="광고 영역 미리보기"
     >
-      <p className="text-muted mb-3 text-center font-mono text-xs tracking-[0.16em] uppercase">
-        Advertisements
-      </p>
       <div
         className={
           isSidebar

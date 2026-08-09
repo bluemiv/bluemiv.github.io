@@ -7,3 +7,4 @@
 - 광고 위치와 개수는 `docs/design-system.md`를 따른다.
 - 같은 viewport에 desktop/mobile 대체 slot을 동시에 초기화하지 않는다.
 - 광고 실패가 article과 navigation 렌더링을 막지 않게 한다.
+- custom 광고 heading은 기본으로 표시하지 않는다. 추가할 때는 AdSense가 허용한 label만 사용한다.

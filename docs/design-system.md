@@ -772,7 +772,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - article 문단 중간 삽입 최소화.
 - 광고 container가 주요 콘텐츠 card처럼 보이지 않게 한다.
 - 광고와 topic, pagination, previous/next, copy button 등 interactive element 사이에 최소 `32–40px` 간격을 둔다.
-- custom label이 필요하면 `Advertisements`를 사용한다. 추천, 관련 글처럼 오해할 표현을 쓰지 않는다.
+- custom 광고 heading은 기본으로 표시하지 않는다. 필요하면 AdSense가 허용한 `Advertisements` 또는
+  `Sponsored Links`만 사용하고 추천, 관련 글처럼 오해할 표현을 쓰지 않는다.
 - sidebar 기본 슬롯은 `300×250`이며 페이지당 하나부터 시작한다.
 - 가로 슬롯은 viewport 기준으로 `<520px: 320×100`, `520–799px: 468×60`, `≥800px: 728×90`을 기본으로 한다.
 - 실제 광고가 로드되기 전에 CSS로 width/height 또는 min-height를 예약해 layout shift를 막는다.

@@ -4,6 +4,7 @@ import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
 
 import { CodeCopyButton } from "@/components/atoms/CodeCopyButton";
+import { ArticleFigure } from "@/features/article/ArticleFigure";
 import { getArticleImageDimensions } from "@/features/article/articleImage";
 
 type PropsWithArticleCodeBlock = ComponentPropsWithoutRef<"pre"> & {
@@ -25,6 +26,7 @@ function ArticleCodeBlock({ children, ...props }: PropsWithArticleCodeBlock) {
 }
 
 const ARTICLE_MDX_COMPONENTS = {
+  ArticleFigure,
   pre: ArticleCodeBlock,
   img: ({ src, alt, title }) => {
     if (typeof src !== "string") throw new Error("Article image src must be a string");

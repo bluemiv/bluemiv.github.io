@@ -851,10 +851,19 @@ select {
 }
 
 .article-body img {
+  display: block;
   height: auto;
   max-width: 100%;
   border: 1px solid var(--theme-border);
   border-radius: 4px;
+}
+
+.article-body figcaption {
+  margin-top: 0.75rem;
+  color: var(--theme-muted);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  text-align: center;
 }
 
 .article-body hr {

@@ -50,24 +50,34 @@ describe("articleRepository", () => {
     expect(article?.source).toContain("## GitHub Pages를 선택한 이유");
   });
 
-  it("같은 article id와 slug를 사용하는 일본어 번역을 조회한다", () => {
-    const article = getArticleDocument("build-github-pages-blog-with-nextjs", "ja");
+  it.each([
+    ["en", "## Why GitHub Pages"],
+    ["ja", "## GitHub Pagesを選んだ理由"],
+  ] as const)("같은 article id와 slug를 사용하는 %s 번역을 조회한다", (locale, heading) => {
+    const article = getArticleDocument("build-github-pages-blog-with-nextjs", locale);
 
     expect(article?.metadata).toMatchObject({
       id: "article-001",
       slug: "build-github-pages-blog-with-nextjs",
-      locale: "ja",
+      locale,
       legacyPaths: [],
       isPublished: true,
     });
-    expect(article?.source).toContain("## GitHub Pagesを選んだ理由");
-    expect(getPublishedArticleLocales("build-github-pages-blog-with-nextjs")).toEqual(["ko", "ja"]);
+    expect(article?.source).toContain(heading);
+  });
+
+  it("공개된 번역 locale을 모두 조회한다", () => {
+    expect(getPublishedArticleLocales("build-github-pages-blog-with-nextjs")).toEqual([
+      "ko",
+      "en",
+      "ja",
+    ]);
   });
 
   it("없는 article이나 번역은 null 또는 빈 목록을 반환한다", () => {
     expect(getArticleMetadata("missing-article", "ko")).toBeNull();
     expect(getArticleMetadata("what-is-kotlin", "en")).toBeNull();
-    expect(getPublishedArticles("en")).toEqual([]);
+    expect(getPublishedArticles("en")).toHaveLength(1);
   });
 
   it("파일 경로와 metadata가 다르면 build를 실패시킨다", () => {

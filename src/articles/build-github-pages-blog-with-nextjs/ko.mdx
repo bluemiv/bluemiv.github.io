@@ -95,8 +95,9 @@ export default async function ArticlePage({ params }: PageProps<"/articles/[slug
 ```text
 src/articles/
 └── build-github-pages-blog-with-nextjs/
-    ├── ko.mdx
-    └── ja.mdx
+    ├── en.mdx
+    ├── ja.mdx
+    └── ko.mdx
 ```
 
 한국어 원문만 있다면 `ko.mdx`만 둬요. 번역이 없는 영어와 일본어 상세 route는 만들지 않아요. 덕분에 검색 엔진과 사용자 모두 존재하지 않는 번역 페이지로 이동하지 않아요.

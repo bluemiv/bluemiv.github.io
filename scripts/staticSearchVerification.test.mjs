@@ -32,6 +32,7 @@ function getIndexedHtml(type) {
 
 function writeValidOutput(outputDirectory) {
   writeFile(outputDirectory, "articles/example/index.html", getIndexedHtml("article"));
+  writeFile(outputDirectory, "en/articles/example/index.html", getIndexedHtml("article"));
   writeFile(outputDirectory, "ja/articles/example/index.html", getIndexedHtml("article"));
   writeFile(outputDirectory, "notes/example/index.html", getIndexedHtml("note"));
   writeFile(outputDirectory, "articles/index.html", "<main>Archive</main>");
@@ -39,7 +40,9 @@ function writeValidOutput(outputDirectory) {
   writeFile(
     outputDirectory,
     "pagefind/pagefind-entry.json",
-    JSON.stringify({ languages: { ko: { page_count: 2 }, ja: { page_count: 1 } } }),
+    JSON.stringify({
+      languages: { ko: { page_count: 2 }, en: { page_count: 1 }, ja: { page_count: 1 } },
+    }),
   );
   writeFile(outputDirectory, "pagefind/fragment/ko_test.pf_fragment");
   writeFile(outputDirectory, "pagefind/index/ko_test.pf_index");
@@ -104,7 +107,7 @@ describe("staticSearchVerification", () => {
         "Indexed page has no weighted title context: /articles/example/",
         "Pagefind index has no Korean language index",
         "Pagefind index has no Japanese language index",
-        "Pagefind page count differs from marked pages: 9 !== 3",
+        "Pagefind page count differs from marked pages: 9 !== 4",
       ]),
     );
   });

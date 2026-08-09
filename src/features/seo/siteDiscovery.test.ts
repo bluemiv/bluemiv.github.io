@@ -81,6 +81,12 @@ describe("siteDiscovery", () => {
     articles[0] = createArticle(1, { coverImage: "/r/i/article-1/cover.webp" });
     articles.push(
       createArticle(1, {
+        locale: "en",
+        title: "English Article 1",
+        description: "English description 1",
+        legacyPaths: [],
+      }),
+      createArticle(1, {
         locale: "ja",
         title: "日本語の記事 1",
         description: "日本語の説明 1",
@@ -99,6 +105,7 @@ describe("siteDiscovery", () => {
         "https://bluemiv.github.io/articles/",
         "https://bluemiv.github.io/articles/page/2/",
         "https://bluemiv.github.io/articles/article-1/",
+        "https://bluemiv.github.io/en/articles/article-1/",
         "https://bluemiv.github.io/ja/articles/article-1/",
         "https://bluemiv.github.io/categories/frontend/",
         "https://bluemiv.github.io/topics/nextjs/",
@@ -119,12 +126,14 @@ describe("siteDiscovery", () => {
       alternates: {
         languages: {
           ko: "https://bluemiv.github.io/articles/article-1/",
+          en: "https://bluemiv.github.io/en/articles/article-1/",
           ja: "https://bluemiv.github.io/ja/articles/article-1/",
           "x-default": "https://bluemiv.github.io/articles/article-1/",
         },
       },
     });
     expect(urls.filter((url) => url.endsWith("/categories/frontend/"))).toHaveLength(1);
+    expect(urls).not.toContain("https://bluemiv.github.io/en/categories/frontend/");
     expect(urls).not.toContain("https://bluemiv.github.io/ja/categories/frontend/");
     expect(sitemap.find(({ url }) => url.endsWith("/articles/"))).toMatchObject({
       lastModified: "2026-02-10T00:00:00.000Z",

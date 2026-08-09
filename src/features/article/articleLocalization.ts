@@ -1,7 +1,7 @@
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 
 const ARTICLE_TRANSLATION_LOCALES = {
-  "build-github-pages-blog-with-nextjs": ["ko", "ja"],
+  "build-github-pages-blog-with-nextjs": ["ko", "en", "ja"],
 } as const satisfies Record<string, readonly Locale[]>;
 
 export function getRegisteredArticleLocales(slug: string): readonly Locale[] {

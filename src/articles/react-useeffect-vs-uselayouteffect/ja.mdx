@@ -1,0 +1,232 @@
+---
+id: article-002
+slug: react-useeffect-vs-uselayouteffect
+locale: ja
+category: frontend
+topics: ['react']
+legacyPaths: []
+title: 'ReactのuseEffectとuseLayoutEffectの違い：実行タイミングと使い分け'
+description: Reactのレンダー、コミット、ブラウザ描画の流れをもとに、useEffectとuseLayoutEffectの違いを解説します。DOM計測、画面のちらつき、SSRでの注意点から、どちらを選ぶべきか判断できるように整理します。
+publishedAt: 2025-01-09T22:28:36+09:00
+modifiedAt: 2026-08-10T00:03:48+09:00
+tags: ['use-effect', 'use-layout-effect']
+isPublished: true
+coverImage: /r/i/react/2/thumbnail.webp
+---
+
+`useEffect`と`useLayoutEffect`は、どちらもReactが変更をDOMへ反映した後に実行されます。大きな違いは、Effectの処理がブラウザの描画をブロックするかどうかです。
+
+基本的には`useEffect`を選びます。DOMの大きさや位置を計測し、その結果を最初の描画より前に反映しなければならない場合に限って、`useLayoutEffect`を検討するのが安全です。
+
+## まず違いを整理する
+
+| 比較項目 | `useEffect` | `useLayoutEffect` |
+| --- | --- | --- |
+| 主な用途 | 外部システムとコンポーネントの同期 | 描画前のDOM計測と表示位置の補正 |
+| 実行タイミング | コミット後、通常は描画後 | コミット後、描画前 |
+| ブラウザ描画 | ブロックしない | Effect内のstateの更新が完了するまでブロックする |
+| 代表例 | イベントリスナー、タイマー、外部ウィジェット、ネットワーク接続 | ツールチップの位置、要素サイズの計測、スクロール位置の補正 |
+| SSR | 実行されない | 実行されず、サーバーにはレイアウト情報もない |
+| 基本方針 | まずこちらを使う | 見た目の補正に必要な場合だけ使う |
+
+依存配列とクリーンアップの仕組みは、どちらのHookも同じです。依存値が変わると、Reactは古い値でクリーンアップを実行してから、新しい値でセットアップをやり直します。コンポーネントがDOMから外れるときにも、最後のクリーンアップが実行されます。
+
+## レンダー、コミット、描画の流れ
+
+実行タイミングを理解するには、Reactのレンダーとコミット、ブラウザの描画を分けて考える必要があります。
+
+1. **Render**: Reactがコンポーネントを呼び出し、画面に何を表示するか計算します。
+2. **Commit**: 計算結果を実際のDOMへ反映します。
+3. **Paint**: ブラウザが更新されたDOMとスタイルを画面に描画します。
+
+Effectまで含めると、処理の流れは次のようになります。
+
+<ArticleFigure
+  src="/r/i/react/2/effect-timing.webp"
+  alt="useEffectとuseLayoutEffectの実行順序を2本のタイムラインで比較した図"
+  caption="どちらもcommit後に実行されますが、useLayoutEffectはpaint前、useEffectは通常paint後という違いがあります。"
+/>
+
+`useLayoutEffect`はDOMの更新後に実行されるため、要素の大きさや位置を計測できます。ReactはEffect内の処理と、そこで発生したstateの更新を終えてから、ブラウザに画面を描画させます。
+
+一方、`useEffect`が必ずpaint後に実行されるわけではありません。ユーザー操作とは関係なく発生したEffectでは、通常、ブラウザが先に画面を描画します。クリックなどの操作をきっかけにしたEffectは、paint前に実行されることもあります。
+
+細かな実行順序を暗記するよりも、**paint前に処理を終える必要があるか**を判断基準にするほうが実用的です。
+
+また、`useLayoutEffect`は同期処理、`useEffect`は非同期処理、とだけ覚えるのも正確ではありません。セットアップ関数そのものの書き方が変わるわけではなく、Reactがcommitとpaintの間のどこでEffectを処理し、描画をブロックするかが本質的な違いです。
+
+## useEffectが向いている処理
+
+`useEffect`は、Reactの外部にあるシステムとコンポーネントを同期するために使います。ブラウザイベント、タイマー、ネットワーク接続、サードパーティ製ウィジェットなど、Reactが直接管理していないものが対象です。
+
+次のコンポーネントは`Escape`キーの入力を監視します。コンポーネントが外れたときや`onEscape`が変わったときには、古いイベントリスナーを解除します。
+
+```tsx {8,13,15-18}
+import { useEffect } from "react";
+
+type PropsWithEscapeKeyListener = {
+  onEscape: () => void;
+};
+
+export function EscapeKeyListener({ onEscape }: PropsWithEscapeKeyListener) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onEscape();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onEscape]);
+
+  return null;
+}
+```
+
+この処理を次のpaintまでに終える必要はありません。`useLayoutEffect`へ置き換えても結果は変わらず、ブラウザの描画を余計にブロックするだけです。
+
+クライアントからAPIを直接呼び出す場合も`useEffect`を使えます。ただし、Next.jsのようなフレームワークでは、サーバー側のデータ取得やルート単位のデータ取得、キャッシュライブラリを先に検討したほうがよいでしょう。
+
+Effect内でリクエストする場合は、コンポーネントが外れた後や依存値が変わった後に、古いレスポンスが新しいstateを上書きしないよう、クリーンアップも設計します。
+
+## useLayoutEffectが必要になる処理
+
+`useLayoutEffect`が必要になるのは、DOMの計測結果を最初のpaintに反映しなければならない場面です。代表例は、ツールチップやポップオーバーの位置計算です。
+
+次の例では、対象要素とツールチップの大きさを計測し、対象要素の上に配置します。上側の余白が足りない場合は、下側に表示します。
+
+```tsx {18,21-29,37-39}
+import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+
+type PropsWithTooltip = {
+  children: ReactNode;
+  target: HTMLElement | null;
+};
+
+type Position = {
+  left: number;
+  top: number;
+};
+
+export function Tooltip({ children, target }: PropsWithTooltip) {
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState<Position | null>(null);
+
+  useLayoutEffect(() => {
+    if (!target || !tooltipRef.current) return;
+
+    const targetRect = target.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const top = targetRect.top - tooltipRect.height - 8;
+
+    setPosition({
+      left: targetRect.left + (targetRect.width - tooltipRect.width) / 2,
+      top: top >= 8 ? top : targetRect.bottom + 8,
+    });
+  }, [target]);
+
+  return (
+    <div
+      ref={tooltipRef}
+      role="tooltip"
+      style={{
+        position: "fixed",
+        left: position?.left ?? 0,
+        top: position?.top ?? 0,
+        visibility: position ? "visible" : "hidden",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+```
+
+この処理では、画面が表示されるまでに2回レンダーされます。
+
+1. 位置が未確定のツールチップをDOMへ反映します。
+2. `useLayoutEffect`で実際の大きさと位置を計測します。
+3. 計測結果をstateへ保存し、すぐにもう一度レンダーします。
+4. ブラウザは補正後のツールチップだけを画面に描画します。
+
+<ArticleFigure
+  src="/r/i/react/2/layout-effect-tooltip.webp"
+  alt="commit後にツールチップを計測し、位置を補正してからpaintする流れ"
+  caption="useLayoutEffect内で計測とstateの更新を終えるため、ユーザーには補正後のツールチップだけが見えます。"
+/>
+
+同じ処理を`useEffect`へ移すと、ブラウザが補正前の位置を先に描画する可能性があります。その後で正しい位置へ移動するため、ツールチップが一瞬跳ねたり、ちらついたりして見えます。
+
+CSSだけで位置を決められる場合や、最初のフレームとの差が目に入らない場合は、`useEffect`で十分です。DOMを読むという理由だけで`useLayoutEffect`を選ぶ必要はありません。
+
+この例では、2つのHookの違いを示すために初期位置だけを計算しています。実際のツールチップでは、ビューポートのサイズ変更やスクロール、内容の大きさの変化にも対応しなければなりません。実際のプロダクトでは、実績のある位置計算ライブラリや`ResizeObserver`などのブラウザAPIも検討します。
+
+## useLayoutEffectを避けたい理由
+
+`useLayoutEffect`内の処理と、そこから発生するstateの更新は、ブラウザの描画をブロックします。大きなDOMツリーを繰り返し計測したり、時間のかかる計算を実行したりすると、初期表示やユーザー操作への反応が遅くなります。
+
+```tsx {4-6}
+useLayoutEffect(() => {
+  const startedAt = performance.now();
+
+  while (performance.now() - startedAt < 1000) {
+    // この処理が終わるまでブラウザの描画が遅れます。
+  }
+}, []);
+```
+
+この計算を`useEffect`へ移しただけで、自動的に速くなるわけではありません。レンダーに必要な純粋な計算はレンダー中に行い、重い計算にはメモ化やWeb Workerなど、別の最適化方法を検討します。`useLayoutEffect`には、DOM計測とすぐに反映すべき最小限のstate更新だけを残します。
+
+## テーマとリダイレクトには何を使うべきか
+
+画面のちらつきを防ぎたいからといって、すべてのスタイル変更やリダイレクトを`useLayoutEffect`へ移すのは適切ではありません。
+
+### 初期テーマ
+
+クライアントレンダリングでは、`useLayoutEffect`でテーマ用のclassを変更すると最初のpaint前に反映されるため、ちらつきを防げます。
+
+一方、サーバーレンダリングでは、JavaScriptが読み込まれる前にサーバーで生成したHTMLが描画される場合があります。`useLayoutEffect`はハイドレーション中に実行されるため、`localStorage`のテーマを読む処理を任せるだけでは、すでに表示された初期画面を修正できません。
+
+初期テーマは、CSSの`prefers-color-scheme`、サーバーが生成するHTMLのclass、ハイドレーション前に実行する短い初期化スクリプトで合わせます。Static Exportのようにリクエストごとのテーマをサーバーで決められない場合は、`<head>`内の同期スクリプトでDOMのclassを先に適用できます。テーマ切り替えボタンを押した後の変更は、イベントハンドラーで直接処理できます。
+
+### リダイレクトとアクセス制御
+
+リダイレクトは、ルーターやフレームワークのルーティング機能で行うのが基本です。ログイン状態のようなアクセス制御は、サーバーやミドルウェアで検証する必要があります。`useLayoutEffect`で画面を隠してから移動しても、セキュリティ上の境界にはなりません。
+
+クライアントでしか分からない値をもとに移動する場合は、`useEffect`と条件付きレンダーを組み合わせられます。その場合も、移動前に隠すべき情報をJSXへ含めないことが重要です。
+
+## SSRとNext.jsでの注意点
+
+`useEffect`と`useLayoutEffect`は、どちらもクライアントでのみ実行されます。Next.js App RouterでこれらのHookを使うコンポーネントには、`"use client"`によるClient Componentの境界が必要です。
+
+サーバーには、ビューポートや要素の大きさといったレイアウト情報がありません。サーバーで生成する初期HTMLが`useLayoutEffect`の計測結果に依存していると、ハイドレーション後に位置が変わったり、警告が発生したりする可能性があります。
+
+問題が起きたときは、次の順序で見直します。
+
+1. レイアウトを計測せず、CSSだけで解決できないか確認します。
+2. 最初の画面に計測結果が必要なければ、`useEffect`へ変更します。
+3. ユーザー操作の後にだけ必要なツールチップなどは、クライアントで開かれた時点でレンダーします。
+4. クライアント専用UIには大きさを確保したプレースホルダーを用意し、レイアウトシフトを抑えます。
+
+開発環境でStrict Modeを有効にすると、Reactは最初の本番用セットアップの前に`setup → cleanup → setup`を一度追加で実行します。Effectが2回動いているように見える場合は、Hookを変更する前に、クリーンアップがセットアップの処理を正しく元に戻しているか確認します。
+
+## 迷ったときの判断基準
+
+Effectを書く前に、次の順序で考えると選びやすくなります。
+
+1. Reactの外部システムと同期する処理でなければ、そもそもEffectが必要か確認します。
+2. イベントリスナー、タイマー、ネットワーク接続、外部ウィジェットとの連携には`useEffect`を使います。
+3. DOMの計測結果を最初のpaint前に反映する必要があり、実際にちらつきが見える場合は`useLayoutEffect`を使います。
+4. CSSやルーター、フレームワークの機能で解決できるなら、Effectよりそちらを優先します。
+5. `useLayoutEffect`を選んだ場合は処理を短く保ち、レイアウト情報の読み取りと書き込みを繰り返さないようにします。
+
+結論はシンプルです。**基本は`useEffect`を使い、paint前に終える必要があるレイアウト計測だけを`useLayoutEffect`へ移します。** 誤った初期表示がユーザーに見えるか、ブラウザの描画を止める明確な理由があるかを基準に判断します。
+
+## 参考資料
+
+- [useEffect - React](https://react.dev/reference/react/useEffect)
+- [useLayoutEffect - React](https://react.dev/reference/react/useLayoutEffect)
+- [Render and Commit - React](https://react.dev/learn/render-and-commit)

@@ -9,7 +9,7 @@ import {
 import { AdSenseSlot } from "@/features/adsense/AdSenseSlot";
 import type { ArticleCategorySummary } from "@/features/article/articleCollection";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
-import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { DEFAULT_LOCALE, getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import type { HomeCopy } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
@@ -35,12 +35,13 @@ export function HomeArticlesSection({
   taxonomy,
   totalArticleCount,
 }: PropsWithHomeArticlesSection) {
-  const hasArticles = totalArticleCount > 0;
+  const hasArchiveNavigation = locale === DEFAULT_LOCALE;
+  const hasTaxonomyNavigation = hasArchiveNavigation && taxonomy.length > 0;
 
   return (
     <div
       id="latest-articles"
-      className={`${hasFeaturedArticle ? "mt-20 md:mt-28" : ""} scroll-mt-24 ${taxonomy.length > 0 ? "xl:grid xl:grid-cols-[minmax(0,760px)_300px] xl:gap-[60px]" : "max-w-[760px]"}`}
+      className={`${hasFeaturedArticle ? "mt-20 md:mt-28" : ""} scroll-mt-24 ${hasTaxonomyNavigation ? "xl:grid xl:grid-cols-[minmax(0,760px)_300px] xl:gap-[60px]" : "max-w-[760px]"}`}
     >
       <section aria-labelledby="latest-title">
         <SectionHeader
@@ -49,7 +50,7 @@ export function HomeArticlesSection({
           heading={copy.latest.heading}
           headingId="latest-title"
           trailing={
-            hasArticles ? (
+            hasArchiveNavigation ? (
               <Link
                 className="text-accent hover:text-accent-hover inline-flex min-h-11 items-center text-sm font-bold transition-colors duration-150 motion-reduce:transition-none"
                 href={getLocalizedPath(locale, "articles")}
@@ -61,7 +62,7 @@ export function HomeArticlesSection({
           }
         />
 
-        {taxonomy.length > 0 ? (
+        {hasTaxonomyNavigation ? (
           <MobileArticleTaxonomyNavigation
             activeCategory={null}
             activeTopic={null}
@@ -93,7 +94,7 @@ export function HomeArticlesSection({
         />
       </section>
 
-      {taxonomy.length > 0 ? (
+      {hasTaxonomyNavigation ? (
         <aside className="hidden xl:block" aria-label={copy.topics.heading}>
           <ArticleTaxonomyNavigation
             activeCategory={null}

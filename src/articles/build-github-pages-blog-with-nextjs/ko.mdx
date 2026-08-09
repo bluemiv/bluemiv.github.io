@@ -9,7 +9,7 @@ legacyPaths:
 title: Next.js 16으로 GitHub Pages 블로그 구축하기
 description: Next.js 16의 Static Export로 GitHub Pages에 정적 블로그를 만드는 과정을 정리해요. MDX 기반 글 작성과 코드 하이라이트, sitemap.xml·robots.txt를 활용한 SEO 설정까지 다뤄요.
 publishedAt: 2025-01-07T20:13:19+09:00
-modifiedAt: 2025-01-11T23:52:13+09:00
+modifiedAt: 2026-08-09T11:59:07+09:00
 tags: ['nextjs', 'blog', 'github pages']
 isPublished: true
 coverImage: /r/i/nextjs/1/thumbnail.webp
@@ -17,166 +17,243 @@ coverImage: /r/i/nextjs/1/thumbnail.webp
 
 이 글은 2026년 8월, Next.js 16을 기준으로 내용을 업데이트했어요.
 
-## 1. Github 블로그를 만든 이유
+이 블로그는 2025년에 Tistory에서 GitHub Pages로 옮기며 시작했어요. 처음에는 글을 직접 관리하고 화면을 자유롭게 구성할 수 있다는 점만으로 충분했지만, 운영하면서 요구사항이 늘어났어요. 기존 URL을 유지하면서 다국어 페이지를 만들고, 긴 글과 짧은 글을 나누고, 검색과 SEO도 정적 환경 안에서 해결해야 했어요.
 
-이전에는 Tistory로 블로그를 운영해왔으나, 티스토리 자체 광고 삽입으로 블로그 플랫폼을 옮겨야겠다는 생각이 들었습니다.
+2026년에는 기존 프로젝트를 그대로 고치기보다 Next.js 16과 App Router를 기준으로 다시 구성했어요. 이 글에서는 현재 블로그가 정적 페이지를 만들고, MDX를 읽고, 검색과 SEO 결과물을 생성한 뒤 GitHub Pages에 배포되는 흐름을 정리해요.
 
-개발 블로그 이전을 위해, 어떤 플랫폼을 사용하는 것이 좋을지 여러가지 검토를 해봤습니다.
+## GitHub Pages를 선택한 이유
 
-### 1.1. 네이버 블로그
+블로그 플랫폼을 이용하면 서버와 배포를 신경 쓰지 않고 글에 집중할 수 있어요. 대신 화면 구성, URL 정책, 콘텐츠 구조를 원하는 방식으로 바꾸기 어려울 수 있어요. 직접 서버를 운영하면 자유도는 높지만 한 개인 블로그를 위해 비용과 운영 부담까지 감수해야 해요.
 
-많은 사람들이 사용하는 네이버 블로그는 글을 작성하는 것에만 집중 할 수 있어서 편하고 빠르게 블로그를 시작할 수 있습니다. 하지만, 티스토리와 같이 `HTML`, `CSS`, `JavaScript`를 수정하여 블로그 디자인을 자유롭게 변경 할 수 없는 단점이 있습니다.
+GitHub Pages는 이 둘의 중간에 있어요. 빌드 결과가 HTML, CSS, JavaScript 같은 정적 파일이면 별도의 애플리케이션 서버 없이 배포할 수 있고, 소스와 글의 변경 이력도 Git으로 함께 관리할 수 있어요. 디자인과 URL은 직접 결정하면서 호스팅 구조는 단순하게 유지할 수 있다는 점이 이 블로그와 잘 맞았어요.
 
-### 1.2. 클라우드 호스팅
+![GitHub Pages](/r/i/nextjs/1/1.webp)
 
-AWS나 vercel 등으로 자체적으로 블로그를 만들 수 있고, 원하는 개발 언어 및 프레임워크로 개발할 수 있습니다. 하지만 비용이 발생하고, 서버 관리 및 보안도 고려해야 하므로 블로그를 만들기 위해 많은 시간과 노력이 필요합니다.
+물론 제약도 분명해요. 요청마다 서버에서 실행해야 하는 기능, `cookies()`를 읽는 인증, Server Action, ISR 같은 기능은 정적 export와 함께 사용할 수 없어요. 새 글을 공개하거나 기존 글을 수정할 때도 전체 사이트를 다시 빌드해야 해요. 이 블로그는 읽기 중심이고 콘텐츠가 자주 바뀌지 않기 때문에 이 제약을 받아들였어요.
 
-###  1.3. Github Pages
+## Next.js 16을 정적 사이트로 설정하기
 
-Github Pages는 무료로 호스팅을 해주기 때문에 블로그를 만들 수 있고, 처음부터 직접 개발하여 만들 수 있기 때문에 블로그 디자인을 자유롭게 변경 할 수 있습니다.
-또한, `Github Actions`로 CI/CD를 자동화하여 배포할 수도 있습니다.
+Next.js 16에서는 `next build`가 정적 페이지를 생성하도록 `output: "export"`를 설정해요. 예전에 사용하던 `next export` 명령은 필요하지 않아요. 빌드가 끝나면 GitHub Pages에 올릴 파일이 `out` 디렉터리에 만들어져요.
 
-단점으로는 Github Pages는 정적 웹사이트만 지원하므로 동적인 기능을 구현하기는 어렵습니다. 하지만, 정적 웹사이트인 블로그를 만들기에는 전혀 문제가 되지 않습니다.
+현재 블로그의 핵심 설정은 다음과 같아요.
 
-이러한 이유로 위 네이버/티스토리 블로그와 클라우드 호스팅 방식의 장점을 합친, `Github Pages` 를 선택했습니다.
-
-![Github Pages](/r/i/nextjs/1/1.webp)
-
----
-
-## 2. 기술 검토
-
-Next.js는 Major 버전이 상당히 빨리 업데이트 됩니다. (25년에는 벌써 15버전이 나왔네요) 이렇게 빨리 바뀌는 Next.js로 Github 블로그를 만드는데, 문제가 없을지 검토가 필요했습니다.
-
-### 2.1. 정적 페이지 생성
-
-Next.js는 SSR 뿐만 아니라 SSG(`Static Site Generation`)도 지원합니다. 따라서 정적 페이지를 생성하는데는 전혀 문제가 없습니다.
-
-```typescript {4, 5}
-import type { NextConfig } from 'next';
+```typescript {4-5,9}
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  images: { unoptimized: true },
-  ...
+  output: "export",
+  trailingSlash: true,
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
 ```
 
-정적 페이지 생성을 위한 SSG 설정은 `next.config.js`에서 `output: 'export'`로 설정하면 됩니다.
+`trailingSlash: true`를 사용하면 `/articles/example/` 경로가 `out/articles/example/index.html`로 생성돼요. 정적 호스팅에서 디렉터리 기반 URL을 일관되게 유지하기 쉽고, canonical과 내부 링크도 같은 규칙으로 맞출 수 있어요.
 
-그리고, 이미지 최적화를 비활성화(`images: { unoptimized: true }`) 하는 이유는 빌드시 이미지 최적화가 되지 않기 때문입니다.
+기본 `next/image` 최적화는 요청을 처리할 서버가 필요해요. 이 블로그는 빌드 전에 준비한 WebP 이미지를 그대로 제공하므로 `images.unoptimized`를 사용해요. 외부 이미지 최적화 서비스를 사용한다면 [custom loader](https://nextjs.org/docs/app/guides/static-exports#image-optimization)를 두는 방법도 있어요.
 
-### 2.2. sitemap.xml, robots.txt 생성 가능
+정적 export가 지원하는 기능과 제한은 [Next.js Static Exports 문서](https://nextjs.org/docs/app/guides/static-exports)에서 확인할 수 있어요.
 
-SEO 향상 및 검색 엔진의 원활한 크롤링을 위해 `sitemap.xml`와 `robots.txt`이 생성이 가능한지 검토가 필요합니다.
+### 동적 route를 build 시점에 확정하기
 
-#### 2.2.1. sitemap.ts 설정
+글 상세 주소는 `/articles/[slug]/`처럼 동적 segment를 사용해요. GitHub Pages는 요청 시점에 이 값을 처리할 서버가 없으므로, 공개할 slug를 build 시점에 모두 알려줘야 해요.
 
-기본적으로 `sitemap.xml`을 생성할 수 있도록 기능을 제공해주고 있기 때문에, `/app` 디렉토리에 `sitemap.ts`를 정의하여 생성할 수 있습니다.
+현재 상세 route의 핵심만 남기면 다음과 같아요. 화면 layout과 metadata 생성 코드는 생략했어요.
 
-```typescript
-import type { MetadataRoute } from 'next';
+```typescript {3-7}
+export const dynamicParams = false;
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://bluemiv.github.io',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    // sitemap에 넣을 페이지 추가
-  ]
+export function generateStaticParams() {
+  return getPublishedArticles("ko").map(({ slug }) => ({ slug }));
+}
+
+export default async function ArticlePage({ params }: PageProps<"/articles/[slug]">) {
+  const { slug } = await params;
+  const articleDocument = getArticleDocument(slug, "ko");
+
+  if (!articleDocument?.metadata.isPublished) notFound();
+
+  const { default: ArticleBody } = await import(`@/articles/${slug}/ko.mdx`);
+  return <ArticleBody />;
 }
 ```
 
-#### 2.2.2. robots.ts 설정
+`generateStaticParams`는 공개된 article의 slug를 반환하고, Next.js는 각 상세 페이지를 미리 만들어요. `dynamicParams = false`를 함께 두면 목록에 없는 slug는 404로 처리돼요. 번역 상세 route를 추가할 때도 locale과 slug 조합을 build 전에 확정해야 해요.
 
-`robots.txt`도 마찬가지로 `robots.txt`를 생성할 수 있도록 기능을 제공해주고 있습니다. (기능을 제공해주지 않더라도 robots.txt 파일을 직접 `/public` 디렉토리에 만들어 됨)
+자세한 동작은 [generateStaticParams 문서](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)에서 확인할 수 있어요.
+
+## MDX를 article 저장소로 사용하기
+
+글은 데이터베이스가 아니라 저장소 안의 MDX 파일로 관리해요. article마다 디렉터리를 하나 만들고, 번역 파일은 locale 이름으로 구분해요.
+
+```text
+src/articles/
+└── build-github-pages-blog-with-nextjs/
+    ├── ko.mdx
+    ├── en.mdx
+    └── ja.mdx
+```
+
+한국어 원문만 있다면 `ko.mdx`만 둬요. 번역이 없는 영어·일본어 상세 route를 억지로 만들지 않기 때문에 검색 엔진과 사용자 모두 존재하지 않는 번역 페이지를 만나지 않아요.
+
+각 MDX 파일의 frontmatter에는 화면과 SEO에서 함께 사용하는 metadata를 작성해요.
+
+```yaml
+id: article-001
+slug: build-github-pages-blog-with-nextjs
+locale: ko
+category: frontend
+topics: [nextjs, react]
+legacyPaths:
+  - /blog/nextjs/1/
+title: Next.js 16으로 GitHub Pages 블로그 구축하기
+description: 글의 핵심 내용을 한두 문장으로 정리해요.
+publishedAt: 2025-01-07T20:13:19+09:00
+modifiedAt: 2026-08-09T11:59:07+09:00
+tags: [nextjs, blog, github pages]
+isPublished: true
+coverImage: /r/i/nextjs/1/thumbnail.webp
+```
+
+`gray-matter`가 frontmatter를 읽고 Zod schema가 필드와 category·topic 관계를 검증해요. `author`를 생략하면 build 시점에 사이트 기본 작성자가 들어가요. 잘못된 metadata는 배포 후가 아니라 build 과정에서 바로 실패해요.
+
+### @next/mdx와 remark·rehype 구성
+
+Next.js 16의 App Router에서는 `@next/mdx`로 로컬 MDX를 React component처럼 가져올 수 있어요. 현재 블로그는 `next-mdx-remote`를 사용하지 않아요. `@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`를 사용하고, `src/mdx-components.tsx`에서 article 이미지와 code block의 공통 UI를 연결해요.
+
+설정의 핵심 부분은 다음과 같아요.
 
 ```typescript
-import type { MetadataRoute } from 'next';
+import createMDX from "@next/mdx";
 
-export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: 'https://bluemiv.github.io/sitemap.xml',
-  };
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: ["remark-frontmatter", "remark-gfm"],
+    rehypePlugins: [
+      ["rehype-pretty-code", { theme: "github-dark-default", keepBackground: false }],
+      "rehype-slug",
+      "rehype-autolink-headings",
+    ],
+  },
+});
+```
+
+각 도구의 역할은 분리되어 있어요.
+
+- `remark-frontmatter`는 MDX의 frontmatter 문법을 처리해요.
+- `remark-gfm`은 표, 취소선 등 GitHub Flavored Markdown 문법을 지원해요.
+- `rehype-pretty-code`와 Shiki는 build 시점에 code highlighting을 적용해요.
+- `rehype-slug`와 `rehype-autolink-headings`는 heading anchor를 만들어요.
+- 자체 rehype plugin은 heading 번호를 자동으로 붙여요.
+
+본문에는 `##`부터 heading을 작성하고 번호는 직접 넣지 않아요. build 과정에서 번호와 anchor가 생성되고, 같은 heading 정보로 TOC와 읽기 진행 표시를 만들어요. code block에는 언어 label과 복사 action이 공통 component로 적용돼요. 글마다 같은 UI를 반복해서 작성할 필요가 없어요.
+
+Next.js의 MDX 구성 방식은 [공식 MDX 가이드](https://nextjs.org/docs/app/guides/mdx)를 기준으로 했어요.
+
+## 현재 블로그의 URL 구조
+
+새 구조에서는 긴 글을 `article`, 짧은 글을 `note`로 구분해요. category는 큰 분야, topic은 그 안의 세부 주제를 나타내요.
+
+```text
+/articles/{slug}/
+/categories/{category}/
+/topics/{topic}/
+/notes/{slug}/
+```
+
+한국어는 domain root를 사용하고 영어와 일본어는 각각 `/en/`, `/ja/` prefix를 붙여요. 모든 locale에서 같은 slug를 사용하므로 번역본 관계를 명확하게 연결할 수 있어요. 기존 `/blog/nextjs/1/` 주소처럼 이미 검색 엔진에 알려진 경로는 새 canonical 주소로 이동하도록 호환 route를 남겨요.
+
+경로를 먼저 정하고 콘텐츠를 그 구조에 맞춘 이유는 URL을 자주 바꾸지 않기 위해서예요. 제목이나 category가 바뀌어도 article slug는 유지하고, canonical·sitemap·내부 링크에는 최종 주소만 사용해요.
+
+## 정적 환경에서 검색과 SEO 구성하기
+
+정적 사이트라고 해서 검색이나 SEO를 포기할 필요는 없어요. 다만 요청을 처리할 서버 대신 build 결과와 브라우저 기능으로 해결해야 해요.
+
+### Pagefind로 본문 검색하기
+
+내부 검색은 Pagefind를 사용해요. 먼저 Next.js가 `out` 디렉터리를 만들고, Pagefind가 완성된 HTML에서 article과 note 본문만 읽어 index를 생성해요.
+
+```json
+{
+  "scripts": {
+    "build": "next build && pnpm search:index && pnpm verify:links && pnpm verify:seo && pnpm verify:search",
+    "search:index": "pagefind --site out"
+  }
 }
 ```
 
-### 2.3. md 파일 작성 가능 여부
+검색 engine과 index는 사용자가 검색어를 입력한 뒤에 불러와요. 초기 화면에 검색용 JavaScript를 미리 싣지 않으면서 제목, 요약, category, topic, tag와 본문을 함께 검색할 수 있어요. 검색 결과 페이지를 별도 URL로 만들지 않으므로 canonical이나 sitemap에도 영향을 주지 않아요.
 
-블로그 글을 작성할때 md 파일로 작성이 가능한지 필수적으로 필요합니다. md 파일을 작성하고, 파싱하여 HTML로 변환할 수 있는 라이브러리를 제공해주는지 찾아봤습니다.
+### metadata와 검색 엔진용 파일 만들기
 
-Next.js 공식 문서에서 MDX를 파싱하고 적용하는 방법을 소개하고 있습니다. ([Next.js MDX 설정 문서](https://nextjs.org/docs/app/building-your-application/configuring/mdx#install-dependencies))
+article 상세 페이지는 frontmatter를 기준으로 title, description, canonical, Open Graph, Twitter Card를 만들어요. 본문에는 `BlogPosting` JSON-LD와 breadcrumb 구조화 데이터를 추가해요. 번역본이 있을 때만 `hreflang`으로 locale 관계를 연결해요.
 
-처음에는 공식 문서에서 소개해주고 있는 `@next/mdx`, `@mdx-js/loader`를 사용하여 구현했었으나, 코드 하이라이트를 위해 사용할 rehype-pretty-code 플러그인을 적용하기 위해, `next-mdx-remote` 를 사용했습니다. (자세한 내용은 다음 [2.4. 코드 하이라이트](#24-%EC%BD%94%EB%93%9C-%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8)에서 설명)
+Next.js의 metadata route를 이용해 다음 파일도 정적으로 생성해요.
 
-#### 2.3.1. next-mdx-remote 설정
+- `/sitemap.xml`: 공개된 article, note, category, topic, locale 홈을 안내해요.
+- `/robots.txt`: sitemap과 feed 주소를 검색봇에 알려줘요.
+- `/feed.xml`: Atom feed를 제공해요.
+- `/rss.xml`: RSS 2.0 feed를 제공해요.
 
-의존성을 설치하고, `next.config.ts` 파일에 `transpilePackages: ['next-mdx-remote']` 코드를 추가합니다.
+`lastmod`에는 build 시각이 아니라 각 문서의 실제 `modifiedAt`을 사용해요. 검색 결과에 노출하지 않을 개인정보처리방침은 sitemap에서 제외하고 `noindex, follow`로 처리해요. build 마지막에는 내부 링크, canonical, 구조화 데이터, sitemap, feed와 Pagefind index를 검증해 누락된 정적 결과물을 배포 전에 찾도록 했어요.
 
-```shell
-yarn add next-mdx-remote
-# 혹은
-bun add next-mdx-remote
+## GitHub Pages에 배포하기
+
+`pnpm build`가 성공하면 `out` 디렉터리만 정적 hosting에 올리면 돼요. GitHub Pages에서는 repository의 Pages source를 **GitHub Actions**로 지정하고, build artifact를 `actions/upload-pages-artifact`로 전달한 뒤 `actions/deploy-pages`로 배포할 수 있어요.
+
+핵심 흐름을 줄이면 다음과 같아요.
+
+```yaml
+name: Deploy blog
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/configure-pages@v5
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
-```typescript {6}
-import type { NextConfig } from 'next';
+배포 job에는 `pages: write`와 `id-token: write` 권한이 필요해요. build와 deploy를 분리하면 실패한 build 결과가 배포되는 일을 막을 수 있어요. 세부 설정은 [GitHub Pages custom workflow 문서](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고하면 돼요.
 
-const nextConfig: NextConfig = {
-  output: 'export',
-  images: { unoptimized: true },
-  transpilePackages: ['next-mdx-remote'],
-};
+## 선택의 결과
 
-export default nextConfig;
-```
+Next.js 16의 Static Export와 GitHub Pages 조합은 모든 웹사이트에 맞는 선택은 아니에요. 요청 시점의 인증과 데이터 처리, Server Action, ISR이 필요하다면 서버 runtime을 제공하는 hosting이 더 적합해요. 이미지 최적화도 직접 준비하거나 별도 서비스를 연결해야 해요.
 
-### 2.4. 코드 하이라이트
+반대로 읽기 중심의 개인 블로그에서는 장점이 분명해요. article과 UI를 한 저장소에서 관리하고, 모든 공개 경로를 build 시점에 검증하고, 별도 서버 없이 결과물을 오래 유지할 수 있어요. 현재 블로그는 필요한 동적 기능을 브라우저에서 처리하고 SEO에 필요한 결과는 정적 파일로 생성하는 방향을 선택했어요.
 
-개발 블로그이므로, 글에 코드를 작성하는 경우가 많습니다. 저의 경우 코드 하이라이트를 적용할 수 있을지 굉장히 중요하게 보기 때문에 여러가지 검토를 해봤습니다.
-
-구글링을 하다보니 `rehype-pretty-code`([npm - rehype-pretty-code](https://www.npmjs.com/package/rehype-pretty-code)) 라는 플러그인을 사용하면 쉽게 적용할 수 있는 것을 확인했습니다.
-
-### 2.5. 기타 플러그인
-
-그 밖에도 Next.js 15로 블로그를 만들기 위해 필요한 플러그인들을 검토했습니다. 검토한 플러그인은 다음과 같습니다.
-
-- `rehype-slug`: 글 본문 헤더에 id를 추가하여 앵커링을 가능하게 해주는 플러그인
-- `remark-gfm`: Github 스타일의 Markdown을 지원하는 플러그인
-- `shiki`: rehype-pretty-code와 함께 코드 하이라이트를 위한 플러그인
-- `gray-matter`: md 파일의 frontmatter(글 정보)를 파싱하기 위한 플러그인
-
----
-
-## 3. 블로그 개발 중 시도해 본 것
-
-### 3.1. 프로젝트 구조에서 새로운 FSD 패턴 도입
-
-서버 개발을 위한 대표적인 프레임워크로는 Spring Framework, Django 등이 있습니다. 그리고 흔히 사용하는 MVC 패턴이나, MVVM 패턴을 사용하여 개발합니다.
-
-하지만, 프론트 영역은 워낙 빠르게 변화하다 보니 보편적으로 사용하는 패턴이 없는거 같습니다. 그래서 프로젝트를 시작할 때마다 어떤 프로젝트 구조로 구성해야할지 고민이 많았습니다.
-
-우연히 FSD(`Feature-Sliced Design`)라는 아키텍처를 알게 되었고, 이 아키텍처를 사용하여 블로그를 개발해봤습니다. 솔직히 처음 사용해보는 패턴이라 개발할 때, 어느 위치에 어떤 파일 혹은 컴포넌트를 두어야할지 고민이 많았습니다.
-
-![Feature-Sliced Design](/r/i/nextjs/1/2.webp)
-
-FSD에 대해 자세한 내용이 궁금하시면 [React에서 FSD 프로젝트 구조 적용해보기](/articles/react-feature-sliced-design/)를 참고해주세요!
-
-### 3.2. bun 사용
-
-npm, yarn, pnpm 등 여러가지 패키지 매니저가 있습니다. 그 중 `bun`([https://bun.sh/](https://bun.sh/))이라는 패키지 매니저를 사용해봤습니다. 나온지 얼마 안되었기에 실무에서는 사용해보기 힘들었는데, 해당 블로그는 개인 프로젝트다보니 bun을 채택하여 사용해봤습니다.
-
-현재까지는 npm과 호환도 전혀 문제되지 않고, 속도도 빠르다는게 체감이 되네요. (공식 사이트에서는 약 npm보다 30배 이상 빠르다고 함)
-
-![bun 패키지 매니저 속도 비교](/r/i/nextjs/1/3.webp)
-
-계속 사용해보면서 문제가 없다면 실무에서도 한번 적용해봐야겠습니다.
+핵심은 Next.js를 사용했다는 사실보다 GitHub Pages의 제약을 먼저 받아들이고 구조를 정한 데 있어요. 정적으로 만들 수 있는 페이지와 build 후 생성할 검색 index를 분리하니, 기능을 늘리면서도 배포 구조는 단순하게 유지할 수 있었어요.

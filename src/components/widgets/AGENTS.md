@@ -38,6 +38,7 @@
   사이만 transform한다. frame, text, scrim과 fade는 움직이지 않는다.
 - article detail sidebar의 context는 문서 흐름에 둔다. 광고와 TOC는 하나의 sticky rail로 묶고
   화면 높이가 부족하면 TOC만 내부 scroll한다.
+- sticky rail은 72px header 아래 `top-20`에 두고 최대 높이는 `calc(100vh - 6rem)`으로 제한한다.
 - article detail의 context와 광고 사이에는 광고 상단 divider 하나만 사용한다. 인접한 divider를
   중복하지 않는다.
 - desktop TOC 항목은 `text-xs`, `leading-5`, `py-1.5`로 조밀하게 유지한다. scrollbar는 기본으로

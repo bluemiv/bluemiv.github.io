@@ -9,7 +9,7 @@ legacyPaths:
 title: 'React useEffect와 useLayoutEffect의 차이와 선택 기준'
 description: React의 render, commit, browser paint 흐름을 기준으로 useEffect와 useLayoutEffect의 차이를 설명합니다. DOM 측정, 화면 깜빡임, SSR 사례를 통해 어떤 Hook을 선택해야 하는지 정리합니다.
 publishedAt: 2025-01-09T22:28:36+09:00
-modifiedAt: 2026-08-09T20:20:00+09:00
+modifiedAt: 2026-08-09T20:25:00+09:00
 tags: ['use-effect', 'use-layout-effect']
 isPublished: true
 coverImage: /r/i/react/2/thumbnail.webp
@@ -222,4 +222,8 @@ Effect를 작성하기 전에 아래 순서로 판단하면 선택이 단순해�
 
 결론은 단순해요. **기본은 `useEffect`이고, paint 전에 끝내야 하는 layout 측정에만 `useLayoutEffect`를 사용해요.** 잘못된 첫 frame이 사용자에게 보이는지, 그리고 browser paint를 막을 분명한 이유가 있는지를 기준으로 판단하면 돼요.
 
-자세한 동작은 [React useEffect 공식 문서](https://react.dev/reference/react/useEffect), [React useLayoutEffect 공식 문서](https://react.dev/reference/react/useLayoutEffect), [Render and Commit 문서](https://react.dev/learn/render-and-commit)에서 확인할 수 있어요.
+## 참고 자료
+
+- [useEffect - React](https://react.dev/reference/react/useEffect)
+- [useLayoutEffect - React](https://react.dev/reference/react/useLayoutEffect)
+- [Render and Commit - React](https://react.dev/learn/render-and-commit)

@@ -98,7 +98,7 @@ src/articles/
     └── ja.mdx
 ```
 
-한국어 원문만 있다면 `ko.mdx`만 둬요. 번역이 없는 영어·일본어 상세 route는 만들지 않아요. 덕분에 검색 엔진과 사용자 모두 존재하지 않는 번역 페이지로 이동하지 않아요.
+한국어 원문만 있다면 `ko.mdx`만 둬요. 번역이 없는 영어와 일본어 상세 route는 만들지 않아요. 덕분에 검색 엔진과 사용자 모두 존재하지 않는 번역 페이지로 이동하지 않아요.
 
 각 MDX 파일의 frontmatter에는 화면과 SEO에서 함께 사용하는 metadata를 작성해요.
 
@@ -119,9 +119,9 @@ isPublished: true
 coverImage: /r/i/nextjs/1/thumbnail.webp
 ```
 
-`gray-matter`가 frontmatter를 읽고 Zod schema가 필드와 category·topic의 관계를 검증해요. `author`를 생략하면 build 시점에 사이트의 기본 작성자가 들어가요. metadata가 잘못됐다면 배포 후가 아니라 build 과정에서 바로 오류가 발생해요.
+`gray-matter`가 frontmatter를 읽고 Zod schema가 필드와 category/topic의 관계를 검증해요. `author`를 생략하면 build 시점에 사이트의 기본 작성자가 들어가요. metadata가 잘못됐다면 배포 후가 아니라 build 과정에서 바로 오류가 발생해요.
 
-### @next/mdx와 remark·rehype 구성
+### @next/mdx와 remark, rehype 구성
 
 Next.js 16의 App Router에서는 `@next/mdx`를 이용해 로컬 MDX를 React component처럼 가져올 수 있어요. 현재 블로그는 `next-mdx-remote` 대신 `@next/mdx`, `@mdx-js/loader`, `@mdx-js/react`를 사용해요. 본문 이미지와 code block의 공통 UI는 `src/mdx-components.tsx`에서 연결해요.
 

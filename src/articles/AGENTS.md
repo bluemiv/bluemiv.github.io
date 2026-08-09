@@ -17,7 +17,7 @@
 - 교차 분야 검색어는 다른 category의 topic 대신 `tags`에 둔다.
 - tag는 `features/tag/tagRegistry.ts`에 등록된 key만 사용한다.
 - tag key는 소문자 ASCII kebab-case다. 공식 대소문자 표기를 metadata에 직접 쓰지 않는다.
-- article의 category·topic과 중복되는 tag를 넣지 않는다.
+- article의 category/topic과 중복되는 tag를 넣지 않는다.
 - title은 검색어를 나열하지 말고 article의 질문이나 결과를 구체적으로 표현한다.
 - description은 문제와 독자가 얻을 내용을 1–2문장으로 요약한다.
 
@@ -28,6 +28,7 @@
 - `~해요`, `~돼요`, `~있어요`, `~할 수 있어요`를 문맥에 맞게 사용하고 같은 어미를 연속해서 반복하지 않는다.
 - `알아볼게요`, `해볼까요?`, `정말`, `엄청`, 이모티콘처럼 진행자 말투나 과한 친근함을 쓰지 않는다.
 - `것 같아요`, `아마`, `뭔가` 같은 모호한 표현은 근거나 불확실성 설명 없이 쓰지 않는다.
+- 본문에서 가운데점(`·`)으로 단어를 나열하지 않는다. 문장에는 쉼표나 `와/과`, 분류 관계에는 `/`를 쓴다.
 - 확인한 사실, 직접 겪은 경험, 작성자의 판단을 구분한다. 판단에는 선택 이유와 trade-off를 함께 적는다.
 - 기존 이관 article은 별도 요청 없이 문체 통일만을 위해 대규모 수정하지 않는다.
 - 영어와 일본어 article은 해요체를 직역하지 않고 해당 언어의 차분한 editorial 문체를 사용한다.
@@ -51,7 +52,7 @@
 - line highlight는 앞뒤 문장에서 설명하는 핵심 줄에만 사용한다. 닫는 괄호와 무관한 선언을 강조하지 않는다.
 - code를 수정하면 highlight 줄 번호도 다시 세어 확인한다. block 전체를 관성적으로 강조하지 않는다.
 - 실행되지 않는 축약 code에는 생략 부분을 명확히 표시하고 완성 code처럼 설명하지 않는다.
-- route·layout·navigation용 JSX를 MDX에 넣지 않는다.
+- route/layout/navigation용 JSX를 MDX에 넣지 않는다.
 - 내부 article link는 canonical route와 trailing slash를 사용한다.
 - link 문구는 목적을 설명한다. `여기`, `링크`, `참고`만 단독으로 쓰지 않는다.
 

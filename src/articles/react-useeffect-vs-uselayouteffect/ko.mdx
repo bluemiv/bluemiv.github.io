@@ -6,149 +6,214 @@ category: frontend
 topics: ['react']
 legacyPaths:
   - /blog/react/2/
-title: React의 useEffect와 useLayoutEffect 차이
-description: React 훅에는 useEffect와 useLayoutEffect가 있습니다. 비슷하지만 다른 useEffect와 useLayoutEffect 차이에 대해 설명하고 어떤 경우에 사용하면 좋을지 설명합니다.
+title: 'React useEffect와 useLayoutEffect 차이: 실행 시점과 선택 기준'
+description: React useEffect와 useLayoutEffect 차이를 render, commit, paint 흐름으로 설명합니다. DOM 측정, 화면 깜빡임, SSR 주의사항과 선택 기준을 예제로 정리합니다.
 publishedAt: 2025-01-09T22:28:36+09:00
-modifiedAt: 2025-01-09T22:28:36+09:00
+modifiedAt: 2026-08-09T19:50:00+09:00
 tags: ['use-effect', 'use-layout-effect']
 isPublished: true
 coverImage: /r/i/react/2/thumbnail.webp
 ---
 
-## 1. Rendering과 Painting
+`useEffect`와 `useLayoutEffect`는 모두 React가 DOM을 갱신한 뒤 실행돼요. 가장 큰 차이는 effect가 브라우저의 화면 그리기를 막는지에 있어요.
 
-useEffect와 useLayoutEffect의 차이를 살펴보기 전에 `Rendering`과 `Painting`의 차이를 먼저 이해해야합니다.
+대부분의 작업에는 `useEffect`가 맞아요. DOM의 크기나 위치를 측정하고 그 결과를 첫 화면이 보이기 전에 반영해야 할 때만 `useLayoutEffect`를 선택하는 편이 안전해요.
 
-- Rendering: 컴포넌트를 기반으로 Virtual DOM 생성, 이후 실제 DOM에 반영하는 과정 (DOM Tree 구성 및 업데이트)
-- Painting: CSS 및 레이아웃 계산 이후 업데이트된 DOM과 스타일을 픽셀로 화면에 그리는 과정
+## 한눈에 비교하기
 
----
+| 기준 | `useEffect` | `useLayoutEffect` |
+| --- | --- | --- |
+| 주된 목적 | 외부 시스템과 상태 동기화 | paint 전 DOM 측정과 시각적 보정 |
+| 실행 시점 | commit 이후, 대체로 paint 이후 | commit 이후, paint 이전 |
+| browser paint 차단 | 차단하지 않음 | effect와 내부 state update가 끝날 때까지 차단 |
+| 대표 사례 | event listener, timer, 외부 widget, network 연결 | tooltip 위치, element 크기 측정, scroll 위치 보정 |
+| server rendering | 실행되지 않음 | 실행되지 않으며 server에는 layout 정보가 없음 |
+| 기본 선택 | 우선 사용 | 꼭 필요한 시각적 작업에만 사용 |
 
-## 2. useEffect와 useLayoutEffect
+두 Hook은 dependency와 cleanup 규칙이 같아요. dependency가 바뀌면 이전 cleanup을 먼저 실행하고 새로운 setup을 실행해요. 컴포넌트가 제거될 때도 마지막 cleanup이 실행돼요.
 
-`useEffect`와 `useLayoutEffect`는 동일하게 컴포넌트가 렌더링된 이후에 특정 작업을 수행해야 할 때 사용합니다. 둘 다 비슷하게 보이지만 실행되는 타이밍이 다르다는 차이점이 있습니다.
+## React render, commit, paint 흐름
 
-### 2.1. 실행되는 타이밍
+실행 시점을 정확히 이해하려면 React의 render와 commit을 구분해야 해요.
 
-useEffect와 useLayoutEffect의 가장 큰 차이는, 브라우저가 화면을 그리는 시점을 기준으로 전/후 타이밍에 실행됩니다.
+1. **Render**: React가 컴포넌트를 호출해 화면에 무엇을 표시할지 계산해요.
+2. **Commit**: 계산 결과를 실제 DOM에 반영해요.
+3. **Paint**: 브라우저가 변경된 DOM과 style을 화면의 pixel로 그려요.
 
-- `useLayoutEffect`: 브라우저가 화면을 그리기 직전(즉 레이아웃이 계산된 직후)에 실행 됨
-- `useEffect`: 브라우저가 화면을 그린 후 실행 됨
+effect까지 포함해 단순화하면 다음 순서예요.
 
-이해하기 쉽게 렌더링부터 실행되는 순서를 나열해보면
+```text
+render
+→ commit (DOM update)
+→ useLayoutEffect
+→ browser paint
+→ useEffect (일반적인 경우)
+```
 
-1. 컴포넌트 렌더링 시작
-2. DOM 업데이트 (가상 DOM → 실제 DOM 반영)
-3. CSS 계산
-4. 레이아웃 계산
-5. **useLayoutEffect 실행**
-6. 브라우저가 화면을 그림 (Paint)
-7. **useEffect 실행**
+`useLayoutEffect`는 DOM이 갱신된 다음 실행되므로 element를 측정할 수 있어요. React는 이 안의 코드와 state update를 처리한 뒤 브라우저가 화면을 그리도록 보장해요.
 
-![출처: https://www.dhiwise.com/post/maximizing-react-uselayout-effect-for-ultimate-performance](/r/i/react/2/1.webp)
+반면 `useEffect`를 무조건 paint 뒤에 실행되는 Hook으로 이해하면 정확하지 않아요. React는 interaction으로 발생하지 않은 effect라면 대체로 브라우저가 먼저 화면을 그리게 해요. 클릭 같은 interaction에서 시작된 effect는 event system이 결과를 관찰할 수 있도록 paint 전에 실행될 수도 있어요. 실행 순서 자체보다 **paint를 반드시 막아야 하는가**를 선택 기준으로 삼는 편이 좋아요.
 
-## 3. 어떤 상황에서 사용해야 하는가?
+`useLayoutEffect`는 동기, `useEffect`는 비동기라고만 외우는 것도 정확하지 않아요. 두 setup 함수가 자동으로 동기 함수와 비동기 함수가 되는 것은 아니에요. React가 commit과 paint를 기준으로 effect를 언제 처리하는지, 그 과정에서 paint를 차단하는지가 핵심 차이예요.
 
-### 3.1. 스타일 변경시에는 useLayoutEffect 사용
+## useEffect를 사용하는 경우
 
-useLayoutEffect는 페인팅을 하기 전에 실행되기 때문에, 화면에 나타나기전에 처리해야하는 작업이 필요한 경우 사용하면 좋습니다.
+`useEffect`는 React 바깥의 시스템과 컴포넌트를 동기화할 때 사용해요. browser event, timer, network connection, third-party widget처럼 React가 직접 관리하지 않는 대상이 여기에 해당해요.
 
-예를들어, Light/Dark 테마에 따라 화면을 밝게 혹은 어둡게 보이게 한다고 했을때 useEffect로 처리하게 되면, 페인팅 작업(브라우저가 화면을 그리는 과정) 이후 실행되므로 "깜빡이는 현상(`flickering`)"이 발생할 수 있습니다.
-반면, useLayoutEffect를 사용하게 되면 레이아웃 계산 이후(페인팅 작업 직전)에 바로 실행되므로, 깜빡임 현상 없이 화면을 그릴 수 있습니다.
+아래 컴포넌트는 `Escape` key event를 구독하고, 컴포넌트가 사라지거나 `onEscape`가 바뀌면 기존 listener를 정리해요.
 
 ```tsx
-import { useLayoutEffect } from 'react';
+import { useEffect } from "react";
 
-function ThemeInitializer({ theme }: { theme: 'light' | 'dark' }) {
-  useLayoutEffect(() => {
-    const root = document.documentElement;
+type PropsWithEscapeKeyListener = {
+  onEscape: () => void;
+};
 
-    if (theme === 'dark') {
-      root.style.backgroundColor = '#121212';
-      root.style.color = '#ffffff';
-    } else {
-      root.style.backgroundColor = '#ffffff';
-      root.style.color = '#000000';
+export function EscapeKeyListener({ onEscape }: PropsWithEscapeKeyListener) {
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onEscape();
     }
-  }, [theme]);
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onEscape]);
 
   return null;
 }
 ```
 
-### 3.2. redirect 할 때 useLayoutEffect 사용
+이 작업은 다음 paint 전에 끝나야 할 이유가 없어요. `useLayoutEffect`로 바꾸면 같은 결과를 만들면서도 browser paint를 불필요하게 막게 돼요.
 
-스타일 외에도 저는 리다이렉트를 할때도 종종 사용합니다. 페인팅 연산을 하지 않고 리다이렉트를 하기 때문에 동일하게 깜빡이는 현상이 발생하지 않습니다.
+API 요청도 client에서 직접 처리해야 한다면 `useEffect`를 사용할 수 있어요. 다만 Next.js 같은 framework에서는 server data fetching, route loader, cache library를 먼저 검토하는 편이 좋아요. effect에서 직접 요청할 때는 컴포넌트가 사라지거나 dependency가 바뀐 뒤 이전 응답이 state를 덮어쓰지 않도록 cleanup도 함께 설계해야 해요.
+
+## useLayoutEffect가 필요한 경우
+
+`useLayoutEffect`는 DOM을 측정한 결과가 첫 화면에 반영돼야 할 때 필요해요. 대표적인 사례는 tooltip이나 popover의 위치 계산이에요.
+
+아래 tooltip은 target과 자신의 크기를 측정한 뒤 target 위에 배치해요. 화면 위쪽에 공간이 부족하면 아래쪽으로 내려가요.
 
 ```tsx
-import { useLayoutEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import type { ReactNode } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
-function ProfilePage() {
-  const navigate = useNavigate();
-  const isLoggedIn = false;
+type PropsWithTooltip = {
+  children: ReactNode;
+  target: HTMLElement | null;
+};
+
+type Position = {
+  left: number;
+  top: number;
+};
+
+export function Tooltip({ children, target }: PropsWithTooltip) {
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState<Position | null>(null);
 
   useLayoutEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/login'); // 로그인이 안된 경우, 로그인 페이지로 리다이렉트
-    }
-  }, [isLoggedIn, navigate]);
+    if (!target || !tooltipRef.current) return;
 
-  return <div>로그인된 사용자의 프로필 정보입니다.</div>;
-}
-```
+    const targetRect = target.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const top = targetRect.top - tooltipRect.height - 8;
 
-이런 식으로 useLayoutEffect는 "화면에 뭔가 보이기 전에" 작업을 하고 싶을 때 활용하면 좋습니다.
-
-### 3.3. 화면 렌더링과 직접적인 관련이 없는 경우 useEffect 사용
-
-API 호출과 같이 비동기 요청이나 이벤트 리스너 등록 등, 화면 렌더링과 직접적인 관련이 없는 작업에서는 useEffect를 사용하는 것이 좋습니다.
-
-예를 들어, users API를 호출하여 사용자 목록을 가져오는 경우 useEffect를 사용하여 API 호출하고, 응답 값을 state로 관리하여 업데이트합니다.
-
-```tsx {6-14}
-import { useEffect, useState } from 'react';
-
-function UserList() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch('/api/users');
-      const data = await response.json();
-      setUsers(data);
-    }
-
-    fetchUsers();
-  }, []);
+    setPosition({
+      left: targetRect.left + (targetRect.width - tooltipRect.width) / 2,
+      top: top >= 8 ? top : targetRect.bottom + 8,
+    });
+  }, [target]);
 
   return (
-    <ul>
-      {users.map(user => <li key={user.id}>{user.name}</li>)}
-    </ul>
+    <div
+      ref={tooltipRef}
+      role="tooltip"
+      style={{
+        position: "fixed",
+        left: position?.left ?? 0,
+        top: position?.top ?? 0,
+        visibility: position ? "visible" : "hidden",
+      }}
+    >
+      {children}
+    </div>
   );
 }
 ```
 
----
+처리 과정은 두 번의 render로 이루어져요.
 
-## 4. useLayoutEffect 사용시 주의할 점
+1. 위치를 모르는 상태로 tooltip을 DOM에 반영해요.
+2. `useLayoutEffect`에서 실제 크기와 위치를 측정해요.
+3. 측정 결과를 state에 저장하고 즉시 다시 render해요.
+4. 브라우저는 최종 위치의 tooltip만 화면에 그려요.
 
-useLayoutEffect는 렌더링부터 페인팅 작업 흐름에서 보면 동기적으로 동작하여, 블로킹(blocking)이 발생 할 수 있습니다. useLayoutEffect에서 복잡하고 비용이 비싼 연산을 처리한다면, 화면이 뜨지 않아 사용자 경험에 악영향을 줄 수 있습니다.
+같은 코드를 `useEffect`에 넣으면 브라우저가 초기 위치를 먼저 그릴 수 있어요. 이후 측정한 위치로 이동하면서 tooltip이 순간적으로 튀거나 깜빡여 보일 수 있어요.
 
-1. 렌더링 됨
-2. **useLayoutEffect 실행 (Pending)**
-3. 브라우저가 Paint 수행
-4. 사용자에게 화면이 보임
+다만 CSS만으로 위치를 결정할 수 있거나 첫 frame의 변화가 사용자에게 보이지 않는다면 `useEffect`도 충분해요. DOM을 읽는다는 이유만으로 `useLayoutEffect`를 선택할 필요는 없어요.
+
+위 예제는 두 Hook의 차이를 보여주기 위해 초기 배치만 다뤄요. 실제 tooltip은 viewport resize, scroll, 내용 크기 변경까지 반영해야 하므로 검증된 positioning library나 `ResizeObserver` 같은 browser API도 함께 검토해야 해요.
+
+## useLayoutEffect를 피해야 하는 이유
+
+`useLayoutEffect` 안의 코드와 그 안에서 발생한 state update는 browser paint를 막아요. 여기에서 큰 DOM tree를 반복해서 측정하거나 오래 걸리는 연산을 실행하면 첫 화면과 interaction 반응이 늦어져요.
 
 ```tsx
 useLayoutEffect(() => {
-  // 비용이 비싼 작업
-  const start = performance.now();
-  while (performance.now() - start < 1000) {
-    // 1초 동안 화면이 멈춰 있음
+  const startedAt = performance.now();
+
+  while (performance.now() - startedAt < 1000) {
+    // 이 작업이 끝날 때까지 browser paint가 지연돼요.
   }
 }, []);
 ```
 
-따라서, useLayoutEffect를 사용할 때는 무거운 작업을 수행하면 안됩니다.
+이런 계산은 `useEffect`로 옮긴다고 자동으로 효율적이 되지는 않아요. render에 필요한 순수 계산은 render 단계에서 처리하고, 비용이 큰 계산은 memoization이나 worker 같은 별도 전략을 검토해야 해요. `useLayoutEffect`에는 측정과 즉시 필요한 최소한의 state update만 남기는 편이 좋아요.
+
+## 테마와 redirect에는 무엇을 써야 할까?
+
+화면 깜빡임을 막는다는 이유로 모든 style 변경이나 redirect에 `useLayoutEffect`를 적용하면 안 돼요.
+
+### 초기 테마
+
+server rendering을 사용하는 화면은 JavaScript가 load되고 hydration이 끝나기 전에 HTML이 먼저 보일 수 있어요. `useLayoutEffect`는 server에서 실행되지 않으므로 초기 theme 깜빡임을 완전히 해결하지 못해요.
+
+초기 theme은 CSS의 `prefers-color-scheme`, server가 만든 HTML class, 또는 hydration 전에 실행하는 짧은 초기화 script로 맞추는 편이 안전해요. 사용자가 theme button을 누른 뒤 DOM class를 바꾸는 동작은 event handler에서 직접 처리할 수 있어요.
+
+### Redirect와 접근 제어
+
+redirect는 router나 framework의 route 단계에서 처리하는 것이 우선이에요. 특히 로그인 여부처럼 접근 제어와 관련된 판단은 server나 middleware에서 검증해야 해요. `useLayoutEffect`로 화면을 가린 뒤 이동하는 방식은 보안 경계가 될 수 없어요.
+
+client에서만 알 수 있는 값으로 이동해야 한다면 `useEffect`와 조건부 render를 함께 사용할 수 있어요. 이때 이동 전까지 보호해야 하는 내용을 JSX에 포함하지 않는 것이 중요해요.
+
+## SSR과 Next.js에서 주의할 점
+
+`useEffect`와 `useLayoutEffect`는 모두 client에서만 실행돼요. Next.js App Router에서 두 Hook을 사용하는 컴포넌트에는 client component 경계가 필요해요.
+
+server에는 viewport와 element 크기 같은 layout 정보가 없어요. 따라서 server에서 만든 첫 HTML이 `useLayoutEffect`의 측정 결과에 의존한다면 hydration 후 위치가 바뀌거나 경고가 생길 수 있어요.
+
+이 문제가 생기면 다음 순서로 검토해요.
+
+1. layout 측정 없이 CSS로 해결할 수 있는지 확인해요.
+2. 첫 화면에 측정 결과가 필요하지 않다면 `useEffect`로 바꿔요.
+3. interaction 이후에만 필요한 tooltip처럼 server HTML에 없어도 되는 UI는 client에서 열릴 때 render해요.
+4. client 전용 UI라면 안정적인 placeholder를 제공해 layout shift를 줄여요.
+
+개발 환경의 Strict Mode에서는 두 Hook 모두 첫 setup 전에 `setup → cleanup → setup` 과정을 한 번 더 실행할 수 있어요. effect가 두 번 실행되는 것처럼 보인다면 Hook을 바꾸기보다 cleanup이 setup을 정확히 되돌리는지 먼저 확인해야 해요.
+
+## 선택 기준
+
+effect를 작성하기 전에 아래 순서로 판단하면 대부분의 경우를 정리할 수 있어요.
+
+1. React 바깥의 시스템과 동기화하지 않는다면 effect가 필요하지 않은지 먼저 확인해요.
+2. event listener, timer, network connection, 외부 widget 연동이라면 `useEffect`를 사용해요.
+3. DOM을 측정한 결과를 첫 paint 전에 반영해야 하고 실제로 깜빡임이 보인다면 `useLayoutEffect`를 사용해요.
+4. CSS, router, framework 기능으로 해결할 수 있다면 effect보다 그 방법을 우선해요.
+5. `useLayoutEffect`를 선택했다면 실행 시간을 짧게 유지하고 layout read와 write를 반복하지 않아요.
+
+결론은 단순해요. **기본은 `useEffect`이고, paint 전에 끝나야 하는 layout 측정만 `useLayoutEffect`로 옮겨요.** 두 Hook의 이름보다 사용자에게 잘못된 첫 frame이 보이는지, 그리고 paint를 막을 이유가 있는지를 기준으로 판단하는 편이 정확해요.
+
+자세한 동작은 [React useEffect 공식 문서](https://react.dev/reference/react/useEffect), [React useLayoutEffect 공식 문서](https://react.dev/reference/react/useLayoutEffect), [Render and Commit 문서](https://react.dev/learn/render-and-commit)에서 확인할 수 있어요.

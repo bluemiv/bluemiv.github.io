@@ -27,8 +27,6 @@ coverImage: /r/i/nextjs/1/thumbnail.webp
 
 GitHub Pages는 두 방식의 중간에 있어요. 빌드 결과가 HTML, CSS, JavaScript 같은 정적 파일이라면 별도의 애플리케이션 서버 없이 배포할 수 있어요. 소스와 글의 변경 이력도 Git으로 함께 관리할 수 있고요. 디자인과 URL은 직접 정하면서 호스팅 구조는 단순하게 유지할 수 있다는 점이 이 블로그와 잘 맞았어요.
 
-![GitHub Pages](/r/i/nextjs/1/1.webp)
-
 물론 제약도 분명해요. 요청할 때마다 서버에서 처리해야 하는 기능이나 `cookies()`를 사용하는 인증, Server Action, ISR은 정적 export와 함께 사용할 수 없어요. 새 글을 공개하거나 기존 글을 수정할 때도 사이트 전체를 다시 빌드해야 해요. 이 블로그는 읽기 중심이고 글이 자주 바뀌지 않기 때문에 이런 제약을 받아들였어요.
 
 ## Next.js 16을 정적 사이트로 설정하기
@@ -58,6 +56,8 @@ export default nextConfig;
 
 정적 export가 지원하는 기능과 제한은 [Next.js Static Exports 문서](https://nextjs.org/docs/app/guides/static-exports)에서 확인할 수 있어요.
 
+![소스 파일이 build 엔진을 거쳐 정적 페이지와 검색, sitemap 구조로 나뉘는 과정](/r/i/nextjs/1/static-build-flow.webp)
+
 ### 동적 route를 build 시점에 확정하기
 
 글 상세 주소는 `/articles/[slug]/`처럼 동적 segment를 사용해요. GitHub Pages에는 요청 시점에 이 값을 처리할 서버가 없기 때문에 공개할 slug를 build 시점에 모두 알려줘야 해요.
@@ -83,6 +83,8 @@ export default async function ArticlePage({ params }: PageProps<"/articles/[slug
 ```
 
 `generateStaticParams`가 공개된 글의 slug를 반환하면 Next.js가 각 상세 페이지를 미리 만들어요. `dynamicParams = false`를 함께 설정하면 목록에 없는 slug는 404로 처리돼요. 번역 상세 route를 추가할 때도 locale과 slug 조합을 build 전에 확정해야 해요.
+
+![공개된 글 목록이 여러 정적 route로 생성되고 미등록 route가 제외되는 과정](/r/i/nextjs/1/static-route-generation.webp)
 
 자세한 동작은 [generateStaticParams 문서](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)에서 확인할 수 있어요.
 
@@ -205,6 +207,8 @@ Next.js의 metadata route를 이용해 다음 파일도 정적으로 생성해�
 ## GitHub Pages에 배포하기
 
 `pnpm build`가 성공하면 `out` 디렉터리만 정적 호스팅에 올리면 돼요. GitHub 저장소의 Pages 배포 소스를 **GitHub Actions**로 지정하고, build 결과를 `actions/upload-pages-artifact`로 전달한 뒤 `actions/deploy-pages`로 배포해요.
+
+![소스 변경, build, 검증, artifact 업로드, GitHub Pages 배포로 이어지는 과정](/r/i/nextjs/1/github-pages-deployment.webp)
 
 핵심 흐름을 줄이면 다음과 같아요.
 

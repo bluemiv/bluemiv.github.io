@@ -32,6 +32,10 @@
 - 확인한 사실, 직접 겪은 경험, 작성자의 판단을 구분한다. 판단에는 선택 이유와 trade-off를 함께 적는다.
 - 기존 이관 article은 별도 요청 없이 문체 통일만을 위해 대규모 수정하지 않는다.
 - 영어와 일본어 article은 해요체를 직역하지 않고 해당 언어의 차분한 editorial 문체를 사용한다.
+- 번역 article은 문장 순서를 기계적으로 대응시키지 않는다. 원문의 사실과 의도는 유지하되 도입,
+  연결어, 문장 길이는 해당 언어 독자가 자연스럽게 읽는 흐름으로 다시 편집한다.
+- 일본어 article은 과도한 외래어와 직역형 수동태를 피하고, 기술 문서에서 통용되는 자연스러운
+  `です/ます` 문체를 일관되게 사용한다.
 
 ## 본문 구성
 
@@ -72,3 +76,8 @@
 
 - 본문 수정 없이 이관할 때 원문 byte 동일성을 검증한다.
 - metadata 변경 후 build-time schema와 category/topic/tag 관계 검증을 실행한다.
+- 번역을 추가할 때는 원문과 같은 `id`, `slug`, category, topics, tags를 사용하고 번역본의
+  `legacyPaths`는 빈 배열로 둔다.
+- 번역 route는 실제 공개 파일이 있는 locale만 SSG로 생성한다. 원문과 번역본은 각각 self-canonical을
+  사용하고 상호 hreflang, sitemap, 언어 메뉴를 함께 갱신한다.
+- 번역되지 않은 archive, category, topic, tag route를 link나 hreflang으로 만들지 않는다.

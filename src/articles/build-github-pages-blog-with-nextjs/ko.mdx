@@ -96,7 +96,6 @@ export default async function ArticlePage({ params }: PageProps<"/articles/[slug
 src/articles/
 └── build-github-pages-blog-with-nextjs/
     ├── ko.mdx
-    ├── en.mdx
     └── ja.mdx
 ```
 
@@ -212,7 +211,7 @@ Next.js의 metadata route를 이용해 다음 파일도 정적으로 생성해�
 
 핵심 흐름을 줄이면 다음과 같아요.
 
-```yaml {10-11,25-26,28,30-31,37-38}
+```yaml {16-22,24-27,29-32,41-42}
 name: Deploy blog
 
 on:
@@ -230,17 +229,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.23.0
+          run_install: false
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: ./out
+          include-hidden-files: true
 
   deploy:
     needs: build
@@ -250,7 +253,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 ```
 
 배포 job에는 `pages: write`와 `id-token: write` 권한이 필요해요. build와 deploy를 분리하면 build가 성공한 경우에만 배포가 이어지도록 구성할 수 있어요. 세부 설정은 [GitHub Pages custom workflow 문서](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)를 참고하면 돼요.

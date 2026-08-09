@@ -3,7 +3,7 @@ import path from "node:path";
 
 const REQUIRED_PAGEFIND_FILES = ["pagefind.js", "pagefind-entry.json"];
 const REQUIRED_INDEX_EXTENSIONS = [".pf_fragment", ".pf_index", ".pf_meta"];
-const SEARCH_DETAIL_ROUTE_PATTERN = /^\/(?:articles|notes)\/[^/]+\/$/;
+const SEARCH_DETAIL_ROUTE_PATTERN = /^\/(?:(?:en|ja)\/)?(?:articles|notes)\/[^/]+\/$/;
 
 function getFiles(directory, extension) {
   if (!fs.existsSync(directory)) return [];
@@ -26,7 +26,7 @@ function hasPagefindBody(html) {
 }
 
 function isSearchDetailRoute(route) {
-  return SEARCH_DETAIL_ROUTE_PATTERN.test(route) && !route.startsWith("/articles/page/");
+  return SEARCH_DETAIL_ROUTE_PATTERN.test(route);
 }
 
 export function findStaticSearchErrors(outputDirectory) {
@@ -92,6 +92,12 @@ export function findStaticSearchErrors(outputDirectory) {
     );
 
     if (!entry.languages?.ko) errors.push("Pagefind index has no Korean language index");
+    if (indexedRoutes.some((route) => route.startsWith("/ja/")) && !entry.languages?.ja) {
+      errors.push("Pagefind index has no Japanese language index");
+    }
+    if (indexedRoutes.some((route) => route.startsWith("/en/")) && !entry.languages?.en) {
+      errors.push("Pagefind index has no English language index");
+    }
     if (indexedPageCount !== indexedRoutes.length) {
       errors.push(
         `Pagefind page count differs from marked pages: ${indexedPageCount} !== ${indexedRoutes.length}`,

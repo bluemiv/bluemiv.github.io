@@ -3,7 +3,7 @@ import path from "node:path";
 
 import matter from "gray-matter";
 
-import type { Locale } from "@/features/i18n/localeConfig";
+import { SUPPORTED_LOCALES, type Locale } from "@/features/i18n/localeConfig";
 
 import {
   extractArticleHeadings,
@@ -58,4 +58,10 @@ export function getPublishedArticles(locale: Locale): ArticleMetadata[] {
     .map((slug) => getArticleMetadata(slug, locale))
     .filter((article): article is ArticleMetadata => article?.isPublished === true)
     .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt));
+}
+
+export function getPublishedArticleLocales(slug: string): Locale[] {
+  return SUPPORTED_LOCALES.filter(
+    (locale) => getArticleMetadata(slug, locale)?.isPublished === true,
+  );
 }

@@ -97,6 +97,18 @@ type PublicationMetadataCopy = {
   readingTime: string;
 };
 
+export type ArticleDetailCopy = {
+  backLabel: string;
+  contextLabel: string;
+  entryLabel: string;
+  relatedEyebrow: string;
+  relatedTitle: string;
+  adjacentLabel: string;
+  previousLabel: string;
+  nextLabel: string;
+  tagLabel: string;
+};
+
 export const LANGUAGE_NAMES: Record<Locale, { native: string; english: string }> = {
   ko: { native: "한국어", english: "Korean" },
   en: { native: "English", english: "English" },
@@ -220,6 +232,42 @@ export const PUBLICATION_METADATA_COPY: Record<Locale, PublicationMetadataCopy> 
     publishedAt: "公開",
     modifiedAt: "更新",
     readingTime: "推定読了時間",
+  },
+};
+
+export const ARTICLE_DETAIL_COPY: Record<Locale, ArticleDetailCopy> = {
+  ko: {
+    backLabel: "All articles",
+    contextLabel: "Article context",
+    entryLabel: "Entry",
+    relatedEyebrow: "Continue exploring",
+    relatedTitle: "같은 주제의 글",
+    adjacentLabel: "이전 글과 다음 글",
+    previousLabel: "← 이전 글",
+    nextLabel: "다음 글 →",
+    tagLabel: "Filed under",
+  },
+  en: {
+    backLabel: "Back to home",
+    contextLabel: "Article context",
+    entryLabel: "Entry",
+    relatedEyebrow: "Continue exploring",
+    relatedTitle: "Related articles",
+    adjacentLabel: "Previous and next articles",
+    previousLabel: "← Previous",
+    nextLabel: "Next →",
+    tagLabel: "Filed under",
+  },
+  ja: {
+    backLabel: "ホームへ戻る",
+    contextLabel: "Article context",
+    entryLabel: "Entry",
+    relatedEyebrow: "Continue exploring",
+    relatedTitle: "関連記事",
+    adjacentLabel: "前後の記事",
+    previousLabel: "← 前の記事",
+    nextLabel: "次の記事 →",
+    tagLabel: "Tags",
   },
 };
 

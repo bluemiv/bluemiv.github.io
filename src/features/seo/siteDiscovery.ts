@@ -8,6 +8,7 @@ import {
   summarizeArticleTaxonomy,
   summarizeArticleTopics,
 } from "@/features/article/articleCollection";
+import { getArticleLanguageAlternates } from "@/features/article/articleLocalization";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import {
   getArticleArchivePageNumbers,
@@ -53,6 +54,12 @@ function getSitemapEntry(
   };
 }
 
+function getAbsoluteLanguageAlternates(languages: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(languages).map(([locale, path]) => [locale, getAbsoluteSiteUrl(path)]),
+  );
+}
+
 export function getAbsoluteSiteUrl(path: string): string {
   return new URL(path, `${SITE_CONFIG.url}/`).toString();
 }
@@ -78,7 +85,9 @@ export function createSitemap(
 ): MetadataRoute.Sitemap {
   const articles = sourceArticles.filter(({ isPublished }) => isPublished);
   const notes = sourceNotes.filter(({ isPublished }) => isPublished);
-  const latestDocuments = [...articles, ...notes];
+  const defaultArticles = articles.filter(({ locale }) => locale === "ko");
+  const defaultNotes = notes.filter(({ locale }) => locale === "ko");
+  const latestDocuments = [...defaultArticles, ...defaultNotes];
   const languageAlternates = Object.fromEntries(
     Object.entries(getLanguageAlternates()).map(([locale, path]) => [
       locale,
@@ -87,40 +96,57 @@ export function createSitemap(
   );
 
   const homeEntries: MetadataRoute.Sitemap = SUPPORTED_LOCALES.map((locale) => ({
-    ...getSitemapEntry(getLocalizedPath(locale), locale === "ko" ? latestDocuments : []),
+    ...getSitemapEntry(getLocalizedPath(locale), [
+      ...articles.filter((article) => article.locale === locale),
+      ...notes.filter((note) => note.locale === locale),
+    ]),
     alternates: { languages: languageAlternates },
   }));
 
-  const articleArchiveEntries = getArticleArchivePageNumbers(articles.length).map((pageNumber) => {
-    const pagination = paginateArticles(articles, pageNumber);
-    if (!pagination) throw new Error(`Article archive page ${pageNumber} must exist`);
+  const articleArchiveEntries = getArticleArchivePageNumbers(defaultArticles.length).map(
+    (pageNumber) => {
+      const pagination = paginateArticles(defaultArticles, pageNumber);
+      if (!pagination) throw new Error(`Article archive page ${pageNumber} must exist`);
 
-    return getSitemapEntry(getArticleArchivePagePath("ko", pageNumber), pagination.articles);
+      return getSitemapEntry(getArticleArchivePagePath("ko", pageNumber), pagination.articles);
+    },
+  );
+
+  const articleEntries = articles.map((article) => {
+    const translatedLocales = articles
+      .filter(({ id }) => id === article.id)
+      .map(({ locale }) => locale);
+
+    return {
+      ...getSitemapEntry(
+        getLocalizedPath(article.locale, `articles/${article.slug}`),
+        [article],
+        article.coverImage ? [article.coverImage] : [],
+      ),
+      alternates: {
+        languages: getAbsoluteLanguageAlternates(
+          getArticleLanguageAlternates(article.slug, translatedLocales),
+        ),
+      },
+    };
   });
 
-  const articleEntries = articles.map((article) =>
-    getSitemapEntry(
-      getLocalizedPath("ko", `articles/${article.slug}`),
-      [article],
-      article.coverImage ? [article.coverImage] : [],
-    ),
-  );
-
-  const categoryEntries = summarizeArticleTaxonomy(articles).map(({ category }) =>
+  const categoryEntries = summarizeArticleTaxonomy(defaultArticles).map(({ category }) =>
     getSitemapEntry(
       getLocalizedPath("ko", `categories/${category}`),
-      filterArticlesByCategory(articles, category),
+      filterArticlesByCategory(defaultArticles, category),
     ),
   );
 
-  const topicEntries = summarizeArticleTopics(articles, articles.length).map(({ topic }) =>
-    getSitemapEntry(
-      getLocalizedPath("ko", `topics/${topic}`),
-      filterArticlesByTopic(articles, topic),
-    ),
+  const topicEntries = summarizeArticleTopics(defaultArticles, defaultArticles.length).map(
+    ({ topic }) =>
+      getSitemapEntry(
+        getLocalizedPath("ko", `topics/${topic}`),
+        filterArticlesByTopic(defaultArticles, topic),
+      ),
   );
 
-  const noteEntries = notes.map((note) =>
+  const noteEntries = defaultNotes.map((note) =>
     getSitemapEntry(
       getLocalizedPath("ko", `notes/${note.slug}`),
       [note],
@@ -143,7 +169,7 @@ export function createSitemap(
     ...articleEntries,
     ...categoryEntries,
     ...topicEntries,
-    getSitemapEntry(getLocalizedPath("ko", "notes"), notes),
+    getSitemapEntry(getLocalizedPath("ko", "notes"), defaultNotes),
     ...noteEntries,
     ...tagEntries,
     ...appEntries,

@@ -1,6 +1,8 @@
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
+import { getArticleLocaleSwitcherPath } from "@/features/article/articleLocalization";
+
 import { LANGUAGE_NAMES, SITE_COPY } from "./translations";
 import { getLocaleSwitcherPath, SUPPORTED_LOCALES, type Locale } from "./localeConfig";
 
@@ -27,7 +29,10 @@ export function LocaleSwitcher({ currentPath, locale }: PropsWithLocaleSwitcher)
         {SUPPORTED_LOCALES.map((item) => (
           <Link
             key={item}
-            href={getLocaleSwitcherPath(locale, item, currentPath)}
+            href={
+              getArticleLocaleSwitcherPath(currentPath, item) ??
+              getLocaleSwitcherPath(locale, item, currentPath)
+            }
             hrefLang={item}
             lang={item}
             aria-current={item === locale ? "page" : undefined}

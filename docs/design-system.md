@@ -393,6 +393,7 @@ Hero:
 - `800px` 높이의 일반 노트북 화면에서 다음 콘텐츠의 시작이 보여야 한다.
 - hero 안에 CTA는 최대 1개.
 - 해당 locale에 공개 article이 없으면 빈 Latest section으로 이동하는 hero CTA를 노출하지 않는다.
+- 공개 article이 하나뿐이면 hero CTA는 빈 Latest 목록 대신 featured article 상세로 이동한다.
 
 Featured article:
 
@@ -416,6 +417,7 @@ Latest articles:
 - 최근 article은 featured를 제외하고 최대 6개 노출한다.
 - title, description, topic, date, link는 MDX repository의 실제 metadata에서 build time에 생성한다.
 - 번역되지 않은 article이나 note의 제목을 UI copy에 가짜 번역해 표시하지 않는다.
+- locale별 taxonomy/tag archive가 없으면 home과 상세의 분류는 링크가 아닌 text로 표시한다.
 
 Home discovery rail:
 
@@ -615,6 +617,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - active navigation은 text와 1px accent rail을 함께 사용한다.
 - locale에 실제 archive/detail route가 없으면 해당 primary navigation과 mobile menu trigger를 노출하지 않는다. 404 link를 구조 보존용으로 두지 않는다.
 - 언어 메뉴의 현재 locale은 현 경로를 유지한다. 대응 번역 route가 없는 다른 locale은 존재하지 않는 경로 대신 해당 locale 홈으로 이동한다.
+- article에 대응 번역 route가 있으면 언어 메뉴는 동일 slug의 번역 article로 직접 이동한다.
 - 아래로 `32px` 이상 scroll하면 compact, 위로 `16px` 이상 scroll하면 기본 높이로 전환한다.
 - mobile menu에서 모든 primary navigation을 제공한다.
 - desktop search trigger는 utility 영역에 두고, mobile search trigger는 menu 첫 행에 둔다.
@@ -790,8 +793,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - home은 latest article이 4개 이상일 때만 광고를 노출한다.
 - home desktop은 topic rail 아래 `300×250`, mobile/tablet은 세 번째 latest article 뒤 responsive banner를 사용한다. 한 viewport에서 하나만 초기화한다.
 - `/articles`는 desktop `xl` 이상에서 sidebar `300×250`, 그 미만에서는 세 번째 글 뒤 responsive banner 하나만 초기화한다.
-- article detail은 desktop `xl` 이상에서 sidebar `300×250` 광고와 TOC를 하나의 sticky reading
-  rail로 묶는다. 화면 높이가 부족하면 TOC만 scroll한다.
+- article detail은 desktop `xl` 이상에서 sidebar 광고를 일반 흐름에 두고 TOC만 sticky로 유지한다.
+  세로로 긴 실제 광고가 TOC를 화면 아래로 밀거나 함께 고정되지 않게 한다.
 - `pnpm dev`에서는 외부 AdSense script를 요청하지 않고 동일 크기의 placeholder를 표시한다.
 - production static export에서만 실제 unit을 활성화하며 현재 viewport에 보이지 않는 unit은 광고 요청을 보내지 않는다.
 - 공개 publisher/slot ID는 `src/features/adsense/adSenseConfig.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.

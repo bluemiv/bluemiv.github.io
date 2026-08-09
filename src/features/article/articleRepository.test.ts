@@ -4,7 +4,12 @@ import { describe, expect, it, vi } from "vitest";
 
 import { SITE_CONFIG } from "@/config/siteConfig";
 
-import { getArticleDocument, getArticleMetadata, getPublishedArticles } from "./articleRepository";
+import {
+  getArticleDocument,
+  getArticleMetadata,
+  getPublishedArticleLocales,
+  getPublishedArticles,
+} from "./articleRepository";
 
 describe("articleRepository", () => {
   it("한국어 공개 article을 최신 발행순으로 조회한다", () => {
@@ -43,6 +48,20 @@ describe("articleRepository", () => {
     expect(article?.headings.length).toBeGreaterThan(5);
     expect(article?.readingTimeMinutes).toBeGreaterThan(1);
     expect(article?.source).toContain("## GitHub Pages를 선택한 이유");
+  });
+
+  it("같은 article id와 slug를 사용하는 일본어 번역을 조회한다", () => {
+    const article = getArticleDocument("build-github-pages-blog-with-nextjs", "ja");
+
+    expect(article?.metadata).toMatchObject({
+      id: "article-001",
+      slug: "build-github-pages-blog-with-nextjs",
+      locale: "ja",
+      legacyPaths: [],
+      isPublished: true,
+    });
+    expect(article?.source).toContain("## GitHub Pagesを選んだ理由");
+    expect(getPublishedArticleLocales("build-github-pages-blog-with-nextjs")).toEqual(["ko", "ja"]);
   });
 
   it("없는 article이나 번역은 null 또는 빈 목록을 반환한다", () => {

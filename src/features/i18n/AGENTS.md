@@ -9,4 +9,6 @@
 - 날짜와 예상 읽기 시간 형식은 `publicationMetadata.ts`를 사용한다.
 - locale마다 같은 JSX를 복사하지 않는다.
 - 번역 없는 경로를 다른 언어로 조용히 대체하지 않는다.
+- article 번역을 추가하거나 제거하면 `features/article/articleLocalization.ts`의 언어 메뉴 registry를
+  함께 갱신한다. 대응 번역이 있으면 같은 article로, 없으면 대상 locale 홈으로 이동한다.
 - locale 추가·변경 시 font token, metadata, hreflang, static params를 함께 확인한다.

@@ -6,7 +6,8 @@
 
 - locale 홈: `/`, `/en/`, `/ja/`
 - article 목록과 페이지: `/articles/`, `/articles/page/{pageNumber}/`
-- article 상세: `/articles/{slug}/`
+- article 상세: `/articles/{slug}/`, 실제 번역이 있는 `/en/articles/{slug}/`,
+  `/ja/articles/{slug}/`
 - category 목록: `/categories/{category}/`
 - topic 목록: `/topics/{topic}/`
 - tag 목록: `/tags/{tag}/`
@@ -52,6 +53,8 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - article과 note 상세는 Google Article 형식의 `BlogPosting`을 사용한다.
 - `BlogPosting`의 `@id`는 `{canonical}#article`, `url`은 canonical 절대 URL이다.
 - article은 `Home > Articles > Category > Article` breadcrumb를 함께 제공한다.
+- 번역 article에 locale별 archive와 taxonomy route가 없다면 존재하는 locale 홈과 article 상세만
+  breadcrumb로 연결한다.
 - JSON-LD는 `<`를 `\u003c`로 escape한 뒤 native `script`로 출력한다.
 
 ## 사이트맵
@@ -65,6 +68,10 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - `lastmod`는 콘텐츠의 실제 `modifiedAt`을 사용한다.
 - article과 note의 `coverImage`가 있으면 image sitemap 정보로 포함한다.
 - locale 홈은 `ko`, `en`, `ja`, `x-default` hreflang을 서로 연결한다.
+- 번역 article은 각 페이지에 self-canonical을 두고 실제 공개된 번역끼리만 양방향 hreflang을
+  연결한다. 기본 한국어 URL은 `x-default`로도 사용한다.
+- 번역 article canonical URL도 sitemap에 넣고 같은 hreflang 묶음을 제공한다. category, topic,
+  tag archive는 해당 locale route가 실제로 있을 때만 추가한다.
 - Google이 사용하지 않는 `priority`, `changefreq`는 만들지 않는다.
 
 ## Feed

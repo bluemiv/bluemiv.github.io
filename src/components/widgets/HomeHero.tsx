@@ -3,6 +3,7 @@ import type { HomeCopy } from "@/features/i18n/translations";
 
 type PropsWithHomeHero = {
   articleCount: number;
+  articleCtaHref?: string;
   careerMonthOrdinal: number;
   copy: HomeCopy["hero"];
   hasArticles: boolean;
@@ -12,6 +13,7 @@ type PropsWithHomeHero = {
 
 export function HomeHero({
   articleCount,
+  articleCtaHref,
   careerMonthOrdinal,
   copy,
   hasArticles,
@@ -39,10 +41,10 @@ export function HomeHero({
           <p className="text-muted mt-6 max-w-[650px] text-base leading-8 md:text-lg md:leading-9">
             {copy.description(careerMonthOrdinal)}
           </p>
-          {hasArticles ? (
+          {hasArticles && articleCtaHref ? (
             <a
               className="text-accent hover:text-accent-hover mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-bold transition-colors duration-150 motion-reduce:transition-none"
-              href="#latest-articles"
+              href={articleCtaHref}
             >
               {copy.cta}
               <span aria-hidden="true">↓</span>

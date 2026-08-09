@@ -102,16 +102,20 @@ export function FeaturedArticle({
           </h3>
           <p className="text-muted mt-6 max-w-[560px] text-base leading-8">{article.description}</p>
           <div className="text-muted relative z-10 mt-7 flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs uppercase">
-            {article.tags.slice(0, 3).map((tag) => (
-              <Link
-                key={tag}
-                href={getLocalizedPath(locale, `tags/${tag}`)}
-                transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
-                className="hover:text-accent focus-visible:outline-accent decoration-border-strong rounded-[1px] underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
-              >
-                #{getTagLabel(tag)}
-              </Link>
-            ))}
+            {article.tags.slice(0, 3).map((tag) =>
+              locale === "ko" ? (
+                <Link
+                  key={tag}
+                  href={getLocalizedPath(locale, `tags/${tag}`)}
+                  transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
+                  className="hover:text-accent focus-visible:outline-accent decoration-border-strong rounded-[1px] underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
+                >
+                  #{getTagLabel(tag)}
+                </Link>
+              ) : (
+                <span key={tag}>#{getTagLabel(tag)}</span>
+              ),
+            )}
           </div>
           <span className="text-accent mt-8 inline-flex items-center gap-2 text-sm font-bold">
             {copy.action}

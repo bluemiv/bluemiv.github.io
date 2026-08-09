@@ -19,6 +19,13 @@ const ARTICLE = parseArticleMetadata({
   coverImage: "/r/i/nextjs/1/thumbnail.webp",
 });
 
+const JAPANESE_ARTICLE = parseArticleMetadata({
+  ...ARTICLE,
+  locale: "ja",
+  legacyPaths: [],
+  title: "日本語の記事",
+});
+
 describe("articleSeo", () => {
   it("canonical과 cover를 절대 URL로 만든 BlogPosting 데이터를 생성한다", () => {
     const structuredData = getArticleStructuredData(ARTICLE, "/articles/example-article/");
@@ -53,6 +60,25 @@ describe("articleSeo", () => {
     );
 
     expect(structuredData["@graph"][0].image).toBeUndefined();
+  });
+
+  it("번역 article은 존재하는 locale 홈과 상세만 breadcrumb로 연결한다", () => {
+    const structuredData = getArticleStructuredData(
+      JAPANESE_ARTICLE,
+      "/ja/articles/example-article/",
+    );
+
+    expect(structuredData["@graph"][1]).toMatchObject({
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { position: 1, name: "ホーム", item: "https://bluemiv.github.io/ja/" },
+        {
+          position: 2,
+          name: "日本語の記事",
+          item: "https://bluemiv.github.io/ja/articles/example-article/",
+        },
+      ],
+    });
   });
 
   it("구조화 데이터의 HTML 종료 문자를 escape한다", () => {

@@ -7,9 +7,14 @@ import {
   getLanguageAlternates,
   getLocalizedPath,
   isPrefixedLocale,
+  PREFIXED_LOCALES,
 } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
 import { createWebsiteSocialMetadata } from "@/features/seo/socialMetadata";
+
+export function generateStaticParams() {
+  return PREFIXED_LOCALES.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;

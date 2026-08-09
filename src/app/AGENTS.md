@@ -4,6 +4,9 @@
 - 공통 markup과 동작은 `components` 또는 `features`로 분리한다.
 - page는 build-time data 조회와 widget 조합만 담당한다.
 - `/`는 한국어 홈. `/en/`, `/ja/`만 locale prefix를 쓴다.
+- 번역 article 상세는 `/[locale]/articles/[slug]/`에서 실제 공개 MDX가 있는 조합만 SSG로 만든다.
+- locale마다 공개 article 수가 다르므로 상세 route의 `generateStaticParams`에서 `locale`, `slug`를
+  bottom-up 방식으로 함께 반환한다. 글이 없는 locale 때문에 빈 배열을 반환하는 top-down 구조는 쓰지 않는다.
 - 동적 route는 static export용 `generateStaticParams`를 제공한다.
 - route folder는 public URL과 같은 소문자 kebab-case를 쓴다.
 - `blog` route는 기존 URL redirect 전용이다. 신규 화면을 추가하지 않는다.
@@ -16,6 +19,7 @@
 - route group과 Next.js 예약 파일명은 framework 규칙을 따른다.
 - 미등록 URL은 `global-not-found.tsx`와 `experimental.globalNotFound`로 처리한다. 완전한 HTML 문서를 유지한다.
 - metadata 변경 시 canonical, hreflang, Open Graph를 함께 확인한다.
+- 번역 article은 locale별 self-canonical을 쓰고 실제 대응 번역끼리만 양방향 hreflang을 만든다.
 - `WebSite` 구조화 데이터는 domain root `/`에만 생성한다.
 - sitemap, feed, robots route는 root `app`에 두고 `dynamic = "force-static"`과 static export 산출물을 검증한다.
 - policy document metadata에는 `noindex, follow`를 적용한다.

@@ -16,7 +16,8 @@ import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import type { ArticleNavigation } from "@/features/article/articleNavigation";
 import { ArticleReadingProvider } from "@/features/article/ArticleReadingProvider";
 import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/article/articleTaxonomy";
-import { getLocalizedPath } from "@/features/i18n/localeConfig";
+import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
+import { ARTICLE_DETAIL_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { SearchDocumentMetadata } from "@/features/search/SearchDocumentMetadata";
 import { getTagLabel } from "@/features/tag/tagRegistry";
@@ -28,8 +29,8 @@ type PropsWithArticleDetailPage = PropsWithChildren<{
   navigation: ArticleNavigation;
 }>;
 
-function getArticlePath(slug: string): string {
-  return getLocalizedPath("ko", `articles/${slug}`);
+function getArticlePath(locale: Locale, slug: string): string {
+  return getLocalizedPath(locale, `articles/${slug}`);
 }
 
 export function ArticleDetailPage({
@@ -40,6 +41,8 @@ export function ArticleDetailPage({
   children,
 }: PropsWithArticleDetailPage) {
   const categoryLabel = getArticleCategoryLabel(article.category);
+  const copy = ARTICLE_DETAIL_COPY[article.locale];
+  const hasTaxonomyArchives = article.locale === "ko";
 
   return (
     <ArticleReadingProvider headings={headings}>
@@ -68,8 +71,11 @@ export function ArticleDetailPage({
 
                 <EntryTagList
                   className="mt-16"
+                  label={copy.tagLabel}
                   tags={article.tags.map((tag) => ({
-                    href: getLocalizedPath(article.locale, `tags/${tag}`),
+                    href: hasTaxonomyArchives
+                      ? getLocalizedPath(article.locale, `tags/${tag}`)
+                      : undefined,
                     label: getTagLabel(tag),
                   }))}
                 />
@@ -82,13 +88,13 @@ export function ArticleDetailPage({
                     <div className="flex items-end justify-between gap-6">
                       <div>
                         <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">
-                          Continue exploring
+                          {copy.relatedEyebrow}
                         </p>
                         <h2
                           id="related-title"
                           className="mt-2 text-2xl font-semibold tracking-[-0.03em]"
                         >
-                          같은 주제의 글
+                          {copy.relatedTitle}
                         </h2>
                       </div>
                       <span className="text-muted hidden font-mono text-xs uppercase sm:block">
@@ -103,7 +109,7 @@ export function ArticleDetailPage({
                           className="border-border border-t first:border-t-0"
                         >
                           <Link
-                            href={getArticlePath(relatedArticle.slug)}
+                            href={getArticlePath(article.locale, relatedArticle.slug)}
                             transitionTypes={NAVIGATION_TRANSITION_TYPES.swap}
                             className="group grid grid-cols-[32px_minmax(0,1fr)_auto] gap-3 py-5"
                           >
@@ -127,13 +133,13 @@ export function ArticleDetailPage({
                 ) : null}
 
                 <AdjacentEntryNavigation
-                  ariaLabel="이전 글과 다음 글"
+                  ariaLabel={copy.adjacentLabel}
                   className="mt-16"
                   previous={
                     navigation.olderArticle
                       ? {
-                          href: getArticlePath(navigation.olderArticle.slug),
-                          label: "← 이전 글",
+                          href: getArticlePath(article.locale, navigation.olderArticle.slug),
+                          label: copy.previousLabel,
                           title: navigation.olderArticle.title,
                         }
                       : null
@@ -141,8 +147,8 @@ export function ArticleDetailPage({
                   next={
                     navigation.newerArticle
                       ? {
-                          href: getArticlePath(navigation.newerArticle.slug),
-                          label: "다음 글 →",
+                          href: getArticlePath(article.locale, navigation.newerArticle.slug),
+                          label: copy.nextLabel,
                           title: navigation.newerArticle.title,
                         }
                       : null
@@ -154,6 +160,7 @@ export function ArticleDetailPage({
                 articleId={article.id}
                 category={article.category}
                 headings={headings}
+                locale={article.locale}
                 topics={article.topics}
               />
             </div>

@@ -79,6 +79,14 @@ describe("siteDiscovery", () => {
   it("canonical 검색 대상만 sitemap에 넣고 실제 수정일과 이미지를 사용한다", () => {
     const articles = Array.from({ length: 11 }, (_, index) => createArticle(index + 1));
     articles[0] = createArticle(1, { coverImage: "/r/i/article-1/cover.webp" });
+    articles.push(
+      createArticle(1, {
+        locale: "ja",
+        title: "日本語の記事 1",
+        description: "日本語の説明 1",
+        legacyPaths: [],
+      }),
+    );
     const notes = [createNote(1)];
     const sitemap = createSitemap(articles, notes, [APP_PROFILE]);
     const urls = sitemap.map(({ url }) => url);
@@ -91,6 +99,7 @@ describe("siteDiscovery", () => {
         "https://bluemiv.github.io/articles/",
         "https://bluemiv.github.io/articles/page/2/",
         "https://bluemiv.github.io/articles/article-1/",
+        "https://bluemiv.github.io/ja/articles/article-1/",
         "https://bluemiv.github.io/categories/frontend/",
         "https://bluemiv.github.io/topics/nextjs/",
         "https://bluemiv.github.io/topics/react/",
@@ -105,6 +114,18 @@ describe("siteDiscovery", () => {
       lastModified: "2026-02-01T00:00:00.000Z",
       images: ["https://bluemiv.github.io/r/i/article-1/cover.webp"],
     });
+    expect(sitemap.find(({ url }) => url.endsWith("/ja/articles/article-1/"))).toMatchObject({
+      lastModified: "2026-02-01T00:00:00.000Z",
+      alternates: {
+        languages: {
+          ko: "https://bluemiv.github.io/articles/article-1/",
+          ja: "https://bluemiv.github.io/ja/articles/article-1/",
+          "x-default": "https://bluemiv.github.io/articles/article-1/",
+        },
+      },
+    });
+    expect(urls.filter((url) => url.endsWith("/categories/frontend/"))).toHaveLength(1);
+    expect(urls).not.toContain("https://bluemiv.github.io/ja/categories/frontend/");
     expect(sitemap.find(({ url }) => url.endsWith("/articles/"))).toMatchObject({
       lastModified: "2026-02-10T00:00:00.000Z",
     });

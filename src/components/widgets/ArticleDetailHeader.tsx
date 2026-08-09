@@ -13,7 +13,7 @@ import {
   formatApproximateReadingTime,
   formatPublicationDate,
 } from "@/features/i18n/publicationMetadata";
-import { PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
+import { ARTICLE_DETAIL_COPY, PUBLICATION_METADATA_COPY } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 
 type PropsWithArticleDetailHeader = {
@@ -35,6 +35,7 @@ function ArticleHeaderContent({
   const articleNumber = getArticleNumber(article.id);
   const categoryLabel = getArticleCategoryLabel(article.category);
   const isOnMedia = tone === "onMedia";
+  const hasTaxonomyArchives = article.locale === "ko";
 
   return (
     <>
@@ -46,25 +47,33 @@ function ArticleHeaderContent({
         <p
           className={`font-mono text-xs font-semibold tracking-[0.16em] uppercase ${isOnMedia ? "text-code-foreground/90" : "text-accent"}`}
         >
-          <Link
-            href={getLocalizedPath("ko", `categories/${article.category}`)}
-            transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-            className="underline-offset-4 hover:underline"
-            data-pagefind-filter="category"
-          >
-            {categoryLabel}
-          </Link>
+          {hasTaxonomyArchives ? (
+            <Link
+              href={getLocalizedPath("ko", `categories/${article.category}`)}
+              transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
+              className="underline-offset-4 hover:underline"
+              data-pagefind-filter="category"
+            >
+              {categoryLabel}
+            </Link>
+          ) : (
+            <span data-pagefind-filter="category">{categoryLabel}</span>
+          )}
           <span aria-hidden="true"> / </span>
           {article.topics.map((topic, index) => (
             <Fragment key={topic}>
-              <Link
-                href={getLocalizedPath("ko", `topics/${topic}`)}
-                transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
-                className="underline-offset-4 hover:underline"
-                data-pagefind-filter="topic"
-              >
-                {getArticleTopicLabel(topic)}
-              </Link>
+              {hasTaxonomyArchives ? (
+                <Link
+                  href={getLocalizedPath("ko", `topics/${topic}`)}
+                  transitionTypes={NAVIGATION_TRANSITION_TYPES.back}
+                  className="underline-offset-4 hover:underline"
+                  data-pagefind-filter="topic"
+                >
+                  {getArticleTopicLabel(topic)}
+                </Link>
+              ) : (
+                <span data-pagefind-filter="topic">{getArticleTopicLabel(topic)}</span>
+              )}
               {index < article.topics.length - 1 ? ", " : ""}
             </Fragment>
           ))}
@@ -113,9 +122,14 @@ function ArticleHeaderContent({
 }
 
 export function ArticleDetailHeader({ article, readingTimeMinutes }: PropsWithArticleDetailHeader) {
+  const copy = ARTICLE_DETAIL_COPY[article.locale];
+
   return (
     <header>
-      <ArchiveBackLink href={getLocalizedPath("ko", "articles")} label="All articles" />
+      <ArchiveBackLink
+        href={getLocalizedPath(article.locale, article.locale === "ko" ? "articles" : "")}
+        label={copy.backLabel}
+      />
 
       {article.coverImage ? (
         <ViewTransition name={`article-cover-${article.id}`} default="none" share="article-cover">

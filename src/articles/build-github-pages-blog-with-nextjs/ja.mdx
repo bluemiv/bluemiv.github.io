@@ -1,0 +1,271 @@
+---
+id: article-001
+slug: build-github-pages-blog-with-nextjs
+locale: ja
+category: frontend
+topics: ['nextjs', 'react']
+legacyPaths: []
+title: Next.js 16とGitHub Pagesで静的ブログを構築する
+description: Next.js 16のStatic Exportを使い、MDXの記事、サイト内検索、SEO用ファイルまで含めた静的ブログをGitHub Pagesへ公開する構成をまとめます。
+publishedAt: 2025-01-07T20:13:19+09:00
+modifiedAt: 2026-08-09T18:05:36+09:00
+tags: ['github-pages', 'static-export', 'mdx', 'seo']
+isPublished: true
+coverImage: /r/i/nextjs/1/thumbnail.webp
+---
+
+2026年8月、ブログ全体をNext.js 16に合わせて作り直し、この記事も現在の構成に沿って更新しました。
+
+以前はTistoryでブログを書いていましたが、2025年からGitHub Pagesへ移行しました。画面やURLを自分で設計しながら、ホスティングはできるだけシンプルに保ちたかったからです。
+
+この記事では、Next.js 16とApp Routerを使って静的ページを生成し、MDXの記事、サイト内検索、SEO用ファイルをまとめてGitHub Pagesへデプロイするまでの流れを紹介します。
+
+## GitHub Pagesを選んだ理由
+
+一般的なブログサービスなら、サーバーやデプロイを意識せず執筆に集中できます。その一方で、画面構成やURL、コンテンツの持ち方を細かく変えるのは簡単ではありません。自前でサーバーを運用すれば自由度は上がりますが、個人ブログのために費用と保守の負担を抱えることになります。
+
+GitHub Pagesは、その中間にある選択肢です。HTML、CSS、JavaScriptで完結する静的ファイルなら、アプリケーションサーバーを用意せずに公開できます。ソースコードと記事の変更履歴もGitで一緒に管理できます。デザインとURLは自分で決めつつ、配信の仕組みは単純に保てる点が、このブログに合っていました。
+
+もちろん制約もあります。リクエストごとにサーバーで処理する機能や、`cookies()`を使う認証、Server Actions、ISRはStatic Exportと併用できません。記事を公開・更新するたびに、サイト全体をビルドし直す必要もあります。このブログは読むことが中心で、頻繁に内容が変わるサービスではないため、その制約を受け入れています。
+
+## Next.js 16を静的サイトとして設定する
+
+Next.js 16では、`output: "export"`を指定すると`next build`が静的ページを生成します。以前の`next export`コマンドは必要ありません。ビルドが終わると、GitHub Pagesへ配置するファイルが`out`ディレクトリに出力されます。
+
+このブログで使っている基本設定は次のとおりです。
+
+```typescript {4-5,8}
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: "export",
+  trailingSlash: true,
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  images: {
+    unoptimized: true,
+  },
+};
+
+export default nextConfig;
+```
+
+`trailingSlash: true`にすると、`/articles/example/`は`out/articles/example/index.html`として生成されます。ディレクトリ形式のURLに統一できるため、canonicalや内部リンクも同じルールで管理しやすくなります。
+
+`next/image`の標準最適化には、画像リクエストを処理するサーバーが必要です。このブログでは事前に用意したWebP画像をそのまま配信するため、`images.unoptimized`を有効にしています。外部の画像最適化サービスを使う場合は、[custom loader](https://nextjs.org/docs/app/guides/static-exports#image-optimization)を組み合わせる方法もあります。
+
+Static Exportで使える機能と制約は、[Next.jsのStatic Exportsドキュメント](https://nextjs.org/docs/app/guides/static-exports)で確認できます。
+
+![ソースから静的ページ、検索インデックス、sitemapが生成される流れ](/r/i/nextjs/1/static-build-flow.webp)
+
+### 動的ルートをビルド時に確定する
+
+記事の詳細ページには、`/articles/[slug]/`のような動的セグメントを使います。GitHub Pagesにはアクセス時にslugを解決するサーバーがないため、公開する値をビルド前にすべて確定させる必要があります。
+
+日本語の記事ルートを簡略化すると、次のような形になります。画面レイアウトとmetadataの生成処理は省略しています。
+
+```typescript {1,4-7,14,18}
+export const dynamicParams = false;
+
+export function generateStaticParams({ params: { locale } }) {
+  if (locale !== "ja") return [];
+
+  return getPublishedArticles(locale).map(({ slug }) => ({ slug }));
+}
+
+export default async function ArticlePage({
+  params,
+}: PageProps<"/[locale]/articles/[slug]">) {
+  const { locale, slug } = await params;
+  const articleDocument = getArticleDocument(slug, locale);
+
+  if (!articleDocument?.metadata.isPublished) notFound();
+
+  const { default: ArticleBody } = await import(`@/articles/${slug}/${locale}.mdx`);
+  return <ArticleBody />;
+}
+```
+
+`generateStaticParams`が公開済みの記事slugを返すと、Next.jsは詳細ページをあらかじめ生成します。`dynamicParams = false`も指定しているため、一覧にないslugは404になります。多言語ページでは、localeとslugの組み合わせを同じようにビルド時に確定させます。
+
+![公開済みの記事から静的ルートを生成し、未登録ルートを除外する流れ](/r/i/nextjs/1/static-route-generation.webp)
+
+詳しい仕様は、[generateStaticParamsのドキュメント](https://nextjs.org/docs/app/api-reference/functions/generate-static-params)を参照してください。
+
+## MDXで記事を管理する
+
+記事はデータベースではなく、リポジトリ内のMDXファイルとして管理しています。記事ごとにディレクトリを作り、各言語のファイルをlocale名で分けています。
+
+```text
+src/articles/
+└── build-github-pages-blog-with-nextjs/
+    ├── ko.mdx
+    └── ja.mdx
+```
+
+翻訳がない言語のファイルや詳細ページは作りません。存在しない翻訳ページへ利用者や検索エンジンを案内しないためです。
+
+各MDXファイルのfrontmatterには、画面表示とSEOの両方で使うmetadataを記述します。
+
+```yaml {3,7-8,11-12}
+id: article-001
+slug: build-github-pages-blog-with-nextjs
+locale: ja
+category: frontend
+topics: [nextjs, react]
+legacyPaths: []
+title: Next.js 16とGitHub Pagesで静的ブログを構築する
+description: 記事の内容を一、二文で簡潔にまとめます。
+publishedAt: 2025-01-07T20:13:19+09:00
+modifiedAt: 2026-08-09T18:05:36+09:00
+tags: [github-pages, static-export, mdx, seo]
+isPublished: true
+coverImage: /r/i/nextjs/1/thumbnail.webp
+```
+
+`gray-matter`でfrontmatterを読み込み、Zod schemaで各フィールドとcategory・topicの組み合わせを検証します。`author`を省略した場合は、ビルド時にサイト共通の著者名を補います。不正なmetadataは公開後ではなく、ビルド中にエラーとして検出できます。
+
+### @next/mdxとremark・rehypeの構成
+
+Next.js 16のApp Routerでは、`@next/mdx`を使ってローカルのMDXをReact componentとして読み込めます。このブログでは`next-mdx-remote`ではなく、`@next/mdx`、`@mdx-js/loader`、`@mdx-js/react`を採用しています。本文画像やcode blockの共通UIは`src/mdx-components.tsx`で割り当てています。
+
+設定の中心になる部分は次のとおりです。
+
+```typescript {5,7-9}
+import createMDX from "@next/mdx";
+
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: ["remark-frontmatter", "remark-gfm"],
+    rehypePlugins: [
+      ["rehype-pretty-code", { theme: "github-dark-default", keepBackground: false }],
+      "rehype-slug",
+      "rehype-autolink-headings",
+    ],
+  },
+});
+```
+
+それぞれの役割は次のとおりです。
+
+- `remark-frontmatter`はMDXのfrontmatterを処理します。
+- `remark-gfm`は表や取り消し線など、GitHub Flavored Markdownの記法を追加します。
+- `rehype-pretty-code`とShikiは、ビルド時にsyntax highlightingを適用します。
+- `rehype-slug`と`rehype-autolink-headings`は、見出しへのアンカーリンクを作ります。
+- 独自のrehype pluginで、見出し番号を自動的に付けています。
+
+本文の見出しは`##`から始め、番号は手で入力しません。ビルド時に番号とアンカーを生成し、同じ見出し情報から目次と読書位置を表示します。code blockには言語ラベルとコピー操作を共通componentとして付けるため、記事ごとにUIを作り直す必要もありません。
+
+MDXの基本構成は、[Next.jsのMDXガイド](https://nextjs.org/docs/app/guides/mdx)に沿っています。
+
+## 現在のURL設計
+
+通常の記事は`article`、短い記録は`note`として分けています。categoryは大きな分野、topicはその中にある個別のテーマを表します。
+
+```text
+/articles/{slug}/
+/categories/{category}/
+/topics/{topic}/
+/tags/{tag}/
+/notes/{slug}/
+```
+
+韓国語はドメイン直下を使い、英語と日本語には`/en/`、`/ja/`を付けます。翻訳記事はすべての言語で同じslugを使い、個別のcanonical URLと相互の`hreflang`を設定します。検索エンジンには「同じ内容の重複ページ」ではなく、「言語の異なる対応ページ」として関係を伝えられます。
+
+`/blog/nextjs/1/`のように、すでに検索エンジンへ登録されている旧URLは新しいcanonical URLへ転送します。タイトルやcategoryを変更してもarticle slugは維持し、canonical、sitemap、内部リンクには現在のURLだけを使います。
+
+## 静的環境で検索とSEOを整える
+
+静的サイトでも、サイト内検索とSEOは十分に実装できます。ただし、リクエストを処理するサーバーがないため、ビルド成果物とブラウザ側の機能を組み合わせます。
+
+### Pagefindで本文を検索する
+
+サイト内検索にはPagefindを使っています。Next.jsが`out`ディレクトリを生成したあと、完成したHTMLからarticleとnoteの本文を読み取り、検索インデックスを作成します。
+
+```json {3-4}
+{
+  "scripts": {
+    "build": "next build && pnpm search:index && pnpm verify:links && pnpm verify:seo && pnpm verify:search",
+    "search:index": "pagefind --site out"
+  }
+}
+```
+
+検索エンジン本体とインデックスは、利用者が検索語を入力してから読み込みます。初期表示に検索用JavaScriptを含めず、タイトル、概要、category、topic、tag、本文をまとめて検索できます。検索結果は独立したURLを持たないため、canonicalやsitemapにも影響しません。
+
+### metadataと検索エンジン向けファイル
+
+記事ページではfrontmatterをもとに、title、description、canonical、Open Graph、Twitter Cardを生成します。さらに、`BlogPosting`とbreadcrumbの構造化データも埋め込みます。
+
+翻訳記事には言語ごとのself-canonicalを設定し、実際に公開している言語だけを相互の`hreflang`で結びます。日本語版から韓国語版を参照し、韓国語版からも日本語版を参照する構成です。英語版が存在しない段階では、英語のURLを作ったり`hreflang="en"`を出力したりしません。
+
+Next.jsのmetadata routeを使い、次のファイルも静的に生成しています。
+
+- `/sitemap.xml`: 公開中のarticle、note、category、topic、tag、各言語のホームを案内します。
+- `/robots.txt`: sitemapとfeedの場所を検索botへ伝えます。
+- `/feed.xml`: Atom feedを配信します。
+- `/rss.xml`: RSS 2.0 feedを配信します。
+
+`lastmod`にはビルド時刻ではなく、各文書の`modifiedAt`を使います。ビルドの最後に内部リンク、canonical、構造化データ、sitemap、feed、Pagefindインデックスを検証し、不足している静的ファイルをデプロイ前に見つけます。
+
+## GitHub Pagesへデプロイする
+
+`pnpm build`が成功したら、`out`ディレクトリだけを静的ホスティングへ配置します。GitHubリポジトリのPages設定でデプロイ元を**GitHub Actions**に変更し、`actions/upload-pages-artifact`でビルド結果を渡してから、`actions/deploy-pages`で公開します。
+
+![ソース変更からビルド、検証、artifactのアップロード、GitHub Pagesへの公開まで](/r/i/nextjs/1/github-pages-deployment.webp)
+
+主要な処理だけを抜き出すと、次のようになります。
+
+```yaml {16-22,24-27,29-32,41-42}
+name: Deploy blog
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10.23.0
+          run_install: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: actions/configure-pages@v6
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./out
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+```
+
+deploy jobには`pages: write`と`id-token: write`が必要です。buildとdeployを分けておけば、ビルドと検証が成功した場合にだけ公開処理が進みます。詳細は[GitHub Pagesのcustom workflowドキュメント](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)を参照してください。
+
+## この構成が向いているケース
+
+Next.js 16のStatic ExportとGitHub Pagesの組み合わせが、あらゆるサイトに適しているわけではありません。アクセス時の認証やデータ処理、Server Actions、ISRが必要なら、サーバーruntimeを提供するホスティングの方が適しています。画像も事前に最適化するか、外部サービスを組み合わせる必要があります。
+
+一方、読むことを中心にした個人ブログとは相性のよい構成です。記事とUIをひとつのリポジトリで管理し、すべての公開URLをビルド時に検証しながら、専用サーバーなしで長く運用できます。このブログでは、必要な動的処理はブラウザに任せ、SEOに必要なものは静的ファイルとして用意しています。
+
+大切なのは、Next.jsを使うこと自体ではなく、GitHub Pagesの制約を先に理解して構成を決めることでした。静的に生成するページと、ビルド後に作る検索インデックスを分けたことで、機能を増やしてもデプロイの仕組みはシンプルなまま保てています。

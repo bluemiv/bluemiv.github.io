@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from "@/config/siteConfig";
+import { getLocalizedPath } from "@/features/i18n/localeConfig";
 import { getTagLabels } from "@/features/tag/tagRegistry";
 
 import type { ArticleMetadata } from "./articleMetadata";
@@ -7,6 +8,48 @@ import { getArticleCategoryLabel, getArticleTopicLabel } from "./articleTaxonomy
 export function getArticleStructuredData(article: ArticleMetadata, canonicalPath: string) {
   const canonicalUrl = new URL(canonicalPath, SITE_CONFIG.url).toString();
   const categoryLabel = getArticleCategoryLabel(article.category);
+  const isDefaultLocale = article.locale === "ko";
+  const breadcrumbItems = isDefaultLocale
+    ? [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: new URL("/", SITE_CONFIG.url).toString(),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Articles",
+          item: new URL("/articles/", SITE_CONFIG.url).toString(),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: categoryLabel,
+          item: new URL(`/categories/${article.category}/`, SITE_CONFIG.url).toString(),
+        },
+        {
+          "@type": "ListItem",
+          position: 4,
+          name: article.title,
+          item: canonicalUrl,
+        },
+      ]
+    : [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: article.locale === "ja" ? "ホーム" : "Home",
+          item: new URL(getLocalizedPath(article.locale), SITE_CONFIG.url).toString(),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: article.title,
+          item: canonicalUrl,
+        },
+      ];
 
   return {
     "@context": "https://schema.org",
@@ -41,32 +84,7 @@ export function getArticleStructuredData(article: ArticleMetadata, canonicalPath
       },
       {
         "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: new URL("/", SITE_CONFIG.url).toString(),
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Articles",
-            item: new URL("/articles/", SITE_CONFIG.url).toString(),
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: categoryLabel,
-            item: new URL(`/categories/${article.category}/`, SITE_CONFIG.url).toString(),
-          },
-          {
-            "@type": "ListItem",
-            position: 4,
-            name: article.title,
-            item: canonicalUrl,
-          },
-        ],
+        itemListElement: breadcrumbItems,
       },
     ],
   };

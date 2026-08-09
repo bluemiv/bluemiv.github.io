@@ -8,7 +8,7 @@ import { SITE_CONFIG } from "@/config/siteConfig";
 import { AdSenseScript } from "@/features/adsense/AdSenseScript";
 import { selectHomeArticles, summarizeArticleTaxonomy } from "@/features/article/articleCollection";
 import { getArticleDocument, getPublishedArticles } from "@/features/article/articleRepository";
-import type { Locale } from "@/features/i18n/localeConfig";
+import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { HOME_COPY } from "@/features/i18n/translations";
 import { getPublishedNotes } from "@/features/note/noteRepository";
 import { calculateCareerMonthOrdinal, formatYearMonth } from "@/features/profile/careerDuration";
@@ -39,6 +39,13 @@ export function HomePage({ locale }: PropsWithHomePage) {
 
       <HomeHero
         articleCount={articles.length}
+        articleCtaHref={
+          featuredArticle && latestArticles.length === 0
+            ? getLocalizedPath(locale, `articles/${featuredArticle.slug}`)
+            : articles.length > 0
+              ? "#latest-articles"
+              : undefined
+        }
         careerMonthOrdinal={careerMonthOrdinal}
         copy={copy.hero}
         hasArticles={articles.length > 0}
@@ -56,15 +63,17 @@ export function HomePage({ locale }: PropsWithHomePage) {
           />
         ) : null}
 
-        <HomeArticlesSection
-          articles={latestArticles}
-          copy={{ latest: copy.latest, topics: copy.topics }}
-          hasFeaturedArticle={Boolean(featuredArticle)}
-          locale={locale}
-          showAd={showHomeAd}
-          taxonomy={taxonomy}
-          totalArticleCount={articles.length}
-        />
+        {latestArticles.length > 0 ? (
+          <HomeArticlesSection
+            articles={latestArticles}
+            copy={{ latest: copy.latest, topics: copy.topics }}
+            hasFeaturedArticle={Boolean(featuredArticle)}
+            locale={locale}
+            showAd={showHomeAd}
+            taxonomy={taxonomy}
+            totalArticleCount={articles.length}
+          />
+        ) : null}
       </Container>
 
       <HomeNotesSection copy={copy.notes} locale={locale} notes={notes} />

@@ -15,7 +15,7 @@ isPublished: true
 coverImage: /r/i/react/2/thumbnail.webp
 ---
 
-`useEffect`와 `useLayoutEffect`는 모두 React가 DOM을 갱신한 뒤 실행돼요. 가장 큰 차이는 effect가 브라우저의 화면 그리기를 막는지에 있어요.
+`useEffect`와 `useLayoutEffect`는 모두 React가 DOM을 갱신한 뒤 실행돼요. 가장 큰 차이는 브라우저 페인팅을 막는지 여부가 달라요.
 
 대부분의 작업에는 `useEffect`가 맞아요. DOM의 크기나 위치를 측정하고 그 결과를 첫 화면이 보이기 전에 반영해야 할 때만 `useLayoutEffect`를 선택하는 편이 안전해요.
 

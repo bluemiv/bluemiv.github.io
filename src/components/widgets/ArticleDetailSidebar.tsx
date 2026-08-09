@@ -28,7 +28,7 @@ export function ArticleDetailSidebar({
 }: PropsWithArticleDetailSidebar) {
   return (
     <aside className="hidden w-[300px] self-stretch xl:block" aria-label="글 정보와 목차">
-      <section className="border-border border-b pb-5" aria-labelledby="article-context-title">
+      <section aria-labelledby="article-context-title">
         <p className="text-accent font-mono text-xs tracking-[0.16em] uppercase">Article context</p>
         <h2 id="article-context-title" className="mt-3 text-lg font-semibold">
           <Link
@@ -57,7 +57,7 @@ export function ArticleDetailSidebar({
         </p>
       </section>
 
-      <div className="sticky top-28 mt-10 grid max-h-[calc(100vh-8rem)] grid-rows-[auto_minmax(0,1fr)] pb-6">
+      <div className="sticky top-28 mt-8 grid max-h-[calc(100vh-8rem)] grid-rows-[auto_minmax(0,1fr)] pb-6">
         <AdSenseSlot format="sidebar" />
         <div className="mt-10 min-h-0 overflow-y-auto pr-2">
           <ArticleTableOfContents headings={headings} variant="desktop" />

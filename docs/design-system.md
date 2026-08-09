@@ -521,6 +521,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - desktop TOC는 sidebar 내부 thin rail로 유지한다. 광고와 TOC를 하나의 sticky reading rail로
   묶되 별도 heavy card를 만들지 않는다.
 - sticky reading rail은 광고를 위에 고정하고 남은 높이에서 TOC만 내부 scroll한다.
+- article context와 광고 사이에는 광고 상단 divider 하나만 둔다. 인접한 divider와 넓은 빈 여백을
+  중복하지 않는다.
 - mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
 
 현재 구현 기준:

@@ -1,7 +1,8 @@
 import { SITE_CONFIG } from "@/config/siteConfig";
+import { getTagLabels } from "@/features/tag/tagRegistry";
 
 import type { ArticleMetadata } from "./articleMetadata";
-import { getArticleCategoryLabel } from "./articleTaxonomy";
+import { getArticleCategoryLabel, getArticleTopicLabel } from "./articleTaxonomy";
 
 export function getArticleStructuredData(article: ArticleMetadata, canonicalPath: string) {
   const canonicalUrl = new URL(canonicalPath, SITE_CONFIG.url).toString();
@@ -33,7 +34,9 @@ export function getArticleStructuredData(article: ArticleMetadata, canonicalPath
         image: article.coverImage
           ? new URL(article.coverImage, SITE_CONFIG.url).toString()
           : undefined,
-        keywords: [...new Set([...article.topics, ...article.tags])].join(", "),
+        keywords: [
+          ...new Set([...article.topics.map(getArticleTopicLabel), ...getTagLabels(article.tags)]),
+        ].join(", "),
         articleSection: categoryLabel,
       },
       {

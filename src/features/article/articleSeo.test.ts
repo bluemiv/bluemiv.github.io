@@ -14,7 +14,7 @@ const ARTICLE = parseArticleMetadata({
   description: "예시 설명",
   publishedAt: "2026-01-01T00:00:00+09:00",
   modifiedAt: "2026-01-02T00:00:00+09:00",
-  tags: ["nextjs", "ssg"],
+  tags: ["github-pages", "static-export"],
   isPublished: true,
   coverImage: "/r/i/nextjs/1/thumbnail.webp",
 });
@@ -31,7 +31,7 @@ describe("articleSeo", () => {
       inLanguage: "ko",
       mainEntityOfPage: "https://bluemiv.github.io/articles/example-article/",
       image: "https://bluemiv.github.io/r/i/nextjs/1/thumbnail.webp",
-      keywords: "nextjs, react, ssg",
+      keywords: "Next.js, React, GitHub Pages, Static Export",
       articleSection: "Frontend",
       author: { name: "Bluemiv" },
     });

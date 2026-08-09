@@ -1,8 +1,10 @@
+import { getTagLabels, type TagKey } from "@/features/tag/tagRegistry";
+
 type PropsWithSearchDocumentMetadata = {
   category?: string;
   description: string;
   publishedAt: string;
-  tags: readonly string[];
+  tags: readonly TagKey[];
   title: string;
   topics?: readonly string[];
 };
@@ -15,6 +17,8 @@ export function SearchDocumentMetadata({
   title,
   topics = [],
 }: PropsWithSearchDocumentMetadata) {
+  const tagLabels = getTagLabels(tags);
+
   return (
     <div className="hidden" aria-hidden="true">
       <time dateTime={publishedAt} data-pagefind-meta="publishedAt[datetime]" />
@@ -34,7 +38,7 @@ export function SearchDocumentMetadata({
       ) : null}
       {tags.length ? (
         <span data-pagefind-meta="tags" data-pagefind-weight="2">
-          {tags.join(" ")}
+          {tagLabels.join(" ")}
         </span>
       ) : null}
       {tags.map((tag) => (

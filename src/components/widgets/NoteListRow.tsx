@@ -5,6 +5,7 @@ import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
+import { getTagLabel } from "@/features/tag/tagRegistry";
 
 type PropsWithNoteListRow = {
   locale: Locale;
@@ -26,7 +27,7 @@ export function NoteListRow({ locale, note }: PropsWithNoteListRow) {
         <span className="min-w-0">
           <span className="text-accent flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs font-semibold tracking-[0.08em] uppercase">
             {note.tags.map((tag) => (
-              <span key={tag}>#{tag}</span>
+              <span key={tag}>#{getTagLabel(tag)}</span>
             ))}
           </span>
           <strong className="group-hover:text-accent group-focus-visible:text-accent mt-3 block text-2xl leading-[1.3] font-semibold tracking-[-0.035em] text-balance break-keep transition-colors duration-150 motion-reduce:transition-none md:text-3xl">

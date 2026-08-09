@@ -15,6 +15,7 @@ import { getNoteNumber } from "@/features/note/noteIdentifier";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 import type { NoteNavigation } from "@/features/note/noteNavigation";
 import { SearchDocumentMetadata } from "@/features/search/SearchDocumentMetadata";
+import { getTagLabels } from "@/features/tag/tagRegistry";
 
 type PropsWithNoteDetailPage = PropsWithChildren<{
   headings: readonly NoteHeading[];
@@ -97,7 +98,7 @@ export function NoteDetailPage({ note, headings, navigation, children }: PropsWi
             </div>
           </div>
 
-          <EntryTagList className="mt-14" tags={note.tags} />
+          <EntryTagList className="mt-14" tags={getTagLabels(note.tags)} />
 
           <AdjacentEntryNavigation
             ariaLabel="더 이전 기록과 더 최근 기록"

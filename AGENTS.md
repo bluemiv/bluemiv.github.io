@@ -107,7 +107,7 @@ title: 제목
 description: 설명
 publishedAt: 2026-01-01T00:00:00+09:00
 modifiedAt: 2026-01-01T00:00:00+09:00
-tags: []
+tags: [github-pages, static-export]
 isPublished: true
 coverImage: /r/i/example/cover.webp
 ```
@@ -116,6 +116,9 @@ coverImage: /r/i/example/cover.webp
 - `author`는 선택값. 없으면 SSG build에서 `SITE_CONFIG.author`를 사용한다.
 - `topics[0]`은 목록과 상세 화면에 먼저 표시할 대표 topic이다.
 - 모든 topic은 선택한 category에 속해야 한다. 교차 분야 검색어는 `tags`에 둔다.
+- tag key는 `features/tag/tagRegistry.ts`에 등록된 소문자 ASCII kebab-case만 사용한다.
+- article의 category·topic과 중복되는 tag를 넣지 않는다.
+- 화면과 SEO에는 registry의 공식 tag label을 사용한다.
 - 번역 article은 같은 `id`, `slug`를 사용한다.
 
 ## UI

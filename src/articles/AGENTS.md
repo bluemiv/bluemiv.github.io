@@ -15,6 +15,9 @@
 - `topics`는 한 개 이상이며 중복 값을 넣지 않는다.
 - `topics[0]`에는 목록과 상세 화면에 먼저 표시할 대표 topic을 둔다.
 - 교차 분야 검색어는 다른 category의 topic 대신 `tags`에 둔다.
+- tag는 `features/tag/tagRegistry.ts`에 등록된 key만 사용한다.
+- tag key는 소문자 ASCII kebab-case다. 공식 대소문자 표기를 metadata에 직접 쓰지 않는다.
+- article의 category·topic과 중복되는 tag를 넣지 않는다.
 - title은 검색어를 나열하지 말고 article의 질문이나 결과를 구체적으로 표현한다.
 - description은 문제와 독자가 얻을 내용을 1–2문장으로 요약한다.
 
@@ -61,4 +64,4 @@
 ## 변경 검증
 
 - 본문 수정 없이 이관할 때 원문 byte 동일성을 검증한다.
-- metadata 변경 후 build-time schema와 category/topic 관계 검증을 실행한다.
+- metadata 변경 후 build-time schema와 category/topic/tag 관계 검증을 실행한다.

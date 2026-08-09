@@ -97,6 +97,28 @@ tags: [dependency-injection]
 - article은 category 하나와 topic 하나 이상을 가진다.
 - 모든 topic은 선택한 category에 속해야 한다.
 - 여러 category에 걸친 검색어는 계층에 억지로 넣지 않고 `tags`로 표현한다.
+- tag key는 `features/tag/tagRegistry.ts`에 등록된 소문자 ASCII kebab-case를 사용한다.
+- 화면, 검색 metadata와 SEO에는 registry의 공식 label을 사용한다.
+- article의 category·topic과 같은 값을 tag에 반복하지 않는다.
+
+## tag 표기
+
+```yaml
+tags: [github-pages, static-export, mdx, seo]
+```
+
+| key                 | 공개 label        |
+| ------------------- | ----------------- |
+| `github-pages`      | `GitHub Pages`    |
+| `static-export`     | `Static Export`   |
+| `mdx`               | `MDX`             |
+| `seo`               | `SEO`             |
+| `tailwind-css`      | `Tailwind CSS`    |
+| `use-layout-effect` | `useLayoutEffect` |
+
+- 띄어쓰기, 대문자, camelCase를 metadata key에 넣지 않는다.
+- 같은 의미의 약어와 전체 이름을 tag로 함께 넣지 않는다.
+- 새 tag는 registry에 공식 label을 먼저 정의한다.
 
 ## 변경 규칙
 

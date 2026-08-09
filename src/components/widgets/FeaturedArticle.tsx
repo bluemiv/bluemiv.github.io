@@ -11,6 +11,7 @@ import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { formatPublicationDate } from "@/features/i18n/publicationMetadata";
 import type { HomeCopy } from "@/features/i18n/translations";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
+import { getTagLabel } from "@/features/tag/tagRegistry";
 
 type PropsWithFeaturedArticle = {
   article: ArticleMetadata;
@@ -102,7 +103,7 @@ export function FeaturedArticle({
             </p>
             <div className="text-muted mt-7 flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs uppercase">
               {article.tags.slice(0, 3).map((tag) => (
-                <span key={tag}>#{tag}</span>
+                <span key={tag}>#{getTagLabel(tag)}</span>
               ))}
             </div>
             <span className="text-accent mt-8 inline-flex items-center gap-2 text-sm font-bold">

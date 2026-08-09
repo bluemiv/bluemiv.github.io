@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { SUPPORTED_LOCALES } from "@/features/i18n/localeConfig";
+import { TAG_KEYS_SCHEMA } from "@/features/tag/tagSchema";
 
 const ISO_DATE_SCHEMA = z.preprocess(
   (value) => (value instanceof Date ? value.toISOString() : value),
@@ -21,7 +22,7 @@ const NOTE_METADATA_SCHEMA = z
     description: z.string().trim().min(1),
     publishedAt: ISO_DATE_SCHEMA,
     modifiedAt: ISO_DATE_SCHEMA,
-    tags: z.array(z.string().trim().min(1)),
+    tags: TAG_KEYS_SCHEMA,
     isPublished: z.boolean(),
     author: z.string().trim().min(1).optional(),
     coverImage: z.string().startsWith("/").optional(),

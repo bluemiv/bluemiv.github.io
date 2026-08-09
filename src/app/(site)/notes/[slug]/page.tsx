@@ -11,6 +11,7 @@ import {
 import { getNoteNavigation } from "@/features/note/noteNavigation";
 import { getNoteStructuredData, serializeNoteStructuredData } from "@/features/note/noteSeo";
 import { createArticleSocialMetadata } from "@/features/seo/socialMetadata";
+import { getTagLabels } from "@/features/tag/tagRegistry";
 
 const NOTE_LOCALE = "ko";
 
@@ -27,12 +28,13 @@ export async function generateMetadata({ params }: PageProps<"/notes/[slug]">): 
   if (!note?.isPublished) notFound();
 
   const canonical = getLocalizedPath(NOTE_LOCALE, `notes/${note.slug}`);
+  const tagLabels = getTagLabels(note.tags);
 
   return {
     title: note.title,
     description: note.description,
     authors: [{ name: note.author }],
-    keywords: note.tags,
+    keywords: tagLabels,
     alternates: {
       canonical,
       languages: {
@@ -48,7 +50,7 @@ export async function generateMetadata({ params }: PageProps<"/notes/[slug]">): 
       publishedAt: note.publishedAt,
       modifiedAt: note.modifiedAt,
       author: note.author,
-      tags: note.tags,
+      tags: tagLabels,
       image: note.coverImage ? { url: note.coverImage, alt: note.title } : undefined,
     }),
   };

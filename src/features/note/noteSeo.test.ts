@@ -12,7 +12,7 @@ const NOTE = parseNoteMetadata({
   description: "예시 설명",
   publishedAt: "2026-01-01T00:00:00+09:00",
   modifiedAt: "2026-01-02T00:00:00+09:00",
-  tags: ["nextjs", "env"],
+  tags: ["nextjs", "environment-variables"],
   isPublished: true,
   coverImage: "/r/i/short/1/thumbnail.webp",
 });
@@ -29,7 +29,7 @@ describe("noteSeo", () => {
       inLanguage: "ko",
       mainEntityOfPage: "https://bluemiv.github.io/notes/example-note/",
       image: "https://bluemiv.github.io/r/i/short/1/thumbnail.webp",
-      keywords: "nextjs, env",
+      keywords: "Next.js, Environment Variables",
       articleSection: "Notes",
       author: { name: "Bluemiv" },
     });

@@ -646,6 +646,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 
 - topic은 탐색 기능이 있을 때만 interactive.
 - tag는 실제 filter route가 있을 때 link.
+- tag는 canonical key를 노출하지 않고 registry의 공식 label을 표시한다.
+- 제품명, 약어와 API 이름의 공식 대소문자를 유지한다. 예: `GitHub Pages`, `MDX`, `useEffect`.
 - decoration-only 기술명 나열은 plain text 사용.
 - chip 사용 시 radius와 background 대비를 낮춘다.
 

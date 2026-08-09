@@ -13,6 +13,7 @@
 - metadata의 `category`는 단일 값, `topics`는 중복 없는 비어 있지 않은 배열이다.
 - `topics[0]`은 UI에서 대표 topic으로 사용한다.
 - 모든 topic은 선택한 category 아래에 정의되어야 하며 잘못된 조합은 build에서 거부한다.
+- tag는 공통 registry key만 허용하고 category·topic과 중복되면 build에서 거부한다.
 - route와 화면 markup은 넣지 않는다.
 - filesystem 조회는 SSG build에서만 실행한다.
 - taxonomy 변경 시 metadata 검증, archive route, count 테스트를 함께 갱신한다.

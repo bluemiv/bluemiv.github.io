@@ -1,0 +1,137 @@
+type TagDefinition = {
+  key: string;
+  label: string;
+};
+
+export const TAG_DEFINITIONS = [
+  { key: "algorithm", label: "Algorithm" },
+  { key: "api", label: "API" },
+  { key: "api-documentation", label: "API Documentation" },
+  { key: "autowired", label: "@Autowired" },
+  { key: "backend", label: "Backend" },
+  { key: "baekjoon", label: "백준" },
+  { key: "bean", label: "Bean" },
+  { key: "binary-search", label: "Binary Search" },
+  { key: "blog", label: "Blog" },
+  { key: "browser", label: "Browser" },
+  { key: "bun", label: "Bun" },
+  { key: "callback-queue", label: "Callback Queue" },
+  { key: "collection", label: "Collection" },
+  { key: "compiler", label: "Compiler" },
+  { key: "component", label: "Component" },
+  { key: "computer-science", label: "Computer Science" },
+  { key: "configuration", label: "Configuration" },
+  { key: "css", label: "CSS" },
+  { key: "css-in-js", label: "CSS-in-JS" },
+  { key: "dart", label: "Dart" },
+  { key: "database", label: "Database" },
+  { key: "dependency-injection", label: "Dependency Injection" },
+  { key: "document", label: "Document" },
+  { key: "environment-variables", label: "Environment Variables" },
+  { key: "eslint", label: "ESLint" },
+  { key: "event-loop", label: "Event Loop" },
+  { key: "feature-sliced-design", label: "Feature-Sliced Design" },
+  { key: "firebase", label: "Firebase" },
+  { key: "flutter", label: "Flutter" },
+  { key: "frontend", label: "Frontend" },
+  { key: "ga4", label: "GA4" },
+  { key: "gin", label: "Gin" },
+  { key: "github-actions", label: "GitHub Actions" },
+  { key: "github-pages", label: "GitHub Pages" },
+  { key: "go", label: "Go" },
+  { key: "gradle", label: "Gradle" },
+  { key: "hash", label: "Hash" },
+  { key: "hash-map", label: "Hash Map" },
+  { key: "homebrew", label: "Homebrew" },
+  { key: "html", label: "HTML" },
+  { key: "http", label: "HTTP" },
+  { key: "import-sorting", label: "Import Sorting" },
+  { key: "index", label: "Index" },
+  { key: "interface", label: "Interface" },
+  { key: "ioc", label: "IoC" },
+  { key: "java", label: "Java" },
+  { key: "javascript", label: "JavaScript" },
+  { key: "jvm", label: "JVM" },
+  { key: "kotlin", label: "Kotlin" },
+  { key: "lifecycle", label: "Lifecycle" },
+  { key: "macos", label: "macOS" },
+  { key: "macrotask", label: "Macrotask" },
+  { key: "maven", label: "Maven" },
+  { key: "mdx", label: "MDX" },
+  { key: "microtask-queue", label: "Microtask Queue" },
+  { key: "monorepo", label: "Monorepo" },
+  { key: "naming-conventions", label: "Naming Conventions" },
+  { key: "nextjs", label: "Next.js" },
+  { key: "oop", label: "OOP" },
+  { key: "path-variable", label: "Path Variable" },
+  { key: "pojo", label: "POJO" },
+  { key: "prettier", label: "Prettier" },
+  { key: "programmers", label: "프로그래머스" },
+  { key: "project-structure", label: "Project Structure" },
+  { key: "prototype", label: "Prototype" },
+  { key: "pwa", label: "PWA" },
+  { key: "python", label: "Python" },
+  { key: "react", label: "React" },
+  { key: "reflow", label: "Reflow" },
+  { key: "rendering", label: "Rendering" },
+  { key: "rendering-pipeline", label: "Rendering Pipeline" },
+  { key: "repaint", label: "Repaint" },
+  { key: "request-mapping", label: "Request Mapping" },
+  { key: "request-param", label: "Request Parameter" },
+  { key: "rest-api", label: "REST API" },
+  { key: "rest-controller", label: "REST Controller" },
+  { key: "script", label: "Script" },
+  { key: "scope", label: "Scope" },
+  { key: "semantic-html", label: "Semantic HTML" },
+  { key: "seo", label: "SEO" },
+  { key: "service-worker", label: "Service Worker" },
+  { key: "setup", label: "Setup" },
+  { key: "singleton", label: "Singleton" },
+  { key: "sliding-window", label: "Sliding Window" },
+  { key: "spring", label: "Spring" },
+  { key: "spring-boot", label: "Spring Boot" },
+  { key: "spring-initializr", label: "Spring Initializr" },
+  { key: "static-export", label: "Static Export" },
+  { key: "storybook", label: "Storybook" },
+  { key: "styled-components", label: "styled-components" },
+  { key: "styling", label: "Styling" },
+  { key: "swagger", label: "Swagger" },
+  { key: "tailwind-css", label: "Tailwind CSS" },
+  { key: "task-queue", label: "Task Queue" },
+  { key: "theme", label: "Theme" },
+  { key: "tooling", label: "Tooling" },
+  { key: "trivago", label: "trivago" },
+  { key: "turborepo", label: "Turborepo" },
+  { key: "two-pointers", label: "Two Pointers" },
+  { key: "type", label: "Type" },
+  { key: "typescript", label: "TypeScript" },
+  { key: "unit-testing", label: "Unit Testing" },
+  { key: "use-effect", label: "useEffect" },
+  { key: "use-layout-effect", label: "useLayoutEffect" },
+  { key: "utterances", label: "utterances" },
+  { key: "vite", label: "Vite" },
+  { key: "vitest", label: "Vitest" },
+  { key: "web-server", label: "Web Server" },
+  { key: "wordle", label: "Wordle" },
+  { key: "yaml", label: "YAML" },
+] as const satisfies readonly TagDefinition[];
+
+export type TagKey = (typeof TAG_DEFINITIONS)[number]["key"];
+
+const TAG_DEFINITION_BY_KEY = new Map<TagKey, (typeof TAG_DEFINITIONS)[number]>(
+  TAG_DEFINITIONS.map((definition) => [definition.key, definition]),
+);
+
+export function isTagKey(value: string): value is TagKey {
+  return TAG_DEFINITION_BY_KEY.has(value as TagKey);
+}
+
+export function getTagLabel(tag: TagKey): string {
+  const definition = TAG_DEFINITION_BY_KEY.get(tag);
+  if (!definition) throw new Error(`Unknown tag: ${tag}`);
+  return definition.label;
+}
+
+export function getTagLabels(tags: readonly TagKey[]): string[] {
+  return tags.map(getTagLabel);
+}

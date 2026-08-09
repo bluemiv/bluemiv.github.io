@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { SITE_CONFIG } from "@/config/siteConfig";
 import { SUPPORTED_LOCALES } from "@/features/i18n/localeConfig";
+import { TAG_KEYS_SCHEMA } from "@/features/tag/tagSchema";
 
 import {
   ARTICLE_CATEGORY_SLUGS,
@@ -37,13 +38,13 @@ const ARTICLE_METADATA_SCHEMA = z
     description: z.string().trim().min(1),
     publishedAt: ISO_DATE_SCHEMA,
     modifiedAt: ISO_DATE_SCHEMA,
-    tags: z.array(z.string().trim().min(1)),
+    tags: TAG_KEYS_SCHEMA,
     isPublished: z.boolean(),
     author: z.string().trim().min(1).optional(),
     coverImage: z.string().startsWith("/").optional(),
   })
   .strict()
-  .superRefine(({ category, topics }, context) => {
+  .superRefine(({ category, tags, topics }, context) => {
     topics.forEach((topic, index) => {
       if (isArticleTopicInCategory(topic, category)) return;
 
@@ -51,6 +52,17 @@ const ARTICLE_METADATA_SCHEMA = z
         code: "custom",
         message: `Article topic '${topic}' does not belong to category '${category}'`,
         path: ["topics", index],
+      });
+    });
+
+    const taxonomyKeys = new Set<string>([category, ...topics]);
+    tags.forEach((tag, index) => {
+      if (!taxonomyKeys.has(tag)) return;
+
+      context.addIssue({
+        code: "custom",
+        message: `Article tag '${tag}' duplicates its category or topic`,
+        path: ["tags", index],
       });
     });
   });

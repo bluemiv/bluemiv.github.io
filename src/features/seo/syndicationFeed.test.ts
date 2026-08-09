@@ -17,7 +17,7 @@ function createArticle(overrides: Partial<ArticleMetadata> = {}): ArticleMetadat
     description: "A > B & C",
     publishedAt: "2026-01-01T00:00:00.000Z",
     modifiedAt: "2026-01-03T00:00:00.000Z",
-    tags: ["nextjs", "nextjs"],
+    tags: ["seo", "seo"],
     isPublished: true,
     author: "Bluemiv",
     ...overrides,
@@ -34,7 +34,7 @@ function createNote(overrides: Partial<NoteMetadata> = {}): NoteMetadata {
     description: "짧은 설명",
     publishedAt: "2026-01-02T00:00:00.000Z",
     modifiedAt: "2026-01-04T00:00:00.000Z",
-    tags: ["memo"],
+    tags: ["database"],
     isPublished: true,
     author: "Bluemiv",
     ...overrides,
@@ -52,7 +52,7 @@ describe("syndicationFeed", () => {
       "https://bluemiv.github.io/notes/small-note/",
       "https://bluemiv.github.io/articles/xml-escaping/",
     ]);
-    expect(entries[1].categories).toEqual(["frontend", "nextjs", "react"]);
+    expect(entries[1].categories).toEqual(["frontend", "nextjs", "react", "SEO"]);
   });
 
   it("지정한 최근 항목 수만 남기고 잘못된 limit을 거부한다", () => {

@@ -35,14 +35,14 @@ describe("articleRepository", () => {
     const article = getArticleDocument("build-github-pages-blog-with-nextjs", "ko");
 
     expect(article?.headings[0]).toEqual({
-      id: "1-github-블로그를-만든-이유",
+      id: "github-pages를-선택한-이유",
       number: "01",
-      title: "Github 블로그를 만든 이유",
+      title: "GitHub Pages를 선택한 이유",
       depth: 2,
     });
     expect(article?.headings.length).toBeGreaterThan(5);
     expect(article?.readingTimeMinutes).toBeGreaterThan(1);
-    expect(article?.source).toContain("## 1. Github 블로그를 만든 이유");
+    expect(article?.source).toContain("## GitHub Pages를 선택한 이유");
   });
 
   it("없는 article이나 번역은 null 또는 빈 목록을 반환한다", () => {
@@ -64,7 +64,7 @@ title: 잘못된 경로
 description: 잘못된 경로 테스트
 publishedAt: 2026-01-01T00:00:00+09:00
 modifiedAt: 2026-01-01T00:00:00+09:00
-tags: ['nextjs']
+tags: ['github-pages']
 isPublished: true
 ---
 `);

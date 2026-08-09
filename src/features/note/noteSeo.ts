@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from "@/config/siteConfig";
+import { getTagLabels } from "@/features/tag/tagRegistry";
 
 import type { NoteMetadata } from "./noteMetadata";
 
@@ -27,7 +28,7 @@ export function getNoteStructuredData(note: NoteMetadata, canonicalPath: string)
       url: SITE_CONFIG.url,
     },
     image: note.coverImage ? new URL(note.coverImage, SITE_CONFIG.url).toString() : undefined,
-    keywords: note.tags.join(", "),
+    keywords: getTagLabels(note.tags).join(", "),
     articleSection: "Notes",
   };
 }

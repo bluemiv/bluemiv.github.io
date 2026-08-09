@@ -2,6 +2,7 @@ import { SITE_CONFIG } from "@/config/siteConfig";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
+import { getTagLabels } from "@/features/tag/tagRegistry";
 
 import { ATOM_FEED_PATH, getAbsoluteSiteUrl, RSS_FEED_PATH } from "./siteDiscovery";
 
@@ -58,7 +59,11 @@ export function getSyndicationEntries(
     .filter(({ isPublished }) => isPublished)
     .map((article): SyndicationEntry => ({
       author: article.author,
-      categories: getUniqueCategories([article.category, ...article.topics, ...article.tags]),
+      categories: getUniqueCategories([
+        article.category,
+        ...article.topics,
+        ...getTagLabels(article.tags),
+      ]),
       description: article.description,
       modifiedAt: article.modifiedAt,
       publishedAt: article.publishedAt,
@@ -69,7 +74,7 @@ export function getSyndicationEntries(
     .filter(({ isPublished }) => isPublished)
     .map((note): SyndicationEntry => ({
       author: note.author,
-      categories: getUniqueCategories(["notes", ...note.tags]),
+      categories: getUniqueCategories(["notes", ...getTagLabels(note.tags)]),
       description: note.description,
       modifiedAt: note.modifiedAt,
       publishedAt: note.publishedAt,

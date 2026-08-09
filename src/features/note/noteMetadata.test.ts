@@ -44,6 +44,8 @@ describe("parseNoteMetadata", () => {
     { modifiedAt: "invalid" },
     { author: " " },
     { coverImage: "relative/image.webp" },
+    { tags: ["unknown"] },
+    { tags: ["nextjs", "nextjs"] },
     { release: true },
   ])("잘못된 metadata를 거부한다: %o", (invalidValue) => {
     expect(() => parseNoteMetadata({ ...VALID_METADATA, ...invalidValue })).toThrow();

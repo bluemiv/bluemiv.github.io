@@ -13,7 +13,7 @@ function createNote(id: string, publishedAt: string): NoteMetadata {
     description: `${id} 설명`,
     publishedAt,
     modifiedAt: publishedAt,
-    tags: ["note"],
+    tags: ["database"],
     isPublished: true,
     author: "Bluemiv",
   };

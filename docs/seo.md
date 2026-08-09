@@ -28,6 +28,7 @@ policy document는 `noindex, follow`를 사용한다. 검색봇이 `noindex`를 
 - 실제 본문에만 `data-pagefind-body`를 두고 header, footer, archive, 광고, 관련 글은 제외한다.
 - title, description은 metadata로, type, category, topic, tag는 filter로 명시한다.
 - title, description, category, topic, tag의 검색 문맥은 본문 색인 영역 안에서 가중치를 적용한다.
+- tag filter는 canonical key, 검색 문맥과 social metadata는 registry의 공식 label을 사용한다.
 - locale별 HTML `lang`을 기준으로 index를 분리한다. 번역 상세가 없는 locale에는 빈 검색 UI를 노출하지 않는다.
 - 검색 query URL과 검색 결과 page를 만들지 않는다. canonical, sitemap, feed에는 영향을 주지 않는다.
 - `pnpm build`에서 Pagefind index 생성 후 표시한 상세 수와 실제 index page 수가 같은지 검증한다.

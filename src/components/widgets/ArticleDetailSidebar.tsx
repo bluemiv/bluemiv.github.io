@@ -59,7 +59,7 @@ export function ArticleDetailSidebar({
 
       <div className="sticky top-28 mt-8 grid max-h-[calc(100vh-8rem)] grid-rows-[auto_minmax(0,1fr)] pb-6">
         <AdSenseSlot format="sidebar" />
-        <div className="mt-10 min-h-0 overflow-y-auto pr-2">
+        <div className="article-toc-scroll mt-10 min-h-0 overflow-y-auto pr-2">
           <ArticleTableOfContents headings={headings} variant="desktop" />
         </div>
       </div>

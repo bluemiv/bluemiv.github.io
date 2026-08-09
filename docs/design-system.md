@@ -710,6 +710,10 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - container card 금지.
 - heading depth는 indentation으로 표현.
 - 긴 제목 ellipsis보다 wrap 우선.
+- desktop sidebar TOC 항목은 `text-xs`, `leading-5`, `py-1.5`를 사용해 조밀하게 구성한다. mobile
+  TOC는 누르기 쉬운 `text-sm`, `py-2`를 유지한다.
+- desktop TOC scrollbar는 기본 상태에서 투명하게 숨긴다. TOC hover와 focus-within에서 얇은
+  `border-strong` thumb를 표시한다.
 
 ### 10.8 Code block
 

@@ -21,32 +21,35 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
         const isActive = activeId === heading.id;
 
         return (
-          <li key={heading.id} className={heading.depth === 3 ? "pl-4" : undefined}>
+          <li
+            key={heading.id}
+            className={heading.depth === 3 ? (variant === "desktop" ? "pl-3" : "pl-4") : undefined}
+          >
             <a
               href={`#${heading.id}`}
               aria-current={isActive ? "location" : undefined}
-              className={`relative block text-sm leading-6 transition-colors duration-150 motion-reduce:transition-none ${
+              className={`relative block transition-colors duration-150 motion-reduce:transition-none ${
                 variant === "desktop"
-                  ? `-ml-px py-2 pl-4 ${
+                  ? `-ml-px py-1.5 pl-3 text-xs leading-5 ${
                       isActive
                         ? "text-foreground font-semibold"
                         : "text-muted hover:text-foreground"
                     }`
-                  : `py-2 ${isActive ? "text-accent font-semibold" : "text-muted"}`
+                  : `py-2 text-sm leading-6 ${isActive ? "text-accent font-semibold" : "text-muted"}`
               }`}
             >
               {variant === "desktop" ? (
                 <span
                   aria-hidden="true"
-                  className={`bg-accent absolute top-2 bottom-2 left-0 w-px origin-center transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none ${
+                  className={`bg-accent absolute top-1.5 bottom-1.5 left-0 w-px origin-center transition-[transform,opacity] duration-200 ease-out motion-reduce:transition-none ${
                     isActive ? "scale-y-100 opacity-100" : "scale-y-50 opacity-0"
                   }`}
                 />
               ) : null}
-              <span className="flex items-start gap-3">
+              <span className={`flex items-start ${variant === "desktop" ? "gap-2.5" : "gap-3"}`}>
                 <span
                   aria-hidden="true"
-                  className={`min-w-9 pt-px font-mono text-xs leading-6 transition-colors duration-150 motion-reduce:transition-none ${isActive ? "text-accent" : "text-muted"}`}
+                  className={`${variant === "desktop" ? "min-w-8 leading-5" : "min-w-9 leading-6"} pt-px font-mono text-xs transition-colors duration-150 motion-reduce:transition-none ${isActive ? "text-accent" : "text-muted"}`}
                 >
                   {heading.number}
                 </span>
@@ -81,7 +84,7 @@ export function ArticleTableOfContents({ headings, variant }: PropsWithArticleTa
 
   return (
     <nav aria-labelledby="article-toc-title">
-      <div className="border-border mb-3 flex items-center justify-between border-b pb-3">
+      <div className="border-border mb-2 flex items-center justify-between border-b pb-2">
         <h2 id="article-toc-title" className="text-xs font-bold tracking-[0.08em] uppercase">
           On this page
         </h2>

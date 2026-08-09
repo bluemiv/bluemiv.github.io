@@ -184,3 +184,9 @@ pnpm format:check
 - 비즈니스 로직 추가·변경 시 성공·실패·경계 조건 테스트를 함께 갱신한다.
 - interaction 변경 시 production static build를 실제 desktop/mobile viewport에서 확인한다.
 - 커밋 전 `git diff --cached`로 secret과 불필요 파일 확인.
+
+## 배포
+
+- `main` push는 `.github/workflows/deploy-github-pages.yml`에서 GitHub Pages 배포를 실행한다.
+- workflow는 `pnpm build` 결과인 `out/` 전체와 숨김 파일 `.nojekyll`을 함께 업로드한다.
+- workflow의 pnpm version은 `package.json#packageManager`와 일치시킨다.

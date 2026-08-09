@@ -35,6 +35,11 @@ pnpm verify:search
 - Pagefind 기반 정적 article·note 검색
 - `/sw.js`는 `bluemiv-blog-*` 캐시 삭제와 기존 등록 해제만 수행하는 tombstone으로 영구 유지
 
+## 배포
+
+`main`에 push하면 GitHub Actions가 `pnpm build`를 실행하고 `out/`을 GitHub Pages에
+배포합니다. workflow는 `.nojekyll`을 포함한 정적 산출물 전체를 업로드합니다.
+
 ## 문서
 
 - [디자인 시스템](docs/design-system.md)

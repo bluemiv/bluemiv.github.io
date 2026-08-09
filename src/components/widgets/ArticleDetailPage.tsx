@@ -19,7 +19,7 @@ import { getArticleCategoryLabel, getArticleTopicLabel } from "@/features/articl
 import { getLocalizedPath } from "@/features/i18n/localeConfig";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
 import { SearchDocumentMetadata } from "@/features/search/SearchDocumentMetadata";
-import { getTagLabels } from "@/features/tag/tagRegistry";
+import { getTagLabel } from "@/features/tag/tagRegistry";
 
 type PropsWithArticleDetailPage = PropsWithChildren<{
   article: ArticleMetadata;
@@ -66,7 +66,13 @@ export function ArticleDetailPage({
                   {children}
                 </div>
 
-                <EntryTagList className="mt-16" tags={getTagLabels(article.tags)} />
+                <EntryTagList
+                  className="mt-16"
+                  tags={article.tags.map((tag) => ({
+                    href: getLocalizedPath(article.locale, `tags/${tag}`),
+                    label: getTagLabel(tag),
+                  }))}
+                />
 
                 {navigation.relatedArticles.length ? (
                   <section

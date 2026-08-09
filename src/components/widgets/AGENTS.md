@@ -12,7 +12,8 @@
 - Home Latest와 archive의 목록 조합은 공통 `ArticleList`를 사용한다.
 - article과 note archive 상단은 `ArchivePageHeader`, 상세 복귀는 `ArchiveBackLink`, 이전·다음
   탐색은 `AdjacentEntryNavigation`을 사용한다.
-- note archive row는 `NoteListRow`를 사용한다.
+- note 목록 조합은 `NoteList`, 개별 row는 `NoteListRow`를 사용한다.
+- tag archive는 `TagArchivePage`에서 article과 note를 분리하되 공통 목록 컴포넌트를 재사용한다.
 - `HomePage`는 SSG data 조회와 home section widget 조합만 담당한다.
 - Home discovery rail과 archive sidebar는 공통 `ArticleTaxonomyNavigation`을 사용한다.
 - article row thumbnail의 왼쪽은 image와 border를 함께 canvas로 dissolve한다. 상시 장식을 더하지 않고

@@ -20,6 +20,7 @@ import {
   SUPPORTED_LOCALES,
 } from "@/features/i18n/localeConfig";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
+import { filterEntriesByTag, summarizeTags } from "@/features/tag/tagCollection";
 
 export const SITEMAP_PATH = "/sitemap.xml";
 export const ATOM_FEED_PATH = "/feed.xml";
@@ -126,6 +127,12 @@ export function createSitemap(
       note.coverImage ? [note.coverImage] : [],
     ),
   );
+  const tagEntries = summarizeTags(latestDocuments).map(({ tag }) =>
+    getSitemapEntry(
+      getLocalizedPath("ko", `tags/${tag}`),
+      filterEntriesByTag(latestDocuments, tag),
+    ),
+  );
   const appEntries = appProfiles.map((profile) =>
     getSitemapEntry(getLocalizedPath("ko", `apps/${profile.slug}`)),
   );
@@ -138,6 +145,7 @@ export function createSitemap(
     ...topicEntries,
     getSitemapEntry(getLocalizedPath("ko", "notes"), notes),
     ...noteEntries,
+    ...tagEntries,
     ...appEntries,
   ];
 }

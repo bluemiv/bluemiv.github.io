@@ -7,4 +7,5 @@
 - `className` 확장이 필요하면 `PropsWithClassName<TProps>`를 쓴다.
 - article과 note가 공유하는 발행 정보 UI는 `PublicationMetadata`를 사용한다.
 - 반복 section 제목은 `SectionHeader`, 공통 tag 목록은 `EntryTagList`를 사용한다.
+- `EntryTagList`는 호출부가 전달한 canonical href와 공식 label만 렌더링한다.
 - 기본 HTML attribute와 ref 전달을 불필요하게 막지 않는다.

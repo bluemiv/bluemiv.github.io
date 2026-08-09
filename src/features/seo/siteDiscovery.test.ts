@@ -96,6 +96,8 @@ describe("siteDiscovery", () => {
         "https://bluemiv.github.io/topics/react/",
         "https://bluemiv.github.io/notes/",
         "https://bluemiv.github.io/notes/note-1/",
+        "https://bluemiv.github.io/tags/seo/",
+        "https://bluemiv.github.io/tags/database/",
         "https://bluemiv.github.io/apps/example-app/",
       ]),
     );
@@ -108,6 +110,12 @@ describe("siteDiscovery", () => {
     });
     expect(sitemap.find(({ url }) => url.endsWith("/articles/page/2/"))).toMatchObject({
       lastModified: "2026-02-11T00:00:00.000Z",
+    });
+    expect(sitemap.find(({ url }) => url.endsWith("/tags/seo/"))).toMatchObject({
+      lastModified: "2026-02-11T00:00:00.000Z",
+    });
+    expect(sitemap.find(({ url }) => url.endsWith("/tags/database/"))).toMatchObject({
+      lastModified: "2026-04-01T00:00:00.000Z",
     });
     expect(sitemap.every((entry) => !("priority" in entry) && !("changeFrequency" in entry))).toBe(
       true,

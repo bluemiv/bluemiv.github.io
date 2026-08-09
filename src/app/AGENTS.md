@@ -9,6 +9,7 @@
 - `blog` route는 기존 URL redirect 전용이다. 신규 화면을 추가하지 않는다.
 - category archive는 `/categories/[category]/`, topic archive는 `/topics/[topic]/`에서 SSG로
   생성한다. 둘 다 공개 article이 있는 값만 `generateStaticParams`에 포함한다.
+- tag archive는 `/tags/[tag]/`에서 SSG로 생성한다. 공개 article 또는 note가 있는 tag만 포함한다.
 - category/topic archive는 현재 분류를 sidebar에 전달해 해당 category를 처음부터 펼친다.
 - article archive 첫 페이지는 `/articles/`, 2페이지부터 `/articles/page/[pageNumber]/`에서 SSG로 생성한다.
 - `/articles/page/1/` 중복 route를 만들지 않는다.

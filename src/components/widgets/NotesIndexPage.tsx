@@ -1,7 +1,7 @@
 import { Container } from "@/components/atoms/Container";
 import { SectionHeader } from "@/components/atoms/SectionHeader";
 import { ArchivePageHeader } from "@/components/widgets/ArchivePageHeader";
-import { NoteListRow } from "@/components/widgets/NoteListRow";
+import { NoteList } from "@/components/widgets/NoteList";
 import { PageTransition } from "@/components/widgets/PageTransition";
 import type { Locale } from "@/features/i18n/localeConfig";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
@@ -34,19 +34,11 @@ export function NotesIndexPage({ locale, notes }: PropsWithNotesIndexPage) {
             }
           />
 
-          {notes.length > 0 ? (
-            <ol>
-              {notes.map((note) => (
-                <li key={note.id}>
-                  <NoteListRow locale={locale} note={note} />
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p className="border-border text-muted border-b py-14 text-sm leading-7">
-              공개된 짧은 기록을 준비하고 있습니다.
-            </p>
-          )}
+          <NoteList
+            emptyMessage="공개된 짧은 기록을 준비하고 있습니다."
+            locale={locale}
+            notes={notes}
+          />
         </section>
       </Container>
     </PageTransition>

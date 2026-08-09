@@ -533,7 +533,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   motion에서는 정적 cover로 표시한다.
 - desktop은 광고 다음에 thin rail TOC를 두고 TOC만 sticky 처리한다.
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
-- 본문 뒤에는 tag, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
+- 본문 뒤에는 tag archive link, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
 - code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
 - code block toolbar 오른쪽에는 `Copy` action을 둔다. 복사 성공 시 아이콘과 label을 `Copied`로 2초간 바꾸고, 실패 시 `Retry`를 표시한다.
 - 복사 대상은 toolbar를 제외한 `<code>`의 원문 전체다. 버튼은 항상 보이고 keyboard focus와 screen reader 상태 안내를 제공한다.
@@ -560,7 +560,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - article용 sticky sidebar나 접이식 mobile TOC를 note에 재사용하지 않는다.
 - article 본문 스타일을 공유하되 heading 간격은 짧은 호흡에 맞게 줄인다.
 - 한국어 제목, 설명, 본문은 어절 우선으로 줄바꿈하고 긴 code와 URL은 `overflow-wrap` fallback을 유지한다.
-- 본문 뒤에는 tag와 더 이전·더 최근 note 탐색을 둔다.
+- 본문 뒤에는 tag archive link와 더 이전·더 최근 note 탐색을 둔다.
 - `coverImage`는 상세의 Open Graph, Twitter Card, 구조화 데이터에 사용하고 화면 상단에는 반복 노출하지 않는다.
 
 ### 9.5 App detail과 policy
@@ -594,6 +594,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - Home Latest와 archive article 목록은 `ArticleList`와 `ArticleListRow`를 함께 사용한다.
 - article과 note 상세의 archive 복귀, tag 목록, 이전·다음 탐색은 각각 `ArchiveBackLink`,
   `EntryTagList`, `AdjacentEntryNavigation`을 사용한다.
+- tag archive의 article과 note는 각각 `ArticleList`, `NoteList`를 사용한다.
 - `HomePage`는 build-time data 조회와 section 조합만 담당한다. hero, featured article, latest
   article, notes section의 markup은 독립 widget에 둔다.
 - 공통 컴포넌트로 표현 가능한 UI를 page-local markup으로 다시 만들지 않는다.
@@ -645,11 +646,13 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 ### 10.4 Tag와 topic
 
 - topic은 탐색 기능이 있을 때만 interactive.
-- tag는 실제 filter route가 있을 때 link.
+- article 상세, note 상세, Featured article과 note row의 tag는 `/tags/{tag}/` archive link다.
 - tag는 canonical key를 노출하지 않고 registry의 공식 label을 표시한다.
 - 제품명, 약어와 API 이름의 공식 대소문자를 유지한다. 예: `GitHub Pages`, `MDX`, `useEffect`.
 - decoration-only 기술명 나열은 plain text 사용.
 - chip 사용 시 radius와 background 대비를 낮춘다.
+- tag archive는 최대 `920px` 단일 column에서 Articles와 Notes를 divider list로 분리한다.
+- tag archive에는 taxonomy sidebar, card와 설명용 장문을 추가하지 않는다.
 
 ### 10.5 Card
 

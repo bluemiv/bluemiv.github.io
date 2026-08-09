@@ -119,6 +119,7 @@ tags: [github-pages, static-export, mdx, seo]
 - 띄어쓰기, 대문자, camelCase를 metadata key에 넣지 않는다.
 - 같은 의미의 약어와 전체 이름을 tag로 함께 넣지 않는다.
 - 새 tag는 registry에 공식 label을 먼저 정의한다.
+- 화면에 표시하는 tag는 canonical `/tags/{tag}/` archive로 연결한다.
 
 ## 변경 규칙
 

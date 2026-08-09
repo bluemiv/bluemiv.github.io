@@ -60,7 +60,7 @@ Effect까지 포함해 흐름을 단순화하면 다음과 같아요.
 
 아래 컴포넌트는 `Escape` key event를 구독해요. 컴포넌트가 사라지거나 `onEscape`가 바뀌면 기존 event listener를 제거해 중복 실행과 memory leak을 막아요.
 
-```tsx
+```tsx {8,13,15-18}
 import { useEffect } from "react";
 
 type PropsWithEscapeKeyListener = {
@@ -94,7 +94,7 @@ client에서 API를 직접 호출해야 한다면 `useEffect`를 사용할 수 �
 
 아래 예제는 target과 tooltip의 크기를 측정한 뒤 tooltip을 target 위에 배치해요. 위쪽 공간이 부족하면 target 아래에 표시해요.
 
-```tsx
+```tsx {18,21-29,37-39}
 import type { ReactNode } from "react";
 import { useLayoutEffect, useRef, useState } from "react";
 
@@ -165,7 +165,7 @@ CSS만으로 위치를 정할 수 있거나 첫 frame의 변화가 눈에 띄지
 
 `useLayoutEffect` 안의 코드와 여기서 발생한 state update는 browser paint를 막아요. 큰 DOM tree를 반복해서 측정하거나 오래 걸리는 연산을 실행하면 첫 화면과 interaction 반응이 늦어질 수 있어요.
 
-```tsx
+```tsx {4-6}
 useLayoutEffect(() => {
   const startedAt = performance.now();
 

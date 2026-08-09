@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import type { AppProfile } from "@/features/app/appProfiles";
 import type { ArticleMetadata } from "@/features/article/articleMetadata";
 import type { NoteMetadata } from "@/features/note/noteMetadata";
 
@@ -11,16 +10,6 @@ import {
   getSearchDiscoverySitemaps,
   NO_INDEX_FOLLOW_ROBOTS,
 } from "./siteDiscovery";
-
-const APP_PROFILE: AppProfile = {
-  slug: "example-app",
-  locale: "ko",
-  name: "Example App",
-  description: "Example description",
-  features: [],
-  googlePlayUrl: "https://play.google.com/store/apps/details?id=example",
-  legalLinks: [{ label: "Privacy", href: "/apps/example-app/privacy/" }],
-};
 
 function createArticle(index: number, overrides: Partial<ArticleMetadata> = {}): ArticleMetadata {
   return {
@@ -94,7 +83,7 @@ describe("siteDiscovery", () => {
       }),
     );
     const notes = [createNote(1)];
-    const sitemap = createSitemap(articles, notes, [APP_PROFILE]);
+    const sitemap = createSitemap(articles, notes);
     const urls = sitemap.map(({ url }) => url);
 
     expect(urls).toEqual(
@@ -114,7 +103,6 @@ describe("siteDiscovery", () => {
         "https://bluemiv.github.io/notes/note-1/",
         "https://bluemiv.github.io/tags/seo/",
         "https://bluemiv.github.io/tags/database/",
-        "https://bluemiv.github.io/apps/example-app/",
       ]),
     );
     expect(sitemap.find(({ url }) => url.endsWith("/articles/article-1/"))).toMatchObject({
@@ -150,14 +138,12 @@ describe("siteDiscovery", () => {
     expect(sitemap.every((entry) => !("priority" in entry) && !("changeFrequency" in entry))).toBe(
       true,
     );
-    expect(
-      urls.every((url) => !/\/apps\/[^/]+\/(?:privacy|terms|account-deletion)\//.test(url)),
-    ).toBe(true);
+    expect(urls.every((url) => !/\/apps(?:\/|$)/.test(url))).toBe(true);
     expect(urls.every((url) => !/\/(?:privacy|blog)\//.test(url))).toBe(true);
   });
 
   it("홈의 hreflang은 모든 실제 locale과 x-default를 절대 URL로 연결한다", () => {
-    const sitemap = createSitemap([], [], []);
+    const sitemap = createSitemap([], []);
     const homes = sitemap.slice(0, 3);
 
     for (const home of homes) {
@@ -175,7 +161,6 @@ describe("siteDiscovery", () => {
     const sitemap = createSitemap(
       [createArticle(1, { isPublished: false })],
       [createNote(1, { isPublished: false })],
-      [],
     );
     const urls = sitemap.map(({ url }) => url);
 

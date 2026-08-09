@@ -152,13 +152,14 @@ describe("staticSeoVerification", () => {
     const outputDirectory = createOutputDirectory();
     writeValidOutput(outputDirectory);
     writeFile(outputDirectory, "privacy/example/index.html", "<title>Privacy</title>");
+    writeFile(outputDirectory, "apps/example/index.html", "<title>Example App</title>");
     writeFile(outputDirectory, "articles/index.html", "<title>Articles</title>");
     const sitemapPath = path.join(outputDirectory, "sitemap.xml");
     const sitemap = fs
       .readFileSync(sitemapPath, "utf8")
       .replace(
         "</urlset>",
-        `<url><loc>${EXPECTED_ORIGIN}/privacy/example/</loc></url><url><loc>${EXPECTED_ORIGIN}/articles/</loc></url><priority>1</priority></urlset>`,
+        `<url><loc>${EXPECTED_ORIGIN}/privacy/example/</loc></url><url><loc>${EXPECTED_ORIGIN}/apps/example/</loc></url><url><loc>${EXPECTED_ORIGIN}/articles/</loc></url><priority>1</priority></urlset>`,
       );
     fs.writeFileSync(sitemapPath, sitemap);
 
@@ -166,6 +167,7 @@ describe("staticSeoVerification", () => {
       expect.arrayContaining([
         `Sitemap contains duplicate URLs: ${EXPECTED_ORIGIN}/articles/`,
         "Sitemap contains excluded path: /privacy/example/",
+        "Sitemap contains excluded path: /apps/example/",
         "Sitemap contains ignored priority or changefreq values",
         "Policy page is missing noindex, follow: /privacy/example/",
         "Page is missing Atom discovery: /articles/",

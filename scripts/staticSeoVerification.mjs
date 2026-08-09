@@ -4,7 +4,7 @@ import path from "node:path";
 const REQUIRED_FILES = ["sitemap.xml", "feed.xml", "rss.xml", "robots.txt", "og-default.webp"];
 const REQUIRED_SITEMAP_PATHS = ["/", "/en/", "/ja/", "/articles/", "/notes/"];
 const FORBIDDEN_SEARCH_PATH_PATTERN =
-  /^\/(?:privacy|blog|ko)(?:\/|$)|^\/apps\/$|^\/apps\/[^/]+\/(?:privacy|terms|account-deletion)(?:\/|$)|\/(?:terms|account-deletion)(?:\/|$)/;
+  /^\/(?:privacy|blog|ko|apps)(?:\/|$)|\/(?:terms|account-deletion)(?:\/|$)/;
 const POLICY_ROUTE_PATTERN =
   /^\/privacy(?:\/|$)|^\/apps\/[^/]+\/(?:privacy|terms|account-deletion)(?:\/|$)|\/account-deletion(?:\/|$)/;
 

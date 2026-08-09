@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
 import { SITE_CONFIG } from "@/config/siteConfig";
-import type { AppProfile } from "@/features/app/appProfiles";
 import {
   filterArticlesByCategory,
   filterArticlesByTopic,
@@ -81,7 +80,6 @@ export function createRobots(): MetadataRoute.Robots {
 export function createSitemap(
   sourceArticles: readonly ArticleMetadata[],
   sourceNotes: readonly NoteMetadata[],
-  appProfiles: readonly AppProfile[],
 ): MetadataRoute.Sitemap {
   const articles = sourceArticles.filter(({ isPublished }) => isPublished);
   const notes = sourceNotes.filter(({ isPublished }) => isPublished);
@@ -159,10 +157,6 @@ export function createSitemap(
       filterEntriesByTag(latestDocuments, tag),
     ),
   );
-  const appEntries = appProfiles.map((profile) =>
-    getSitemapEntry(getLocalizedPath("ko", `apps/${profile.slug}`)),
-  );
-
   return [
     ...homeEntries,
     ...articleArchiveEntries,
@@ -172,6 +166,5 @@ export function createSitemap(
     getSitemapEntry(getLocalizedPath("ko", "notes"), defaultNotes),
     ...noteEntries,
     ...tagEntries,
-    ...appEntries,
   ];
 }

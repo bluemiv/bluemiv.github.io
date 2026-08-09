@@ -36,3 +36,5 @@
 - detail cover 하단 약 20%는 theme canvas로 명확히 fade하고 metadata는 fade 시작점 위에 유지한다.
 - detail cover의 image layer는 frame보다 세로로 16% 크게 두고 view timeline에서 `+4%`부터 `-4%`
   사이만 transform한다. frame, text, scrim과 fade는 움직이지 않는다.
+- article detail sidebar의 context는 문서 흐름에 둔다. 광고와 TOC는 하나의 sticky rail로 묶고
+  화면 높이가 부족하면 TOC만 내부 scroll한다.

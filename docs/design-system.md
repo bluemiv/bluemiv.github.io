@@ -518,8 +518,9 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   일반 text header로 제공하며 빈 이미지 영역을 만들지 않는다.
 - 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.
 - desktop sidebar는 topic 탐색, 광고, TOC, 관련 article을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
-- desktop TOC는 sidebar 내부 thin rail이며 TOC만 sticky를 허용한다. 별도 heavy card 금지.
-- 광고는 sticky로 만들지 않는다.
+- desktop TOC는 sidebar 내부 thin rail로 유지한다. 광고와 TOC를 하나의 sticky reading rail로
+  묶되 별도 heavy card를 만들지 않는다.
+- sticky reading rail은 광고를 위에 고정하고 남은 높이에서 TOC만 내부 scroll한다.
 - mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
 
 현재 구현 기준:
@@ -531,7 +532,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   `16%` 크게 두고 view timeline에서 `translateY(4%)`부터 `-4%`까지 이동한다.
 - cover drift는 CSS progressive enhancement다. JavaScript scroll listener를 추가하지 않고 reduced
   motion에서는 정적 cover로 표시한다.
-- desktop은 광고 다음에 thin rail TOC를 두고 TOC만 sticky 처리한다.
+- desktop은 광고 다음에 thin rail TOC를 두고 두 요소를 하나의 sticky reading rail로 처리한다.
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
 - 본문 뒤에는 tag archive link, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
 - code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
@@ -751,7 +752,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   rail은 두 단계 모두 같은 위치와 두께를 사용하고, inactive topic에는 neutral vertical rail을
   반복하지 않는다.
 - 추천 글을 추가하면 image card가 아닌 compact text list를 우선한다.
-- sidebar 전체를 sticky로 만들지 않는다. TOC처럼 읽기 보조 기능만 sticky 허용한다.
+- sidebar 전체를 sticky로 만들지 않는다. article detail의 광고와 TOC로 구성한 reading rail만
+  sticky를 허용한다.
 - `xl` 미만에서는 sidebar DOM을 그대로 아래로 쌓지 않는다. category/topic, 광고, TOC, 관련
   article을 각자의 mobile reading order로 재배치한다.
 - home의 Latest articles 옆 discovery rail은 Blog sidebar와 별도 패턴이다. Home 규칙의 제한된 콘텐츠만 사용한다.
@@ -778,6 +780,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - home은 latest article이 4개 이상일 때만 광고를 노출한다.
 - home desktop은 topic rail 아래 `300×250`, mobile/tablet은 세 번째 latest article 뒤 responsive banner를 사용한다. 한 viewport에서 하나만 초기화한다.
 - `/articles`는 desktop `xl` 이상에서 sidebar `300×250`, 그 미만에서는 세 번째 글 뒤 responsive banner 하나만 초기화한다.
+- article detail은 desktop `xl` 이상에서 sidebar `300×250` 광고와 TOC를 하나의 sticky reading
+  rail로 묶는다. 화면 높이가 부족하면 TOC만 scroll한다.
 - `pnpm dev`에서는 외부 AdSense script를 요청하지 않고 동일 크기의 placeholder를 표시한다.
 - production static export에서만 실제 unit을 활성화하며 현재 viewport에 보이지 않는 unit은 광고 요청을 보내지 않는다.
 - 공개 publisher/slot ID는 `src/features/adsense/adSenseConfig.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.

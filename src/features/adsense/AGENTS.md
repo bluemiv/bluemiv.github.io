@@ -9,3 +9,4 @@
 - 광고 실패가 article과 navigation 렌더링을 막지 않게 한다.
 - custom 광고 heading은 기본으로 표시하지 않는다. 추가할 때는 AdSense가 허용한 label만 사용한다.
 - sidebar slot 자체에 divider와 padding을 넣지 않는다. 배치 간격은 사용하는 widget이 정한다.
+- article sidebar 광고는 sticky로 만들지 않는다. 세로형 creative도 문서 흐름에서 자연스럽게 지나가게 한다.

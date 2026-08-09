@@ -518,11 +518,9 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   일반 text header로 제공하며 빈 이미지 영역을 만들지 않는다.
 - 상세 header와 sidebar의 topic은 해당 topic archive로 연결한다.
 - desktop sidebar는 topic 탐색, 광고, TOC, 관련 article을 수용할 수 있다. 한 화면에서 모두 같은 강도로 강조하지 않는다.
-- desktop TOC는 sidebar 내부 thin rail로 유지한다. 광고와 TOC를 하나의 sticky reading rail로
-  묶되 별도 heavy card를 만들지 않는다.
-- sticky reading rail은 광고를 위에 고정하고 남은 높이에서 TOC만 내부 scroll한다.
-- sticky reading rail은 72px header 아래 `80px` 위치에 고정하고 viewport 하단에는 `16px`를
-  남긴다. header와 rail 사이에 넓은 빈 공간을 만들지 않는다.
+- desktop TOC는 sidebar 내부 thin rail로 유지한다. 광고는 문서 흐름에 두고 TOC만 sticky로 만든다.
+- sticky TOC는 72px header 아래 `80px` 위치에 고정하고 viewport 하단에는 `16px`를 남긴다.
+  화면 높이가 부족하면 TOC 내부만 scroll한다.
 - article context와 광고는 간결한 여백으로 분리한다. sidebar 광고 상단 divider와 내부 padding을
   추가하지 않는다.
 - mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
@@ -536,7 +534,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   `16%` 크게 두고 view timeline에서 `translateY(4%)`부터 `-4%`까지 이동한다.
 - cover drift는 CSS progressive enhancement다. JavaScript scroll listener를 추가하지 않고 reduced
   motion에서는 정적 cover로 표시한다.
-- desktop은 광고 다음에 thin rail TOC를 두고 두 요소를 하나의 sticky reading rail로 처리한다.
+- desktop은 문서 흐름의 광고 다음에 thin rail TOC를 두고 TOC만 sticky로 처리한다.
 - mobile은 native `details` TOC를 본문 전에 두며 첫 버전에서는 본문 중간 광고를 삽입하지 않는다.
 - 본문 뒤에는 tag archive link, 같은 topic article, 이전·다음 article 순서로 탐색을 이어간다.
 - code block은 dark surface를 고정 사용하고 language label, 가로 스크롤, highlighted line을 지원한다.
@@ -776,6 +774,7 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
   `Sponsored Links`만 사용하고 추천, 관련 글처럼 오해할 표현을 쓰지 않는다.
 - sidebar slot 자체에는 divider와 padding을 두지 않고 사용하는 rail이나 sidebar의 외부 간격만
   사용한다.
+- sidebar 광고는 세로형 creative가 배정될 수 있으므로 sticky로 만들지 않는다.
 - sidebar 기본 슬롯은 `300×250`이며 페이지당 하나부터 시작한다.
 - 가로 슬롯은 viewport 기준으로 `<520px: 320×100`, `520–799px: 468×60`, `≥800px: 728×90`을 기본으로 한다.
 - 실제 광고가 로드되기 전에 CSS로 width/height 또는 min-height를 예약해 layout shift를 막는다.

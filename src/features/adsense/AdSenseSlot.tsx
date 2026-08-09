@@ -64,10 +64,7 @@ export function AdSenseSlot({ format }: PropsWithAdSenseSlot) {
   if (matchesViewport === false) return null;
 
   return (
-    <section
-      className={isSidebar ? "border-border border-t pt-8" : "border-border border-y py-10"}
-      aria-label="광고"
-    >
+    <section className={isSidebar ? undefined : "border-border border-y py-10"} aria-label="광고">
       <div
         className={
           isSidebar

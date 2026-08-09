@@ -523,8 +523,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - sticky reading rail은 광고를 위에 고정하고 남은 높이에서 TOC만 내부 scroll한다.
 - sticky reading rail은 72px header 아래 `80px` 위치에 고정하고 viewport 하단에는 `16px`를
   남긴다. header와 rail 사이에 넓은 빈 공간을 만들지 않는다.
-- article context와 광고 사이에는 광고 상단 divider 하나만 둔다. 인접한 divider와 넓은 빈 여백을
-  중복하지 않는다.
+- article context와 광고는 간결한 여백으로 분리한다. sidebar 광고 상단 divider와 내부 padding을
+  추가하지 않는다.
 - mobile TOC는 접이식 또는 생략하고, 광고는 첫 번째 실질적 section 이후 본문 흐름에 둔다.
 
 현재 구현 기준:
@@ -774,6 +774,8 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - 광고와 topic, pagination, previous/next, copy button 등 interactive element 사이에 최소 `32–40px` 간격을 둔다.
 - custom 광고 heading은 기본으로 표시하지 않는다. 필요하면 AdSense가 허용한 `Advertisements` 또는
   `Sponsored Links`만 사용하고 추천, 관련 글처럼 오해할 표현을 쓰지 않는다.
+- sidebar slot 자체에는 divider와 padding을 두지 않고 사용하는 rail이나 sidebar의 외부 간격만
+  사용한다.
 - sidebar 기본 슬롯은 `300×250`이며 페이지당 하나부터 시작한다.
 - 가로 슬롯은 viewport 기준으로 `<520px: 320×100`, `520–799px: 468×60`, `≥800px: 728×90`을 기본으로 한다.
 - 실제 광고가 로드되기 전에 CSS로 width/height 또는 min-height를 예약해 layout shift를 막는다.

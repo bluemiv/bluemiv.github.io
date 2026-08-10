@@ -15,6 +15,7 @@ export const ARTICLE_TOPIC_SLUGS = [
   "tooling",
   "styling",
   "algorithm",
+  "artificial-intelligence",
 ] as const;
 
 export type ArticleCategory = (typeof ARTICLE_CATEGORY_SLUGS)[number];
@@ -64,7 +65,10 @@ export const ARTICLE_TAXONOMY: readonly ArticleCategoryDefinition[] = [
     slug: "computer-science",
     label: "Computer Science",
     description: "문제 해결에 필요한 알고리즘과 컴퓨터 과학의 기본기를 정리합니다.",
-    topics: [{ slug: "algorithm", label: "Algorithm" }],
+    topics: [
+      { slug: "algorithm", label: "Algorithm" },
+      { slug: "artificial-intelligence", label: "Artificial Intelligence" },
+    ],
   },
 ];
 

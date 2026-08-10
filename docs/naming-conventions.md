@@ -92,7 +92,7 @@ tags: [dependency-injection]
 | ------------------ | -------------------------------------------------------------------------------------- |
 | `backend`          | `spring`, `java`, `kotlin`, `go`, `firebase`                                           |
 | `frontend`         | `react`, `nextjs`, `javascript`, `typescript`, `browser`, `html`, `tooling`, `styling` |
-| `computer-science` | `algorithm`                                                                            |
+| `computer-science` | `algorithm`, `artificial-intelligence`                                                 |
 
 - article은 category 하나와 topic 하나 이상을 가진다.
 - 모든 topic은 선택한 category에 속해야 한다.

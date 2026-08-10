@@ -14,6 +14,8 @@ describe("tagRegistry", () => {
   it("공식 표기를 반환한다", () => {
     expect(getTagLabel("github-pages")).toBe("GitHub Pages");
     expect(getTagLabel("nextjs")).toBe("Next.js");
+    expect(getTagLabel("rag")).toBe("RAG");
+    expect(getTagLabel("vector-search")).toBe("Vector Search");
     expect(getTagLabels(["mdx", "seo"])).toEqual(["MDX", "SEO"]);
   });
 

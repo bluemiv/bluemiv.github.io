@@ -16,7 +16,7 @@ describe("articleRepository", () => {
     const articles = getPublishedArticles("ko");
     const publishedDates = articles.map(({ publishedAt }) => publishedAt);
 
-    expect(articles).toHaveLength(43);
+    expect(articles).toHaveLength(44);
     expect(publishedDates).toEqual([...publishedDates].sort().reverse());
     expect(new Set(articles.map(({ id }) => id)).size).toBe(articles.length);
     expect(new Set(articles.map(({ slug }) => slug)).size).toBe(articles.length);

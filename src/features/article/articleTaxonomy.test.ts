@@ -31,6 +31,7 @@ describe("articleTaxonomy", () => {
     expect(getArticleTopicDefinition("nextjs").category).toBe("frontend");
     expect(getArticleCategoryDefinition("computer-science").topics).toEqual([
       { slug: "algorithm", label: "Algorithm" },
+      { slug: "artificial-intelligence", label: "Artificial Intelligence" },
     ]);
   });
 
@@ -38,9 +39,11 @@ describe("articleTaxonomy", () => {
     expect(isArticleCategory("frontend")).toBe(true);
     expect(isArticleCategory("platform")).toBe(false);
     expect(isArticleTopic("typescript")).toBe(true);
+    expect(isArticleTopic("artificial-intelligence")).toBe(true);
     expect(isArticleTopic("unknown")).toBe(false);
     expect(isArticleTopicInCategory("spring", "backend")).toBe(true);
     expect(isArticleTopicInCategory("spring", "frontend")).toBe(false);
+    expect(isArticleTopicInCategory("artificial-intelligence", "computer-science")).toBe(true);
   });
 
   it("정의되지 않은 category와 topic 조회를 거부한다", () => {

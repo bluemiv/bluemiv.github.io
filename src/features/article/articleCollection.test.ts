@@ -28,7 +28,7 @@ function createArticle(
     description: `${id} 설명`,
     publishedAt,
     modifiedAt: publishedAt,
-    tags: topics,
+    tags: [],
     isPublished: true,
     author: "Bluemiv",
   };

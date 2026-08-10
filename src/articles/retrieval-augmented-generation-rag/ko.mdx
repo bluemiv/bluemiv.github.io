@@ -8,7 +8,7 @@ legacyPaths: []
 title: 'RAG란? LLM이 필요한 자료를 찾아 답하게 만드는 방법'
 description: RAG가 필요한 이유와 문서 검색부터 답변 생성까지의 흐름을 쉬운 예제로 살펴봅니다. chunking, vector search, reranking처럼 결과의 품질을 좌우하는 핵심도 함께 정리합니다.
 publishedAt: 2026-04-23T20:37:14+09:00
-modifiedAt: 2026-08-10T22:48:47+09:00
+modifiedAt: 2026-08-10T22:53:04+09:00
 tags: ['rag', 'llm', 'embedding', 'vector-search']
 isPublished: true
 coverImage: /r/i/artificial-intelligence/88/cover.webp
@@ -29,6 +29,12 @@ RAG(Retrieval-Augmented Generation, 검색 증강 생성)는 이 문제를 **먼
 1. 사용자가 “경조 휴가는 며칠이야?”라고 질문해요.
 2. 검색 시스템이 최신 인사 규정에서 관련 문단을 찾아요.
 3. LLM이 그 문단을 읽고 답변과 출처를 만들어요.
+
+<ArticleFigure
+  src="/r/i/artificial-intelligence/88/rag-open-book-workflow.webp"
+  alt="직원이 챗봇에 질문하면 시스템이 최신 사내 문서를 검색하고 출처가 연결된 답변을 만드는 세 단계"
+  caption="질문을 받으면 관련 문서를 찾고, 선택한 근거와 함께 답변을 만들어요."
+/>
 
 문서가 바뀌면 LLM을 다시 학습할 필요도 없어요. 검색할 문서만 갱신하면 다음 질문부터 새로운 내용을 사용할 수 있어요.
 
@@ -79,6 +85,12 @@ async function answerWithRag(question: string) {
 - 표, code block, 질문과 답처럼 함께 읽어야 하는 내용은 붙여 둬요.
 - 너무 긴 section만 길이를 기준으로 한 번 더 나눠요.
 - 문서 제목, 작성일, version, 접근 권한을 metadata로 함께 저장해요.
+
+<ArticleFigure
+  src="/r/i/artificial-intelligence/88/chunk-size-comparison.webp"
+  alt="너무 큰 문서 조각, 문맥이 끊어진 작은 조각, 제목과 내용을 함께 보존한 적절한 문서 조각 비교"
+  caption="Chunk가 너무 크면 답이 묻히고, 너무 작으면 문맥이 끊겨요. 오른쪽처럼 의미 단위를 보존해야 검색 결과를 바로 활용할 수 있어요."
+/>
 
 FAQ는 질문과 답 하나가 자연스러운 chunk예요. 반면 계약서나 장애 보고서는 앞뒤 조건이 중요해서 조금 더 길게 보존해야 해요. 모든 문서에 통하는 하나의 정답 크기는 없으므로, 실제 사용자의 질문으로 검색 결과를 확인하며 조정하는 편이 좋아요.
 

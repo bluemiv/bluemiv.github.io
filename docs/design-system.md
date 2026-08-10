@@ -804,6 +804,14 @@ cover가 없는 글은 2번 정보를 일반 text header로 표시한다.
 - 공개 publisher/slot ID는 `src/features/adsense/adSenseConfig.ts`, 판매자 인증은 `public/ads.txt`를 단일 원천으로 사용한다.
 - 지역별 개인정보 보호 규정과 consent/CMP는 실제 배포 전 운영 설정까지 함께 확인한다.
 
+### 10.13 Footer
+
+- copyright와 저빈도 site utility를 배치한다. primary navigation이나 반복 사용 control을 옮기지 않는다.
+- RSS 구독 link는 header가 아니라 footer utility 영역에서 Articles, Notes 다음에 배치한다.
+- RSS는 icon-only button으로 만들지 않고 `Rss` icon과 `RSS` label을 함께 표시한다.
+- 현재 feed가 한국어 article과 note만 제공하므로 한국어 locale에서만 RSS link를 노출한다.
+- Footer link는 최소 `44px` 높이와 text color feedback을 유지한다.
+
 ## 11. 이미지와 cover
 
 - article `coverImage`는 선택 사항.

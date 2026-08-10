@@ -1,3 +1,4 @@
+import { Rss } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/atoms/Container";
@@ -6,6 +7,7 @@ import { getEarliestArticlePublicationYear } from "@/features/article/articleCol
 import { getPublishedArticles } from "@/features/article/articleRepository";
 import { getLocalizedPath, type Locale } from "@/features/i18n/localeConfig";
 import { NAVIGATION_TRANSITION_TYPES } from "@/features/navigation/navigationTransition";
+import { RSS_FEED_PATH } from "@/features/seo/siteDiscovery";
 
 type PropsWithSiteFooter = {
   locale: Locale;
@@ -51,6 +53,14 @@ export function SiteFooter({ locale }: PropsWithSiteFooter) {
               >
                 Notes
               </Link>
+              <a
+                className="hover:text-foreground inline-flex min-h-11 items-center gap-1.5"
+                href={RSS_FEED_PATH}
+                type="application/rss+xml"
+              >
+                <Rss aria-hidden="true" size={15} strokeWidth={1.8} />
+                RSS
+              </a>
             </>
           ) : null}
           <a
